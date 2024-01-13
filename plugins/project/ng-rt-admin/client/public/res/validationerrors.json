@@ -1,0 +1,12 @@
+{
+    "EN":   
+    {
+        "username":"At least a 4-char(letters/digits/-_.) long username.",
+        "fullname":"Enter Name and at least one Lastname",
+        "decimalnumber":"Only decimal numbers allowed",
+        "password":"At least 6-chars (letters/digits/$&*|#%@!?=_+./(){}) long pwd",
+        "email":"Please enter a valid email adress",
+        "phone":"Please enter a valid telephone number",
+        "confirm": "new password and confirmation doesn't match."
+    }
+}

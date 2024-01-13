@@ -1,0 +1,50 @@
+
+<script type="text/javascript">
+    RED.nodes.registerType('txContext', {
+      category: 'Project_DigitalAsset',
+        color: '#b9b1eb',
+        defaults: {
+            assetType : {
+                value : ""
+            }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "Project.png",
+        label: function() {
+            return this.name || "txContext";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="txContext">
+    <div class="form-row">
+        <label for="node-input-assetType"></i> Asset Type</label>
+            <select id="node-input-assetType">
+                <option value="empty"> </option>
+                <option value="tendermint_blob">tendermint_blob</option>
+                <option value="smartContract">smartContract</option>
+            </select>
+    </div>
+
+</script>
+
+<script type="text/x-red" data-help-name="txContext">
+    <p>Create transaction context</p>
+
+    <h3>Inputs</h3>
+        <dl class="message-properties">
+            <dt>assetType <span class="property-type">string</span></dt>
+            <dd>type of asset like tendermint_blob, smartContract.</dd>
+        </dl>
+
+     <h3>Outputs</h3>
+         <ol class="node-ports">
+             <li>Standard output
+                 <dl class="message-properties">
+                     <dt>msg.txContext <span class="property-type">object</span></dt>
+                     <dd>Created txContext</dd>
+                 </dl>
+             </li>
+         </ol>
+</script>

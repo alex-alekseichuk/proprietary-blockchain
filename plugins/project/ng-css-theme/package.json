@@ -1,0 +1,15 @@
+{
+  "name": "ng-css-theme",
+  "description": "CSS Theming ",
+  "homepage": "https://www.project.com/",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git@xxxxxxxx:xxxx/ng-css-theme.git"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "author": "PROJECT PROPERTIES B.V.",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "version": "3.2.72463"
+}

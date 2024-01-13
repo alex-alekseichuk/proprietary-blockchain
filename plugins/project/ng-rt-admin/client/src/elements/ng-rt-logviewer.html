@@ -1,0 +1,455 @@
+<script src="../../bower_components/page/page.js"></script>
+
+<link rel="import" href="../../bower_components/ng-rt-components/ng-rt-grid/ng-rt-grid.html">
+<link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
+
+<link rel="import" href="../../bower_components/paper-progress/paper-progress.html">
+<link rel="import" href="../../bower_components/paper-spinner/paper-spinner.html">
+<link rel="import" href="../../bower_components/paper-tooltip/paper-tooltip.html">
+
+<link rel="import" href="../../bower_components/iron-scroll-threshold/iron-scroll-threshold.html">
+
+<link rel="import" href="../../bower_components/i18n-msg/i18n-msg.html">
+<link rel="import" href="../../bower_components/vaadin-combo-box/vaadin-combo-box.html">
+<link rel="import" href="../../bower_components/vaadin-grid/vaadin-grid.html">
+<link rel="import" href="../../bower_components/vaadin-grid/vaadin-grid-sorter.html">
+<link rel="import" href="../../bower_components/vaadin-grid/vaadin-grid-filter.html">
+<link rel="import" href="../../bower_components/vaadin-grid/vaadin-grid-column-group.html">
+<link rel="import" href="../../bower_components/vaadin-grid/vaadin-grid-selection-column.html">
+
+<link rel="import" href="../../bower_components/paper-range-slider/paper-range-slider.html">
+
+<!--<script src="/admin/ng-rt-bigchaindb/build_signing/build.js"></script>-->
+
+<dom-module id="ng-rt-logviewer">
+  <style include="shared-styles"></style>
+
+  <style is="custom-style">
+    :host {
+      width: 100%;
+      height: 100%;
+      --install-button-visibility: hidden;
+      --activate-button-visibility: hidden;
+      --uninstall-button-visibility: hidden;
+      --deactivate-button-visibility: hidden;
+      --delete-button-visibility: hidden;
+    }
+
+    paper-dialog {
+      width: 500px;
+    }
+
+    .cell-data {
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      text-overflow: ellipsis;
+      white-space: normal;
+      overflow: hidden;
+    }
+
+    .checklist {
+      flex: 1;
+      flex-direction: column;
+      overflow-y: scroll;
+      overflow-x: hidden;
+      max-height: 200px;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .checklist>div {
+      flex: 0 0 30px;
+      height: 30px;
+      align-items: center;
+      box-sizing: border-box;
+    }
+
+    .range-input {
+      border: none;
+      border-bottom: 1px solid lightgray;
+      line-height: 35px;
+      padding: 0 10px;
+      background: none;
+      outline: none;
+      width: 60px;
+      box-sizing: border-box;
+      font-family: 'Roboto'
+    }
+
+    #mainPanel {
+      overflow: hidden;
+    }
+
+    .vaadinMaterial {
+      overflow-x: auto;
+      /* overflow-y: auto; */
+    }
+
+    .cellheader {
+      text-overflow: clip;
+      padding: 0;
+    }
+
+    .cell input {
+      width: 100%;
+    }
+
+    #logsgrid {
+      height: 100%;
+    }
+  </style>
+
+  <template>
+
+    <paper-header-panel class="appPanel">
+
+
+      <!--Toolbar-->
+      <paper-toolbar class="appToolbar" wide>
+
+        <!--Top-->
+        <paper-icon-button id="paperToggle" icon="menu" paper-drawer-toggle></paper-icon-button>
+        <span class="title" on-click="changeSort">Log Viewer</span>
+        <span class="flex"></span>
+
+      </paper-toolbar>
+
+
+      <!--Content-->
+      <div class="content" style="height:calc(100% - 15px); max-width:100%">
+
+        <paper-material elevation="0" class="vaadinMaterial">
+
+
+          <vaadin-grid id="logsgrid" items="[[filteredLogs]]" active-item="{{selectedPlugin}}" multi-sort="[[true]]">
+
+            <vaadin-grid-column width="195px" flex-grow="0" on-click="changeSort">
+              <template class="header">
+                <vaadin-grid-sorter path="startTime">
+                  <div class="cell" style="padding-left: 20px;">
+                    <span>Time</span>
+                  </div>
+                </vaadin-grid-sorter>
+              </template>
+              <template class="header"></template>
+              <template>
+                <div class="cell" style="padding-left: 20px;">
+                  [[formatDatetime(item.startTime,'YYYY.MM.DD H:mm:ss')]]
+                </div>
+              </template>
+            </vaadin-grid-column>
+
+            <vaadin-grid-column flex="1">
+              <template class="header">
+                <vaadin-grid-sorter path="data">
+                  <div class="cell cellheader" style="padding-left: 20px;">
+                    <input type="text" placeholder="data" value="[[data]]" on-keyup="changeData" />
+                  </div>
+                </vaadin-grid-sorter>
+              </template>
+              <template>
+                <div class="cell cell-data">
+                  [[item.data]]
+                </div>
+              </template>
+            </vaadin-grid-column>
+
+            <vaadin-grid-column width="130px" flex-grow="0">
+              <template class="header">
+
+                <vaadin-grid-sorter path="item.categoryName">
+                  <div class="cell cellheader">
+                    <input type="text" placeholder="Category" value="[[category]]" on-keyup="changeCategory" />
+                  </div>
+                </vaadin-grid-sorter>
+              </template>
+              <template>
+                <div class="cell">
+                  [[item.categoryName]]
+                </div>
+              </template>
+            </vaadin-grid-column>
+
+
+            <vaadin-grid-column width="100px" flex-grow="0">
+              <template class="header">
+
+                <vaadin-grid-sorter path="item.levelStr">
+                  <div class="cell cellheader">
+                    <input placeholder="Log Level" value="[[levelStr]]" on-keyup="changeLevelStr" />
+                  </div>
+                </vaadin-grid-sorter>
+              </template>
+              <template>
+                <div class="cell">
+                  [[item.levelStr]]
+                </div>
+              </template>
+            </vaadin-grid-column>
+
+            <vaadin-grid-column width="100px" flex-grow="0">
+              <template class="header">
+
+                <vaadin-grid-sorter path="item.level">
+                  <div class="cell cellheader">
+                    <input type="text" max="50000" min="10000" placeholder="Log Level"
+                      value="[[calcRangeStr(levelMin, levelMax)]]" on-keyup="changeLevel" />
+                  </div>
+                </vaadin-grid-sorter>
+              </template>
+              <template>
+                <div class="cell">
+                  [[item.level]]
+                </div>
+              </template>
+            </vaadin-grid-column>
+
+            <vaadin-grid-column width="100px" flex-grow="0">
+              <template class="header">
+
+                <vaadin-grid-sorter path="item.clientId">
+                  <div class="cell cellheader">
+                    <input type="text" placeholder="Client Id" value="[[clientId]]" on-keyup="changeClientId" />
+                  </div>
+                </vaadin-grid-sorter>
+              </template>
+              <template>
+                <div class="cell">
+                  [[item.clientId]]
+                </div>
+              </template>
+            </vaadin-grid-column>
+
+            <vaadin-grid-column width="100px" flex-grow="0">
+              <template class="header">
+
+                <vaadin-grid-sorter path="item.sessionId">
+                  <div class="cell cellheader">
+                    <input type="text" placeholder="Session Id" value="[[sessionId]]" on-keyup="changeSessionId" />
+                  </div>
+                </vaadin-grid-sorter>
+              </template>
+              <template>
+                <div class="cell">
+                  [[item.sessionId]]
+                </div>
+              </template>
+            </vaadin-grid-column>
+          </vaadin-grid>
+        </paper-material>
+      </div>
+
+
+      <paper-dialog id="dateDialog" class="paper-date-picker-dialog" entry-animation="scale-up-animation"
+        on-iron-overlay-closed="dismissDialog">
+        <paper-date-picker id="picker" date="[[date]]"></paper-date-picker>
+        <div class="buttons">
+          <paper-button dialog-dismiss>Cancel</paper-button>
+          <paper-button dialog-confirm on-click="dateConfirmClick">OK</paper-button>
+        </div>
+      </paper-dialog>
+
+      <paper-dialog id="dateDialogMin" class="paper-date-picker-dialog" entry-animation="scale-up-animation"
+        on-iron-overlay-closed="dismissDialog">
+        <paper-date-picker id="pickerMin" date="{{dateMin}}"></paper-date-picker>
+        <div class="buttons">
+          <paper-button dialog-dismiss>Cancel</paper-button>
+          <paper-button dialog-confirm on-click="dateConfirmClickMin">OK</paper-button>
+        </div>
+      </paper-dialog>
+
+      <paper-dialog id="dateDialogMax" class="paper-date-picker-dialog" entry-animation="scale-up-animation"
+        on-iron-overlay-closed="dismissDialog">
+        <paper-date-picker id="pickerMax" date="{{dateMax}}"></paper-date-picker>
+        <div class="buttons">
+          <paper-button dialog-dismiss>Cancel</paper-button>
+          <paper-button dialog-confirm on-click="dateConfirmClickMax">OK</paper-button>
+        </div>
+      </paper-dialog>
+
+    </paper-header-panel>
+
+
+  </template>
+
+  <script>
+
+    Polymer({
+      is: "ng-rt-logviewer",
+      behaviors: [ReduxBehavior],
+      properties: {
+        sort: {
+          type: Boolean,
+          statePath: 'logViewer.sort'
+        },
+        category: {
+          type: String,
+          statePath: 'logViewer.filters.category'
+        },
+        levelStr: {
+          type: String,
+          statePath: 'logViewer.filters.levelStr'
+        },
+        data: {
+          type: String,
+          statePath: 'logViewer.filters.data'
+        },
+        levelMin: {
+          type: Number,
+          statePath: 'logViewer.filters.levelMin'
+        },
+        levelMax: {
+          type: Number,
+          statePath: 'logViewer.filters.levelMax'
+        },
+        dateMin: {
+          type: Date,
+          statePath: 'logViewer.filters.dateMin'
+        },
+        dateMax: {
+          type: Date,
+          statePath: 'logViewer.filters.dateMax'
+        },
+        logs: {
+          type: Array,
+          statePath: 'logViewer.logs'
+        },
+        filteredLogs: {
+          type: Array,
+          statePath: 'logViewer.filteredLogs'
+        },
+        items: {
+          type: Array,
+          notify: true,
+          value: []
+        },
+        preselected: {
+          type: String,
+          value: "0"
+        },
+        entryAnimation: {
+          type: "string",
+          value: "slide-from-right-animation"
+        },
+        exitAnimation: {
+          type: "string",
+          value: "fade-out-animation"
+        }
+      },
+      actions: {
+        getLogs: function () {
+          return {
+            type: 'GET_LOGS',
+            payload: {
+              logs: ['foo', 'bar', 'baz']
+            }
+          }
+        }
+      },
+      ready: function () {
+        this.getLogs();
+      },
+      changeSort: function () {
+        STORE.dispatch(actions.logViewer.changeSort());
+      },
+      scrollHandler: function (ev) {
+      },
+      getLogs: function (filter, skip) {
+        actions.logViewer.getLogs(filter, skip)(STORE.dispatch);
+      },
+      setFilters: function (filters) {
+        actions.logViewer.setFilters(filters)(STORE.dispatch);
+      },
+      filterLogs: function () {
+        actions.logViewer.filterLogs()(STORE.dispatch);
+      },
+      changeCategory: function (ev) {
+        console.log("change category")
+        this.setFilters({
+          category: ev.target.value
+        });
+      },
+      changeLevelStr: function (ev) {
+        this.setFilters({
+          levelStr: ev.target.value
+        });
+      },
+      changeData: function (ev) {
+        this.setFilters({
+          data: ev.target.value
+        });
+      },
+      changeLevel: function (ev) {
+        if (!ev.target.value) {
+          this.setFilters({ levelMin: undefined, levelMax: undefined });
+          return;
+        }
+        const values = ev.target.value.split('-');
+        const filters = { levelMin: +values[0] };
+        if (values[1])
+          filters.levelMax = +values[1];
+        this.setFilters(filters);
+      },
+      changeClientId: function (ev) {
+        this.setFilters({
+          clientId: ev.target.value
+        });
+      },
+      changeSessionId: function (ev) {
+        this.setFilters({
+          sessionId: ev.target.value
+        });
+      },
+      dateConfirmClick: function (ev) {
+      },
+      dateConfirmClickMax: function (ev) {
+        const dateMax = document.getElementById('pickerMax').date
+        this.setFilters({
+          dateMax
+        });
+      },
+      dateConfirmClickMin: function (ev) {
+        const dateMin = document.getElementById('pickerMin').date;
+        this.setFilters({
+          dateMin
+        });
+      },
+      calcRangeStr: function (min, max) {
+        return min + '-' + max;
+      },
+      getLogsLocal: function () {
+        this.dispatch('getLogs');
+      },
+      _selectedChanged: function () {
+        this._filter();
+      },
+      formatDatetime: function (datetime, format) {
+        return project.moment(datetime).format(format);
+      },
+      checkScrollHeight: function () {
+        var textElement = this.$.licenseAgreement;
+        if ((textElement.scrollTop + textElement.offsetHeight) >= textElement.scrollHeight) {
+          this.$.agreebutton.disabled = false;
+        }
+      },
+      tabTap: function (e) {
+        var el = e.target;
+        while (el != document.body && el.tagName.toLowerCase() != "paper-tab") {
+          el = el.parentNode;
+        }
+        this.preselected = [].indexOf.call(el.parentNode.children, el);
+        this.preselected--;
+
+        if (parseInt(this.selected, 10) <= parseInt(this.preselected, 10)) {
+          this.entryAnimation = "slide-from-right-animation";
+        } else {
+          this.entryAnimation = "slide-from-left-animation";
+        }
+      },
+      errorDialogCloseButtonClick: function () {
+        document.querySelector('#status_error').close();
+      }
+    });
+  </script>
+
+</dom-module>

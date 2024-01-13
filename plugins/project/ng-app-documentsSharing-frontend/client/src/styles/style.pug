@@ -1,0 +1,332 @@
+style(is='custom-style').
+    :host {
+        width: 100%;
+        height: 100%;
+    }
+
+    neon-animated-pages, neon-animatable {
+        width: 100%;
+        height: 100%;
+    }
+
+    #fileToShare {
+        /*width:300px;*/
+    }
+
+    paper-dropdown-menu {
+        --paper-dropdown-menu: {
+            background: white;
+        }
+        ;
+    }
+
+    paper-listbox {
+        --paper-listbox-background-color: white;
+    }
+
+    paper-material {
+        padding: 0;
+    }
+
+    .uploadfile {
+        width: 120px;
+        height: 126px;
+        position: absolute;
+        bottom: 10px;
+        left: 20px;
+        background: url("/documents-sharing/uf.png") no-repeat;
+        animation: upload;
+        animation-duration: 4s;
+        /*-webkit-animation: upload 1s, upload 2s;*/
+        /*-webkit-animation-delay: 0s, 1s;*/
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+    }
+
+    .bottomsubmit {
+        margin: 40px 0 0 0;
+    }
+
+    paper-dropdown-menu {
+        width: 100%;
+    }
+
+    paper-listbox {
+        --paper-listbox-background-color: white;
+    }
+
+    paper-material {}
+
+    .contentblock {
+        padding: 20px 20px 20px 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .bottomsubmit {
+        margin: 40px 0 0 0;
+    }
+
+    paper-dropdown-menu {
+        width: 100%;
+    }
+
+    .recipientsblock {
+        width: 100%;
+    }
+
+    .submitButton {
+        align-self: flex-end;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .headerblock {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .headerblock h3 {
+        flex: 1 0 auto;
+    }
+
+    .headerbuttons {
+        flex: 0 0 0;
+        align-self: flex-end;
+        min-width: 40px;
+    }
+
+    .submitblock {
+        margin-top: 40px;
+    }
+
+    #copywindow.started paper-progress {
+        visibility: visible;
+    }
+
+    paper-progress {
+        position: absolute;
+        visibility: hidden;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        --paper-progress-active-color: var(--primary-color);
+        --paper-progress-secondary-color: var(--project-green);
+    }
+
+    .combo_list {
+        width: calc(100% - 40px);
+        flex: 1;
+        display: inline-block;
+    }
+
+    .delete_button {
+        bottom: 3px;
+    }
+
+    vaadin-combo-box {
+        --vaadin-combo-box-overlay-max-height: 20vh
+    }
+
+    .selectProjectBlock {
+        padding-bottom: 20px;
+    }
+
+    .icon {
+        background: var(--primary-color);
+        border-radius: 50%;
+    }
+
+    .icon img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .warning {
+        width: 100%;
+        border: 1px solid var(--paper-yellow-500);
+        background: var(--paper-yellow-200);
+        color: black;
+        text-align: center;
+        padding: 20px 0;
+        font-size: 1.1em;
+        font-weight: 500;
+        margin: 0 0 20px 0;
+    }
+
+    h3 {
+        font-size: 1.2em;
+        font-weight: 500;
+        margin: 0;
+        text-transform: uppercase;
+    }
+
+    .labelUpload {
+        line-height: 40px;
+        text-align: center;
+        display: block;
+        box-sizing: border-box;
+        color: var(--primary-color);
+        text-transform: uppercase;
+        transition: 0.3s all;
+        font-weight: bold;
+        cursor: pointer;
+        padding: 0 20px;
+        background: transparent;
+        border-radius: 5px;
+        box-shadow: -1px 2px 5px 0 #909090;
+    }
+
+    .labelUpload:hover {
+        color: white;
+    }
+
+    #fileselected {
+        width: 100%;
+        border: none;
+        background: rgba(0, 0, 0, 0.03);
+        margin-bottom: 10px;
+        display: flex;
+        flex-direction: row;
+        padding: 10px 10px 10px 20px;
+        box-sizing: border-box;
+        align-items: center;
+    }
+
+    #filesnamelabel {
+        flex: 1;
+        opacity: 0.7;
+        font-size: 1.2em;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        padding-right: 20px;
+    }
+
+    .illustratedpaper {
+        padding-left: 220px !important;
+    }
+
+    .message-block {
+        margin: 0 0 20px 0;
+    }
+
+    #message-textarea {
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+        height: 100px;
+        background: transparent;
+        border: 1px solid rgba(0,0,0,0.2);
+        font-family: unset;
+    }
+
+    @media (max-width: 880px) {
+        .illustratedpaper {
+            padding-left: 20px !important;
+        }
+    }
+
+    vaadin-grid#inboxgrid {
+        background: transparent;
+        flex: 1;
+        height: calc(100% - 12px);
+        box-sizing: border-box;
+        border: none;
+        /*font-family: Roboto, sans-serif;*/
+        --divider-color: rgba(0, 0, 0, var(--dark-divider-opacity));
+        --vaadin-grid-cell: {
+            padding: 0;
+        }
+        ;
+        --vaadin-grid-header-cell: {
+            height: auto;
+            min-height: 48px;
+            max-height: 200px;
+            color: rgba(0, 0, 0, var(--dark-secondary-opacity));
+            font-size: 12px;
+        }
+        ;
+        --vaadin-grid-body-cell: {
+            height: auto;
+            min-height: 48px;
+            max-height: 400px;
+            padding: 20px 0;
+            color: rgba(0, 0, 0, var(--dark-primary-opacity));
+            font-size: 13px;
+        }
+        ;
+        --vaadin-grid-body-row-hover-cell: {
+            background-color: var(--paper-grey-200);
+        }
+        ;
+        --vaadin-grid-body-row-selected-cell: {
+            background-color: var(--paper-grey-100);
+        }
+        ;
+        --vaadin-grid-focused-cell: {
+            box-shadow: none;
+            font-weight: bold;
+        }
+        ;
+    }
+
+    vaadin-grid#inboxgrid .cell {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding-right: 56px;
+    }
+
+    vaadin-grid#inboxgrid .cell.last {
+        padding-right: 24px;
+    }
+
+    vaadin-grid#inboxgrid .cell.numeric {
+        text-align: right;
+    }
+
+    vaadin-grid#inboxgrid paper-checkbox {
+        margin: 0 24px;
+    }
+
+    vaadin-grid#inboxgrid vaadin-grid-sorter {
+        --vaadin-grid-sorter-arrow: {
+            display: none !important;
+        }
+        ;
+    }
+
+    vaadin-grid#inboxgrid vaadin-grid-sorter .cell {
+        flex: 1;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    vaadin-grid#inboxgrid vaadin-grid-sorter iron-icon {
+        transform: scale(0.8);
+    }
+
+    vaadin-grid#inboxgrid vaadin-grid-sorter:not([direction]) iron-icon {
+        color: var(--primary-color);
+        /*opacity: var(--dark-disabled-opacity);*/
+    }
+
+    vaadin-grid#inboxgrid vaadin-grid-sorter[direction] {
+        color: var(--secondary-color);
+        /*opacity: var(--dark-primary-opacity);*/
+    }
+
+    vaadin-grid#inboxgrid vaadin-grid-sorter[direction=desc] iron-icon {
+        transform: scale(0.8) rotate(180deg);
+    }
+
+    .cell-data {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        text-overflow: ellipsis;
+        white-space: normal;
+        overflow: hidden;
+    }

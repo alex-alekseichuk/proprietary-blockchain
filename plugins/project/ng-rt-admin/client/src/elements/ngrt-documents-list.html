@@ -1,0 +1,57 @@
+<script src="../../bower_components/underscore/underscore-min.js"></script>
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/ng-rt-components/ng-rt-grid/ng-rt-grid.html">
+
+<dom-module id="ngrt-documents-list">
+  <template>
+
+    <!--<h3>Documents</h3>-->
+    <ng-rt-grid id="grid"></ng-rt-grid>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'ngrt-documents-list',
+      properties : {
+      },
+      gridOptions: {
+        enableSorting: true,
+        virtualPaging: false,
+        enableServerSideSorting: false,
+        enableServerSideFilter: false,
+        enableColResize: true,
+        rowSelection: 'single',
+        rowDeselection: true
+      },
+
+
+      columnDefinitions: [
+        {headerName: "Filename", field: "filename", filterParams: {apply: true},
+          cellStyle: {'padding': '0 10px 0 20px', 'line-height': '50px'}
+        },
+        {headerName: "Size", field: "size", filterParams: {apply: true},
+          cellStyle: {'padding': '0 10px 0 20px', 'line-height': '50px','text-align': 'left'}
+        },
+        {headerName: "DateTime", field: "datetime", filterParams: {apply: true},
+          cellStyle: {'padding': '0 10px 0 20px', 'line-height': '50px','text-align': 'left'}
+
+        },
+        {headerName: "Document Hash", field: "hash", filterParams: {apply: true},
+          cellStyle: {'padding': '0 10px 0 20px', 'line-height': '50px'}
+        },
+        {headerName: "Signature", field: "signature", filterParams: {apply: true},
+          cellStyle: {'padding': '0 10px 0 20px', 'line-height': '50px'}
+        }
+      ],
+      _update: function() {
+        this.$.grid.setRows(this.data);
+        this.$.grid.initGrid(this.gridOptions, this.columnDefinitions, '');
+        this.gridOptions.api.sizeColumnsToFit();
+      },
+      _formatDatetime: function(timestamp) {
+        return project.moment(timestamp * 1000).format('YYYY-MM-DD hh:mm:ss');
+      },
+    });
+  </script>
+</dom-module>

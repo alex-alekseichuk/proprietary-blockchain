@@ -1,0 +1,26 @@
+{
+    "name": "emailTemplate",
+    "base": "commonDataModel",
+    "idInjection": true,
+    "options": {
+        "validateUpsert": true
+    },
+    "properties": {
+        "subject": {
+            "type": "string"
+        },
+        "body": {
+            "type": "string"
+        },
+        "name": {
+            "type": "string"
+        },
+        "attachments": {
+            "type": "object"
+        }
+    },
+    "validations": [],
+    "relations": {},
+    "acls": [],
+    "methods": {}
+}

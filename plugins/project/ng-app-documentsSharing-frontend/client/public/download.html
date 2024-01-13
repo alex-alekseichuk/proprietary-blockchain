@@ -1,0 +1,375 @@
+<dom-module id="ng-app-downloadShared"><style include="shared-styles"></style><style is="custom-style">:host {
+  width: 100%;
+  height: 100%;
+}
+.downloadblock {
+width: 500px;
+margin: 100px auto 0 auto;
+}
+.state_downloading .headbg {
+width: 100%;
+height: 300px;
+background: #2166ab;
+background: url("/ng-app-documentsSharing-frontend/images/downloadbg.png") no-repeat;
+overflow: hidden;
+position: relative;
+}
+.state_finished .headbg {
+width: 100%;
+height: 300px;
+background: #d9e4ee;
+overflow: hidden;
+position: relative;
+}
+.state_expired .headbg {
+width: 100%;
+height: 300px;
+background: #c09435;
+overflow: hidden;
+position: relative;
+}
+.state_finished .headbg {
+width: 100%;
+height: 300px;
+background: #429b5b;
+overflow: hidden;
+position: relative;
+}
+.state_denied .headbg {
+width: 100%;
+height: 300px;
+background: #d72851;
+overflow: hidden;
+position: relative;
+}
+.state_invalid_hash .headbg {
+  width: 100%;
+  height: 300px;
+  background: #d72851;
+  overflow: hidden;
+  position: relative;
+}
+  .state_no_keys .headbg {
+    width: 100%;
+    height: 300px;
+    background: #a95039;
+    overflow: hidden;
+    position: relative;
+  }
+  .state_error .headbg {
+    width: 100%;
+    height: 300px;
+    background: #f3f3f3;
+    overflow: hidden;
+    position: relative;
+  }
+.view {
+height: 100%;
+width: 100%;
+position: absolute;
+left: 0;
+filter: drop-shadow(10px 10px 20px rgba(0,0,0,0.4));
+}
+.state_expired .headbg .clock {
+position: absolute;
+top: 	calc(50% - 45px);
+left: calc(50% - 34px);
+width: 56px;
+height: 100px;
+background: url("/ng-app-documentsSharing-frontend/images/clock.png") no-repeat;
+animation: clockanim 4s;
+animation-iteration-count: infinite;
+animation-timing-function: ease-in-out;
+}
+.state_expired .headbg .clock .sand {
+position: absolute;
+top: 0;
+left: 0;
+bottom: 0;
+right: 0;
+background: url("/ng-app-documentsSharing-frontend/images/clocksand.png") no-repeat;
+animation-name: sandanim;
+animation-duration: 4s;
+animation-iteration-count: infinite;
+animation-timing-function: ease-in-out;
+background-position: bottom center;
+}
+.state_expired .headbg .clock .sand2 {
+position: absolute;
+top: 0;
+left: 0;
+bottom: 0;
+right: 0;
+background: url("/ng-app-documentsSharing-frontend/images/clocksand2.png") no-repeat;
+animation-name: sandanim2;
+animation-duration: 4s;
+animation-iteration-count: infinite;
+animation-timing-function: ease-in-out;
+background-position: bottom center;
+}
+.state_finished .headbg .sparks {
+position: absolute;
+top: 	calc(50% - 123px);
+left: calc(50% - 123px);
+width: 246px;
+height: 246px;
+background: url("/ng-app-documentsSharing-frontend/images/sparks.png") no-repeat;
+animation-name: sparkanim;
+animation-duration: 1s;
+animation-iteration-count: infinite;
+animation-timing-function: ease-in-out;
+}
+.state_denied .headbg .clock {
+position: absolute;
+top: 	calc(50% - 70px);
+left: calc(50% - 70px);
+width: 140px;
+height: 140px;
+background: url("/ng-app-documentsSharing-frontend/images/denied.png") no-repeat;
+animation-name: denianim;
+animation-duration: 2s;
+animation-iteration-count: infinite;
+animation-timing-function: cubic-bezier(.68,-0.33,.31,1.39);
+}
+.state_invalid_hash .headbg .clock {
+  position: absolute;
+  top: calc(50% - 70px);
+  left: calc(50% - 70px);
+  width: 140px;
+  height: 140px;
+  background: url("/ng-app-documentsSharing-frontend/images/denied.png") no-repeat;
+  animation-name: denianim;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(.68, -0.33, .31, 1.39);
+}
+.state_no_keys .key {
+  position: absolute;
+  top: 80px;
+  left: calc(50% - 65px);
+  width: 130px;
+  height: 130px;
+  background: url('/ng-app-documentsSharing-frontend/images/key.png') no-repeat;
+  background-size: 100%;
+  animation-name: denianim;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+}
+
+.state_error .error_sign {
+  position: absolute;
+  top: 80px;
+  left: calc(50% - 65px);
+  width: 130px;
+  height: 130px;
+  background: url('/ng-app-documentsSharing-frontend/images/error_sign.png') no-repeat;
+  background-size: 100%;
+  animation-name: finished;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+}
+@keyframes sparkanim {
+0% {
+transform: scale(0.5);
+opacity: 0;
+filter: blur(5px);
+}
+50% {
+opacity: 0.5;
+filter: blur(2px);
+}
+100% {
+transform: scale(1);
+opacity: 0;
+filter: blur(5px);
+}
+}
+@keyframes sandanim {
+0% {
+top: 0px;
+}
+50% {
+top: 70px;
+}
+100% {
+top: 70px;
+}
+}
+@keyframes sandanim2 {
+0% { top: 90px; }
+50% { top: 55px; }
+100% { top: 55px; }
+}
+@keyframes clockanim {
+0% {
+transform: rotate(0deg);
+}
+70% {
+transform: rotate(0deg);
+}
+71% {
+transform: rotate(0deg);
+}
+100% {
+transform: rotate(180deg);
+}
+}
+@keyframes denianim {
+0% {
+transform: rotate(0deg) scale(0.6);
+}
+50% {
+transform: rotate(180deg) scale(1);
+}
+100% {
+transform: rotate(360deg)  scale(0.6);
+}
+}
+.state_denied {
+display: none;
+}
+.state_invalid_hash {
+  display: none;
+}
+.state_finished {
+display: none;
+}
+.state_expired {
+display: none;
+}
+.state_downloading {
+  display: none;
+}
+.state_no_keys {
+  display: none;
+}
+.state_error {
+  display: none;
+}
+
+.started .state_downloading {
+  display: block;
+}
+.finished .state_downloading {
+display: none;
+}
+
+.finished .state_finished {
+display: block;
+}
+
+.denied .state_denied {
+display: block;
+}
+.denied .state_downloading {
+display: none !important;
+}
+.denied .state_finished {
+display: none !important;
+}
+
+.invalid_hash .state_invalid_hash {
+  display: block;
+}
+
+.invalid_hash .state_downloading {
+  display: none !important;
+}
+
+.invalid_hash .state_finished {
+  display: none !important;
+}
+
+.expired .state_expired {
+  display: block;
+}
+
+.expired .state_downloading {
+  display: none !important;
+}
+
+.expired .state_finished {
+  display: none !important;
+}
+
+.error .state_error {
+  display: block;
+}
+
+.nokeys .state_no_keys {
+  display: block;
+}
+
+
+.blockcontent {
+widows: 100%;
+padding: 20px;
+}
+@keyframes download_arrow_animation {
+0% {
+top: -120px;
+opacity: 0;
+filter: blur(15px);
+transform: scale(0.7);
+}
+50% {
+top: 100px;
+opacity: 1;
+filter: blur(0px);
+transform: scale(1);
+}
+100% {
+top: 310px;
+opacity: 0;
+filter: blur(25px);
+transform: scale(1);
+}
+}
+.arrowmove {
+position: absolute;
+top: 10px;
+left: calc(50% - 46px);
+width: 92px;
+height: 120px;
+background: url("/ng-app-documentsSharing-frontend/images/download_arrow.png") no-repeat;
+animation-name: download_arrow_animation;
+animation-duration: 2s;
+animation-iteration-count: infinite;
+animation-timing-function: ease-in-out;
+}
+.checkfinished {
+position: absolute;
+top: calc(50% - 30px);
+left: calc(50% - 40px);
+width: 80px;
+height: 60px;
+background: url("/ng-app-documentsSharing-frontend/images/check.png") no-repeat;
+background-size: 100%;
+animation-name: finished;
+animation-duration: 1.5s;
+animation-iteration-count: infinite;
+animation-timing-function: cubic-bezier(.68,-0.33,.31,1.39);
+}
+@keyframes finished {
+0% {
+opacity: 0;
+filter: blur(13px);
+transform: scale(0.3);
+}
+100% {
+opacity: 1;
+filter: blur(0px);
+transform: scale(1);
+}
+}
+h3 {
+font-size: 1.4em;
+font-weight: 300;
+}
+.labelUpload {
+  padding: 20px;
+  background: gray;
+  width: 100%;
+}</style><template><paper-header-panel class="appPanel"><!-- Toolbar--><paper-toolbar class="appToolbar"><!-- Top--><paper-icon-button id="paperToggle" icon="menu" paper-drawer-toggle=""></paper-icon-button><span class="title"><i18n-msg msgid="Document Sharing">Document Sharing</i18n-msg></span><span class="flex"></span><pa-search></pa-search><paper-icon-button icon="icons:settings"></paper-icon-button></paper-toolbar><!-- Content--><div class="content"><paper-material class="downloadblock" id="downloaddialog" elevation="1"><div class="state_downloading"><div class="headbg"><div class="view"><div class="arrowmove"></div></div></div><div class="blockcontent"><h3 class="downloadstarted">Download started</h3></div></div><div class="state_finished"><div class="headbg"><div class="view"><div class="sparks"></div><div class="checkfinished"></div></div></div><div class="blockcontent"><h3>Download Finished</h3></div></div><div class="state_expired"><div class="headbg"><div class="view"><div class="clock"><div class="sand"></div><div class="sand2"></div></div></div></div><div class="blockcontent"><h3>Expired</h3></div></div><div class="state_denied"><div class="headbg"><div class="view"><div class="clock"></div></div></div><div class="blockcontent"><h3>Access denied</h3></div></div><div class="state_invalid_hash"><div class="headbg"><div class="view"><div class="clock"></div></div></div><div class="blockcontent"><h3>Invalid hash</h3></div></div><div class="state_no_keys"><div class="headbg"><div class="view"><div class="key"></div></div></div><div class="blockcontent"><h3>This browser doesn't have right key</h3></div></div><div class="state_error"><div class="headbg"><div class="view"><div class="error_sign"></div></div></div><div class="blockcontent"><h3>Unknown error.</h3></div></div></paper-material></div></paper-header-panel></template><script src="/ng-app-documentsSharing-frontend/js/download_app.js"></script></dom-module><template is="dom-bind"><ng-app-downloadshared payload="{{model.payload}}"></ng-app-downloadshared></template>

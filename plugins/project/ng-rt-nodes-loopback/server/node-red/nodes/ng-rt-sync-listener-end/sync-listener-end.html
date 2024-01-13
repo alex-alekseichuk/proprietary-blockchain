@@ -1,0 +1,28 @@
+
+<script type="text/javascript">
+    RED.nodes.registerType('sync-listener-end', {
+      category: 'Project_Loopback',
+        color : '#9edcd6',
+        defaults : {
+            name : {
+                value : ""
+            }
+        },
+        inputs : 1,
+        outputs : 0,
+        icon : "Project.png",
+        label : function() {
+            return this.name || "sync-listener-end";
+        }
+    });
+</script>
+<script type="text/x-red" data-template-name="sync-listener-end">
+	<div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="sync-listener-end">
+    <p>Ends listener.</p>
+</script>

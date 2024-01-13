@@ -1,0 +1,258 @@
+
+<dom-module id="ng-rt-emailTemplates">
+    <style include="shared-styles"></style>
+  <style is="custom-style">
+
+    :host {
+      width: 100%;
+      height:100%;
+    }
+
+    .axis path,
+    .axis line {
+      fill: none;
+      stroke: #000;
+      shape-rendering: crispEdges;
+    }
+    .line {
+      fill: none;
+      stroke: steelblue;
+      stroke-width: 1.5px;
+    }
+
+    .axis text {
+      font-size: 9pt !important;
+    }
+
+  </style>
+
+
+  <template>
+    <paper-header-panel class="appPanel">
+
+      <!--Toolbar-->
+      <paper-toolbar class="appToolbar" >
+
+        <!--Top-->
+        <paper-icon-button id="paperToggle" icon="menu" paper-drawer-toggle></paper-icon-button>
+        <span class="title">Email Templates</span>
+        <span class="flex"></span>
+      </paper-toolbar>
+
+      <!--Content-->
+      <div class="content fit">
+          <section class="step-item">
+              <div class="step-header" on-click="stepItemClick">
+                <span class="flex">
+                  <i18n-msg msgid="Assign onboarder">Select Email template</i18n-msg>
+                </span>
+                <iron-icon icon="icons:expand-more"></iron-icon>
+              </div>
+              <div class="step-content">
+                  <div class="listheader">
+                      <iron-grid>
+                        <div class="m5 s5 xs5">Template name</div>
+                      </iron-grid>
+                    </div>
+                    <template id="projects_div" is="dom-repeat" items="{{templates}}">
+                      <div class="keysrow horizontal layout">
+                        <iron-grid>
+                          <div class="m6 s6 xs6">
+                            <div class="p_button" on-click="editTemplate">{{item.name}}</div>
+                          </div>
+                        </iron-grid>
+                      </div>
+                    </template>
+              </div>
+            </section>
+      </div>
+
+
+      <paper-dialog style="width: 900px;" id="edit_modal" role="alertdialog" entry-animation="scale-up-animation" exit-animation="fade-out-animation" modal>      
+        <paper-header-panel class="dialog_headerpanel" style="height: 650px">
+        <paper-toolbar class="dialog_toolbar medium-tall">
+          <div class="top dialog-header">
+            <h4>Edit Template</h4>
+          </div>
+
+          <paper-tabs class="bottom fit contacTabs" selected="{{selectedTab}}" noink="true">
+            <paper-tab style="flex: 1">Template</paper-tab>
+            <paper-tab style="flex: 1">Attachments</paper-tab>
+          </paper-tabs>
+        </paper-toolbar>
+        <neon-animated-pages class="flex" selected="[[selectedTab]]" entry-animation="[[entryAnimation]]" exit-animation="[[exitAnimation]]">  
+          <neon-animatable entryAnimation="slide-from-left-animation">
+            <div class="dialog-content">
+              <polymer-tinymce id="templateBody" height="350"
+                tinytoolbar="insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
+                menubar="false"
+              ></polymer-tinymce>
+            </div>
+            <div class="buttons">
+              <paper-button class="flex" on-click="saveTemplate">
+                <i18n-msg msgid="Save">Save</i18n-msg>
+                </paper-button>
+                <paper-button dialog-dismiss>
+                <i18n-msg msgid="Decline">Cancel</i18n-msg>
+              </paper-button>
+            </div>
+          </neon-animatable>
+          <neon-animatable entryAnimation="slide-from-left-animation">
+              <div class="dialog-content">
+                <x-browse id="attachments" multi inputs='[{"name":"attachment","label":"Attachment","pinned":true,"errorMessage":"This field is required"}]'></x-browse>
+                <paper-button sufix="" on-click="uploadAttachment"> Upload </paper-button>  
+                <div class="listheader">
+                  <iron-grid>
+                    <div>Name</div>
+                    <div></div>
+                  </iron-grid>
+                </div>
+                <template is="dom-repeat" items="{{currentTemplate.attachments}}">
+                    <iron-grid>
+                      <div class="m11 s11 xs11">
+                        {{getFileName(item.filename)}}
+                      </div>
+                      <template is="dom-if" if="{{isAttachmentLogo(item.filename)}}">
+                          <div class="m1 s1 xs1">
+                              <paper-icon-button disabled title="Delete" icon="icons:delete" on-click="deleteAttachment"></paper-icon-button>
+                            </div>
+                      </template>
+                      <template is="dom-if" if="{{!isAttachmentLogo(item.filename)}}">
+                          <div class="m1 s1 xs1">
+                              <paper-icon-button data-args="{{item.filename}}" icon="icons:delete" title="Delete" on-click="deleteAttachment"></paper-icon-button>
+                            </div>
+                      </template>
+                    </iron-grid>
+                </template>                       
+              </div>
+              <div class="buttons">
+                  <paper-button dialog-dismiss>
+                  <i18n-msg msgid="Decline">Cancel</i18n-msg>
+                </paper-button>
+              </div>
+            </neon-animatable>
+          </neon-animated-pages>
+        </paper-header-panel>
+      </paper-dialog>
+  </template>
+
+
+
+  <script>
+    Polymer({
+      is: "ng-rt-emailTemplates",
+      properties: {
+
+        templates: {
+          type: Array,
+          value: []
+        },
+        currentTemplate: {
+          type: Array,
+          value: []
+        },
+        selectedTab: {
+          type: String,
+          value: "0"
+        }
+      },
+      ready: function () {
+        var self = this;
+        project.ajax.get('/emailTemplates', function (response) {
+          self.templates = response;
+        });
+      },
+      isAttachmentLogo: function(item) {
+          return item == 'logo.jpg'
+      },
+      getFileName: function(file) {
+        if(file == 'logo.jpg'){
+          return file;
+        }
+        return file.split('_')[1];
+      },
+      stepItemClick: function(e) {
+        var target = Polymer.dom(e).localTarget;
+        var items = document.getElementsByClassName("step-item");
+        for (var i = 0; i < items.length; i++) {
+          items[i].classList.remove("opened");
+        }
+        target.parentNode.classList.toggle("opened");
+      },
+      editTemplate: function(e){
+        var self = this;
+        self.$.edit_modal.toggle();
+        var template = self.templates.filter(function (elem) { return elem.id == e.model.get('item.id') });
+        self.set('currentTemplate', template[0]);
+
+        setTimeout(() => {
+          var area = this.querySelector('#templateBody');
+          area.setContent(template[0].body);
+        }, 1000)
+      }, 
+      saveTemplate: function() {
+        var self = this;
+        var area = this.querySelector('#templateBody');
+
+        var body = area.getContent();
+        var templateId = self.currentTemplate.id;
+        project.ajax.post('/emailTemplates',{
+          templateId: templateId,
+          body: body
+        }, function(response, xhr){
+          if(xhr.status != 200) {
+            return false;
+          }
+          self.templates.filter(function (elem, id) {
+            if(elem.id == self.currentTemplate.id){
+              self.templates[id].body = body;
+              self.notifyPath('templates.'+id+'body');
+            }
+          });
+          self.$.edit_modal.toggle();
+
+        });
+      },
+      uploadAttachment: function uploadAttachment() {
+        var self = this;
+        var file = document.querySelector('#hidden_attachment').files[0];
+        project.ajax.rawUpload('/upload', file, { name: file.name, templateId: self.currentTemplate.id, templateName: self.currentTemplate.name }, function (cb) {
+          if (cb.sucess) {
+            var attachments = self.currentTemplate.attachments.concat({ filename: self.currentTemplate.id + '_' + file.name});
+            self.currentTemplate.attachments = attachments;
+            self.notifyPath('currentTemplate.attachments');
+            self.templates.filter(function (elem, id) {
+              if (elem.id == self.currentTemplate.id) {
+                self.templates[id].attachments = attachments;
+                self.notifyPath('templates.' + id + '.attachments');
+              }
+            });
+            document.querySelector('#attachments').reset();
+          }
+        });
+      },
+      deleteAttachment: function deleteAttachment(e) {
+        var self = this;
+        var filename = self.currentTemplate.attachments.filter(function (elem) {
+          return elem.filename == e.model.get('item.filename');
+        });
+        project.ajax.post('/deleteAttachment', { id: self.currentTemplate.id, filename: filename[0].filename }, function (cb) 
+          {
+            if (cb.sucess) {
+              var attachments = self.currentTemplate.attachments.filter(function (elem) {
+                return elem.filename != e.model.get('item.filename');
+              });
+              self.currentTemplate.attachments = attachments;
+              self.notifyPath('currentTemplate.attachments');
+              self.templates.filter(function (elem, id) {
+                if (elem.id == self.currentTemplate.id) {
+                  self.templates[id].attachments = attachments;
+                  self.notifyPath('templates.' + id + '.attachments');
+                }
+              });
+            }
+        });
+      }
+    });
+  </script>
+</dom-module>

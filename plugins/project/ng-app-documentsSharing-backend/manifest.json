@@ -1,0 +1,301 @@
+{
+    "name": "ng-app-documentsSharing-backend",
+    "type": "optional",
+    "author": "PROJECT PROPERTIOES B.V.",
+    "description": "Secured Document Sharing",
+    "copyright": "PROJECT BV (c) 2016 - 2019",
+    "version": "3.2.",
+    "dependencies": {
+        "database": {
+        }
+    },
+    "checkLicense": false,
+    "entryPoints": [{
+        "type": "route",
+        "parameters": {
+            "file": "./api/entry.js"
+        }
+    }],
+    "actions": {
+        "before_install": [{
+                "type": "NPM_INSTALL",
+                "parameters": {
+                    "package": true
+                }
+            },
+            {
+                "name": "remove smartContractDefinition",
+                "type": "REMOVE_DATA",
+                "parameters": {
+                    "model_name": "smartContractDefinition",
+                    "criteries": [{
+                        "transaction": "documentsSharing"
+                    }]
+                }
+            },
+            {
+                "name": "remove emailTemplate",
+                "type": "REMOVE_DATA",
+                "parameters": {
+                    "model_name": "emailTemplate",
+                    "criteries": [{
+                        "name": "documentSharing"
+                    }]
+                }
+            },
+            {
+                "name": "remove emailTemplate",
+                "type": "REMOVE_DATA",
+                "parameters": {
+                    "model_name": "emailTemplate",
+                    "criteries": [{
+                        "name": "pdfUpload"
+                    }]
+                }
+            },
+            {
+                "name": "remove menu item",
+                "type": "REMOVE_DATA",
+                "parameters": {
+                    "model_name": "statemachineApp",
+                    "criteries": [{
+                        "appName": "documentsSharing"
+                    }]
+                }
+            },
+            {
+                "name": "remove documentSharingProjects record",
+                "type": "REMOVE_DATA",
+                "parameters": {
+                    "model_name": "dataDictionary",
+                    "criteries": [{
+                        "name": "project"
+                    }]
+                }
+            },
+            {
+                "name": "remove documentSharingProjects record",
+                "type": "REMOVE_DATA",
+                "parameters": {
+                    "model_name": "dataSourceRouting",
+                    "criteries": [{
+                        "datadictname": "project",
+                        "datasourcename": "ng_rt"
+                    }]
+                }
+            }
+        ],
+        "after_install": [
+            {
+                "name": "add flow",
+                "type": "NODE_RED_ADD_FLOW",
+                "parameters": {
+                    "replace": true,
+                    "file": "./api/nodeRed/DS_feedback.json"
+                }
+            },
+            {
+                "name": "add flow",
+                "type": "NODE_RED_ADD_FLOW",
+                "parameters": {
+                    "replace": true,
+                    "file": "./api/nodeRed/permissions_sc_doc_sharing.json"
+                }
+            },
+            {
+              "name": "remove digitalAssetDefinition",
+              "type": "REMOVE_DATA",
+              "parameters": {
+                  "model_name": "digitalAssetDefinition",
+                  "criteries": [{
+                      "digitalAsset": "documents_sharing"
+                  }]
+              }
+            },
+            {
+                "name": "add digitalAssetDefinition",
+                "type": "ADD_DATA",
+                "parameters": {
+                    "model_name": "digitalAssetDefinition",
+                    "data": [{
+                        "digitalAsset": "documents_sharing",
+                        "HTTPBlockchainIPAddress": "*default",
+                        "HTTPBlockchainPort": 59984,
+                        "createTransactionAllowedBySystem": true
+                    }]
+                }
+            },
+            {
+                "name": "add smartContractDefinition",
+                "type": "ADD_DATA",
+                "parameters": {
+                    "model_name": "smartContractDefinition",
+                    "data": [{
+                        "transaction": "documentsSharing",
+                        "smartContracts": [{
+                                "type": "key_sec",
+                                "caption": "1 minute expiration",
+                                "parameters": {
+                                    "timeout": 60
+                                }
+                            },
+                            {
+                                "type": "key_sec",
+                                "caption": "5 minute expiration",
+                                "parameters": {
+                                    "timeout": 300
+                                }
+                            },
+                            {
+                                "type": "key_sec",
+                                "caption": "Infinity",
+                                "parameters": {
+                                    "timeout": 3214080000
+                                }
+                            }
+                        ]
+                    }]
+                }
+            },
+            {
+                "name": "add stateMachine for documents",
+                "type": "ADD_DATA",
+                "parameters": {
+                    "model_name": "statemachineApp",
+                    "file": "api/stateMachine/documentsSharing.json"
+                }
+            },
+            {
+                "name": "add documentSharingProjects model to dataDictionary",
+                "type": "ADD_DATA",
+                "parameters": {
+                    "model_name": "dataDictionary",
+                    "data": [{
+                        "name": "project",
+                        "base": "aclParent",
+                        "plural": "projects",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            }
+                        },
+                        "validations": [],
+                        "relations": {},
+                        "acls": [],
+                        "methods": {}
+                    }]
+                }
+            },
+            {
+                "name": "add documentSharingProjects model to dataDictionary",
+                "type": "ADD_DATA",
+                "parameters": {
+                    "model_name": "dataSourceRouting",
+                    "data": [{
+                        "datadictname": "project",
+                        "datasourcename": "ng_rt"
+                    }]
+                }
+            }
+        ],
+        "after_uninstall": [{
+                "name": "remove flow",
+                "type": "NODE_RED_REMOVE_FLOW",
+                "parameters": {
+                    "flows": [
+                        "7f780483.20fa5c",
+                        "8ff0f0e7.33bc1"
+                    ]
+                }
+            },
+            {
+                "name": "remove digitalAssetDefinition",
+                "type": "REMOVE_DATA",
+                "parameters": {
+                    "model_name": "digitalAssetDefinition",
+                    "criteries": [{
+                        "digitalAsset": "documents_sharing"
+                    }]
+                }
+            },
+            {
+                "name": "remove smartContractDefinition",
+                "type": "REMOVE_DATA",
+                "parameters": {
+                    "model_name": "smartContractDefinition",
+                    "criteries": [{
+                        "transaction": "documentsSharing"
+                    }]
+                }
+            },
+            {
+                "name": "remove emailTemplate",
+                "type": "REMOVE_DATA",
+                "parameters": {
+                    "model_name": "emailTemplate",
+                    "criteries": [{
+                        "name": "documentSharing"
+                    }]
+                }
+            },
+            {
+                "name": "remove emailTemplate",
+                "type": "REMOVE_DATA",
+                "parameters": {
+                    "model_name": "emailTemplate",
+                    "criteries": [{
+                        "name": "pdfUpload"
+                    }]
+                }
+            },
+            {
+                "name": "remove menu item",
+                "type": "REMOVE_DATA",
+                "parameters": {
+                    "model_name": "statemachineApp",
+                    "criteries": [{
+                        "appName": "documentsSharing"
+                    }]
+                }
+            },
+            {
+                "name": "remove documentSharingProjects record",
+                "type": "REMOVE_DATA",
+                "parameters": {
+                    "model_name": "dataDictionary",
+                    "criteries": [{
+                        "name": "project"
+                    }]
+                }
+            },
+            {
+                "name": "remove documentSharingProjects record",
+                "type": "REMOVE_DATA",
+                "parameters": {
+                    "model_name": "dataSourceRouting",
+                    "criteries": [{
+                        "datadictname": "project",
+                        "datasourcename": "ng_rt"
+                    }]
+                }
+            }
+        ],
+        "before_activate": [],
+        "after_activate": [],
+        "before_deactivate": [],
+        "after_deactivate": []
+    },
+    "sharedServices": [],
+    "apiServices": [],
+    "settings": [{
+            "name": "hideinbox",
+            "caption": "Flag to hide inbox tab",
+            "value": false
+        },
+        {
+            "name": "maxBlobDownload",
+            "caption": "Max size of file with downloading using blob array into memory",
+            "value": 41943040
+        }
+    ]
+}

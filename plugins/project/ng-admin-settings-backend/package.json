@@ -1,0 +1,16 @@
+{
+  "name": "ng-admin-settings-backend",
+  "description": "Admin backend settings",
+  "copyright": "",
+  "author": "PROJECT PROPERTIES B.V.",
+  "homepage": "https://www.project.com/",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git@xxxxxxxx:xxxx/ng-admin-settings-backend.git"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "license": "SEE LICENSE IN LICENSE.md",
+  "version": "3.2.74404"
+}

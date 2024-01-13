@@ -1,0 +1,1058 @@
+<!--Home Page-->
+
+<dom-module id="ngrt-home">
+  <template>
+    <style include="shared-styles"></style>
+    <style is="custom-style">
+      :host {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+
+      .landingHome {
+        float: left;
+        width: 100%;
+      }
+
+      .step-scheme {
+        justify-content: center;
+        padding: 0 40px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
+        height: 440px;
+        margin-left: 23px;
+      }
+
+      .step-scheme>span:nth-child(1) {
+        min-height: 360px;
+      }
+
+      .step-scheme>span:nth-child(2) {
+        min-height: 380px;
+      }
+
+      .step-scheme>span:nth-child(3) {
+        min-height: 400px;
+      }
+
+      .step-scheme>span:nth-child(4) {
+        min-height: 440px;
+        min-width: 200px;
+        max-width: 260px;
+        border: 4px solid white;
+        background: #17a58a;
+        box-shadow: 0 5px 8px 3px rgba(0, 0, 0, 0.2);
+      }
+
+      .step-scheme>span {
+        background: #2166ab;
+        position: relative;
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        border-radius: 0px;
+        box-sizing: border-box;
+        padding: 60px 20px 20px 20px;
+        margin: 5px 0;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 400px;
+        max-width: 200px;
+        min-width: 160px;
+        margin: 0 5px;
+        margin-left: -20px;
+        flex: 0 1 auto;
+      }
+
+      .step-scheme2>span:before {
+        position: absolute;
+        content: "";
+        bottom: 0;
+        left: 50%;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: var(--paper-green-400);
+        color: rgba(0, 0, 0, 0.7);
+      }
+
+      .scheme-icon {
+        height: 100px;
+        width: 100px;
+        flex: 0 1 auto;
+        margin: 0 0 40px 0;
+      }
+
+      .scheme-title {
+        text-align: center;
+        width: 100%;
+        box-sizing: border-box;
+        flex: 1 1 auto;
+        padding: 40px 0 0 0;
+        flex-direction: column;
+        justify-content: flex-start;
+        display: flex;
+        color: white;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .scheme-title>div {
+        flex: 0 1 auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .scheme-title>div>* {
+        flex: 1 1 100%;
+        font-size: 1.3em;
+        line-height: 30px;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+      }
+
+      .scheme-title>div>div {
+        opacity: 0.7;
+        font-weight: 400;
+        font-size: 1em;
+      }
+
+      .scheme-title>div>b {
+        text-transform: uppercase;
+        opacity: 1;
+      }
+
+      .section-runtime {
+        background: #f2f2f2;
+        color: #242628;
+        padding-top: 100px;
+      }
+
+      .section-architecture {
+        background: #f2f2f2 color: #242628;
+        padding-top: 50px;
+      }
+
+      .section-step {
+        background: #f2f2f2 color: #242628;
+        justify-content: center;
+      }
+
+      .section-Opportunity {
+        background: #f2f2f2;
+        color: #242628;
+        padding-top: 100px;
+      }
+
+      .row1 {
+        margin: 0 auto;
+        max-width: 1000px;
+        padding: 0 50px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .row1>* {
+        margin: 0 10px 10px 0;
+        padding: 40px 20px;
+        /* background:  */
+        min-width: 250px;
+        flex: 1 1 240px;
+        text-align: center;
+        display: flex;
+        align-content: center;
+        align-items: center;
+        justify-content: flex-start;
+        flex-direction: column;
+      }
+
+      .row1>* img {
+        width: 100px;
+        margin: 0 0 50px 0;
+      }
+
+      .row1>* span {
+        width: 100%;
+        font-size: 1em;
+        opacity: 0.7;
+      }
+
+      .row1>* b {
+        width: 100%;
+        font-size: 1.3em;
+        text-transform: uppercase;
+        margin: 0 0 20px 0;
+      }
+
+      .row2 {
+        width: 100%;
+        background: #192c41;
+        min-height: 200px;
+        align-self: flex-end;
+      }
+
+      .title-welcome {
+        position: absolute;
+        top: calc(50% - 140px);
+        width: 100%;
+        font-size: 24px;
+        color: #444e59;
+        letter-spacing: 10px;
+        text-transform: uppercase;
+        text-align: center;
+      }
+
+      .title-project {
+        position: absolute;
+        top: calc(50% - 140px);
+        width: 100%;
+        font-size: 100px;
+        text-transform: uppercase;
+        text-align: center;
+        letter-spacing: 30px;
+        font-weight: 300;
+        color: #2166ab;
+        padding: 40px 0;
+      }
+
+      .title-sub {
+        position: absolute;
+        top: calc(50% + 40px);
+        font-size: 25px;
+        width: 100%;
+        font-weight: 300;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        text-align: center;
+        padding: 0 100px;
+        box-sizing: border-box;
+      }
+
+      .section_header {
+        font-size: 60px;
+        font-weight: bold;
+        text-align: center;
+        margin: 0 0 20px 0;
+        padding: 30px 50px;
+        box-sizing: border-box;
+      }
+
+      .section_header .subheader {
+        font-size: 0.5em;
+        display: block;
+        margin: 10px 0 0 0;
+        font-weight: normal;
+        font-family: Roboto;
+      }
+
+      .arrow-scheme {
+        float: left;
+        width: 50px;
+        height: 150px;
+        opacity: 0.2;
+        background: url("../res/home-scheme-arrow.png") no-repeat center;
+      }
+
+      .home-topmenu {
+        margin: 0;
+        padding: 0;
+        line-height: 64px;
+        float: left;
+        width: 100%;
+        color: black;
+        font-size: 14px;
+        font-weight: bold;
+      }
+
+      .home-topmenu div {
+        margin: 0 auto;
+        width: 550px;
+      }
+
+      .home-topmenu a {
+        color: black;
+        text-decoration: none;
+        float: left;
+        padding: 0 20px;
+        text-transform: uppercase;
+        cursor: pointer;
+      }
+
+      .home-topmenu a:hover {
+        color: var(--primary-color);
+      }
+
+      section {
+        position: relative;
+      }
+
+      canvas {
+        opacity: 0.6;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #d4d9e0;
+        overflow: hidden;
+        z-index: 2;
+      }
+
+      .titlediv {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 3;
+      }
+
+      @media (max-width: 1010px) {
+        .section_header {
+          margin: 0;
+          font-size: 50px;
+        }
+
+        .step-scheme {
+          flex-direction: column-reverse;
+          align-items: flex-start;
+          height: auto;
+        }
+
+        .step-scheme>span {
+          flex-direction: row;
+          justify-content: flex-start;
+          min-height: auto !important;
+          min-width: 100%;
+          margin: 5px 0px;
+          padding: 20px;
+          flex: 1 1 auto;
+        }
+
+        .step-scheme>span:nth-child(1) {
+          min-width: 70%;
+        }
+
+        .step-scheme>span:nth-child(2) {
+          min-width: 80%;
+        }
+
+        .step-scheme>span:nth-child(3) {
+          min-width: 90%;
+        }
+
+        .step-scheme>span:nth-child(4) {
+          min-width: 100%;
+          min-height: 140px !important;
+        }
+
+        .scheme-icon {
+          margin: 0;
+          height: 70px;
+          width: 70px;
+        }
+
+        .scheme-title {
+          text-align: left;
+          width: 100%;
+          padding: 0 0 0 40px;
+          flex-direction: column-reverse;
+          justify-content: flex-start;
+          border: none
+        }
+
+        .title-welcome {
+          font-size: 16px;
+        }
+
+        .title-project {
+          font-size: 50px;
+          font-weight: 500;
+        }
+
+        .title-sub {
+          top: calc(50% - 10px);
+          font-size: 13px;
+        }
+      }
+
+      .section-runtime .row1 {
+        background: url("../res/slide11.png") center no-repeat;
+        background-size: 100% auto;
+        padding: 0;
+        margin: 0;
+        height: 390px;
+        width: 100%;
+        max-width: 100%;
+      }
+
+      .runtimecont {
+        width: 100%;
+        margin: 0 auto;
+        max-width: 1000px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 0 20px;
+        flex-wrap: wrap;
+      }
+
+      .rutimeblock {
+        flex: 1 1 100px;
+        height: 300px;
+        min-width: 100px;
+        border: 2px solid #2166ab;
+        padding: 20px;
+        display: flex;
+        margin: 10px 10px 10px 10px;
+        flex-direction: column;
+        transition: 0.2s all ease-in;
+      }
+
+      .rutimeblock:hover {
+        background: rgba(255, 255, 255, 0.05);
+        transform: scale(1.1);
+      }
+
+      .runtimehead {
+        font-size: 1.4em;
+        text-transform: uppercase;
+        min-height: 60px;
+        font-weight: 500;
+        padding: 20px 0 20px;
+        border-bottom: 2px solid var(--project-green);
+        margin-bottom: 30px;
+      }
+
+      .runtimeitem {
+        padding: 10px 0 10px;
+        font-size: 1.1em;
+        font-weight: 300;
+      }
+
+      .section-architecture .row1 {
+        background: url("../res/slide12-3.png") center no-repeat;
+        padding: 0;
+        margin: 0 0 50px 0;
+        height: 100%;
+        background-size: 100% auto;
+        width: 100%;
+        max-width: 1160px;
+        transform: translateX(-50%);
+        left: 50%;
+        position: absolute;
+      }
+
+      .content {
+        max-width: 100% !important;
+        width: 100% !important;
+        margin: 0 !important;
+      }
+
+      .hometoolbar paper-icon-button {
+        color: var(--primary-color);
+        --paper-icon-button-ink-color: var(--paper-indigo-500);
+      }
+
+      /* Toolbar */
+
+      .hometoolbar {
+        z-index: 2;
+      }
+
+      .hometoolbar {
+        paper-toolbar {
+          border-bottom: none;
+          /*--paper-toolbar-sm-height: 70px;*/
+          /*--paper-toolbar-height: 70px;*/
+          --paper-toolbar-background: transparent;
+
+          --paper-toolbar: {
+            color: var(--toolbar-text);
+          }
+
+          ;
+        }
+      }
+
+      .hometoolbar.new {
+        paper-toolbar {
+          --paper-toolbar: {
+            color: black !important;
+          }
+
+          ;
+        }
+      }
+
+      .hometoolbar .bottom:not([style-scope]):not(.style-scope) {
+        margin-left: 0;
+      }
+
+      paper-header-panel {
+        position: static;
+
+        --paper-header-panel-shadow: {
+          box-shadow: none;
+        }
+
+        ;
+      }
+
+      .hometabs {
+        margin-left: 50px;
+
+        --paper-tabs: {
+          background: none;
+          color: gray;
+          height: 100%;
+          font-size: 1em;
+          text-transform: uppercase;
+          font-weight: 600;
+          align-items: flex-start;
+          justify-content: flex-start;
+        }
+
+        ;
+
+        --paper-tabs-selection-bar: {
+          top: 0;
+          height: 100%;
+          border: none;
+          background: transparent;
+          box-sizing: border-box;
+          border-top: 4px solid var(--primary-color);
+        }
+
+        ;
+      }
+
+      neon-animated-pages,
+      neon-animatable {
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        overflow: hidden;
+      }
+
+      /* In LESS */
+
+      #mainContainer {
+        position: static;
+      }
+
+      #mainPanel {
+        position: static;
+      }
+
+      .vendor-home {
+        height: 100%;
+        width: 100%;
+        display: none;
+        position: absolute;
+      }
+
+      .vendor-home-logo {
+        display: none;
+      }
+
+      .vendor-home-terms-button {
+        display: none;
+      }
+    </style>
+    <div class="vendor-home">
+      <div class="vendor-home-logo"></div>
+      <a href="/admin/terms" class="vendor-home-terms-button">Read the terms</a>
+    </div>
+    <paper-header-panel class="flex" id="main_toolbar">
+      <paper-toolbar id="toolbarhome" class="hometoolbar">
+        <paper-icon-button class="middle" id="paperToggle" icon="menu" paper-drawer-toggle></paper-icon-button>
+        <paper-tabs class="middle flex hometabs" selected="{{selected}}" noink="true">
+          <paper-tab on-click="setLight">Home</paper-tab>
+          <paper-tab>Evolution</paper-tab>
+          <paper-tab click="setLight">Opportunity</paper-tab>
+          <paper-tab>Runtime</paper-tab>
+          <paper-tab>Architecture</paper-tab>
+        </paper-tabs>
+      </paper-toolbar>
+      <!--Pages-->
+      <neon-animated-pages class="flex" selected="[[selected]]" entry-animation="slide-from-bottom-animation"
+        exit-animation="fade-out-animation">
+        <neon-animatable class="section-title">
+          <div class="titlediv">
+            <div class="title-welcome">
+              <i18n-msg msgid="the new era of it">the new era of it</i18n-msg>
+            </div>
+            <div class="title-project vc">project</div>
+            <div class="title-sub">
+              <i18n-msg msgid="Blockchain Solution Platform">Blockchain Solution Platform</i18n-msg>
+            </div>
+          </div>
+          <canvas></canvas>
+        </neon-animatable>
+
+        <neon-animatable class="section-step layout vertical" entry-animation="slide-from-left-animation">
+
+          <div class="section_header">Latest step in IT evolution
+            <span class="subheader">Low IT dependence, high end-user empowerment</span>
+          </div>
+          <div class="step-scheme">
+            <span>
+              <img class="scheme-icon" src="../res/ngrt-home/server.svg" alt="">
+              <span class="scheme-title">
+                <div>
+                  <b>Mainframe</b>
+                  <div>monolith</div>
+                </div>
+              </span>
+            </span>
+
+            <span>
+              <img class="scheme-icon" src="../res/ngrt-home/flat-television.svg" alt="">
+              <span class="scheme-title">
+                <div>
+                  <b>Client-Server</b>
+                  <div>3-tier architecture</div>
+                </div>
+              </span>
+            </span>
+
+            <span>
+              <img class="scheme-icon" src="../res/ngrt-home/clouds.svg" alt="">
+              <span class="scheme-title">
+                <div>
+                  <b>Cloud/Web</b>
+                  <div>Cloud/Web</div>
+                </div>
+              </span>
+            </span>
+
+            <span>
+              <img class="scheme-icon" src="../res/ngrt-home/line-segment.svg" alt="">
+              <span class="scheme-title">
+                <div>
+                  <b>Decentralized and Distributed computing</b>
+                </div>
+              </span>
+            </span>
+
+          </div>
+        </neon-animatable>
+
+        <neon-animatable class="section-Opportunity layout vertical" entry-animation="slide-from-top-animation">
+
+          <div class="section_header">Opportunity
+            <span class="subheader">Decentralized and Distributed computing </span>
+          </div>
+
+          <div class="row1">
+            <div>
+              <img src="../res/ngrt-home/transfer.svg" alt="">
+              <b>Peer to Peer</b>
+              <span>
+                Peer-to-peer (P2P) computing or networking is a distributed application architecture that partitions
+                tasks or workloads between
+                peers. Peers are equally privileged, equipotent participants in the application. They are said to form a
+                peer-to-peer network of nodes.
+              </span>
+            </div>
+            <div>
+              <img src="../res/ngrt-home/network.svg" alt="">
+              <b>Consensus protocol</b>
+              <span>The consensus protocol enables the node(s) to communicate among themselves and agree on a common set
+                of a validated transaction to be added to the ledger. The consensus process prevents miners/nodes from
+                adding false transactions and blocks. The type of mechanism to be used depends on the type of blockchain
+                network and attack that the network operator adopts.</span>
+            </div>
+            <div>
+              <img src="../res/ngrt-home/padlock.svg" alt="">
+              <b>Token system</b>
+              <span>Tokens represent a given value of a service or an asset on a blockchain. To this end, PROJECT
+                provides the Digital Asset Management (tokenization) tools using blockchain technology to meet the
+                requirements for scalability, security, privacy, governance and interoperability.</span>
+            </div>
+          </div>
+
+
+        </neon-animatable>
+        <neon-animatable class="section-runtime layout vertical" entry-animation="slide-from-bottom-animation">
+          <div class="section_header">Runtime
+            <span class="subheader"></span>
+          </div>
+          <div class="runtimecont">
+            <div class="rutimeblock">
+              <div class="runtimehead">
+                Login Server
+              </div>
+              <div class="runtimeitem">
+                JWT based SSO
+              </div>
+            </div>
+            <div class="rutimeblock">
+              <div class="runtimehead">
+                Client
+              </div>
+              <div class="runtimeitem">
+                Mobile
+              </div>
+              <div class="runtimeitem">
+                Browser
+              </div>
+              <div class="runtimeitem">
+                Application API
+              </div>
+            </div>
+            <div class="rutimeblock">
+              <div class="runtimehead">
+                Server
+              </div>
+              <div class="runtimeitem">
+                WEB server
+              </div>
+              <div class="runtimeitem">
+                Express.js
+              </div>
+            </div>
+            <div class="rutimeblock">
+              <div class="runtimehead">
+                Business logic
+              </div>
+              <div class="runtimeitem">
+                Loopback
+              </div>
+              <div class="runtimeitem">
+                Node-RED
+              </div>
+            </div>
+            <div class="rutimeblock">
+              <div class="runtimehead">
+                Data Layer
+              </div>
+              <div class="runtimeitem">
+                NoSQL
+              </div>
+              <div class="runtimeitem">
+                PostgreSQL
+              </div>
+              <div class="runtimeitem">
+                MongoDB
+              </div>
+              <div class="runtimeitem">
+                Third Party
+              </div>
+
+            </div>
+          </div>
+
+          <!--<div class="row1"></div>-->
+        </neon-animatable>
+        <neon-animatable class="section-architecture layout vertical" entry-animation="ripple-animation">
+          <!--<div class="section_header">Architecture
+					</div>-->
+          <div class="row1"></div>
+        </neon-animatable>
+      </neon-animated-pages>
+    </paper-header-panel>
+
+
+    <script>
+      (function () {
+
+        window.smoothScroll = function (target) {
+          var scrollContainer = target;
+          do { //find scroll container
+            scrollContainer = scrollContainer.parentNode;
+            if (!scrollContainer) return;
+            scrollContainer.scrollTop += 1;
+          } while (scrollContainer.scrollTop == 0);
+
+          var targetY = 0;
+          do { //find the top of target relatively to the container
+            if (target == scrollContainer) break;
+            targetY += target.offsetTop;
+          } while (target = target.offsetParent);
+
+          scroll = function (c, a, b, i) {
+            i++;
+            if (i > 5) return;
+            c.scrollTop = a + (b - a) / 5 * i;
+            setTimeout(function () {
+              scroll(c, a, b, i);
+            }, 5);
+          }
+          // start scrolling
+          scroll(scrollContainer, scrollContainer.scrollTop, targetY, 0);
+        }
+
+        var canvas, ctx, circ, nodes, mouse, SENSITIVITY, SIBLINGS_LIMIT, DENSITY, NODES_QTY, ANCHOR_LENGTH,
+          MOUSE_RADIUS;
+
+        // how close next node must be to activate connection (in px)
+        // shorter distance == better connection (line width)
+        SENSITIVITY = 160;
+        // note that siblings limit is not 'accurate' as the node can actually have more connections than this value that's because the node accepts sibling nodes with no regard to their current connections this is acceptable because potential fix would not result in significant visual difference
+        // more siblings == bigger node
+        SIBLINGS_LIMIT = 10;
+        // default node margin
+        DENSITY = 80;
+        // total number of nodes used (incremented after creation)
+        NODES_QTY = 0;
+        // avoid nodes spreading
+        ANCHOR_LENGTH = 70;
+        // highlight radius
+        MOUSE_RADIUS = 600;
+
+        circ = 2 * Math.PI;
+        nodes = [];
+
+        canvas = document.querySelector('canvas');
+        resizeWindow();
+        mouse = {
+          x: canvas.width / 2,
+          y: canvas.height / 2
+        };
+        ctx = canvas.getContext('2d');
+        if (!ctx) {
+          alert("Ooops! Your browser does not support canvas :'(");
+        }
+
+        function Node(x, y) {
+          this.anchorX = x;
+          this.anchorY = y;
+          this.x = Math.random() * (x - (x - ANCHOR_LENGTH)) + (x - ANCHOR_LENGTH);
+          this.y = Math.random() * (y - (y - ANCHOR_LENGTH)) + (y - ANCHOR_LENGTH);
+          this.vx = Math.random() * 2 - 1;
+          this.vy = Math.random() * 2 - 1;
+          this.energy = Math.random() * 100;
+          this.radius = Math.random();
+          this.siblings = [];
+          this.brightness = 0;
+        }
+
+        Node.prototype.drawNode = function () {
+          var color = "rgba(70, 120, 170, " + this.brightness + ")";
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, 2 * this.radius + 2 * this.siblings.length / SIBLINGS_LIMIT, 0, circ);
+          ctx.fillStyle = color;
+          ctx.fill();
+        };
+
+        Node.prototype.drawConnections = function () {
+          for (var i = 0; i < this.siblings.length; i++) {
+            var color = "rgba(170, 170,170, " + this.brightness + ")";
+            ctx.beginPath();
+            ctx.moveTo(this.x, this.y);
+            ctx.lineTo(this.siblings[i].x, this.siblings[i].y);
+            ctx.lineWidth = 1 - calcDistance(this, this.siblings[i]) / SENSITIVITY;
+            ctx.strokeStyle = color;
+            ctx.stroke();
+          }
+        };
+
+        Node.prototype.moveNode = function () {
+          this.energy -= 2;
+          if (this.energy < 1) {
+            this.energy = Math.random() * 100;
+            if (this.x - this.anchorX < -ANCHOR_LENGTH) {
+              this.vx = Math.random() * 2;
+            } else if (this.x - this.anchorX > ANCHOR_LENGTH) {
+              this.vx = Math.random() * -2;
+            } else {
+              this.vx = Math.random() * 4 - 2;
+            }
+            if (this.y - this.anchorY < -ANCHOR_LENGTH) {
+              this.vy = Math.random() * 2;
+            } else if (this.y - this.anchorY > ANCHOR_LENGTH) {
+              this.vy = Math.random() * -2;
+            } else {
+              this.vy = Math.random() * 4 - 2;
+            }
+          }
+          this.x += this.vx * this.energy / 100;
+          this.y += this.vy * this.energy / 100;
+        };
+
+        function initNodes() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          nodes = [];
+          for (var i = DENSITY; i < canvas.width; i += DENSITY) {
+            for (var j = DENSITY; j < canvas.height; j += DENSITY) {
+              nodes.push(new Node(i, j));
+              NODES_QTY++;
+            }
+          }
+        }
+
+        function calcDistance(node1, node2) {
+          return Math.sqrt(Math.pow(node1.x - node2.x, 2) + (Math.pow(node1.y - node2.y, 2)));
+        }
+
+        function findSiblings() {
+          var node1, node2, distance;
+          for (var i = 0; i < NODES_QTY; i++) {
+            node1 = nodes[i];
+            node1.siblings = [];
+            for (var j = 0; j < NODES_QTY; j++) {
+              node2 = nodes[j];
+              if (node1 !== node2) {
+                distance = calcDistance(node1, node2);
+                if (distance < SENSITIVITY) {
+                  if (node1.siblings.length < SIBLINGS_LIMIT) {
+                    node1.siblings.push(node2);
+                  } else {
+                    var node_sibling_distance = 0;
+                    var max_distance = 0;
+                    var s;
+                    for (var k = 0; k < SIBLINGS_LIMIT; k++) {
+                      node_sibling_distance = calcDistance(node1, node1.siblings[k]);
+                      if (node_sibling_distance > max_distance) {
+                        max_distance = node_sibling_distance;
+                        s = k;
+                      }
+                    }
+                    if (distance < max_distance) {
+                      node1.siblings.splice(s, 1);
+                      node1.siblings.push(node2);
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        function redrawScene() {
+          resizeWindow();
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          findSiblings();
+          var i, node, distance;
+          for (i = 0; i < NODES_QTY; i++) {
+            node = nodes[i];
+            distance = calcDistance({
+              x: mouse.x,
+              y: mouse.y
+            }, node);
+            if (distance < MOUSE_RADIUS) {
+              node.brightness = 1 - distance / MOUSE_RADIUS;
+            } else {
+              node.brightness = 0;
+            }
+          }
+          for (i = 0; i < NODES_QTY; i++) {
+            node = nodes[i];
+            if (node.brightness) {
+              node.drawNode();
+              node.drawConnections();
+            }
+            node.moveNode();
+          }
+          requestAnimationFrame(redrawScene);
+        }
+
+        function initHandlers() {
+          document.addEventListener('resize', resizeWindow, false);
+          canvas.addEventListener('mousemove', mousemoveHandler, false);
+        }
+
+        function resizeWindow() {
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
+        }
+
+        function mousemoveHandler(e) {
+          mouse.x = e.clientX;
+          mouse.y = e.clientY;
+        }
+
+        initHandlers();
+        initNodes();
+        redrawScene();
+
+      })();
+    </script>
+  </template>
+  <script>
+    Polymer({
+      is: 'ngrt-home',
+      properties: {
+        selected: {
+          type: String,
+          value: '0'
+        },
+      },
+      ready: function () {
+        project.toast.hide();
+        selected = 0;
+        
+        Promise.all([
+          pajax.get('/ng-rt-admin/user'),
+          pajax.get('/ng-rt-admin/roles'),
+          pajax.get('/ng-rt-admin/settings'),
+        ])
+          .then(res => {
+            var user = (res[0] || {}).user || {};
+            var roles = (res[1] || {}).roles || [];
+            var settings = (res[2] || {}).settings || {};
+            var redirectFromHomeRules = settings.redirectFromHomeRules;
+
+            if (!redirectFromHomeRules) return;
+            if (!Array.isArray(redirectFromHomeRules)) {
+              redirectFromHomeRules = [redirectFromHomeRules]
+            }
+            let ruleApplied = false;
+            redirectFromHomeRules.forEach(rule => {
+              if (ruleApplied) return;
+              let oneTimeRedirect = null;
+              let roleRedirect = null;
+              let redirectDataRoute = null;
+              if (typeof rule == 'object' && !Array.isArray(rule)) {
+                oneTimeRedirect = rule.oneTimeRedirect;
+                roleRedirect = rule.roleRedirect;
+                redirectDataRoute = rule.redirectDataRoute;
+              } else if (typeof rule == 'string') {
+                redirectDataRoute = rule;
+              } else {
+                return;
+              }
+              if (typeof redirectDataRoute !== 'string') return;
+              if (roleRedirect && roles.indexOf(roleRedirect) == -1) return;
+              if (oneTimeRedirect && !user.username) return;
+              let storagePath = 'oneTimeRedirect.' + redirectDataRoute + '.' + roleRedirect + '.' + user.username;
+              if (oneTimeRedirect && localStorage.getItem(storagePath) == 'yes') return;
+              var getButton = function () {
+                var btn = document.querySelector('a[data-route="' + redirectDataRoute + '"]');
+                if (!btn) return setTimeout(getButton, 300);
+                btn.click();
+                if (oneTimeRedirect) localStorage.setItem(storagePath, 'yes');
+              }
+              getButton();
+              ruleApplied = true;
+            })
+          })
+      },
+      handleError: function (e) {
+        const toaster = document.getElementById('toaster');
+        toaster.show(e, 'alert');
+      },
+      setDark: function () {
+        document.getElementById("toolbarhome").classList.add("darkbg");
+      },
+      setLight: function () {
+        document.getElementById("toolbarhome").classList.remove("darkbg");
+      },
+    });
+  </script>
+</dom-module>

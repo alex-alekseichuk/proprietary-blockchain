@@ -1,0 +1,18 @@
+{
+	"Gulp task 'lint' finished successfully!": "Gulp task 'lint' finished successfully!",
+	"Gulp task 'test.server' finished successfully!": "Gulp task 'test.server' finished successfully!",
+	"Gulp task 'test' finished successfully!": "Gulp task 'test' finished successfully!",
+	"Gulp task 'build' finished successfully!": "Gulp task 'build' finished successfully!",
+	"Gulp task 'test.unit' finished successfully!": "Gulp task 'test.unit' finished successfully!",
+	"Gulp task 'lint' has finished with error!": "Gulp task 'lint' has finished with error!",
+	"Running gulp task %s": "Running gulp task %s",
+	"Gulp task %s finished successfully!": "Gulp task %s finished successfully!",
+	"Gulp task lint finished successfully!": "Gulp task lint finished successfully!",
+	"Gulp task dist finished successfully!": "Gulp task dist finished successfully!",
+	"Using baseDir: %s": "Using baseDir: %s",
+	"pluginName: %s": "pluginName: %s",
+	"Protocol: %s": "Protocol: %s",
+	"Uploading error: %s": "Uploading error: %s",
+	"Command failed! %s": "Command failed! %s",
+	"Uploading done": "Uploading done"
+}

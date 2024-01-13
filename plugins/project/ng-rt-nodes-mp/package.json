@@ -1,0 +1,34 @@
+{
+  "author": "PROJECT PROPERTIES B.V.",
+  "description": "### Install this node module ``` npm install git+ssh://git@gitlab.project.com:plugins/ng-rt-nodes-mp.git",
+  "name": "ng-rt-nodes-mp",
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.project.com:plugins/ng-rt-nodes-mp.git"
+  },
+  "node-red": {
+    "nodes": {
+      "ui-listener": "server/node-red/nodes/ng-rt-uiListener/ui-listener.js",
+      "tendermint-response": "server/node-red/nodes/ng-rt-tendermint-response/tendermint-response.js",
+      "email-sender": "server/node-red/nodes/ng-rt-email-sender/email-sender.js",
+      "email-template-sender": "server/node-red/nodes/ng-rt-email-template-sender/email-template-sender.js",
+      "appLogin": "server/node-red/nodes/ng-rt-appLogin/appLogin.js"
+    }
+  },
+  "devDependencies": {
+    "node-red": "^0.19.2",
+    "node-red-node-test-helper": "^0.1.8",
+    "should": "^13.2.3"
+  },
+  "scripts": {
+    "license": "npx git+ssh://git@gitlab.project.com:os/legally.git  > license.txt"
+  },
+  "readme": "## Installation\n\n### Install this node module\n```\nnpm install git+ssh://git@gitlab.project.com:plugins/ng-rt-nodes-ux.git\n\nor install it in node-red module directly under nodes\n\nnpm install --prefix ./node_modules/node-red git+ssh://git@gitlab.project.com:plugins/ng-rt-nodes-ux.git\n",
+  "readmeFilename": "README.md",
+  "version": "3.2.73770",
+  "dependencies": {
+    "loopback": "^3.19.0",
+    "ng-rt-digitalAsset-sdk": "git+https://gitlab.project.com/sdk/ng-rt-digitalAsset-sdk.git#dev/3.0"
+  },
+  "license": "SEE LICENSE IN LICENSE.md"
+}

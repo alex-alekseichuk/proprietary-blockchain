@@ -1,0 +1,21 @@
+{
+	"Running gulp task": "Running gulp task",
+	"err.message:": "err.message:",
+	"err.stack:": "err.stack:",
+	"Gulp task 'test.unit' finished successfully!": "Gulp task 'test.unit' finished successfully!",
+	"Gulp task %s has finished with error!": "Gulp task %s has finished with error!",
+	"Command failed!": "Command failed!",
+	"Gulp task 'lint' finished successfully!": "Gulp task 'lint' finished successfully!",
+	"Running gulp task %s": "Running gulp task %s",
+	"Gulp task %s has finished with error! %s": "Gulp task %s has finished with error! %s",
+	"Command failed! %s": "Command failed! %s",
+	"Gulp task %s finished successfully!": "Gulp task %s finished successfully!",
+	"Gulp task lint finished successfully!": "Gulp task lint finished successfully!",
+	"Gulp task dist finished successfully!": "Gulp task dist finished successfully!",
+	"Using baseDir: %s": "Using baseDir: %s",
+	"pluginName: %s": "pluginName: %s",
+	"Protocol: %s": "Protocol: %s",
+	"filePath": "filePath",
+	"Uploading done": "Uploading done",
+	"Uploading error: %s": "Uploading error: %s"
+}

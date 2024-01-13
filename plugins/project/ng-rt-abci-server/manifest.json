@@ -1,0 +1,669 @@
+{
+  "actions": {
+    "after_install": [
+      {
+        "name": "create ng-rt-bc-public datasource",
+        "type": "CREATE_DATASOURCE",
+        "parameters": {
+          "file": "./config/datasources/ng-rt-bc-public.json"
+        }
+      },
+      {
+        "name": "create ng-rt-bc-private datasource",
+        "type": "CREATE_DATASOURCE",
+        "parameters": {
+          "file": "./config/datasources/ng-rt-bc-private.json"
+        }
+      },
+      {
+        "name": "create ng-rt-bc-private datasource",
+        "type": "CREATE_DATASOURCE",
+        "parameters": {
+          "file": "./config/datasources/ng-rt-bc-offchain.json"
+        }
+      },
+      {
+        "name": "add tmTx model to dataDictionary",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "config/models/tmTx.json"
+        }
+      },
+      {
+        "name": "add tmTxGdpr model to dataDictionary",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "config/models/tmTxGdpr.json"
+        }
+      },
+      {
+        "name": "add tmAsset model to dataDictionary",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "config/models/tmAsset.json"
+        }
+      },
+      {
+        "name": "add tmMetadata model to dataDictionary",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "config/models/tmMetadata.json"
+        }
+      },
+      {
+        "name": "add txInput model to dataDictionary",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "config/models/txInput.json"
+        }
+      },
+      {
+        "name": "add txOutput model to dataDictionary",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "config/models/txOutput.json"
+        }
+      },
+      {
+        "name": "add tmUtxo model to dataDictionary",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "config/models/tmUtxo.json"
+        }
+      },
+      {
+        "name": "add tmBlock model to dataDictionary",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "config/models/tmBlock.json"
+        }
+      },
+      {
+        "name": "add tmBlock model to dataDictionary",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "config/models/tmLatestBlockInformation.json"
+        }
+      },
+      {
+        "name": "add tmChainInfo model to dataDictionary",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "config/models/tmChainInfo.json"
+        }
+      },
+      {
+        "name": "add validatorSet model to dataDictionary",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "config/models/validatorSet.json"
+        }
+      },
+      {
+        "name": "add tmTx to dataSourceRouting",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [
+            {
+              "datadictname": "tmTx",
+              "datasourcename": "ng-rt-bc-private"
+            }
+          ]
+        }
+      },
+      {
+        "name": "add tmAsset to dataSourceRouting",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [
+            {
+              "datadictname": "tmAsset",
+              "datasourcename": "ng-rt-bc-private"
+            }
+          ]
+        }
+      },
+      {
+        "name": "add txInput to dataSourceRouting",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [
+            {
+              "datadictname": "txInput",
+              "datasourcename": "ng-rt-bc-private"
+            }
+          ]
+        }
+      },
+      {
+        "name": "add txOutput to dataSourceRouting",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [
+            {
+              "datadictname": "txOutput",
+              "datasourcename": "ng-rt-bc-private"
+            }
+          ]
+        }
+      },
+      {
+        "name": "add tmMetadata to dataSourceRouting",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [
+            {
+              "datadictname": "tmMetadata",
+              "datasourcename": "ng-rt-bc-private"
+            }
+          ]
+        }
+      },
+      {
+        "name": "add tmUtxo to dataSourceRouting",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [
+            {
+              "datadictname": "tmUtxo",
+              "datasourcename": "ng-rt-bc-private"
+            }
+          ]
+        }
+      },
+      {
+        "name": "add tmTxGdpr to dataSourceRouting",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [{
+            "datadictname": "tmTxGdpr",
+            "datasourcename": "ng-rt-bc-offchain"
+          }]
+        }
+      },
+      {
+        "name": "add tmBlock to dataSourceRouting",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [
+            {
+              "datadictname": "tmBlock",
+              "datasourcename": "ng-rt-bc-public"
+            }
+          ]
+        }
+      },
+      {
+        "name": "add tmLatestBlockInformation to dataSourceRouting",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [
+            {
+              "datadictname": "tmLatestBlockInformation",
+              "datasourcename": "ng-rt-bc-public"
+            }
+          ]
+        }
+      },
+      {
+        "name": "add tmChainInfo to dataSourceRouting",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [
+            {
+              "datadictname": "tmChainInfo",
+              "datasourcename": "ng-rt-bc-public"
+            }
+          ]
+        }
+      },
+      {
+        "name": "add validatorSet to dataDictionary",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [
+            {
+              "datadictname": "validatorSet",
+              "datasourcename": "ng-rt-bc-public"
+            }
+          ]
+        }
+      },
+      {
+        "name": "add flow",
+        "type": "NODE_RED_ADD_FLOW",
+        "parameters": {
+          "replace": true,
+          "file": "./api/nodeRed/checkTxHook.json"
+        }
+      }
+    ],
+    "after_activate": [],
+    "after_deactivate": [],
+    "after_uninstall": [
+      {
+        "name": "remove flow",
+        "type": "NODE_RED_REMOVE_FLOW",
+        "parameters": {
+          "flows": ["ef62b7c.4493d48"]
+        }
+      }
+    ],
+    "before_install": [
+      {
+        "type": "NPM_INSTALL",
+        "parameters": {
+          "package": true,
+          "checkDependencies": "false"
+        }
+      },
+      {
+        "name": "remove dataDictionary record",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "criteries": [
+            {
+              "name": "tmTx"
+            }
+          ]
+        }
+      },
+      {
+        "name": "remove dataSourceRouting record",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "criteries": [
+            {
+              "datadictname": "tmTx",
+              "datasourcename": "ng-rt-bc-public"
+            }
+          ]
+        }
+      },
+      {
+        "name": "remove dataDictionary record",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "criteries": [
+            {
+              "name": "tmTxGdpr"
+            }
+          ]
+        }
+      },
+      {
+        "name": "remove dataSourceRouting record",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "criteries": [{
+            "datadictname": "tmTxGdpr",
+            "datasourcename": "ng-rt-bc-offchain"
+          }]
+        }
+      },
+      {
+        "name": "remove dataDictionary record",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "criteries": [
+            {
+              "name": "tmChainInfo"
+            }
+          ]
+        }
+      },
+      {
+        "name": "remove dataSourceRouting record",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "criteries": [
+            {
+              "datadictname": "tmChainInfo",
+              "datasourcename": "ng-rt-bc-public"
+            }
+          ]
+        }
+      },
+      {
+        "name": "remove dataDictionary record",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "criteries": [
+            {
+              "name": "tmBlock"
+            }
+          ]
+        }
+      },
+      {
+        "name": "remove dataSourceRouting record",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "criteries": [
+            {
+              "datadictname": "tmBlock",
+              "datasourcename": "ng-rt-bc-public"
+            }
+          ]
+        }
+      },
+      {
+        "name": "remove dataDictionary record",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "criteries": [
+            {
+              "name": "tmLatestBlockInformation"
+            }
+          ]
+        }
+      },
+      {
+        "name": "remove dataSourceRouting record",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "criteries": [
+            {
+              "datadictname": "tmLatestBlockInformation",
+              "datasourcename": "ng-rt-bc-public"
+            }
+          ]
+        }
+      },
+      {
+        "name": "remove validatorSet dataDictionary record",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "criteries": [
+            {
+              "name": "validatorSet"
+            }
+          ]
+        }
+      },
+      {
+        "name": "remove validatorSet dataSourceRouting record",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "criteries": [
+            {
+              "datadictname": "validatorSet",
+              "datasourcename": "ng-rt-bc-public"
+            }
+          ]
+        }
+        
+      },
+      {
+        "name": "remove tmAsset dataDictionary record",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "criteries": [
+            {
+              "name": "tmAsset"
+            }
+          ]
+        }
+      },
+      {
+        "name": "remove tmAsset dataSourceRouting record",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "criteries": [
+            {
+              "datadictname": "tmAsset",
+              "datasourcename": "ng-rt-bc-private"
+            }
+          ]
+        }
+      },
+      {
+        "name": "remove txInput dataDictionary record",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "criteries": [
+            {
+              "name": "txInput"
+            }
+          ]
+        }
+      },
+      {
+        "name": "remove txInput dataSourceRouting record",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "criteries": [
+            {
+              "datadictname": "txInput",
+              "datasourcename": "ng-rt-bc-private"
+            }
+          ]
+        }
+      },
+      {
+        "name": "remove txOutput dataDictionary record",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "criteries": [
+            {
+              "name": "txOutput"
+            }
+          ]
+        }
+      },
+      {
+        "name": "remove txOutput dataSourceRouting record",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "criteries": [
+            {
+              "datadictname": "txOutput",
+              "datasourcename": "ng-rt-bc-private"
+            }
+          ]
+        }
+      },
+      {
+        "name": "remove tmMetadata dataDictionary record",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "criteries": [
+            {
+              "name": "tmMetadata"
+            }
+          ]
+        }
+      },
+      {
+        "name": "remove tmMetadata dataSourceRouting record",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "criteries": [
+            {
+              "datadictname": "tmMetadata",
+              "datasourcename": "ng-rt-bc-private"
+            }
+          ]
+        }
+      },
+      {
+        "name": "remove tmUtxo dataDictionary record",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "criteries": [
+            {
+              "name": "tmUtxo"
+            }
+          ]
+        }
+      },
+      {
+        "name": "remove tmUtxo dataSourceRouting record",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "criteries": [
+            {
+              "datadictname": "tmUtxo",
+              "datasourcename": "ng-rt-bc-private"
+            }
+          ]
+        }
+      }
+    ],
+    "before_activate": [],
+    "before_deactivate": []
+  },
+  "entryPoints": [
+    {
+      "type": "service",
+      "parameters": {
+        "file": "./api/services/service.js"
+      }
+    },
+    {
+      "type": "route",
+      "parameters": {
+        "file": "./config/datasources/datasources.js"
+      }
+    },
+    {
+      "type": "route",
+      "parameters": {
+        "file": "./api/routes/routes.js"
+      }
+    },
+    {
+      "type": "route",
+      "parameters": {
+        "file": "./api/routes/tmroutes.js"
+      }
+    }
+  ],
+  "apiServices": [],
+  "name": "ng-rt-abci-server",
+  "type": "optional",
+  "author": "PROJECT",
+  "description": "PROJECT Blockchain Solution Platform",
+  "pluginDescription": "application ng-rt-abci-server",
+  "copyright": "PROJECT BV 2016 - 2019",
+  "version": "3.2.",
+  "sharedServices": [],
+  "settings": [
+    {
+      "name": "namespace",
+      "caption": "Root name of the URL for the route",
+      "value": "ng-rt-abci-server"
+    },
+    {
+      "name": "tendermintPort",
+      "caption": "Port of the Tendermint Server to accept transactions",
+      "value": "26657"
+    },
+    {
+      "name": "tendermintUrl",
+      "caption": "URL of the Tendermint Server to accept transactions",
+      "value": "localhost"
+    },
+    {
+      "name": "tendermintCommunicationType",
+      "caption": "Communication protocol of the Tendermint Server",
+      "value": "http"
+    },
+    {
+      "name": "abciServerPort",
+      "caption": "Port of the Tendermint Consensus Server",
+      "value": "26658"
+    },
+    {
+      "name": "verifySignature",
+      "caption": "Verify all signatures",
+      "value": true
+    },
+    {
+      "name": "nodeRedHook",
+      "caption": "check transactions in Node-RED hook",
+      "value": false
+    },
+    {
+      "name": "checkTx",
+      "caption": "check all transactions",
+      "value": true
+    },
+    {
+      "name": "deliverTx",
+      "caption": "check all transactions",
+      "value": true
+    },
+    {
+      "name": "rabbitMQ",
+      "caption": "Rabbit MQ messaging enabled",
+      "value": true
+    },
+    {
+      "name": "eventEmitter",
+      "caption": "Event emitter enabled",
+      "value": true
+    },
+    {
+      "name": "showRoutes",
+      "caption": "Show Tendermint routes",
+      "value": "true"
+    },
+    {
+      "name": "client",
+      "caption": "Client configuration",
+      "value": {
+        "tendermintVersions": [
+          {
+            "name": "major",
+            "version": "0.31.0"
+          }
+        ]
+      }
+    }
+  ]
+}

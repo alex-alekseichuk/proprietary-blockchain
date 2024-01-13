@@ -1,0 +1,21 @@
+[
+    {
+        "name": "contactGroup",
+        "base": "commonDataModel",
+        "idInjection": true,
+        "properties": {
+         "name": {
+          "type": "string"
+         },
+         "contacts": {
+          "type": [
+           "string"
+          ]
+         }
+        },
+        "validations": [],
+        "relations": {},
+        "acls": [],
+        "methods": []
+       }
+]

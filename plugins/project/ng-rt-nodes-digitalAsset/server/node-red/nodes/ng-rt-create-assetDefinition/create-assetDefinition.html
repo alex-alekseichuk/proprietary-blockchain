@@ -1,0 +1,176 @@
+
+<script type="text/javascript">
+    RED.nodes.registerType('create-assetDefinition', {
+      category: 'Project_DigitalAsset',
+        color: '#b9b1eb',
+        defaults: {
+            digitalAsset : {
+                value : ""
+            },
+            digitalAssetDescription : {
+                value : ""
+            },
+            createTransactionAllowedBySystem : {
+                value : ""
+            },
+            transferOwnershipAllowedBySystem: {
+                value: ""
+            },
+            createTransactionAllowedByUser : {
+                value : ""
+            },
+            transferOwnershipAllowedByUser : {
+                value : ""
+            },
+            verifySignature : {
+                value : ""
+            },
+            validateSchema : {
+                value : ""
+            },
+            divisibleAsset : {
+                value : ""
+            },
+            fungibleAsset: {
+                value: ""
+            },
+            blockchainProvider : {
+                value : "T"
+            },
+            blockchainProviderVersion : {
+                value : "0.30.0"
+            },
+            blockchainDriver : {
+                value : "bdbDriver"
+            },
+            blockchainDriverVersion : {
+                value : "3.0.0"
+            },
+            HTTPBlockchainIPAddress : {
+                value : "*default"
+            },
+            HTTPBlockchainPort : {
+                value : 26657
+            }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "Project.png",
+        label: function() {
+            return this.name || "create-assetDefinition";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="create-assetDefinition">
+    <div class="form-row">
+        <label for="node-input-digitalAsset"></i> Digital Asset Name</label>
+        <input type="text" id="node-input-digitalAsset" placeholder="">
+    </div>
+    <div class="form-row">
+        <label for="node-input-digitalAssetDescription"></i> Description </label>
+        <input type="text" id="node-input-digitalAssetDescription" placeholder="">
+    </div>
+    <div class="form-row">
+        <label for="node-input-createTransactionAllowedBySystem"></i> Create Transaction Allowed By System </label>
+        <select id="node-input-createTransactionAllowedBySystem">
+                <option value="true">true</option>
+                <option value="false">false</option>
+            </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-transferOwnershipAllowedBySystem"></i> Transfer Ownership Allowed By System </label>
+            <select id="node-input-transferOwnershipAllowedBySystem">
+                <option value="true">true</option>
+                <option value="false">false</option>
+            </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-createTransactionAllowedByUser"></i> Create Transaction Allowed By User </label>
+            <select id="node-input-createTransactionAllowedByUser">
+                <option value="true">true</option>
+                <option value="false">false</option>
+            </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-transferOwnershipAllowedByUser"></i> Transfer Ownership Allowed By User </label>
+            <select id="node-input-transferOwnershipAllowedByUser">
+                <option value="true">true</option>
+                <option value="false">false</option>
+            </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-verifySignature"></i> Verify Signature </label>
+            <select id="node-input-verifySignature">
+                <option value="true">true</option>
+                <option value="false">false</option>
+            </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-validateSchema"></i> Validate Schema </label>
+            <select id="node-input-validateSchema">
+                <option value="true">true</option>
+                <option value="false">false</option>
+            </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-divisibleAsset"></i> Divisible Asset </label>
+            <select id="node-input-divisibleAsset">
+                <option value="true">true</option>
+                <option value="false">false</option>
+            </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-fungibleAsset"></i> Fungible Asset </label>
+            <select id="node-input-fungibleAsset">
+                <option value="true">true</option>
+                <option value="false">false</option>
+            </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-blockchainProvider"></i> Blockchain Provider </label>
+        <input type="text" id="node-input-blockchainProvider" placeholder="blockchainProvider">
+    </div>
+    <div class="form-row">
+        <label for="node-input-blockchainProviderVersion"></i> Version </label>
+        <input type="text" id="node-input-blockchainProviderVersion" placeholder="blockchainProviderVersion">
+    </div>
+    <div class="form-row">
+        <label for="node-input-blockchainDriver"></i> Blockchain Driver </label>
+        <input type="text" id="node-input-blockchainDriver" placeholder="blockchainDriver">
+    </div>
+    <div class="form-row">
+        <label for="node-input-blockchainDriverVersion"></i> Version </label>
+        <input type="text" id="node-input-blockchainDriverVersion" placeholder="blockchainDriverVersion">
+    </div>
+    <div class="form-row">
+        <label for="node-input-HTTPBlockchainIPAddress"></i> HTTP Blockchain IPAddress </label>
+        <input type="text" id="node-input-HTTPBlockchainIPAddress" placeholder="HTTPBlockchainIPAddress">
+    </div>
+    <div class="form-row">
+        <label for="node-input-HTTPBlockchainPort"></i> HTTP Blockchain Port </label>
+        <input type="text" id="node-input-HTTPBlockchainPort" placeholder="HTTPBlockchainPort">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="create-assetDefinition">
+    <p>Create digital asset definition</p>
+
+    <h3>Inputs</h3>
+        <dl class="message-properties">
+            <dt>msg.payload.txContext <span class="property-type">object</span></dt>
+                <dd>Created client transaction context</dd>
+            <dt>assetDefinition <span class="property-type">object</span></dt>
+                <dd>Asset definition parameters like type of asset name, description etc.</dd>
+        </dl>
+
+     <h3>Outputs</h3>
+         <ol class="node-ports">
+             <li>Standard output
+                 <dl class="message-properties">
+                     <dt>msg.payload <span class="property-type">object</span></dt>
+                     <dd>Created digital asset definition with given properties.</dd>
+                 </dl>
+             </li>
+         </ol>
+</script>

@@ -1,0 +1,53 @@
+{
+  "days": {
+    "description": "...",
+    "message": "дней"
+  },
+  "hours": {
+    "description": "...",
+    "message": "часов"
+  },
+  "minutes": {
+    "description": "...",
+    "message": "минут"
+  },
+  "Plugins": {
+    "message": "Плагины"
+  },
+  "Status": {
+    "message": "Статус"
+  },
+  "Name": {
+    "message": "Имя"
+  },
+  "Version": {
+    "message": "Версия"
+  },
+  "Added": {
+    "message": "Добавлен"
+  },
+  "Skill": {
+    "message": "Навык"
+  },
+  "Skill Level": {
+    "message": "Уровень владения"
+  },
+  "Action": {
+    "message": "Действие"
+  },
+  "OK": {
+    "message": "ОК"
+  },
+  "Cancel": {
+    "message": "Отмена"
+  },
+  "Add Skill": {
+    "message": "Добавить Навык"
+  },
+  "This user have all skills!": {
+    "message": "Этот пользователь имеет все навыки!"
+  },
+  "Select skill and level!": {
+    "message": "Выберите навык и уровень!"
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "entryPoints": [
+    {
+      "type": "route",
+      "parameters": {
+        "file": "./api/routes/routes.js"
+      }
+    }
+  ],
+  "actions": {
+    "after_install": [],
+    "after_activate": [
+      {
+        "name": "remove menu item",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "route",
+          "criteries": [
+            {
+              "type": "href",
+              "route": "ng-admin-plugins-frontend",
+              "module": "admin"
+            }
+          ]
+        }
+      },
+      {
+        "name": "add menu item",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "route",
+          "data": [
+            {
+              "type": "href",
+              "route": "ng-admin-plugins-frontend",
+              "href": "pluginsdisplay/!ng-admin-plugins!plugins.html/ngrt-plugins/{}/Plugins",
+              "icon": "icons:shop",
+              "caption": "Plugins",
+              "trustLevel": 1,
+              "roles": [
+                "admin"
+              ],
+              "module": "admin",
+              "order": 6000
+            }
+          ]
+        }
+      }
+    ],
+    "after_deactivate": [
+      {
+        "name": "remove menu item",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "route",
+          "criteries": [
+            {
+              "type": "href",
+              "route": "ng-admin-plugins-frontend",
+              "module": "admin"
+            }
+          ]
+        }
+      }
+    ],
+    "before_install": [],
+    "after_uninstall": [],
+    "before_activate": [],
+    "before_deactivate": []
+  },
+  "name": "ng-admin-plugins-frontend",
+  "type": "optional",
+  "author": "PROJECT",
+  "description": "The Blockchain Enterprise Architecture",
+  "pluginDescription": "application ng-admin-plugins-frontend",
+  "copyright": "PROJECT BV 2016 - 2019",
+  "version": "3.2.",
+  "sharedServices": [],
+  "apiServices": [],
+  "settings": [
+    {
+      "name": "namespace",
+      "caption": "Root name of the URL for the route",
+      "value": "ng-admin-plugins"
+    }
+  ]
+}

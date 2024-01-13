@@ -1,0 +1,47 @@
+
+
+<script type="text/javascript">
+    RED.nodes.registerType('aes-decrypt', {
+        category: 'Project_Core',
+        color: '#81F7F3',
+        defaults: {
+            message: {
+                value: ""
+            }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "Project.png",
+        label: function() {
+            return this.name || "aes-decrypt";
+        }
+    });
+</script>
+<script type="text/x-red" data-template-name="aes-decrypt">
+    <div class="form-row">
+        <label for="node-input-message"><i class="icon-tag"></i> Message</label>
+        <input type="text" id="node-input-message" placeholder="Message">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="aes-decrypt">
+    <p>
+      Decrypt input data by a secret key.
+      It uses <strong>AES256</strong> implementation of standard nodejs <strong>crypto</strong> library.
+      The secret key is saved on the server.
+    </p>
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>msg.ctx.payload.data
+            <span class="property-type">array of bytes</span>
+        </dt>
+        <dd> encrypted data.</dd>
+    </dl>
+    <h3>Outputs</h3>
+    <dl class="message-properties">
+        <dt>msg.ctx.payload
+            <span class="property-type">utf8 string</span>
+        </dt>
+        <dd> plain decrypted data.</dd>
+    </dl>
+</script>

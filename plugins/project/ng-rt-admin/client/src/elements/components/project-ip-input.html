@@ -1,0 +1,122 @@
+<link rel="import" href="../../../bower_components/paper-input/paper-input-behavior.html">
+<link rel="import" href="../../../bower_components/paper-input/paper-input-container.html">
+<link rel="import" href="../../../bower_components/paper-input/paper-input-error.html">
+<link rel="import" href="../../../bower_components/iron-input/iron-input.html">
+<link rel="import" href="../../../bower_components/iron-form-element-behavior/iron-form-element-behavior.html">
+
+<!--
+<project-ip-input  auto-validate=true
+              error-message='error'>
+</project-ip-input>
+-->
+
+<dom-module id="project-ip-input">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <paper-input-container id="container"
+        disabled$="[[disabled]]"
+        no-label-float="[[noLabelFloat]]"
+        always-float-label="[[_computeAlwaysFloatLabel(alwaysFloatLabel,placeholder)]]"
+        invalid="[[invalid]]">
+
+      <label hidden$="[[!label]]">[[label]]</label>
+
+      <input is="iron-input" id="input"
+          type="ip"
+          required$="[[required]]"
+          disabled$="[[disabled]]"
+          aria-labelledby$="[[_ariaLabelledBy]]"
+          aria-describedby$="[[_ariaDescribedBy]]"
+          bind-value="{{value}}"
+          autocapitalize="none"
+          name$="[[name]]"
+          invalid="{{invalid}}"
+          autofocus$="[[autofocus]]"
+          inputmode$="[[inputmode]]"
+          placeholder$="[[placeholder]]"
+          readonly$="[[readonly]]"
+          size$="[[size]]">
+
+      <template is="dom-if" if="[[errorMessage]]">
+        <paper-input-error id="error">[[errorMessage]]</paper-input-error>
+      </template>
+
+    </paper-input-container>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'project-ip-input',
+      behaviors: [
+        Polymer.PaperInputBehavior,
+        Polymer.IronFormElementBehaviorxian
+      ],
+      properties: {
+        label: {
+          type: String,
+          value: 'Ip Label'
+        },
+        errorMessage: {
+          type: String,
+          value: 'errorMessage'
+        },
+        regex: {
+          type: String,
+          value: '^(([0-9]{1,2}|[0-1]+[0-9]{2}|[2][0-4][0-9]|[2][5][0-5])[.]){3}([0-9]{1,2}|[0-1][0-9]{2}|[2][0-4][0-9]|[2][5][0-5])$'
+        },
+        value: {
+          type: String,
+          observer: '_onValueChanged'
+        }
+      },
+      observers: [
+        '_onFocusedChanged(focused)'
+      ],
+      ready: function() {
+        if (this.value)
+          this._handleAutoValidate();
+      },
+      _onValueChanged: function(value, oldValue) {
+        // The initial property assignment is handled by `ready`.
+        if (oldValue === undefined)
+          return;
+        this._handleAutoValidate();
+      },
+      validate: function() {
+        let valid;
+        // Empty, non-required input is valid.
+        if (!this.required && this.value === '') {
+          valid = true;
+        } else if (this.regex === null) {
+          // If the regex isn't set, then use the native validator.
+          valid = this.$.input.validate();
+        } else {
+          // A blank regex means everything is valid. Else, check value against regex.
+          valid = new RegExp(this.regex, 'i').test(this.value);
+        }
+        // Check if validity has changed
+        if (valid === this.invalid) {
+          // Update `this.invalid` since it's data-bound to container
+          this.invalid = !valid;
+          // Update container's addons (i.e. the custom error-message).
+          this.$.container.updateAddons({
+            inputElement: this.$.input,
+            value: this.value,
+            invalid: !valid
+          });
+        }
+        return valid;
+      },
+      _onFocusedChanged: function(focused) {
+        if (!focused) {
+          this._handleAutoValidate();
+        }
+      }
+    });
+  </script>
+</dom-module>

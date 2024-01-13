@@ -1,0 +1,69 @@
+<script type="text/javascript">
+  RED.nodes.registerType('statsd', {
+    category: 'Project_Core',
+    color: '#81F7F3',
+    defaults: {
+      recepient: {
+        value: ""
+      },
+      template: {
+        value: ""
+      },
+      payload: {
+        value: ""
+      }
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: "Project.png",
+    label: function() {
+      return this.name || "statsd";
+    }
+  });
+</script>
+
+<script type="text/x-red" data-template-name="statsd">
+  <div class="form-row">
+    <label for="node-input-statsd-event"><i class="fa fa-sign-out"></i> method</label>
+    <select id="node-input-statsd-event" style="width:70%;">
+            <option value="increment">increment</option>
+            <option value="decrement">decrement</option>
+            <option value="gauge">gauge</option>
+            <option value="histogram">histogram</option>
+    </select>
+  </div>
+
+  <div class="form-row">
+    <label for="node-input-statisticalEvent"><i class="icon-tag"></i> statisticalEvent</label>
+    <input type="text" id="node-input-statisticalEvent" placeholder="statisticalEvent">
+  </div>
+</script>
+
+<script type="text/x-red" data-help-name="statsd">
+    <p>
+      Fire event to be collected for further analysis.
+    </p>
+    <h3>Properties</h3>
+    <dl class="message-properties">
+        <dt>method
+            <span class="property-type">select</span>
+        </dt>
+        <dd> collection method.</dd>
+        <dt>statisticalEvent
+            <span class="property-type">string</span>
+        </dt>
+        <dd> event name.</dd>
+    </dl>
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>msg.ctx.statisticalEvent
+            <span class="property-type">string</span>
+        </dt>
+        <dd> event name.</dd>
+    </dl>
+    <h3>Details</h3>
+    <p>
+      There are 4 collection methods, but there is only <b>increment</b> used.
+      Input parameter <code>msg.ctx.statisticalEvent</code> takes precedence over the property <code>statisticalEvent</code>.
+    </p>
+</script>

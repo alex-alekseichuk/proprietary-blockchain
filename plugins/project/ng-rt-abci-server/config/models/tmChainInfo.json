@@ -1,0 +1,24 @@
+[{
+  "name": "tmChainInfo",
+  "base": "commonDataModel",
+  "options": {
+    "idInjection": true,
+    "validateUpsert": true,
+    "hana": {
+      "schema": "PROJECT",
+      "table": "TMCHAININFO"
+    }
+  },
+  "properties": {
+    "lowUTC": {
+      "type": "string"
+    }  ,
+    "chainId": {
+      "type": "string"
+    }    
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": []
+}]

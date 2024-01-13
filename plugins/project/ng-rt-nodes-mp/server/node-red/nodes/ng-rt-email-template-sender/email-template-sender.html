@@ -1,0 +1,78 @@
+<script type="text/javascript">
+    RED.nodes.registerType('email-template-sender', {
+      category: 'Project_Core',
+        color: '#81F7F3',
+        defaults: {
+            recepient: {
+                value: ""
+            },
+            template: {
+                value: ""
+            },
+            payload: {
+                value: ""
+            }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "Project.png",
+        label: function() {
+            return this.name || "email-template-sender";
+        }
+    });
+</script>
+<script type="text/x-red" data-template-name="email-template-sender">
+    <div class="form-row">
+        <label for="node-input-recepient"><i class="icon-tag"></i> TO</label>
+        <input type="text" id="node-input-recepient" placeholder="recepient">
+    </div>
+     <div class="form-row">
+        <label for="node-input-template"><i class="icon-tag"></i> Template</label>
+        <input type="text" id="node-input-template" placeholder="template">
+    </div>
+    <div class="form-row">
+        <label for="node-input-payload"><i class="icon-tag"></i> Subject</label>
+        <input type="text" id="node-input-payload" placeholder="payload">
+    </div>
+</script>
+<script type="text/x-red" data-help-name="email-template-sender">
+    <p>
+      Send email based on template.
+    </p>
+    <h3>Properties</h3>
+    <dl class="message-properties">
+        <dt>To
+            <span class="property-type">string</span>
+        </dt>
+        <dd> recipient email address .</dd>
+        <dt>Template
+            <span class="property-type">string</span>
+        </dt>
+        <dd> name of template of the message.</dd>
+        <dt>Subject
+            <span class="property-type">string</span>
+        </dt>
+        <dd> email subject.</dd>
+    </dl>
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>msg.ctx.recepient
+            <span class="property-type">string | array</span>
+        </dt>
+        <dd> recipient email address(es) (To:).</dd>
+        <dt>msg.ctx.template
+            <span class="property-type">string</span>
+        </dt>
+        <dd> name of template of the message.</dd>
+        <dt>msg.ctx.payload
+            <span class="property-type">object</span>
+        </dt>
+        <dd> key/value pairs provided for template.</dd>
+    </dl>
+    <h3>Details</h3>
+    <p>
+      Input parameters of the node are treated as default values
+      and properties are used for overriding.
+      Properties take precedence over the input parameters.
+    </p>
+</script>

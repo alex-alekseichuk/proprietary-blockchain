@@ -1,0 +1,35 @@
+{
+  "author": "PROJECT PROPERTIES B.V.",
+  "description": "### Install this node module ``` npm install git+ssh://git@gitlab.project.com:plugins/ng-rt-nodes-loopback.git",
+  "name": "ng-rt-nodes-loopback",
+  "node-red": {
+    "nodes": {
+      "sync-lister": "server/node-red/nodes/ng-rt-sync-listener/sync-listener.js",
+      "sync-lister-end": "server/node-red/nodes/ng-rt-sync-listener-end/sync-listener-end.js",
+      "lb-find": "server/node-red/nodes/ng-rt-lb-find/lb-find.js",
+      "lb-create": "server/node-red/nodes/ng-rt-lb-create/lb-create.js",
+      "lb-update": "server/node-red/nodes/ng-rt-lb-update/lb-update.js",
+      "lb-destroy-all": "server/node-red/nodes/ng-rt-lb-destroy-all/lb-destroy-all.js"
+    }
+  },
+  "dependencies": {
+    "loopback": "^3.19.0"
+  },
+  "devDependencies": {
+    "ng-rt-dev-tools": "git+https://gitlab.project.com/sdk/ng-rt-dev-tools.git",
+    "node-red": "1.0.3",
+    "node-red-node-test-helper": "0.2.3"
+  },
+  "scripts": {
+    "validate": "npm-run-all --parallel unit lint",
+    "precommit": "npm run validate",
+    "prepush": "npm run validate",
+    "lint": "npx project-dev gulp lint",
+    "integration": "mocha --timeout 2400000 --exit test/plugins/**/*_test.js",
+    "unit": "nyc --nycrc-path=node_modules/ng-rt-dev-tools/.nycrc npx project-dev gulp test.unit"
+  },
+  "readme": "## Installation\n\n### Install this node module\n```\nnpm install git+ssh://git@gitlab.project.com:plugins/ng-rt-nodes-loopback.git\n\nor install it in node-red module directly under nodes\n\nnpm install --prefix ./node_modules/node-red git+ssh://git@gitlab.project.com:plugins/ng-rt-nodes-loopback.git\n",
+  "readmeFilename": "README.md",
+  "version": "3.2.73766",
+  "license": "SEE LICENSE IN LICENSE.md"
+}

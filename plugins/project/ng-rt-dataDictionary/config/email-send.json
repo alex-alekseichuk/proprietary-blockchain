@@ -1,0 +1,42 @@
+{
+  "name": "emailSend",
+  "base": "commonDataModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "emails": {
+      "type": "string",
+      "required": true
+    },
+    "subject": {
+      "type": "string"
+    },
+    "body": {
+      "type": "string"
+    },
+    "payload": {
+      "type": "object"
+    },
+    "template": {
+      "type": "string"
+    },
+    "sended": {
+      "type": "boolean"
+    },
+    "date": {
+      "type": "date"
+    },
+    "error": {
+      "type": "object"
+    },
+    "failed": {
+      "type": "boolean"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

@@ -1,0 +1,25 @@
+[
+    {
+        "name": "toast",
+        "base": "commonDataModel",
+        "idInjection": true,
+        "properties": {
+         "msg": {
+          "type": "string"
+         },
+         "type": {
+          "type": "string"
+         },
+         "user": {
+          "type": "object"
+         },
+         "date": {
+          "type": "date"
+         }
+        },
+        "validations": [],
+        "relations": {},
+        "acls": [],
+        "methods": []
+       }
+]

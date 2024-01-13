@@ -1,0 +1,28 @@
+<link rel="import" href="../state-machine-v01/ng-rt-spa-engine.html">
+<link rel="import" href="../state-machine-v01/ng-rt-dropdown.html">
+<link rel="import" href="../state-machine-v01/ng-rt-page.html">
+<link rel="import" href="../state-machine-v01/ng-rt-page-item.html">
+<link rel="import" href="../state-machine-v01/ng-rt-page-sub-items.html">
+<link rel="import" href="../state-machine-v01/ng-rt-CRUD-create-item.html">
+<link rel="import" href="../state-machine-v01/ng-rt-field.html">
+<link rel="import" href="../state-machine-v01/ng-rt-CRUD-data-list.html">
+
+<dom-module id="sm-page">
+    <style include="shared-styles"></style>
+    <style is="custom-style">
+        :host {
+            width: 100%;
+            height:500px;
+        }
+    </style>
+
+    <template>
+        <ng-rt-spa-engine id="crud-sm" app="sm-new"></ng-rt-spa-engine>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'sm-page'
+        });
+    </script>
+</dom-module>

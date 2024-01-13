@@ -1,0 +1,7 @@
+
+Branch    | Pipeline | Coverage
+----------|----------|----------
+Dev/3.0 :    | [![pipeline status](https://gitlab.project.com/plugins/ng-rt-fileServer/badges/Dev/3.0/pipeline.svg)](https://gitlab.project.com/plugins/ng-rt-fileServer/commits/Dev/3.0) | [![coverage report](https://gitlab.project.com/plugins/ng-rt-fileServer/badges/Dev/3.0/coverage.svg)](https://gitlab.project.com/plugins/ng-rt-fileServer/commits/Dev/3.0)
+Cons/3.0 :    | [![pipeline status](https://gitlab.project.com/plugins/ng-rt-fileServer/badges/Cons/3.0/pipeline.svg)](https://gitlab.project.com/plugins/ng-rt-fileServer/commits/Cons/3.0) | [![coverage report](https://gitlab.project.com/plugins/ng-rt-fileServer/badges/Cons/3.0/coverage.svg)](https://gitlab.project.com/plugins/ng-rt-fileServer/commits/Cons/3.0)
+Prod/3.0 :    | [![pipeline status](https://gitlab.project.com/plugins/ng-rt-fileServer/badges/Prod/3.0/pipeline.svg)](https://gitlab.project.com/plugins/ng-rt-fileServer/commits/Prod/3.0) | [![coverage report](https://gitlab.project.com/plugins/ng-rt-fileServer/badges/Prod/3.0/coverage.svg)](https://gitlab.project.com/plugins/ng-rt-fileServer/commits/Prod/3.0)
+This Extension is adding a HTTP(s) Endpoint in order to manage files. Files can be stored and retrieved from the application server. The Developer API documentation contains further information about the usage. Binary large objects aka BLOBs should not be stored in the Blockchain directly.  Only the fingerprint as well as the reference to the storage location

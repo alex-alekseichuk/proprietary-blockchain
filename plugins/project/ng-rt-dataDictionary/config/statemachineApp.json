@@ -1,0 +1,37 @@
+[{
+    "name": "statemachineApp",
+    "plural": "StatemachineApps",
+    "base": "commonDataModel",
+    "options": {
+        "idInjection": true,
+        "hana": {
+            "schema": "PROJECT_CORE",
+            "table": "STATEMACHINEAPP"
+        }
+    },
+    "properties": {
+        "appName": {
+            "type": "string"
+        },
+        "appSM": {
+            "type": "object",
+            "hana": {
+                "columnName": "appSM",
+                "dataType": "CLOB",
+                "nullable": true
+            }
+        },
+        "appUi": {
+            "type": "object",
+            "hana": {
+                "columnName": "appUi",
+                "dataType": "CLOB",
+                "nullable": true
+            }
+        }
+    },
+    "validations": [],
+    "relations": {},
+    "acls": [],
+    "methods": {}
+}]

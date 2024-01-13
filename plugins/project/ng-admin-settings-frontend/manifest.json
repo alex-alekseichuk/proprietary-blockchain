@@ -1,0 +1,87 @@
+{
+  "actions": {
+    "after_install": [],
+    "after_activate": [
+      {
+        "name": "remove menu item",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "route",
+          "criteries": [
+            {
+              "type": "href",
+              "route": "ng-rt-system-settings",
+              "module": "admin"
+            }
+          ]
+        }
+      },
+      {
+        "name": "add menu item",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "route",
+          "data": [
+            {
+              "type": "href",
+              "route": "ng-rt-system-settings",
+              "href": "pluginsdisplay/!ng-admin-settings!ng-rt-system-settings.html/ng-rt-system-settings-index/{}/test-1/Test",
+              "icon": "icons:settings",
+              "caption": "System settings",
+              "roles": [
+               "sysadmin"
+              ],
+              "module": "admin",
+              "trustLevel": 1,
+              "order": "6040" 
+            }
+          ]
+        }
+      }
+    ],
+    "after_deactivate": [
+      {
+        "name": "remove menu item",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "route",
+          "criteries": [
+            {
+              "type": "href",
+              "route": "ng-rt-system-settings",
+              "module": "admin"
+            }
+          ]
+        }
+      }
+    ],
+    "before_install": [],
+    "after_uninstall": [],
+    "before_activate": [],
+    "before_deactivate": []
+  },
+  "name": "ng-admin-settings-frontend",
+  "type": "optional",
+  "author": "PROJECT",
+  "description": "The Blockchain Solution Platform",
+  "pluginDescription": "application ng-admin-settings-frontend",
+  "copyright": "PROJECT BV 2016 - 2018",
+  "version": "3.0.",
+  "entryPoints": [
+    {
+      "type": "route",
+      "parameters": {
+        "file": "./api/routes/routes.js"
+      }
+    }
+  ],
+  "sharedServices": [],
+  "apiServices": [],
+  "settings": [
+    {
+      "name": "namespace",
+      "caption": "Root name of the URL for the route",
+      "value": "ng-admin-settings"
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="generator" content="Project Dashboard" />
+  <title>Project</title>
+
+  <!--Favicon and mobile icon stuff-->
+  <link rel="apple-touch-icon" sizes="57x57" href="res/favicon/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="res/favicon/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="res/favicon/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="res/favicon/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="res/favicon/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="res/favicon/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="res/favicon/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="res/favicon/apple-touch-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="res/favicon/apple-touch-icon-180x180.png">
+  <link rel="icon" type="image/png" href="res/favicon/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="res/favicon/android-chrome-192x192.png" sizes="192x192">
+  <link rel="icon" type="image/png" href="res/favicon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="res/favicon/favicon-16x16.png" sizes="16x16">
+  <link rel="manifest" href="res/favicon/manifest.json">
+  <link rel="mask-icon" href="res/favicon/safari-pinned-tab.svg" color="#2166ab">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="msapplication-TileImage" content="res/favicon/mstile-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+
+  <link rel="stylesheet" href="styles/main.css">
+
+  <link rel="stylesheet" href="styles/_common.min.css">
+
+<link rel="stylesheet" type="text/css" id="baseCSS" href="../custom/default/base.css">
+
+  <script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../bower_components/d3/d3.min.js" charset="utf-8"></script>
+  <script src="../bower_components/ng-rt-client-web-sdk/lib/ng-rt-client-web-sdk.js" charset="utf-8"></script>
+  <script>
+    // For backward compatibility
+    Object.assign(window, {
+      ajax: project.ajax,
+      pajax: project.ajax,
+      bs58: project.bs58,
+      KeysService: project.KeysService,
+      config: project.config,
+      digitalAsset: project.digitalAsset,
+      log4js: project.log4js,
+      CryptoJS: project.CryptoJS,
+      utils: project.utils,
+      moment: project.moment,
+      keys: project.crypto,
+      buffer: project.buffer
+    });
+  </script>
+
+  <script src="../bower_components/underscore/underscore-min.js"></script>
+  <script src="../bower_components/page/page.js"></script>
+  <script type="text/javascript" src="js/explorer.js"></script>
+
+  <!--Browser check-->
+  <script type="text/javascript" src="js/bowser.js"></script>
+  <script type="text/javascript" src="../bower_components/fingerprintjs2/fingerprint2.js"></script>
+  <script type="text/javascript" src="js/browser.js"></script>
+  <script type="text/javascript" src="js/common.js"></script>
+  <script src="/admin/ng-rt-bigchaindb/build_signing/build.js"></script>
+
+  <link rel="import" href="elements/ng-rt-app.html">
+  <link rel="import" href="elements/ui/ngrt-toast.html">
+  <link rel="import" href="elements/ui/ngrt-tasker.html">
+
+  <link rel="import" href="ng-rt-auth/views/components/auth/ng-rt-auth.html">
+  <script type="text/javascript" src="js/routing.js"></script>
+
+  <!--ng-rt-components-->
+  <link rel="import" href="../../node_modules/ng-rt-components-ui/distribution-list/distribution-list.html">
+  <link rel="import" href="../../node_modules/ng-rt-components-ui/contact-book/contact-book.html">
+
+  <link rel="import" href="../bower_components/i18n-msg/i18n-msg.html">
+</head>
+<style is="custom-style" include="shared-styles"></style>
+
+<body id="mainBody" unresolved class="layout vertical">
+
+  <span id="browser-sync-binding"></span>
+
+  <template is="dom-bind" id="app">
+
+    <template is="dom-if" if="{{isVisible(visible, 'main')}}">
+      <!--Main Container-->
+      <ng-rt-app id="ng-rt-app" route="{{route}}" routeformenu="{{routeformenu}}" params="[[params]]" pluginroute="[[pluginroute]]"
+        close-drawer="{{closeDrawer}}">
+      </ng-rt-app>
+    </template>
+
+    <template is="dom-if" if="{{isVisible(visible,'auth')}}">
+      <ng-rt-auth view="{{ authView }}" selected="{{ authenticationSelected }}" rpaccesstoken="{{rpAccessToken}}"></ng-rt-auth>
+    </template>
+
+    <ngrt-toast id="toaster"></ngrt-toast>
+    <ngrt-tasker id="tasker" info headerText="Installing plugins" progressPercent="30" icon="mail"></ngrt-tasker>
+
+  </template>
+
+
+  <script src="js/main.js"></script>
+</body>
+
+</html>

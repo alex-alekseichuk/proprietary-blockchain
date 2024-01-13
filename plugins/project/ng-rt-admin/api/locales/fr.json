@@ -1,0 +1,29 @@
+{
+  "days": {
+    "description": "...",
+    "message": "journées"
+  },
+  "hours": {
+    "description": "...",
+    "message": "heures"
+  },
+  "minutes": {
+    "description": "...",
+    "message": "minutes"
+  },
+  "Plugins": {
+    "message": "Plugins"
+  },
+  "Status": {
+    "message": "Status"
+  },
+  "Name": {
+    "message": "Nom"
+  },
+  "Version": {
+    "message": "Version"
+  },
+  "Added": {
+    "message": "Ajouté"
+  }
+}

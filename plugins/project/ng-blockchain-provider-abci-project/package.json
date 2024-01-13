@@ -1,0 +1,27 @@
+{
+  "name": "ng-blockchain-provider-abci-project",
+  "description": "Next generation Blockchain API ",
+  "scripts": {
+    "license": "npx git+ssh://git@gitlab.project.com:os/legally.git  > license.txt"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.project.com:plugins/ng-blockchain-provider-abci-project.git"
+  },
+  "keywords": [
+    "node.js",
+    "blockchain",
+    "API"
+  ],
+  "author": "Michael Reh",
+  "private": true,
+  "dependencies": {
+    "array-merge-by-key": "^1.0.1",
+    "async": "^3.0.1",
+    "js-base64": "^2.4.9",
+    "request": "2.60.0",
+    "request-promise": "^4.2.1"
+  },
+  "devDependencies": {},
+  "version": "3.2.75959"
+}

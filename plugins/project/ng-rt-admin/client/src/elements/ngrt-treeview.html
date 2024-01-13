@@ -1,0 +1,48 @@
+<dom-module id="ngrt-treeview">
+  <style include="shared-styles"></style>
+  <style is="custom-style">
+
+    :host {
+      width: 100%;
+      height:100%;
+    }
+
+  </style>
+
+  <template>
+
+    <paper-header-panel data-route="treeview" class="appPanel">
+
+      <!--Toolbar-->
+      <paper-toolbar class="appToolbar" >
+
+        <!--Top-->
+        <paper-icon-button id="paperToggle" icon="menu" paper-drawer-toggle></paper-icon-button>
+        <span class="title">Treeview</span>
+        <span class="flex"></span>
+        <pa-search></pa-search>
+        <paper-icon-button icon="icons:settings" ></paper-icon-button>
+      </paper-toolbar>
+
+      <!--Content-->
+      <div class="content fit">
+        <paper-material elevation="1">
+          <div id="treebar"></div>
+        </paper-material>
+      </div>
+
+    </paper-header-panel>
+
+
+  </template>
+  <script>
+    Polymer({
+      is: 'ngrt-treeview',
+      properties : {
+      },
+      ready: function() {
+      }
+    });
+
+  </script>
+</dom-module>

@@ -1,0 +1,25 @@
+{
+  "name": "ng-rt-node-red",
+  "version": "3.2.75603",
+  "description": "node red plugin",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.project.com:plugins/ng-rt-node-red.git"
+  },
+  "keywords": [
+    "node-red"
+  ],
+  "author": "PROJECT PROPERTIES B.V.",
+  "dependencies": {
+    "fs": "0.0.1-security",
+    "node-red": "1.1.1",
+    "path": "^0.12.7",
+    "request": "^2.85.0"
+  },
+  "license": "SEE LICENSE IN LICENSE.md",
+  "scripts": {
+    "license": "npx git+ssh://git@gitlab.project.com:os/legally.git  > license.txt"
+  },
+  "devDependencies": {}
+}

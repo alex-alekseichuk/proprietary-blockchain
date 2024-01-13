@@ -1,0 +1,54 @@
+<dom-module id="ng-rt-dropdown">
+    <style include="shared-styles"></style>
+    <style is="custom-style">
+         :host {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <template>
+            <paper-dropdown-menu label="{{label}}" on-iron-select="_itemSelected">
+                <paper-listbox class="dropdown-content">
+                <template is="dom-repeat" items="{{elements}}">
+                    <paper-item  value="{{item.value}}">{{item.name}}</paper-item>
+                </template>
+                </paper-listbox>
+            </paper-dropdown-menu>
+    </template>
+</dom-module>
+    <script>
+        Polymer({
+                is: "ng-rt-dropdown",
+                properties: {
+                    value: {
+                        type: "object",
+                        value: {},
+                        notify: true
+                    },
+                    label: {
+                        type: "string",
+                        value: {},
+                        notify: true
+                    },
+                    elements: {
+                        type: "array",
+                        value: [],
+                        notify: true
+                    }
+                },
+                setItems:function(items){
+                    var self=this;
+                    items.forEach(function(item){
+                            self.push("elements",item);
+                    });
+                },
+            _itemSelected : function(e) {
+                var selectedItem = e.target.selectedItem;
+                if (selectedItem) {
+
+                        this.value = selectedItem.value;
+
+                }
+            },
+        });
+    </script>

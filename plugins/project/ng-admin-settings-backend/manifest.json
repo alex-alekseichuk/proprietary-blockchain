@@ -1,0 +1,33 @@
+{
+  "entryPoints": [
+    {
+      "type": "route",
+      "parameters": {
+        "file": "./api/routes/routes.js"
+      }
+    }
+  ],
+  "actions": {
+    "after_install": [],
+    "before_install": [],
+    "before_activate": [],
+    "after_activate": [],
+    "before_deactivate": [],
+    "after_deactivate": []
+  },
+  "name": "ng-admin-setting-backend",
+  "type": "optional",
+  "author": "PROJECT",
+  "description": "PROJECT Blockchain Solution Platform",
+  "pluginDescription": "application ng-admin-setting-backend",
+  "copyright": "PROJECT BV 2016 - 2019",
+  "version": "3.2.",
+  "sharedServices": [],
+  "settings": [
+    {
+      "name": "namespace",
+      "caption": "Root name of the URL for the route",
+      "value": "ng-admin-settings"
+    }
+  ]
+}

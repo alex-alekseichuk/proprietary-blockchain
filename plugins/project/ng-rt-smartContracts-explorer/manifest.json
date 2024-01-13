@@ -1,0 +1,90 @@
+{
+  "entryPoints": [
+    {
+      "type": "route",
+      "parameters": {
+        "file": "./api/routes/routes.js"
+      }
+    }
+  ],
+  "actions": {
+    "after_install": [
+      
+    ],
+    "after_activate": [
+      {
+        "name": "remove menu item",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "route",
+          "criteries": [
+            {
+              "type": "href",
+              "route": "ng-rt-smart-contracts-explorer",
+              "module": "admin"
+            }
+          ]
+        }
+      },
+      {
+        "name": "add menu item",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "route",
+          "data": [
+            {
+              "type": "href",
+              "route": "ng-rt-smart-contracts-explorer",
+              "href": "/ng-rt-smart-contracts-explorer/index.html",
+              "icon": "icons:settings-applications",
+              "caption": "Smart Contracts Explorer",
+              "trustLevel": 1,
+              "roles": [
+                "admin"
+              ],
+              "module": "admin",
+              "order": 1000,
+              "target": "_blank"
+            }
+          ]
+        }
+      }
+    ],
+    "after_deactivate": [
+      {
+        "name": "remove menu item",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "route",
+          "criteries": [
+            {
+              "type": "href",
+              "route": "ng-rt-smart-contracts-explorer",
+              "module": "admin"
+            }
+          ]
+        }
+      }
+    ],
+    "before_install": [],
+    "after_uninstall": [],
+    "before_activate": [],
+    "before_deactivate": []
+  },
+  "name": "ng-rt-smart-contracts-explorer",
+  "type": "optional",
+  "author": "PROJECT",
+  "description": "The Blockchain Enterprise Architecture",
+  "pluginDescription": "application ng-rt-smart-contracts-explorer",
+  "copyright": "PROJECT Software 2016 - 2018",
+  "version": "3.2.",
+  "sharedServices": [],
+  "apiServices": [],
+  "settings": [
+    {
+      "name": "namespace",
+      "caption": "Root name of the URL for the route",
+      "value": "ng-rt-smart-contracts-explorer"
+    }
+  ]
+}

@@ -1,0 +1,202 @@
+@@ -1,205 +0,0 @@
+<dom-module id="pa-menu">
+  <template>
+    <style include="shared-styles"></style>
+    <style is="custom-style">
+
+      iron-icon {
+        margin-right: 33px;
+        opacity: 0.54;
+      }
+
+      .iron-selected {
+        color: var(--default-primary-color);
+      }
+
+      a {
+        text-decoration: none;
+        color: var(--menu-link-color);
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -ms-flex-direction: row;
+        -webkit-flex-direction: row;
+        flex-direction: row;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+        font-family: 'Roboto', 'Noto', sans-serif;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 24px;
+        min-height: 48px;
+        padding: 0 16px;
+        width: 255px;
+        white-space: nowrap;
+        box-sizing: border-box;
+      }
+
+      paper-menu {
+      --paper-menu {
+        color: white;
+      };
+
+      --paper-menu-background-color: #434c54;
+      --paper-menu-color: #ffffff;
+
+      --paper-menu-selected-item: {
+        background-color: #3a536b;
+        color: white;
+      };
+
+      --paper-menu-focused-item: {
+        background-color: #3a536b;
+        color: white;
+      };
+      }
+
+      .ng-rt-menu-item-0 .iron-selected.pa-menu {
+        color: white !important;
+      }
+
+
+      paper-menu a {
+        color : white !important;
+      }
+
+    </style>
+
+    <paper-menu class="list" attr-for-selected="data-route" selected="[[route]]">
+
+      <a data-route="home" href="../home">
+        <iron-icon icon="home"></iron-icon>
+        <span>Home</span>
+      </a>
+
+      <a data-route="upload" href="../upload">
+        <iron-icon icon="icons:file-upload"></iron-icon>
+        <span>Upload File</span>
+      </a>
+
+
+      <a data-route="status" href="../status">
+        <iron-icon icon="info"></iron-icon>
+        <span>Status</span>
+      </a>
+
+      <a data-route="treeview" href="../treeview">
+        <iron-icon icon="view-column"></iron-icon>
+        <span>Tree view</span>
+      </a>
+
+
+      <a data-route="create-transaction" href="../create-transaction">
+        <iron-icon icon="book"></iron-icon>
+        <span>Create Transaction</span>
+      </a>
+
+      <a href="/dataexplorer" target="_blank">
+        <iron-icon icon="icons:settings-ethernet"></iron-icon>
+        <span>Data Explorer</span>
+      </a>
+
+      <a href="/explorer" target="_blank">
+        <iron-icon icon="icons:extension"></iron-icon>
+        <span>API explorer</span>
+      </a>
+
+      <a href="/red" target="_black">
+        <iron-icon icon="icons:settings-input-composite"></iron-icon>
+        <span>Node Red</span>
+      </a>
+
+      <a href="http://localhost:58080/" target="_black">
+        <iron-icon icon="build"></iron-icon>
+        <span>RethinkDB Admin</span>
+      </a>
+
+      <a data-route="acknowledgement" href="../acknowledgement">
+        <iron-icon icon="copyright"></iron-icon>
+        <span>Acknowledgement</span>
+      </a>
+
+      <a data-route="users" href="../users">
+        <iron-icon icon="supervisor-account"></iron-icon>
+        <span>Users</span>
+      </a>
+
+      <paper-submenu>
+        <paper-item class="menu-trigger" prefix icon="mail">
+          <iron-icon icon="icons:settings" item-icon>
+          </iron-icon>
+          <paper-item-body>
+            <div>Settings</div>
+          </paper-item-body>
+          <paper-icon-button class="expandicon-more" icon="icons:expand-more" alt="favourite this!"></paper-icon-button>
+          <paper-icon-button class="expandicon-less" icon="icons:expand-less" alt="favourite this!"></paper-icon-button>
+        </paper-item>
+        <paper-menu class="menu-content">
+          <a data-route="profile" href="../profile">
+            <iron-icon icon="icons:account-circle"></iron-icon>
+            <span>Profile</span>
+          </a>
+          <a data-route="password" href="../password">
+            <iron-icon icon="lock"></iron-icon>
+            <span>Password</span>
+          </a>
+
+          <a data-route="securitykeys" href="../securitykeys">
+            <iron-icon icon="icons:save"></iron-icon>
+            <span>Security Keys</span>
+          </a>
+
+          <a data-route="securitykeys" href="../keys">
+            <iron-icon icon="icons:vpn-key"></iron-icon>
+            <span>Keys</span>
+          </a>
+
+          <a on-click="logoutHandler" href="#">
+            <iron-icon icon="icons:exit-to-app"></iron-icon>
+            <span>Logout</span>
+          </a>
+
+
+
+        </paper-menu>
+      </paper-submenu>
+
+
+
+      <!--<a data-route="user-profile" href="/user-profile" on-click="onDataRouteClick" hide$="{{!user}}">-->
+      <!--<iron-icon icon="account-box"></iron-icon>-->
+      <!--<span>User Profile</span>-->
+      <!--</a>-->
+
+    </paper-menu>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'pa-menu',
+
+      onDataRouteClick: function() {
+        // Close drawer after menu item is selected if drawerPanel is narrow
+        var drawerPanel = document.querySelector('#paperDrawerPanel');
+        if (drawerPanel.narrow) {
+          drawerPanel.closeDrawer();
+        }
+
+        // adjust charts to widgets size
+        var charts = document.getElementsByTagName('google-chart');
+        setTimeout(function(){
+          for (var i = 0; i < charts.length; i++) {
+            charts[i].drawChart();
+          }
+        }, 0);
+      }
+    });
+  </script>
+
+</dom-module>

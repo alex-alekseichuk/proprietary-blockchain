@@ -1,0 +1,61 @@
+<script type="text/javascript">
+    RED.nodes.registerType('lb-find', {
+        category: 'Project_Loopback',
+        color: '#9edcd6',
+        defaults: {
+            name: {
+                value: ""
+            },
+            modelname: {
+                value: ""
+            },
+            filter: {
+                value: ""
+            }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "Project.png",
+        label: function() {
+            return this.name || "lb-find";
+        }
+    });
+</script>
+<script type="text/x-red" data-template-name="lb-find">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-modelname"><i class="icon-tag"></i> Model Name</label>
+        <input type="text" id="node-input-modelname" placeholder="Model Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-filter"><i class="icon-tag"></i> Filter</label>
+        <input type="text" id="node-input-filter" placeholder="Filter">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="lb-find">
+    <p>Node to call loopback find method.</p>
+    <h3>Properties</h3>
+    <dl class="message-properties">
+       <dt>Name
+           <span class="property-type">string</span>
+       </dt>
+       <dd> Node name. </dd>
+       <dt>Model Name
+           <span class="property-type">string</span>
+       </dt>
+       <dd> the model name. </dd>
+       <dt>Filter
+           <span class="property-type">object</span>
+       </dt>
+       <dd> specific filter  to find data. </dd>
+   </dl>
+   <h3>Details</h3>
+   <p>
+     Find specified model instances by filter (<a href='https://loopback.io/doc/en/lb3/Querying-data.html' typr='_blank'>Loopback quering data</a>).
+     Specify filter by set node property or by set msg.payload.filter.
+   </p>
+</script>

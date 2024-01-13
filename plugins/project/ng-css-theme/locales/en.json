@@ -1,0 +1,9 @@
+{
+	"Running gulp task %s": "Running gulp task %s",
+	"Gulp task %s finished successfully!": "Gulp task %s finished successfully!",
+	"Gulp task dist finished successfully!": "Gulp task dist finished successfully!",
+	"Using baseDir: %s": "Using baseDir: %s",
+	"pluginName: %s": "pluginName: %s",
+	"filePath": "filePath",
+	"Uploading done": "Uploading done"
+}

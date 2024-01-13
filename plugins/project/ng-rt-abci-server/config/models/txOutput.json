@@ -1,0 +1,54 @@
+[{
+  "name": "txOutput",
+  "base": "commonDataModel",
+  "options": {
+    "idInjection": true,
+    "validateUpsert": true,
+    "hana": {
+      "schema": "PROJECT",
+      "table": "TXOUTPUT"
+    }
+  },
+  "plural": "txOutputs",
+  "properties": {
+    "txId": {
+      "type": "string"
+    },
+    "outputIndex": {
+      "type": "number"
+    },
+    "operation": {
+      "type": "string"
+    },
+    "public_key": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "amount": {
+      "type": "string"
+    },
+    "public_keys": {
+      "type": "array",
+      "postgresql": {
+        "dataType": "json"
+      },
+      "hana": {
+        "dataType": "nvarchar",
+        "dataLength": 5000
+      }
+    }
+  },
+  "validations": [],
+  "relations": {
+    "tx": {
+      "type": "belongsTo",
+      "model": "tmTx",
+      "foreignKey": "txId",
+      "primaryKey": "txId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}]

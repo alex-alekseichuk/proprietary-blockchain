@@ -1,0 +1,56 @@
+{
+  "days": {
+    "description": "...",
+    "message": "days"
+  },
+  "hours": {
+    "description": "...",
+    "message": "hours"
+  },
+  "minutes": {
+    "description": "...",
+    "message": "minutes"
+  },
+  "Document Sharing": {
+    "message": "Dokumentfreigabe"
+  },
+  "Upload File": {
+    "message": "Datei hochladen"
+  },
+  "Recipients": {
+    "message": "Empfänger"
+  },
+  "Upload": {
+    "message": "Hochladen"
+  },
+  "Recipient": {
+    "message": "Empfänger"
+  },
+  "Store file in": {
+    "message": "Store file in"
+  },
+  "Smart contract": {
+    "message": "Smart contract"
+  },
+  "1 minute expiration": {
+    "message": "1 minute expiration"
+  },
+  "Error in recipients": {
+    "message": "Error in recipients"
+  },
+  "User with such public key not found!": {
+    "message": "User with such public key not found!"
+  },
+  "No file selected!": {
+    "message": "No file selected!"
+  },
+  "File sent to user!": {
+    "message": "File sent to user!"
+  },
+  "Error!": {
+    "message": "Error!"
+  },
+  "Select Project": {
+    "message": "Select Project"
+  }
+}

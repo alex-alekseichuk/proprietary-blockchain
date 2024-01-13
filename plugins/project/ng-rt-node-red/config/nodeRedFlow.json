@@ -1,0 +1,43 @@
+[
+  {
+    "name": "nodeRedFlow",
+    "base": "commonDataModel",
+    "options": {
+      "idInjection": true,
+      "validateUpsert": true,
+      "hana": {
+        "schema": "PROJECT",
+        "table": "NODEREDFLOW"
+      }
+    },
+    "properties": {
+      "flowId": {
+        "type": "string"
+      },
+      "type": {
+        "type": "string"
+      },
+      "label": {
+        "type": "string"
+      },
+      "z": {
+        "type": "string"
+      },
+      "name": {
+        "type": "string"
+      },
+      "flow": {
+        "type": "Object",
+        "hana": {
+          "columnName": "nodes",
+          "dataType": "CLOB",
+          "nullable": true
+        }
+      }
+    },
+    "validations": [],
+    "relations": {},
+    "acls": [],
+    "methods": {}
+  }
+]

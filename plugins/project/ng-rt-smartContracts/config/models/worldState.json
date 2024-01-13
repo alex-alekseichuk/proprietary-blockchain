@@ -1,0 +1,32 @@
+[{
+  "name": "worldState",
+  "base": "commonDataModel",
+  "options": {
+    "idInjection": true,
+    "validateUpsert": true,
+    "hana": {
+      "schema": "PROJECT",
+      "table": "WORLDSTATE"
+    }
+  },
+  "plural": "worldState",
+  "properties": {
+    "contractId": {
+      "type": "string"
+    },
+    "memory": {
+      "type": "Object",
+      "postgresql": {
+        "dataType": "json"
+      },
+      "hana": {
+        "dataType": "nvarchar",
+        "dataLength": 5000
+      }
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}]

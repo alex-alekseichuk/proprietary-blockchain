@@ -1,0 +1,168 @@
+<link rel="import" href="ng-rt-submenu.html">
+
+<dom-module id="ng-rt-menu-item">
+    <template>
+    <style include="shared-styles"></style>
+
+    <style is="custom-style">
+
+      iron-icon {
+        margin-right: 20px;
+        opacity: 1;
+      }
+
+      a {
+        text-decoration: none;
+        color: var(--sidebar-text);
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -ms-flex-direction: row;
+        -webkit-flex-direction: row;
+        flex-direction: row;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 24px;
+        min-height: 40px;
+        padding: 0 16px;
+        width: 255px;
+        white-space: nowrap;
+        box-sizing: border-box;
+        position: relative;
+      }
+
+      a:hover {
+          background: rgba(0,0,0,0.08);
+          
+      }
+      a:hover::after {
+          position: absolute;
+          left:0;
+          top: 0;
+          content: "";
+          height: 100%;
+          width: 4px;
+          background: var(--primary-color);
+      }
+      a .favstar {
+        opacity: 0;
+        position: absolute;
+        right: -40px;
+        top:0;
+        content: "";
+        height: 40px;
+        width: 40px;        
+        margin: 0;
+        transition: all 0.2s ease-out;
+        transform: scale(0.1);
+      }
+
+      a:hover .favstar {
+        opacity: 0.3;
+        right: 0;
+        transform: scale(1);
+        border-radius: 50% 0 0 50%;
+      }
+
+      a:hover .favstar:hover {
+        opacity: 1;
+        transition: all 0.2s;
+        background: var(--sidebar-bg);
+        
+      }
+
+      :host.iron-selected a {
+        background-color: var(--primary-color);
+        color: #ffffff;
+        font-weight: 600;
+      }
+
+    </style>
+
+
+    <template is="dom-if" if="{{isMenuItemType(menuItem, 'href')}}">
+      <a data-route$="[[menuItem.route]]" href$="[[menuItem.href]]" target$="[[menuItem.target]]"
+         rel$="{{isMenuItemExternal(menuItem)}}"
+         class="menu-trigger" >
+        <iron-icon on-click="_onClick" icon$="[[menuItem.icon]]"></iron-icon>
+        <span on-click="_onClick">[[menuItem.caption]]</span>
+        <paper-icon-button class="favstar vbg" icon$="{{favIcon()}}" on-click="addToFavorite"></paper-icon-button>
+      </a>
+    </template>
+
+    <template is="dom-if" if="{{isMenuItemType(menuItem, 'submenu')}}">
+      <ng-rt-submenu menu-item="{{menuItem}}" route="{{route}}" submenu="{{submenu}}"></ng-rt-submenu>
+    </template>
+
+
+    </template>
+    <script>
+        Polymer({
+            is: 'ng-rt-menu-item',
+            properties: {
+                menuItem: {
+                    type: Object,
+                    value: {}
+                },
+                favorites: {
+                    type: Array
+                },
+                isfavorite: {
+                    type: Boolean,
+                    value: false
+                }
+            },
+            isMenuItemType: function(item, type) {
+              return item.type == type;
+            },
+            isMenuItemExternal: function(item) {
+              return item.href && (item.href.startsWith('/') || item.href.startsWith('http')) ? "external" : "";
+            },
+            "_onClick": function() {
+              if (this.parentElement.parentElement.parentElement.set) {
+                this.parentElement.parentElement.parentElement.set("submenu", "");
+              }
+            },
+            favIcon: function() {
+              return this.isfavorite ? 'icons:delete' : 'icons:star';
+            },
+            addToFavorite: function() {
+                var self = this;
+                if (!this.isfavorite) {
+                  project.ajax.post("/menu/favorite", {
+                        route: {
+                            type: this.menuItem.type,
+                            route: this.menuItem.route,
+                            module: this.menuItem.module,
+                            caption: this.menuItem.caption
+                        }
+                    }, {}, function(response) {
+                        if (response) {
+                            self.push("favorites", self.menuItem);
+                        }
+                    });
+                } else {
+                  project.ajax.delete("/menu/favorite", {
+                        route: {
+                            type: this.menuItem.type,
+                            route: this.menuItem.route,
+                            module: this.menuItem.module,
+                            caption: this.menuItem.caption
+                        }
+                    }, {}, function(response) {
+                        if (response) {
+                            var index = self.favorites.indexOf(self.menuItem);
+                            self.splice("favorites", index, 1);
+                        }
+                    });
+                }
+            }
+        });
+    </script>
+
+</dom-module>

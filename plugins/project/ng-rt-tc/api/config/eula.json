@@ -1,0 +1,35 @@
+[
+  {
+    "name": "eula",
+    "description": "Enduser License Agreement",
+    "plural": "eulas",
+    "base": "commonDataModel",
+    "options": {
+      "idInjection": false,
+      "hana": {
+        "schema": "PROJECT",
+        "table": "EULA"
+      }
+    },
+    "properties": {
+      "eulaText": {
+        "type": "string",
+        "hana": {
+          "columnName": "eulaText",
+          "dataType": "clob"
+        }
+      },
+      "licenseAgreed": {
+        "type": "boolean"
+      },
+      "timestamp": {
+        "type": "date"
+      }
+    },
+    "validations": [],
+    "relations": {},
+    "acls": [],
+    "methods": {},
+    "mixins": {}
+  }
+]

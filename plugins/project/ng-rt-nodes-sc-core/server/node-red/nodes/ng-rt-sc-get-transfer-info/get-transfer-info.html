@@ -1,0 +1,71 @@
+
+<script type="text/javascript">
+  RED.nodes.registerType('get-transfer-info', {
+    category: 'Project_Smart_Contracts_Core',
+    color: '#94bee2',
+    defaults: {
+      name: {
+        value: "get TRANSFER info"
+      },
+      destination : {
+        value : "payload"
+      }
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: "Project.png",
+    label: function() {
+      return this.name || "get-transfer-info";
+    }
+  });
+</script>
+<script type="text/x-red" data-template-name="get-transfer-info">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-destination"></i>Property msg.</label>
+        <input type="text" id="node-input-destination" placeholder="">
+    </div>
+
+</script>
+
+<script type="text/x-red" data-help-name="get-transfer-info">
+    <p>Information about asset/tokens in transfer calls</p>
+
+    <h3>Output</h3>
+      <p/>
+      <dl class="message-properties"> 
+        <dd> All transfer information set in <code>msg.payload</code></dd>
+      </dl>
+
+    <h3>Details</h3>
+        Below is the information in transfer call :
+        <p/>
+        <code><span>id</span></code><span>&emsp;ID of an asset</span>
+        <p/>
+
+        <code><span>type</span></code><span>&emsp;Type of an asset, eg "nut", "sock"</span>
+        <p/>
+
+        <code><span>amount</span></code><span>&emsp;Amount of such assets</span>
+        <p/>
+
+        <code><span>creator</span></code><span>&emsp;Public key of an asset creator/span>
+        <p/>
+
+        <code><span>data</span></code><span>&emsp;Metadata of asset/span>
+        <p/>
+
+        <code><span>history</span></code><span>&emsp;History of all transfer transactions of asset</span>
+        <p/>
+
+        <code><span>outgoingDestination</span></code><span>&emsp;Public key of receiver/nextOwner</span>
+
+        <p/>
+        <p/>
+        <p/>
+        <span>Custom asset characteristics like <b>"color"</b>, <b>"size"</b>, <b>"material"</b> goes to it's own separate field.</span>
+
+</script>

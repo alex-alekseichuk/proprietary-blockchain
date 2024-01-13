@@ -1,0 +1,68 @@
+[{
+  "name": "tmTx",
+  "base": "commonDataModel",
+  "options": {
+    "idInjection": true,
+    "validateUpsert": true,
+    "hana": {
+      "schema": "PROJECT",
+      "table": "TMTX"
+    }
+  },
+  "plural": "tmtxs",
+  "properties": {
+    "txTmHash": {
+      "type": "string"
+    },
+    "txId": {
+      "type": "string"
+    },
+    "txData": {
+      "type": "Object",
+      "postgresql": {
+        "dataType": "json"
+      },
+      "hana": {
+        "dataType": "clob"
+      }
+    },
+    "txMetadata": {
+      "type": "Object",
+      "postgresql": {
+        "dataType": "json"
+      },
+      "hana": {
+        "dataType": "clob"
+      }
+    },
+    "txTime": {
+      "type": "number",
+      "postgresql": {
+        "dataType": "bigint"
+      }
+    }
+  },
+  "validations": [],
+  "relations": {
+    "asset": {
+      "type": "hasOne",
+      "model": "tmAsset",
+      "foreignKey": "txId",
+      "primaryKey": "txId"
+    },
+    "inputs": {
+      "type": "hasMany",
+      "model": "txInput",
+      "foreignKey": "txId",
+      "primaryKey": "txId"
+    },
+    "outputs": {
+      "type": "hasMany",
+      "model": "txOutput",
+      "foreignKey": "txId",
+      "primaryKey": "txId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}]

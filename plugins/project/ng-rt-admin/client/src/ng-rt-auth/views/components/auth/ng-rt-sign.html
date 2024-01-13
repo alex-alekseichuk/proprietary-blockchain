@@ -1,0 +1,116 @@
+<link rel="import" href="ng-rt-login.html">
+<link rel="import" href="ng-rt-signup.html">
+
+<dom-module id="ng-rt-sign">
+  <style include="shared-styles"></style>
+  <style is="custom-style">
+    :root {
+      --paper-toolbar-background: none;
+      --paper-toolbar-height: 60px;
+      --paper-toolbar-sm-height: 60px;
+    }
+
+    :host {
+      flex: 1;
+    }
+
+    neon-animated-pages {
+      height: 100%;
+    }
+
+    .iron-selected .paper-tab {
+      color: black;
+      /*In styles LESS*/
+    }
+
+    paper-header-panel {
+      --paper-header-panel-shadow: {
+        box-shadow: none;
+      }
+      ;
+    }
+
+    neon-animated-pages,
+    neon-animatable {
+      height: 100%;
+      width: 100%;
+      padding-top: 10px;
+      box-sizing: border-box;
+    }
+
+    paper-tabs {
+      top: -20px !important;
+      right: -20px !important;
+      left: -20px !important;
+      background: var(--google-grey-100);
+    }
+
+    #login-panel {
+      height: 310px;
+    }
+
+    #login-panel.signup {
+      height: 495px;
+    }
+  </style>
+
+  <template>
+    <paper-header-panel id="login-panel" class="flex">
+      <paper-toolbar menu="false" class="login-header">
+
+        <paper-tabs class="login-tab middle fit" selected="{{selected}}" noink="true">
+
+          <paper-tab id="signin_tab" on-click="onTabSignIn">Sign In</paper-tab>
+
+          <template is="dom-if" if="{{!selfRegistrationDisabled}}">
+
+            <paper-tab id="signup_tab" on-click="onTabSignUp">Sign Up</paper-tab>
+
+          </template>
+        </paper-tabs>
+
+      </paper-toolbar>
+      <!--Pages-->
+      <neon-animated-pages class="flex" selected="[[selected]]" entry-animation="slide-from-right-animation" exit-animation="fade-out-animation">
+        <neon-animatable>
+          <!--Login1-->
+          <ng-rt-login></ng-rt-login>
+        </neon-animatable>
+        <template is="dom-if" if="{{!selfRegistrationDisabled}}">
+          <neon-animatable>
+            <!--Register-->
+            <ng-rt-signup></ng-rt-signup>
+          </neon-animatable>
+        </template>
+      </neon-animated-pages>
+    </paper-header-panel>
+  </template>
+  <script>
+    Polymer({
+      is: 'ng-rt-sign',
+      properties: {
+        selected: 0,
+        selfRegistrationDisabled: true
+      },
+      ready: function () {
+        this.get();
+
+      },
+
+      get: function () {
+        var self = this;
+        project.ajax.get("/ng-rt-admin/system_settings_selfregistration", function (response) {
+          if (response) {
+            self.selfRegistrationDisabled = response.selfRegistrationDisabled ? true : false;
+          }
+        });
+      },
+      onTabSignUp: function () {
+        document.getElementById("login-panel").classList.add("signup");
+      },
+      onTabSignIn: function () {
+        document.getElementById("login-panel").classList.remove("signup");
+      },
+    })
+  </script>
+</dom-module>s

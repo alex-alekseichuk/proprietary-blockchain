@@ -1,0 +1,45 @@
+{
+  "author": "PROJECT PROPERTIES B.V.",
+  "dependencies": {
+    "hot-shots": "^5.9.0",
+    "loopback": "^3.19.0",
+    "production": "0.0.2",
+    "ng-rt-digitalAsset-sdk": "git+https://gitlab.project.com/sdk/ng-rt-digitalAsset-sdk.git#dev/3.2"
+  },
+  "description": "### Install this node module ``` npm install git+ssh://git@gitlab.project.com:plugins/ng-rt-nodes-core.git",
+  "name": "ng-rt-nodes-core",
+  "node-red": {
+    "nodes": {
+      "aes-decrypt": "server/node-red/nodes/ng-rt-aes-decrypt/aes-decrypt.js",
+      "aes-encrypt": "server/node-red/nodes/ng-rt-aes-encrypt/aes-encrypt.js",
+      "byemail-key": "server/node-red/nodes/ng-rt-byemail-key/byemail-key.js",
+      "each-item-end": "server/node-red/nodes/ng-rt-each-item-end/each-item-end.js",
+      "each-series": "server/node-red/nodes/ng-rt-each-series/each-series.js",
+      "email-bykey": "server/node-red/nodes/ng-rt-email-bykey/email-bykey.js",
+      "statsd": "server/node-red/nodes/ng-rt-statsd/statsd.js",
+      "email-sender": "server/node-red/nodes/ng-rt-email-sender/email-sender.js",
+      "email-template-sender": "server/node-red/nodes/ng-rt-email-template-sender/email-template-sender.js",
+      "http-request": "server/node-red/nodes/ng-rt-http-request/http-request.js",
+      "store-file-in-storage-provider": "server/node-red/nodes/ng-rt-store-file-in-storage-provider/store-file-in-storage-provider.js",
+      "rabbitmq-queue-listener": "server/node-red/nodes/ng-rt-rabbitmq-queue-listener/rabbitmq-queue-listener.js",
+      "get-mailtemplate": "server/node-red/nodes/ng-rt-get-mailtemplate/get-mailtemplate.js",
+      "appLogin": "server/node-red/nodes/ng-rt-appLogin/appLogin.js",
+      "userLogin": "server/node-red/nodes/ng-rt-userLogin/userLogin.js"
+    }
+  },
+  "optionalDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://gitlab.project.com:plugins/ng-rt-nodes-core.git"
+  },
+  "devDependencies": {
+    "node-red": "1.1.1",
+    "node-red-node-test-helper": "0.2.3",
+    "should": "^13.2.3"
+  },
+  "scripts": {},
+  "license": "SEE LICENSE IN LICENSE.md",
+  "readme": "## Installation\n\n### Install this node module\n```\nnpm install git+ssh://git@gitlab.project.com:plugins/ng-rt-nodes-core.git\n\nor install it in node-red module directly under nodes\n\nnpm install --prefix ./node_modules/node-red git+ssh://git@gitlab.project.com:plugins/ng-rt-nodes-core.git\n",
+  "readmeFilename": "README.md",
+  "version": "3.2.75658"
+}

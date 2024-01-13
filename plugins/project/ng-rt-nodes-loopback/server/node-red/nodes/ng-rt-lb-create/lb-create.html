@@ -1,0 +1,61 @@
+<script type="text/javascript">
+    RED.nodes.registerType('lb-create', {
+        category: 'Project_Loopback',
+        color: '#9edcd6',
+        defaults: {
+            name: {
+                value: ""
+            },
+            modelname: {
+                value: ""
+            },
+            object: {
+                value: ""
+            }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "Project.png",
+        label: function() {
+            return this.name || "lb-create";
+        }
+    });
+</script>
+<script type="text/x-red" data-template-name="lb-create">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-modelname"><i class="icon-tag"></i> Model Name</label>
+        <input type="text" id="node-input-modelname" placeholder="Model Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-filter"><i class="icon-tag"></i> Object</label>
+        <input type="text" id="node-input-object" placeholder="Object">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="lb-create">
+    <p>Node to call create method of loopback models, to insert data.</p>
+    <h3>Properties</h3>
+    <dl class="message-properties">
+       <dt>Name
+           <span class="property-type">string</span>
+       </dt>
+       <dd> Node name. </dd>
+       <dt>Model Name
+           <span class="property-type">string</span>
+       </dt>
+       <dd> the model name. </dd>
+       <dt>Object
+           <span class="property-type">object</span>
+       </dt>
+       <dd> specific object with data to insert. </dd>
+   </dl>
+   <h3>Details</h3>
+   <p>
+     Create specified model instances by object.
+     Specify object by set node property or by set msg.payload.object.
+   </p>
+</script>

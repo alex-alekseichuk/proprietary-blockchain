@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Project - Eula Declined</title>
+
+  <style>
+    html,
+    body {
+      padding: 0px;
+      margin: 0;
+      text-rendering: geometricPrecision;
+      background: black;
+      font-weight: 400;
+      font-family: Roboto, sans-serif;
+      color: #3c4244;
+      min-height: 100%;
+      height: 100%;
+    }
+
+    .wrapper {
+      flex: 1;
+      box-sizing: border-box;
+      border: 1px solid green;
+      background: #2166ab;
+      min-height: 100%;
+      height: 700px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-content: center;
+    }
+
+    .row {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-content: center;
+    }
+
+    .card {
+      flex: 0;
+      border: 4px solid white;
+      border-radius: 30px;
+      min-height: 300px;
+      min-width: 500px;
+      width: 500px;
+    }
+
+    h2 {
+      border: 5px solid white;
+      padding: 20px 60px;
+      /* width: 100%; */
+      text-align: center;
+      color: white;
+      text-transform: uppercase;
+    }
+
+    .sign {
+      animation-duration: 5s;
+      animation-name: sign;
+      -webkit-filter: drop-shadow( 2px 25px 7px rgba(0, 0, 0, 0.3));
+      animation-iteration-count: infinite;
+      animation-timing-function: ease-in-out;
+      transform-origin: top center;
+    }
+    /* #svg_1 {
+      -webkit-filter: blur(10px);
+    }
+
+    #svg_1:hover {
+      fill: red;
+    } */
+
+    @keyframes sign {
+      0% {
+        transform: rotate(10deg);
+        -webkit-filter: drop-shadow( -30px 25px 7px rgba(0, 0, 0, 0.2));
+      }
+
+      50% {
+        transform: rotate(-10deg);
+        -webkit-filter: drop-shadow( 30px 25px 7px rgba(0, 0, 0, 0.2));
+      }
+      100% {
+        -webkit-filter: drop-shadow( -30px 25px 7px rgba(0, 0, 0, 0.2));
+        transform: rotate(10deg);
+      }
+    }
+
+    .contact {
+      text-decoration: none;
+      font-size: 20px;
+      color: white;
+      padding: 60px 0 0 0;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <div class="row">
+      <svg class="sign" width="409" height="261" xmlns="http://www.w3.org/2000/svg">
+        <g>
+          <rect transform="rotate(45 204.5,72.5) " id="svg_2" height="91" width="91" y="27" x="159" fill-opacity="null" stroke-opacity="null"
+            stroke-width="4.5" stroke="rgba(255,255,255,0.5)" fill="transparent" />
+          <rect stroke="#fff" rx="21" id="svg_1" height="179.999995" width="306.999982" y="71.25" x="51.000015" stroke-width="5" fill="#2166ab"
+          />
+          <ellipse stroke="#eee" ry="13.499999" rx="13.499999" id="svg_3" cy="13.499999" cx="204.5" stroke-width="0" fill="#fff" />
+          <text font-weight="bold" xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="35"
+            id="svg_5" y="152.5" x="153.664063" fill-opacity="null" stroke-opacity="null" stroke-width="0" stroke="#fff" fill="#fff">Terms</text>
+          <text font-weight="bold" xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="35"
+            id="svg_6" y="201.5" x="127.6875" fill-opacity="null" stroke-opacity="null" stroke-width="0" stroke="#fff" fill="#fff">Declined</text>
+        </g>
+      </svg>
+
+
+
+    </div>
+    <div class="row">
+      <div class="contact">You have to accept terms in order to use the software</div>
+    </div>
+    <!-- <div class="topbar">
+      <img src="/images/project-hor.png" alt="">
+    </div> -->
+  </div>
+
+</body>
+
+</html>

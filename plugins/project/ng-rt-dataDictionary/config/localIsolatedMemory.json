@@ -1,0 +1,24 @@
+[
+    {
+        "name": "localIsolatedMemory",
+        "base": "commonDataModel",
+        "plural": "localIsolatedMemory",
+        "properties": {
+         "key": {
+          "type": "string"
+         },
+         "value": {
+          "expires": "boolean",
+          "expiresAt": "number",
+          "secretsecret": "string"
+         },
+         "inserted_at": {
+          "type": "date"
+         }
+        },
+        "validations": [],
+        "relations": {},
+        "acls": [],
+        "methods": {}
+    }
+]

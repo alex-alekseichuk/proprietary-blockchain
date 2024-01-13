@@ -1,0 +1,33 @@
+<script type="text/javascript">
+  RED.nodes.registerType('project-sc-1.0', {
+    category: 'Project_Smart_Contracts_Core',
+    color: '#ffffff',
+    defaults: {
+      name: {
+        value: ""
+      },
+      version: {
+        value: "1.0"
+      }
+    },
+    icon: "Project.png",
+    label: function() {
+      return this.name || "project-sc-1.0";
+    }
+  });
+</script>
+<script type="text/x-red" data-template-name="project-sc-1.0">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+      <label for="node-input-version"><i class="icon-tag"></i> Version</label>
+      <input type="text" id="node-input-version" name="node-input-version" value="1.0">
+  </div>
+
+</script>
+
+<script type="text/x-red" data-help-name="project-sc-1.0">
+    <p>Node to represent smart contract</p>
+</script>

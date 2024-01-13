@@ -1,0 +1,49 @@
+{
+  "name": "ng-rt-nodes-core",
+  "type": "optional",
+  "description": "node-red flows and modules",
+  "version": "3.2.",
+  "entryPoints": [],
+  "actions": {
+    "before_install": [],
+    "after_install": [
+      {
+        "name": "install node-red module",
+        "type": "NODE_RED_INSTALL_MODULE",
+        "parameters": {
+          "path": ".",
+          "name": "ng-rt-nodes-core"
+        }
+      }
+    ],
+    "after_uninstall": [
+      {
+        "name": "uninstall node-red module",
+        "type": "NODE_RED_UNINSTALL_MODULE",
+        "parameters": {
+          "name": "ng-rt-nodes-core"
+        }
+      }
+    ],
+    "before_activate": [],
+    "after_activate": [],
+    "after_deactivate": [
+      {
+        "name": "remove flow",
+        "type": "NODE_RED_REMOVE_FLOW",
+        "parameters": {
+          "flows": [
+            "39418cb8.7e9704"
+          ]
+        }
+      }
+    ]
+  },
+  "sharedServices": [],
+  "apiServices": [],
+  "smokeTests": [
+    {
+      "file": "test/plugins/checkNodes.js"
+    }
+  ]
+}

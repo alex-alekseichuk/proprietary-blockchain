@@ -1,0 +1,55 @@
+
+
+<script type="text/javascript">
+    RED.nodes.registerType('http-request', {
+      category: 'Project_Core',
+        color: '#81F7F3',
+        defaults: {
+            key: {
+                value: ""
+            }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "Project.png",
+        label: function() {
+            return this.name || "http-request";
+        }
+    });
+</script>
+<script type="text/x-red" data-template-name="http-request">
+    <div class="form-row">
+        <label for="node-input-key"><i class="icon-tag"></i> Request</label>
+        <input type="text" id="node-input-key" placeholder="key">
+    </div>
+
+
+</script>
+
+<script type="text/x-red" data-help-name="http-request">
+    <p>
+      Proceed HTTP request.
+    </p>
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>msg.http
+            <span class="property-type">string | object</span>
+        </dt>
+        <dd> URL or object with URL and extra parameters.</dd>
+    </dl>
+    <h3>Outputs</h3>
+    <dl class="message-properties">
+        <dt>msg.httpResponse
+            <span class="property-type">object</span>
+        </dt>
+        <dd> HTTP response object.</dd>
+        <dt>msg.httpResponseBody
+            <span class="property-type">string</span>
+        </dt>
+        <dd> HTTP response content.</dd>
+    </dl>
+    <h3>Details</h3>
+    <p>
+      As it uses <b>request</b> library, it has the same interface.
+    </p>
+</script>

@@ -1,0 +1,180 @@
+<link rel="import" href="../../../../../bower_components/gold-password-input/gold-password-input.html">
+
+<dom-module id="ng-rt-signup">
+  <style include="shared-styles"></style>
+  <style is="custom-style">
+    :host {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      padding: 0 0 0 0;
+      box-sizing: border-box;
+      position: relative;
+    }
+
+    .footer {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      padding: 40px 0 0 0;
+    }
+  </style>
+  <template>
+    <paper-input id="fullname" name="fullname" type="text" label="Full name" value="{{fullname}}" auto-validate pattern="[[rules.fullname]]"
+      error-message="[[errors.fullname]]" on-keydown="checkForEnter"> 
+      <iron-icon icon="icons:face" prefix></iron-icon>
+    </paper-input>
+    <paper-input id="username" name="username" type="text" label="User Name" value="{{username}}" required auto-validate pattern="[[rules.username]]"
+      error-message="[[errors.username]]" on-keydown="checkForEnter">
+      <iron-icon icon="social:person" prefix></iron-icon>
+    </paper-input>
+    <paper-input id="email" name="email" auto-validate autocomplete="off" required={true} label="Email" value="{{email}}" 
+    on-keydown="checkForEnter" pattern="[[rules.email]]" error-message="[[errors.email]]">
+    <iron-icon icon="mail" prefix></iron-icon>
+  </paper-input>
+    <gold-password-input-validator pattern="[[rules.password]]"></gold-password-input-validator>
+    <gold-password-input id="password" label="Password" reveal suffix required={true} validator="gold-password-input-validator"
+      label="Password" value="{{password}}" auto-validate error-message="[[errors.password]]" on-keydown="checkForEnter"></gold-password-input>
+    <paper-input id="phone" name="Phone number" type="text" label="Phone number" value="{{phone}}" auto-validate pattern="[[rules.phone]]"
+      error-message="[[errors.phone]]" on-keydown="checkForEnter">
+      <iron-icon icon="hardware:smartphone" prefix></iron-icon>
+    </paper-input>
+    <span class="footer">
+      <paper-button id="signup_button" on-click="handleSignup">Sign Up</paper-button>
+    </span>
+  </template>
+
+  <script>
+    Polymer({
+      is: "ng-rt-signup",
+      properties: {
+        rules:
+        {
+          type:Object
+        },
+        errors: 
+        {  
+          type:Object
+        },
+        fullname: {
+          type: String,
+          value: ""
+        },
+        fullnameRequired: {
+          type: Boolean,
+          value: false
+        },
+        username: {
+          type: String,
+          value: ""
+        },
+      },
+
+      ready: function () {
+        this.logger = window.log4js.getLogger('ng-rt-admin/auth/signup');
+        this.rules=window.project.rules;
+        this.errors=window.project.errors["EN"];
+      },
+
+      attached: function () {
+        this.logger.info(translate('ngrt-signup'));
+        this.getrequiredFullname();
+      },
+
+      qryAsync: function (method, url, data) {
+        return new Promise((resolve, reject) => {
+          project.ajax[method](url, data, (res, xhr) => {
+            if (xhr.status >= 400) return reject({
+              res: res,
+              xhr: xhr,
+              status: xhr.status,
+              statusText: xhr.statusText
+            });
+            resolve({
+              res: res,
+              xhr: xhr,
+              status: xhr.status,
+              statusText: xhr.statusText
+            });
+          })
+        })
+      },
+      checkForEnter: function (e) {
+        if (e.keyCode === 13) {
+          this.handleSignup();
+        }
+      },
+      getAsync: function (url) {
+        return this.qryAsync('get', url, {});
+      },
+
+      getrequiredFullname: function () {
+        return this.getAsync('/ng-rt-admin/settings/requirefullname')
+          .then(ret => {
+            res = ret.res.settings.requireFullname;
+            if (res) {
+              this.$.fullname.setAttribute("required", "required");
+            }
+            this.fullnameRequired = res;
+          });
+      },
+
+      handleSignup: function () {
+        var self = this;
+        var validateFullname = true;
+        var validatePhone = true;
+        if (this.fullnameRequired) validateFullname = this.$.fullname.validate();
+        if (this.phone) validatePhone = this.$.phone.validate();
+        var valid = validateFullname & validatePhone & this.$.username.validate() & this.$.email.validate() & this.$.password.validate();
+        if (!valid) return;
+        project.ajax.post('/auth/signup', {
+          fullname: this.fullname,
+          username: this.username,
+          password: this.password,
+          phone: this.phone,
+          email: this.email ? this.email.toLowerCase() : ''
+        }, 'ng-rt-jwt-auth', function (response, xhr) {
+          const toaster = document.getElementById('toaster');
+          if (xhr.status != 200) {
+            toaster.show(xhr.response.message, 'alert');
+            return;
+          }
+          project.ajax.setSessionTokenNoRedirect(response.token, () => {
+            Promise.all([
+              pajax.get('/ng-rt-admin/user'),
+              pajax.get('/ng-rt-admin/roles'),
+              pajax.get('/ng-rt-tc/termsAndConditions'),
+              pajax.get('/ng-rt-tc/settings')
+            ])
+              .then(results => {
+                project.ajax.logoutNoRedirect(() => {
+                  if (!results[2].licenseAgreed) {
+                    if ((results[1].roles || []).indexOf('sysadmin') == -1) return window.location = "/admin/res/html/declined.html";
+                    const o = { token: response.token, termsType: 'eula', termsText: results[2].eulaText, results: results };
+                    self.logger.info(translate('license not agreed, o = ') + JSON.stringify(o));
+                    project.ajax.emit('terms', o);
+                  } else if (results[3].settings.requireTerms && !(results[0].user || {}).termsAccepted) {
+                    const o = {
+                      token: response.token,
+                      termsType: 'tc',
+                      termsText: results[2].termsAndConditions,
+                      results: results
+                    };
+                    project.ajax.emit('terms', o);
+                  } else {
+                    setTimeout(() => project.ajax.setSessionToken(response.token), results[3].settings.setSessionTokenTimeout || 100)
+                  }
+                });
+              })
+              .catch(error => {
+                self.logger.debug(translate('error = ') + error.message);
+                project.ajax.logout()
+              })
+          });
+        });
+      },
+
+    });
+  </script>
+</dom-module>

@@ -1,0 +1,31 @@
+{
+    "name": "authorisation",
+    "base": "PersistedModel",
+    "idInjection": true,
+    "options": {
+        "validateUpsert": true
+    },
+    "properties": {
+        "scope": {
+            "type": "string"
+        },
+        "toId": {
+            "type": "string"
+        },
+        "objType": {
+            "type": "string"
+        },
+        "objId": {
+            "type": "string"
+        },
+        "allow": {
+            "type": "Boolean"
+        }
+    },
+    "validations": [],
+    "relations": {},
+    "acls": [],
+    "methods": {},
+    "mixins": {
+    }
+}

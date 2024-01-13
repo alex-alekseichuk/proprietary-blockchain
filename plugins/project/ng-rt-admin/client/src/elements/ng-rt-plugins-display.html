@@ -1,0 +1,37 @@
+<dom-module id="ng-rt-plugins-display">
+  <style include="shared-styles"></style>
+  <style is="custom-style">
+
+    :host {
+      width: 100%;
+      height:100%;
+    }
+
+  </style>
+  <template>
+    <ng-rt-plugin-view pluginroute="[[pluginroute]]"></ng-rt-plugin-view>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'ng-rt-plugins-display',
+      properties: {
+        url: {
+          type: String,
+          observer: '_urlChanged',
+          notify: true
+        },
+        view: {
+          type: String,
+          notify: true
+        },
+        props: {
+          type: Object,
+          notify: true
+        }
+      },
+      _urlChanged: function (v) {
+      }
+    })
+  </script>
+</dom-module>

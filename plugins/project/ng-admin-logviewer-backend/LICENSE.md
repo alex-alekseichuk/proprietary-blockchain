@@ -1,0 +1,1 @@
+For demo, development (incl. modifications and forking), testing, research, education, production, distribution and sublicensing purposes you need a commercial license .Please contact your sales representative.

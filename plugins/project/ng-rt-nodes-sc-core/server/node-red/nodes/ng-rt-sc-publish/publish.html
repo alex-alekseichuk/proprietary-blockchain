@@ -1,0 +1,56 @@
+
+<script type="text/javascript">
+  RED.nodes.registerType('publish', {
+    category: 'Project_Smart_Contracts_Core',
+    color: '#94bee2',
+    defaults: {
+      name: {
+        value: "publish"
+      },
+      templateName : {
+        value : ""
+      },
+      args : {
+        value : ""
+      }
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: "Project.png",
+    label: function() {
+      return this.name || "publish";
+    }
+  });
+</script>
+<script type="text/x-red" data-template-name="publish">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-templateName"><i class="icon-tag"></i> Template Name </label>
+        <input type="text" id="node-input-templateName" placeholder="">
+    </div>
+    <div class="form-row">
+      <label for="node-input-args"><i class="icon-tag"></i> Arguments </label>
+      <input type="text" id="node-input-args" placeholder="">
+  </div>
+
+</script>
+
+
+<script type="text/x-red" data-help-name="publish">
+    <p>Node to publish the contract</p>
+
+    <h3>Output</h3>
+      <dl class="message-properties">
+          <dt> <code>msg.contractId</code>
+              <span class="property-type">string</span>
+          </dt>
+      </dl>
+
+    <h3>Details</h3>
+    <dl class="message-properties">
+        Publish the contract.
+    </dl>
+</script>

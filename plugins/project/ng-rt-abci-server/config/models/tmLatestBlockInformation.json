@@ -1,0 +1,32 @@
+[{
+  "name": "tmLatestBlockInformation",
+  "base": "commonDataModel",
+  "options": {
+    "idInjection": true,
+    "validateUpsert": true,
+    "hana": {
+      "schema": "PROJECT",
+      "table": "TMLATESTBLOCKINFORMATION"
+    }
+  },
+  "properties": {
+    "hash":{
+      "type": "string"   
+    
+    },
+    "block":{
+      "type": "Object",
+        "postgresql": {
+          "dataType": "json"      
+    },
+    "hana": {
+      "dataType": "nvarchar",
+      "dataLength": 5000
+    }
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": []
+}]

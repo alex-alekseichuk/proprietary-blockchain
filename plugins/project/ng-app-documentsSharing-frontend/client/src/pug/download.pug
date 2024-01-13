@@ -1,0 +1,68 @@
+dom-module#ng-app-downloadShared
+  style(include='shared-styles').
+  include ../styles/style_download
+
+  template
+    paper-header-panel.appPanel
+      // Toolbar
+      paper-toolbar.appToolbar
+        // Top
+        paper-icon-button#paperToggle(icon='menu', paper-drawer-toggle='')
+        span.title
+          i18n-msg(msgid='Document Sharing') Document Sharing
+        span.flex
+        pa-search
+        paper-icon-button(icon='icons:settings')
+      // Content
+      .content
+        paper-material#downloaddialog.downloadblock(elevation='1')
+          .state_downloading
+            .headbg
+              .view
+                .arrowmove
+            .blockcontent
+              h3.downloadstarted Download started
+          .state_finished
+            .headbg
+              .view
+                .sparks
+                .checkfinished
+            .blockcontent
+              h3 Download Finished
+          .state_expired
+            .headbg
+              .view
+                .clock
+                  .sand
+                  .sand2
+            .blockcontent
+              h3 Expired
+          .state_denied
+            .headbg
+              .view
+                .clock
+            .blockcontent
+              h3 Access denied
+          .state_invalid_hash
+            .headbg
+              .view
+                .clock
+            .blockcontent
+              h3 Invalid hash
+          .state_no_keys
+            .headbg
+              .view
+                .key
+            .blockcontent
+              h3 This browser doesn't have right key
+          .state_error
+            .headbg
+              .view
+                .error_sign
+            .blockcontent
+              h3 Unknown error.
+
+  script(src='/ng-app-documentsSharing-frontend/js/download_app.js')
+
+template(is="dom-bind")
+  ng-app-downloadshared(payload="{{model.payload}}")

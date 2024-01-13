@@ -1,0 +1,132 @@
+{
+  "name": "ng-rt-fileServer",
+  "type": "optional",
+  "description": "application ng-rt-fileServer ",
+  "version": "3.2.",
+  "useAsApp": true,
+  "entryPoints": [{
+      "type": "service",
+      "parameters": {
+        "file": "./api/services/service.js"
+      }
+    },
+    {
+      "type": "route",
+      "parameters": {
+        "file": "./api/routes/routes.js"
+      }
+    }
+  ],
+  "actions": {
+    "before_install": [
+      {
+        "type": "NPM_INSTALL",
+        "parameters": {
+          "package": true
+        }
+      }
+    ],
+    "after_install": [
+      {
+        "name": "copy docs",
+        "type": "COPY_FILES",
+        "parameters": {
+          "source": "docs/api",
+          "target": "config/docs/api/ng-rt-fileServer"
+        }
+      }
+    ],
+    "after_uninstall": [],
+    "before_activate": [
+      {
+        "name": "Create Data folder",
+        "type": "EVAL_JS",
+        "parameters": {
+          "name": "Create",
+          "file": "api/scripts/create_folders.js"
+        }
+      }
+    ],
+    "after_activate": [
+      {
+        "name": "remove digitalAssetDefinition",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "digitalAssetDefinition",
+          "criteries": [
+            {
+              "digitalAsset": "fileUpload"
+            }
+          ]
+        }
+      },
+      {
+        "name": "add digitalAssetDefinition",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "digitalAssetDefinition",
+          "data": [
+            {
+              "digitalAsset": "file",
+              "digitalAssetDescription": "Asset for data with attached file content",
+              "HTTPBlockchainIPAddress": "*default",
+              "HTTPBlockchainPort": 26657,
+              "createTransactionAllowedBySystem": true,
+              "transferOwnershipAllowedBySystem": false,
+              "createTransactionAllowedByUser": true,
+              "transferOwnershipAllowedByUser": false,
+              "blockchainProvider": "T",
+              "blockchainProviderVersion": "0.30.0",
+              "blockchainDriver": "bdbDriver",
+              "blockchainDriverVersion": "3.0.0",
+              "divisibleAsset": false,
+              "fungibleAsset": false,
+              "systemAsset": true
+            }
+          ]
+        } 
+      }
+    ],
+    "before_deactivate": [],
+    "after_deactivate": []
+  },
+  "sharedServices": [],
+  "apiServices": [],
+  "settings": [
+    {
+      "name": "namespace",
+      "caption": "Root name of the URL for the route",
+      "value": "fileServer"
+    },
+    {
+      "name": "routeUpload",
+      "caption": "URL for the 'Upload' route",
+      "value": "upload"
+    },
+    {
+      "name": "routeDownload",
+      "caption": "URL for the 'Download' route",
+      "value": "download"
+    },
+    {
+      "name": "uploadFolder",
+      "caption": "Upload folder for DigitalAssets",
+      "value": "uploads"
+    },
+    {
+      "name": "downloadFolder",
+      "caption": "download folder for DigitalAssets",
+      "value": "downloads"
+    },
+    {
+      "name": "limits.maxFileSize",
+      "caption": "Max filzsize in Bytes 1 MB = 1024 * 12024",
+      "value": "1000000"
+    },
+    {
+      "name": "fileFilter.allowedMimetypes",
+      "caption": "Control which files can be uploaded",
+      "value": "text|image|audio|video|pdf|office"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+[
+  {
+    "name": "nodeRedSettings",
+    "base": "commonDataModel",
+    "options": {
+      "idInjection": true,
+      "validateUpsert": true,
+      "hana": {
+        "schema": "PROJECT",
+        "table": "NODEREDSETTINGS"
+      }
+    },
+    "properties": {
+      "nodes": {
+        "type": "Object",
+        "hana": {
+          "columnName": "nodes",
+          "dataType": "CLOB",
+          "nullable": true
+        }
+      }
+    },
+    "validations": [],
+    "relations": {},
+    "acls": [],
+    "methods": {}
+  }
+]

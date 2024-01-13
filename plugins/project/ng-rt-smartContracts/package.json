@@ -1,0 +1,21 @@
+{
+  "name": "ng-rt-smartContracts",
+  "version": "3.2.76192",
+  "description": "",
+  "main": "bank_contract.js",
+  "scripts": {
+    "validate": "npm-run-all --parallel unit lint",
+    "precommit": "npm run unit",
+    "prepush": "npm run validate",
+    "lint": "npx project-dev gulp lint",
+    "integration": "node_modules/.bin/mocha --timeout 2400000 --exit test/plugins/**/*_test.js",
+    "unit": "node_modules/.bin/nyc --nycrc-path=node_modules/ng-rt-dev-tools/.nycrc npx project-dev gulp test.unit"
+  },
+  "author": "PROJECT PROPERTIES B.V.",
+  "dependencies": {
+    "crypto-conditions": "git+https://gitlab.project.com/os/js-crypto-conditions.git#dev/3.2",
+    "ng-rt-digitalAsset-sdk": "git+https://gitlab.project.com/sdk/ng-rt-digitalAsset-sdk.git#dev/3.2",
+    "request-promise": "^4.1.1"
+  },
+  "devDependencies": {}
+}

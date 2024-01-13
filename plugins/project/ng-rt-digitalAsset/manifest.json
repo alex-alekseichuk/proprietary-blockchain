@@ -1,0 +1,436 @@
+{
+  "name": "ng-rt-digitalAsset",
+  "type": "optional",
+  "description": "application ng-rt-digitalAsset",
+  "version": "3.2.",
+  "dependencies": {
+    "database": {}
+  },
+  "useAsApp": true,
+  "entryPoints": [{
+      "type": "service",
+      "parameters": {
+        "file": "./api/services/service.js"
+      }
+    },
+    {
+      "type": "route",
+      "parameters": {
+        "file": "./api/routes/routes.js"
+      }
+    },
+    {
+      "type": "route",
+      "parameters": {
+        "file": "./api/routes/routesExplorer.js"
+      }
+    }
+  ],
+  "actions": {
+    "before_install": [{
+      "type": "NPM_INSTALL",
+      "parameters": {
+        "package": true
+      }
+    }],
+    "after_install": [{
+        "name": "copy docs",
+        "type": "COPY_FILES",
+        "parameters": {
+          "source": "docs/api",
+          "target": "config/docs/api/ng-rt-digitalAsset"
+        }
+      },
+      {
+        "name": "remove dataDictionary record",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "criteries": [{
+            "name": "digitalAssetDefinition"
+          }]
+        }
+      },
+      {
+        "name": "remove dataDictionary record",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "criteries": [{
+            "name": "whitelisting"
+          }]
+        }
+      },
+      {
+        "name": "remove dataDictionary record",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "criteries": [{
+            "name": "blacklisting"
+          }]
+        }
+      },
+      {
+        "name": "remove dataSourceRoutingRecord",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "criteries": [{
+            "datadictname": "digitalAssetDefinition"
+          }]
+        }
+      },
+      {
+        "name": "remove whitelisting Record",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "criteries": [{
+            "datadictname": "whitelisting"
+          }]
+        }
+      },
+      {
+        "name": "remove blacklisting record",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "criteries": [{
+            "datadictname": "blacklisting"
+          }]
+        }
+      },
+      {
+        "name": "register blacklisting model",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "config/blacklisting.json"
+        }
+      },
+      {
+        "name": "register whitelisting model",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "config/whitelisting.json"
+        }
+      },
+      {
+        "name": "add digitalAssetDefinition model to dataDictionary",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "config/digitalAssetDefinition.json"
+        }
+      },
+      {
+        "name": "add digitalAssetDefinition model to dataSourceRouting",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [{
+            "datadictname": "digitalAssetDefinition",
+            "datasourcename": "ng-rt-dataDictionary"
+          }]
+        }
+      },
+      {
+        "name": "add whitelisting model to dataSourceRouting",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [{
+            "datadictname": "whitelisting",
+            "datasourcename": "ng-rt-dataDictionary"
+          }]
+        }
+      },
+      {
+        "name": "add blacklisting model to dataSourceRouting",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [{
+            "datadictname": "blacklisting",
+            "datasourcename": "ng-rt-dataDictionary"
+          }]
+        }
+      }
+    ],
+    "after_uninstall": [{
+      "name": "remove digitalAssetDefinition",
+      "type": "REMOVE_DATA",
+      "parameters": {
+        "model_name": "digitalAssetDefinition",
+        "criteries": [{
+            "digitalAsset": "config_feed"
+          },
+          {
+            "digitalAsset": "plugin_feed"
+          },
+          {
+            "digitalAsset": "tendermint_blob"
+          },
+          {
+            "digitalAsset": "nonDivisibleAsset"
+          },
+          {
+            "digitalAsset": "valUpdateReq"
+          },
+          {
+            "digitalAsset": "vehicle"
+          },
+          {
+            "digitalAsset": "file"
+          },
+          {
+            "digitalAsset": "smartContract"
+          }
+        ]
+      }
+    }],
+    "before_activate": [{
+        "name": "register digitalAsset model",
+        "type": "REGISTER_MODEL",
+        "parameters": {
+          "json": "config/digitalAsset.json",
+          "public": true,
+          "dataSource": "ng_rt"
+        }
+      },
+      {
+        "name": "Create Data folder",
+        "type": "EVAL_JS",
+        "parameters": {
+          "name": "Create",
+          "file": "api/create_folders.js"
+        }
+      }
+    ],
+    "after_activate": [{
+        "name": "remove digitalAssetDefinition",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "digitalAssetDefinition",
+          "criteries": [{
+              "digitalAsset": "config_feed"
+            },
+            {
+              "digitalAsset": "plugin_feed"
+            },
+            {
+              "digitalAsset": "tendermint_blob"
+            },
+            {
+              "digitalAsset": "vehicle"
+            },
+            {
+              "digitalAsset": "nonDivisibleAsset"
+            },
+            {
+              "digitalAsset": "valUpdateReq"
+            },
+            {
+              "digitalAsset": "smartContract"
+            },
+            {
+              "digitalAsset": "file"
+            }
+          ]
+        }
+      },
+      {
+        "name": "add digitalAssetDefinition",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "digitalAssetDefinition",
+          "data": [{
+              "digitalAsset": "config_feed",
+              "digitalAssetDescription": "System asset for transfering configurations",
+              "HTTPBlockchainIPAddress": "*default",
+              "HTTPBlockchainPort": 26657,
+              "blockchainProvider": "T",
+              "blockchainProviderVersion": "0.30.0",
+              "blockchainDriver": "bdbDriver",
+              "blockchainDriverVersion": "3.0.0",
+              "createTransactionAllowedBySystem": true,
+              "systemAsset": true
+            },
+            {
+              "digitalAsset": "plugin_feed",
+              "digitalAssetDescription": "System asset for transfering plugins",
+              "HTTPBlockchainIPAddress": "*default",
+              "HTTPBlockchainPort": 26657,
+              "blockchainProvider": "T",
+              "blockchainProviderVersion": "0.30.0",
+              "blockchainDriver": "bdbDriver",
+              "blockchainDriverVersion": "3.0.0",
+              "createTransactionAllowedBySystem": true,
+              "transferOwnershipAllowedBySystem": true,
+              "createTransactionAllowedByUser": false,
+              "transferOwnershipAllowedByUSer": false,
+              "systemAsset": true
+            },
+            {
+              "digitalAsset": "tendermint_blob",
+              "digitalAssetDescription": "Sample asset for demo purposes",
+              "HTTPBlockchainIPAddress": "*default",
+              "HTTPBlockchainPort": 26657,
+              "createTransactionAllowedBySystem": true,
+              "transferOwnershipAllowedBySystem": true,
+              "createTransactionAllowedByUser": true,
+              "transferOwnershipAllowedByUSer": true,
+              "blockchainProvider": "T",
+              "blockchainProviderVersion": "0.30.0",
+              "blockchainDriver": "bdbDriver",
+              "blockchainDriverVersion": "3.0.0",
+              "divisibleAsset": true,
+              "fungibleAsset": false,
+              "systemAsset": false
+            },
+            {
+              "digitalAsset": "document_sharing",
+              "digitalAssetDescription": "Sample asset for demo purposes",
+              "HTTPBlockchainIPAddress": "*default",
+              "HTTPBlockchainPort": 26657,
+              "createTransactionAllowedBySystem": true,
+              "transferOwnershipAllowedBySystem": true,
+              "createTransactionAllowedByUser": true,
+              "transferOwnershipAllowedByUSer": true,
+              "blockchainProvider": "T",
+              "blockchainProviderVersion": "0.30.0",
+              "blockchainDriver": "bdbDriver",
+              "blockchainDriverVersion": "3.0.0",
+              "divisibleAsset": false,
+              "fungibleAsset": false,
+              "systemAsset": false
+            },
+            {
+              "digitalAsset": "nonDivisibleAsset",
+              "digitalAssetDescription": "Sample asset for a non divisable asset",
+              "HTTPBlockchainIPAddress": "*default",
+              "HTTPBlockchainPort": 26657,
+              "createTransactionAllowedBySystem": true,
+              "transferOwnershipAllowedBySystem": true,
+              "createTransactionAllowedByUser": true,
+              "transferOwnershipAllowedByUSer": true,
+              "blockchainProvider": "T",
+              "blockchainProviderVersion": "0.30.0",
+              "blockchainDriver": "bdbDriver",
+              "blockchainDriverVersion": "3.0.0",
+              "divisibleAsset": false,
+              "fungibleAsset": false,
+              "systemAsset": false
+            },
+            {
+              "digitalAsset": "valUpdateReq",
+              "digitalAssetDescription": "System asset for updating the list of validators",
+              "HTTPBlockchainIPAddress": "*default",
+              "HTTPBlockchainPort": 26657,
+              "createTransactionAllowedBySystem": true,
+              "transferOwnershipAllowedBySystem": false,
+              "createTransactionAllowedByUser": true,
+              "transferOwnershipAllowedByUSer": false,
+              "blockchainProvider": "T",
+              "blockchainProviderVersion": "0.30.0",
+              "blockchainDriver": "bdbDriver",
+              "blockchainDriverVersion": "3.0.0",
+              "systemAsset": true
+            },
+            {
+              "digitalAsset": "smartContract",
+              "digitalAssetDescription": "System asset for smart contracts",
+              "HTTPBlockchainIPAddress": "*default",
+              "HTTPBlockchainPort": 26657,
+              "createTransactionAllowedBySystem": true,
+              "transferOwnershipAllowedBySystem": true,
+              "createTransactionAllowedByUser": true,
+              "transferOwnershipAllowedByUSer": true,
+              "blockchainProvider": "T",
+              "blockchainProviderVersion": "0.30.0",
+              "blockchainDriver": "bdbDriver",
+              "blockchainDriverVersion": "3.0.0",
+              "systemAsset": true
+            },
+            {
+              "digitalAsset": "vehicle",
+              "digitalAssetDescription": "Asset for smart contracts",
+              "HTTPBlockchainIPAddress": "*default",
+              "HTTPBlockchainPort": 26657,
+              "createTransactionAllowedBySystem": true,
+              "transferOwnershipAllowedBySystem": true,
+              "createTransactionAllowedByUser": true,
+              "transferOwnershipAllowedByUSer": true,
+              "blockchainProvider": "T",
+              "blockchainProviderVersion": "0.30.0",
+              "blockchainDriver": "bdbDriver",
+              "blockchainDriverVersion": "3.0.0",
+              "systemAsset": true
+            },
+            {
+              "digitalAsset": "file",
+              "digitalAssetDescription": "Sample asset for proof of existence",
+              "HTTPBlockchainIPAddress": "*default",
+              "HTTPBlockchainPort": 26657,
+              "createTransactionAllowedBySystem": true,
+              "transferOwnershipAllowedBySystem": true,
+              "createTransactionAllowedByUser": true,
+              "transferOwnershipAllowedByUSer": true,
+              "blockchainProvider": "T",
+              "blockchainProviderVersion": "0.30.0",
+              "blockchainDriver": "bdbDriver",
+              "blockchainDriverVersion": "3.0.0",
+              "systemAsset": true
+            }
+          ]
+        }
+      }
+    ],
+    "before_deactivate": [],
+    "after_deactivate": []
+  },
+  "sharedServices": [],
+  "apiServices": [],
+  "extensionsPoints": [],
+  "isExtenting": [],
+  "settings": [{
+      "name": "accessControl",
+      "caption": "ACL ",
+      "value": [{
+          "whiteListing": {
+            "name": "whiteListing",
+            "value": false
+          }
+        },
+        {
+          "blackListing": {
+            "name": "blackListing",
+            "value": false
+          }
+        }
+      ]
+    },
+    {
+      "name": "namespace",
+      "caption": "Root name of the URL for the route of the plugin",
+      "value": "ng-rt-digitalAsset"
+    },
+    {
+      "name": "routeValidation",
+      "caption": "Route should be validated or not",
+      "value": true
+    },
+    {
+      "name": "limits.maxFileSize",
+      "caption": "Max filzsize in Bytes 1 MB = 1024 * 12024",
+      "value": "1000000"
+    },
+    {
+      "name": "fileFilter.allowedMimetypes",
+      "caption": "Control which files can be uploaded",
+      "value": "text|image|audio|video|pdf|office"
+    }
+  ]
+}

@@ -1,0 +1,1592 @@
+<link rel="import" href="../../../bower_components/gold-email-input/gold-email-input.html">
+<link rel="import" href="../../../bower_components/gold-password-input/gold-password-input.html">
+<link rel="import" href="../../../bower_components/gold-password-input/gold-password-input-validator.html">
+
+<link rel="import" href="../../../bower_components/gold-phone-input/gold-phone-input.html">
+<link rel="import" href="../../../bower_components/iron-icons/image-icons.html">
+<link rel="import" href="../../../bower_components/vaadin-combo-box/vaadin-combo-box.html">
+
+
+<!-- <link rel="import" href="../../../bower_components/fingerprintjs2/index.html"> -->
+
+<dom-module id="ngrt-user-profile">
+  <template>
+    <style include="shared-styles"></style>
+    <style is="custom-style">
+      :host {
+        height: 100%;
+        width: 100%;
+      }
+
+      .button-verify {
+        width: 100px;
+        float: left;
+      }
+
+      .verified {
+        border-radius: 5px;
+        line-height: 25px;
+        opacity: 0.6;
+        padding: 0 20px;
+        margin-bottom: 3px;
+        text-transform: uppercase;
+        font-weight: bold;
+      }
+
+      .headbg {
+        background: #3c5d92;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .headbg img:nth-child(1) {
+        position: absolute;
+        left: 50%;
+        bottom: 50%;
+        transform: translateY(50%) translateX(-50%);
+        width: 80px;
+        margin: 0 auto;
+        animation: 1 phone-slide 0.5s ease-in;
+      }
+
+      @keyframes phone-slide {
+        0% {
+          opacity: 0;
+          bottom: 0;
+        }
+        100% {
+          opacity: 1;
+          bottom: 50%;
+        }
+      }
+
+      .headbg img:nth-child(2) {
+        position: absolute;
+        left: 50%;
+        top: 50px;
+        transform: translateX(-20%);
+        width: 80px;
+        margin: 0 auto;
+        animation: code-popup infinite 4s ease-in-out;
+        animation-delay: 0.5s;
+        transform-origin: left center;
+      }
+
+      @keyframes code-popup {
+        0% {
+          opacity: 0;
+          transform: scale(0.1) rotateX(90deg);
+        }
+        10% {
+          opacity: 1;
+          transform: rotate(-20deg);
+        }
+        12% {
+          opacity: 1;
+          transform: rotate(5deg);
+        }
+        13% {
+          opacity: 1;
+          transform: scale(1) rotate(-3deg);
+        }
+        14% {
+          opacity: 1;
+          transform: scale(1) rotate(0deg);
+        }
+        16% {
+          opacity: 1;
+          transform: scale(1);
+          content: url("..\..\res\ngrt-user-profile\phoneverification-code2.png");
+        }
+        90% {
+          opacity: 1;
+          transform: scale(1);
+          content: url("..\..\res\ngrt-user-profile\phoneverification-code2.png");
+        }
+        100% {
+          opacity: 0;
+          transform: scale(0);
+          content: url("..\..\res\ngrt-user-profile\phoneverification-code2.png");
+        }
+      }
+
+      .verifybutton {
+        width: 100%;
+        margin-top: 20px;
+      }
+
+      paper-dropdown-menu {
+        width: 100%;
+      }
+
+      paper-listbox {
+        width: 100%;
+        left: 0;
+      }
+
+      #change_password {
+        margin-top: 20px;
+        width: 100%;
+      }
+
+      .userpic {
+        position: relative;
+        overflow: hidden;
+        border-radius: 50%;
+        height: 150px;
+        width: 150px;
+        z-index: 1;
+      }
+
+      .userpic img {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+      }
+
+      .userpic paper-icon-button {
+        position: absolute;
+        top: -40px;
+        left: 0;
+        width: 100%;
+        height: 50px;
+        background: rgba(255, 255, 255, 1);
+        transition: 0.3s all ease-out;
+        opacity: 0;
+      }
+
+      .userpic:hover paper-icon-button {
+        position: absolute;
+        top: 0;
+        opacity: 1;
+      }
+
+      .companylogo {
+        z-index: 2;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        position: absolute;
+        left: 49px;
+        bottom: -20px;
+        background: lightgray;
+        text-align: center;
+        box-sizing: border-box;
+      }
+
+      paper-menu {
+        --paper-menu-selected-item: {
+          color: var(--project-green);
+        }
+      }
+
+      paper-toggle-button {}
+
+
+
+      .appToolbar .title {
+        font-size: 1.3em;
+        font-weight: 400;
+        line-height: var(--toolbar-height);
+        height: var(--toolbar-height);
+        /*opacity: 0.6;*/
+      }
+
+      /*Paper dialog*/
+
+      paper-dialog {
+        background: white;
+        padding: 0;
+        border-radius: 0;
+        overflow: hidden;
+        margin: 0 !important;
+        min-width: 350px;
+        font-size: 15px;
+        width: 500px;
+        border: 2px solid var(--primary-color);
+        box-shadow: none;
+      }
+
+      paper-dialog h4 {
+        font-size: 22px;
+        margin: 0;
+        font-weight: 200;
+      }
+
+      paper-dialog paper-toolbar iron-icon {
+        color: white;
+      }
+
+      paper-dialog p {
+        margin-bottom: 40px;
+      }
+
+      paper-dialog:not(.warningdialog):not(.paper-date-picker-dialog) .buttons {
+        padding: 12px 10px 10px 10px;
+        margin-top: 0px;
+        color: black;
+        background: var(--project-lightgray);
+      }
+
+      paper-dialog .list {
+        float: left;
+        margin-bottom: 40px;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      paper-dialog .list>div {
+        width: 100%;
+        padding: 0 10px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        overflow: hidden;
+      }
+
+      paper-dialog .list>div div {
+        padding: 0 10px;
+        overflow: hidden;
+      }
+
+      paper-dialog paper-header-panel {
+        flex: 1;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        --paper-header-panel-shadow: {
+          box-shadow: inset 0px 1px 0px 0px rgba(0, 0, 0, 0);
+        }
+      }
+
+      paper-dialog paper-toolbar {
+        --paper-toolbar-sm-height: 50px;
+        --paper-toolbar-height: 50px;
+        padding: 0 10px;
+      }
+
+      paper-dialog paper-header-panel .title {
+        margin-left: 20px;
+        height: 100%;
+        line-height: 50px;
+      }
+
+      paper-dialog paper-tabs {
+        --paper-tabs: {
+          background: transparent;
+          color: rgba(255, 255, 255, 0.8);
+          font-weight: bold;
+          height: 100%;
+          font-size: 0.9em;
+          /*font-weight: 600;*/
+          text-transform: uppercare;
+          align-items: flex-start;
+          justify-content: flex-start;
+          position: relative;
+        }
+        ;
+        --paper-tabs-selection-bar: {
+          top: 0;
+          height: 100%;
+          box-sizing: border-box;
+          background: rgba(255, 255, 255, 0.1);
+        }
+        ;
+      }
+
+      paper-dialog paper-tabs::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: rgba(255, 255, 255, 0);
+      }
+    </style>
+    <paper-header-panel class="appPanel">
+      <!--Toolbar-->
+      <paper-toolbar class="appToolbar medium-tall">
+        <!--Top-->
+        <paper-icon-button id="paperToggle" icon="menu" paper-drawer-toggle></paper-icon-button>
+        <span class="title">Profile</span>
+        <span class="flex"></span>
+
+        <template is="dom-if" if="{{ActiveTabCheck(0,selected)}}">
+          <paper-toggle-button checked="{{advanced}}">Advanced</paper-toggle-button>
+          <paper-button on-click="handleUpdateProfile">Save Profile</paper-button>
+        </template>
+
+        <template is="dom-if" if="{{ActiveTabCheck(1,selected)}}">
+          <paper-button on-click="skillOptToggleWithProps">
+            <iron-icon prefix icon="add"></iron-icon>
+            [[AddSkill]]
+          </paper-button>
+        </template>
+
+        <template is="dom-if" if="{{ActiveTabCheck(2,selected)}}">
+          <paper-button on-click="handleChangePassword">
+            Change Password
+          </paper-button>
+        </template>
+
+        <template is="dom-if" if="{{ActiveTabCheck(3,selected)}}">
+            <paper-icon-button icon="icons:add" on-click="sshKeysOptToggleWithProps"></paper-icon-button>
+        </template>
+
+        <paper-tabs class="plugin-tabs bottom fit" selected="{{selected}}" noink="true">
+          <paper-tab style="{{isProfileEditor(userRoles, profileEditors)}}">Profile</paper-tab>
+          <paper-tab style="{{getShown(isUser)}}">Skills</paper-tab>
+          <paper-tab style="{{getShown(true)}}">Password</paper-tab>
+          <paper-tab style="{{getShown(true)}}">
+            <i18n-msg msgid="SSH keys">SSH keys</i18n-msg>
+          </paper-tab>
+          <paper-tab nm-key="specs" style="{{getShown(true)}}">Specs</paper-tab>
+        </paper-tabs>
+      </paper-toolbar>
+      <!--Content-->
+      <div class="content">
+                
+        <neon-animated-pages class="flex" selected="[[selected]]" entry-animation="[[entryAnimation]]" exit-animation="[[exitAnimation]]">
+           <!-- Profile -->
+          <neon-animatable entryAnimation="slide-from-left-animation">
+            <paper-material class="layout vertical illustratedpaper profile">
+
+              <div class="verticalhero">
+                <div class="icon">
+                  <img src="..\..\res\ngrt-user-profile\curriculum.svg" alt="">
+                </div>
+              </div>
+              <paper-input id="fullname" type="text" label="Full name" value="{{fullname}}" 
+              auto-validate pattern="[[rules.fullname]]" error-message="[[errors.fullname]]">
+              <iron-icon icon="icons:face" prefix></iron-icon>
+              </paper-input>
+
+              <paper-input id="username" type="text" label="User Name" value="{{username}}" auto-validate pattern="[[rules.username]]"
+                error-message="[[errors.username]]" required="true">
+                <iron-icon icon="social:person" prefix></iron-icon>
+              </paper-input>
+
+              <paper-input always-float-label id="domaininput" Label="Domain" value="{{domainId}}" class="dropdown-content" selected="0"
+                readonly="true" on-iron-select="">
+                <paper-button suffix id="switch_domain" on-click="openSelectDomainDlg">Switch</paper-button>
+              </paper-input>
+
+              <paper-dropdown-menu label="Language">
+                <paper-listbox id="langbox" class="dropdown-content" selected="0" on-iron-select="langSet">
+                  <template is="dom-repeat" items="{{languages}}">
+                    <paper-item value="{{item.id}}">[[item.title]]</paper-item>
+                  </template>
+                </paper-listbox>
+              </paper-dropdown-menu>
+
+              <paper-input id="email" label="Email" value="{{email}}" required="true" pattern="[[rules.email]]" auto-validate error-message="[[errors.email]]">
+                <iron-icon icon="mail" prefix></iron-icon>
+                <template is="dom-if" if="{{emailVerified}}">
+                  <div suffix class="verified">Verified</div>
+                </template>
+                <template is="dom-if" if="{{!emailVerified}}">
+                  <template is="dom-if" if="{{email}}">
+                    <paper-button suffix icon="icons:create" on-click="getVerifyMail" label="Validate">
+                      verify
+                    </paper-button>
+                  </template>
+                </template>
+              </paper-input>
+
+              <paper-input country-code="" type="text" id="phone" label="Phone number" value="{{phone}}" pattern="[[rules.phone]]"
+                always-float-label error-message="[[errors.phone]]" auto-validate>
+                <iron-icon icon="hardware:smartphone" prefix></iron-icon>
+                <template is="dom-if" if="{{phoneVerified}}">
+                  <div suffix class="verified">Verified</div>
+                </template>
+                <template is="dom-if" if="{{!phoneVerified}}">
+                  <template is="dom-if" if="{{phone}}">
+                    <paper-button suffix icon="icons:create" onclick="verifyphonedialog.toggle()" on-click="getVerifySMS" label="Validate">verify
+                    </paper-button>
+                  </template>
+                </template>
+              </paper-input>
+
+              <vaadin-combo-box id="themeDropdown" label="Theme" items="[[themeList]]" value={{theme}}></vaadin-combo-box>
+
+              <paper-input always-float-label id="tribesinput" Label="Tribes" value="" onclick="tribesDialog.toggle()">
+              </paper-input>
+
+              <vaadin-combo-box id="BaseDropdown" label="Base" items="United Kingdom"></vaadin-combo-box>
+
+              <paper-input always-float-label id="browser" Label="Your Current browser" value="[[browserinfo]]"></paper-input>
+
+
+            </paper-material>
+          </neon-animatable>
+           
+          <!-- Skills -->
+          <neon-animatable>
+
+            <paper-material class="list illustratedpaper" elevation="0" style="min-height: 300px">
+              <div class="verticalhero">
+                <div class="icon">
+                  <img src="..\..\res\ngrt-user-profile\skills.svg" alt="">
+                </div>
+
+              </div>
+
+
+              <template is="dom-if" if="{{!ActiveTabCheck(0,skillsNormalized.length)}}">
+              <vaadin-grid id="skillsGrid"  items="[[skillsNormalized]]" active-item="{{selectedSkill}}" multi-sort="[[true]]"> 
+
+                <vaadin-grid-column flex-grow="1">
+                  <template class="header">
+                    <vaadin-grid-sorter path="skillType">
+                      <div class="cell" style="padding-left: 20px;">
+                        <span>Skill</span>
+                      </div>
+                    </vaadin-grid-sorter>
+                  </template>
+                  <template>
+                    <div class="cell" style="padding-left: 20px;">
+                      {{item.skillType}}
+                    </div>
+                  </template>
+                </vaadin-grid-column>
+
+                <vaadin-grid-column width="140px" flex-grow="0">
+                  <template class="header">
+                    <vaadin-grid-sorter path="skillLevel">
+                      <div class="cell">
+                        <span>Skill Level</span>
+                      </div>
+                    </vaadin-grid-sorter>
+                  </template>
+                  <template>
+                    <div class="cell" on-click="skillOptToggleWithProps">
+                      {{item.skillLevel}}
+                    </div>
+                  </template>
+                </vaadin-grid-column>
+        
+                <vaadin-grid-column width="140px" flex-grow="1">
+                  <template class="header">
+                      <div class="cell">
+                        <span>Action</span>
+                      </div>
+                  </template>
+                  <template>
+                    <div class="cell">
+                      <paper-icon-button on-click="deleteSkill" icon="icons:delete"></paper-icon-button>
+                    </div>
+                  </template>
+                </vaadin-grid-column>
+              </vaadin-grid>
+
+            </template>
+
+
+              <template is="dom-if" if="{{ActiveTabCheck(0,skillsNormalized.length)}}">
+                <div class="no-items">
+                  <iron-icon icon="icons:error"></iron-icon>
+                  <span>No skills added yet</span>
+                  <paper-button on-click="skillOptToggleWithProps">
+                    Add skill
+                  </paper-button>
+                </div>
+              </template>
+
+
+
+            </paper-material>
+
+          </neon-animatable>
+          
+           <!-- Change PWD -->
+          <neon-animatable>
+            <paper-material elevation="0" class="layout vertical illustratedpaper">
+              <div class="verticalhero">
+                <img class="icon" src="..\..\res\ngrt-user-profile\security.svg" alt="">
+              </div>
+              <paper-input always-float-label id="old_password" type="password" label="Old Password" value="{{old_password}}">
+              </paper-input>
+              <gold-password-input-validator pattern="[[rules.password]]"></gold-password-input-validator>
+              <gold-password-input id="new_password" always-float-label label="New password" reveal suffix
+                label="Password" value="{{new_password}}" value="{{new_password}}" auto-validate validator="gold-password-input-validator"
+                required error-message="[[errors.password]]">
+              </gold-password-input>
+            </paper-material>
+          </neon-animatable>
+
+           <!-- SSH keys -->
+          <neon-animatable entryAnimation="slide-from-left-animation">
+            <paper-material elevation="0" class="layout vertical illustratedpaper">
+              <div class="verticalhero">
+                <img class="icon" src="..\..\res\ngrt-user-profile\ssh.png" alt="">
+              </div>
+
+
+              <template is="dom-if" if="{{!ActiveTabCheck(0,sshKeys.length)}}">
+
+              <vaadin-grid id="sshGrid"  items="[[sshKeys]]" active-item="{{selectedSshKeys}}" multi-sort="[[true]]"> 
+
+                <vaadin-grid-column flex-grow="1">
+                  <template class="header">
+                    <vaadin-grid-sorter path="name">
+                      <div class="cell" style="padding-left: 20px;">
+                        <span>Name</span>
+                      </div>
+                    </vaadin-grid-sorter>
+                  </template>
+                  <template>
+                    <div class="cell" style="padding-left: 20px;">
+                      {{item.name}}
+                    </div>
+                  </template>
+                </vaadin-grid-column>
+
+                <vaadin-grid-column width="140px" flex-grow="0">
+                  <template class="header">
+                    <vaadin-grid-sorter path="fingerprint">
+                      <div class="cell">
+                        <span>Fingerprint</span>
+                      </div>
+                    </vaadin-grid-sorter>
+                  </template>
+                  <template>
+                    <div class="cell">
+                      {{item.fingerprint}}
+                    </div>
+                  </template>
+                </vaadin-grid-column>
+        
+                <vaadin-grid-column width="140px" flex-grow="1">
+                  <template class="header">
+                      <div class="cell">
+                        <span>Action</span>
+                      </div>
+                  </template>
+                  <template>
+                    <div class="cell">
+                      <paper-icon-button on-click="deleteSshKey" icon="icons:delete"></paper-icon-button>
+                    </div>
+                  </template>
+                </vaadin-grid-column>
+              </vaadin-grid>
+            </template>
+
+
+              <template is="dom-if" if="{{ActiveTabCheck(0,sshKeys.length)}}">
+                <div class="no-items">
+                  <iron-icon icon="icons:error"></iron-icon>
+                  <span>
+                    <i18n-msg msgid="No ssh keys added yet">No ssh keys added yet</i18n-msg>
+                  </span>
+                  <paper-button on-click="sshKeysOptToggleWithProps">
+                    <i18n-msg msgid="Add SSH Key">Add SSH Key</i18n-msg>
+                  </paper-button>
+                </div>
+
+              </template>
+
+              <template is="dom-repeat" items="{{sshKeys}}">
+                <div class="list-row">
+                  <iron-grid>
+                    <div class="s2 xs2">
+                      {{item.name}}
+                    </div>
+                    <div class="s8 xs8">
+                      {{item.fingerprint}}
+                    </div>
+                    <div class="s1 xs1 horizontal layout end-justified">
+                      <paper-icon-button on-click="deleteSshKey" icon="icons:delete"></paper-icon-button>
+                    </div>
+                  </iron-grid>
+                </div>
+              </template>
+
+          </neon-animatable>
+
+
+          <!-- Specs -->
+          <neon-animatable entryAnimation="slide-from-left-animation">
+            <paper-material class="layout vertical illustratedpaper profile">
+
+              <div class="verticalhero">
+                <div class="icon">
+                  <img src="..\..\res\ngrt-user-profile\monitor.svg" alt="">
+                </div>
+              </div>
+              <paper-input always-float-label id="sessionIdInput" Label="Session Id" value="[[sessionId]]" readonly></paper-input>
+
+              <paper-input always-float-label id="browser" Label="Your Current browser" value="[[browserinfo]]" readonly></paper-input>
+              <paper-input id="speed_test" type="text" label="Approximate speed test" value="[[userSpecsSpeed]]" readonly>
+                <paper-button suffix nm-key="speedTest" on-click="runSpeedTest">
+                  <i18n-msg msgid="Test">Test</i18n-msg>
+                </paper-button>
+              </paper-input>
+              <paper-input id="resolution" type="text" label="Resolution" value="[[userSpecs.resolution]]" readonly></paper-input>
+              <paper-input id="timezone_offset" type="text" label="Timezone offset" value="{{userSpecs.timezone_offset}}" readonly></paper-input>
+              <paper-input id="local_storage" type="text" label="Local storage" value="{{userSpecs.local_storage}}" readonly></paper-input>
+              <paper-input id="session_storage" type="text" label="Session storage" value="{{userSpecs.session_storage}}" readonly></paper-input>
+              <paper-input id="webgl_vendor" type="text" label="webgl vendor" value="{{userSpecs.webgl_vendor}}" readonly></paper-input>
+              <paper-input id="user_agent" type="text" label="user agent" value="{{userSpecs.user_agent}}" readonly></paper-input>
+              <paper-input id="language" type="text" label="language" value="{{userSpecs.language}}" readonly></paper-input>
+              <paper-input id="adblock" type="text" label="adblock" value="[[userSpecs.adblock]]" readonly></paper-input>
+
+              <paper-input id="navigator_platform" type="text" label="Navigator platform" value="[[userSpecs.navigator_platform]]" readonly></paper-input>
+              <paper-input id="hardware_concurrency" type="text" label="Hardware concurrency" value="[[userSpecs.hardware_concurrency]]"
+                readonly></paper-input>
+
+            </paper-material>
+          </neon-animatable>
+
+          <neon-animated-pages>
+      </div>
+      <!-- Content -->
+    </paper-header-panel>
+    <!--Dialogs-->
+
+    <paper-dialog id="verifyphonedialog" modal role="alertdialog" entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+      <div class="headbg">
+        <img src="..\..\res\ngrt-user-profile\phoneverification.png" alt="">
+        <img src="..\..\res\ngrt-user-profile\phoneverification-code.png" alt="">
+      </div>
+      <div class="dialog-content">
+        <h4>Verify your phone</h4>
+        <p>
+          <span>We sent a code to
+            <b>{{phone}}</b>
+            <br/> Enter it below so we know you’re a real person.</span>
+          <paper-input type="text" label="Verification code" value="{{phoneverificationcode}}"></paper-input>
+          <paper-button class="verifybutton" on-click="validateVerifySMS">verify</paper-button>
+        </p>
+      </div>
+      <div class="buttons">
+        <paper-button dialog-confirm on-click="getVerifySMS">re-send SMS</paper-button>
+        <paper-button dialog-dismiss>Close</paper-button>
+      </div>
+    </paper-dialog>
+
+    <paper-dialog id="domainSwitchDialog" role="alertdialog" entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+      <div class="dialog-content">
+        <h2>Switch domain</h2>
+        <div class="list">
+
+          <div class="listheader">
+            <div>Name</div>
+            <div class="end-justified control">Status</div>
+          </div>
+
+          <template is="dom-repeat" items="{{domains}}" observe="{{domains.*}}">
+            <div class$="keysrow {{item.cssClass}}" on-click="selectDomain">
+              <div>{{item.domainId}}</div>
+              <template is="dom-if" if="{{isDomainActive(item.domainId)}}">
+                <div class="end-justified control">Active</div>
+              </template>
+            </div>
+          </template>
+        </div>
+      </div>
+      <div class="buttons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button dialog-confirm autofocus class="flex" on-click="openDomainSwitchConfirmDlg">
+          <iron-icon icon="icons:compare-arrows"></iron-icon>
+          Switch
+        </paper-button>
+      </div>
+    </paper-dialog>
+
+
+    <!-- Tribes set -->
+    <paper-dialog id="skillDialog" role="confirmdialog" entry-animation="scale-up-animation">
+      <div class="dialog-content">
+        <h2>Select your tribes</h2>
+        <p>
+          <paper-menu multi id="tribesbox" selected="0" on-iron-select="">
+            <paper-item>Influencer</paper-item>
+            <paper-item>Advanced supplier</paper-item>
+            <paper-item>Startup</paper-item>
+            <paper-item>Expert</paper-item>
+            <paper-item>Leader</paper-item>
+          </paper-menu>
+
+        </p>
+      </div>
+      <div class="buttons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button dialog-confirm autofocus class="flex" on-click="switchDomain">Set</paper-button>
+      </div>
+    </paper-dialog>
+
+    <!-- Domain Switch -->
+
+    <paper-dialog id="ConfirmSwitch" role="confirmdialog" entry-animation="scale-up-animation">
+      <div class="dialog-content">
+        <h2>Default domain select</h2>
+        <p>
+          Are you sure to switch to
+          <strong>{{selectedDomainId}}</strong> domain?
+        </p>
+      </div>
+      <div class="buttons">
+        <paper-button dialog-dismiss>No</paper-button>
+        <paper-button dialog-confirm autofocus class="flex" on-click="switchDomain">Yes</paper-button>
+      </div>
+    </paper-dialog>
+
+    <!--Skill Prop-->
+    <paper-dialog id="SkillOpt" role="alertdialog" entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+      <div class="dialog-content">
+        <p class="">
+          <vaadin-combo-box id="skillTypeDropdown" label="[[Skill]]" items="[[skillTypesNormalized]]"></vaadin-combo-box>
+          <vaadin-combo-box id="skillLevelDropdown" label="[[MajorityLevel]]" items="[[skillLevelsNormalized]]"></vaadin-combo-box>
+
+        </p>
+      </div>
+
+      <div class="buttons">
+        <paper-button dialog-dismiss>[[Cancel]]</paper-button>
+        <paper-button class="flex" autofocus style="flex:1" on-click="saveSkill">[[OK]]</paper-button>
+      </div>
+    </paper-dialog>
+
+    <paper-dialog id="SshKeyOpt" role="alertdialog" entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+      <div class="dialog-content">
+        <h2>
+          <i18n-msg msgid="Add SSH Key">Add SSH Key</i18n-msg>
+        </h2>
+        <paper-input id="keyName" type="text" label="Name" value="{{sshKeyName}}" error-message="[[sshKeyName]]">
+        </paper-input>
+
+        <paper-textarea label="SSH Key" value="{{sshKey}}" rows="4"></paper-textarea>
+      </div>
+      <div class="buttons">
+        <paper-button dialog-dismiss>[[Cancel]]</paper-button>
+        <paper-button class="flex" autofocus style="flex:1" on-click="saveSshKey">[[OK]]</paper-button>
+      </div>
+    </paper-dialog>
+
+  </template>
+  <script src="../../../bower_components/fingerprintjs2/fingerprint2.js"></script>
+  <script>
+    window.langChange = function (el) {
+      window.selectedLanguage = el.options[el.selectedIndex].value;
+      I18nMsg.lang = window.selectedLanguage;
+    };
+
+    Polymer({
+      is: 'ngrt-user-profile',
+      ready: function () {
+        this.rules=window.project.rules;
+        this.errors=window.project.errors["EN"];
+      },
+      properties: {
+        rules: {
+          type: Object
+        },
+        errors: {
+          type: Object
+        }, 
+        sessionId: {
+          type: String,
+          value: ""
+        },
+        selected: {
+          type: Number,
+          value: 0
+        },
+        selectedLang: {
+          type: String,
+          value: 'en'
+        },
+        feeEnable: {
+          type: Boolean,
+          value: false
+        },
+        browserinfo: {
+          type: String,
+          value: ""
+        },
+        userSpecs: {
+          type: Object,
+          value: {}
+        },
+        userSpecsSpeed: {
+          type: String,
+          value: ""
+        },
+        theme: {
+          type: String,
+          value: ""
+        },
+        themeList: {
+          type: Array,
+          value: []
+        },
+        skillLevels: {
+          type: 'array',
+          value: []
+        },
+        skillLevelsNormalized: {
+          type: Array,
+          value: []
+        },
+        skillTypes: {
+          type: 'array',
+          value:[]
+        },
+        skillTypesNormalized: {
+          type: 'array',
+          value: []
+        },
+        skills: {
+          type: 'array',
+          value: []
+        },
+        myDetails: {
+          type: Object,
+          value: {}
+        },
+        tribes: {
+          type: Array,
+          value: []
+        },
+        bases: {
+          type: Array,
+          value: []
+        },
+        base: {
+          type: Object,
+          value: {}
+        },
+        tribe: {
+          type: Array,
+          value:[]
+        },
+        baseNormalized: {
+          type: String,
+          value: ''
+        },
+        tribesNormalized: {
+          type: String,
+          value: ''
+        },
+        skillsNormalized: {
+          type: 'array',
+          notify: true,
+          observer: '_skillsNormalizedObserver',
+          value: []
+        },
+        userId: {
+          type: 'string',
+        },
+        curSkillId: {
+          type: 'string',
+          value: undefined,
+        },
+        saveEnabled: {
+          type: 'boolean',
+          value: true
+        },
+        Skill: {
+          type: String,
+          value: 'Skill'
+        },
+        MajorityLevel: {
+          type: String,
+          value: 'Majority Level'
+        },
+        OK: {
+          type: String,
+          value: 'OK'
+        },
+        Cancel: {
+          type: String,
+          value: 'Cancel'
+        },
+        AddSkill: {
+          type: String,
+          value: 'Add Skill'
+        },
+        languages: {
+          type: Array,
+          value: [{
+            id: "en",
+            title: "English"
+          }, {
+            id: "de",
+            title: "Deutsch"
+          }, {
+            id: "ru",
+            title: "Русский"
+          }, {
+            id: "nl",
+            title: "Dutch"
+          }
+          ]
+        },
+        sshKeys: {
+          type: Array,
+          value: []
+        },
+        sshKeyName: {
+          type: String,
+          value: ''
+        },
+        sshKey: {
+          type: String,
+          value: ''
+        },
+        isAdmin: {
+          type: Boolean,
+          value: false
+        },
+        isUser: {
+          type: Boolean,
+          value: false
+        },
+        userRoles: {
+          type: Array,
+          value: []
+        },
+        profileEditors: {
+          type: Array,
+          value: []
+        },
+        mainDisruptiveTechnologies: {
+          type: 'array',
+          value: []
+        },
+        mainDisruptiveSpecialisms: {
+          type: 'array',
+          value: []
+        },
+        mainDisruptiveTechnologiesNormalized: {
+          type: 'array',
+          value: []
+        },
+        mainDisruptiveSpecialismsNormalized: {
+          type: 'array',
+          value: []
+        },
+        userpic: {
+          type: 'string',
+          value: '../res/ngrt-user-profile/profile.svg'
+        },
+        companypic: {
+          type: 'string',
+          value: ''
+        }
+      },
+      getTabStyle: function (num) {
+        if (num == 0) return !this.isUser ? '' : 'display: none;';
+        if (num == 1) return !this.isUser ? '' : 'display: none;';
+        if (num == 2) return !this.isUser ? '' : 'display: none;';
+        if (num == 3) return '';
+        return '';
+      },
+      translate: function (string) {
+        this.Skill = translate('Skill');
+        this.MajorityLevel = translate('Majority Level');
+        this.OK = translate('OK');
+        this.Cancel = translate('Cancel');
+        this.AddSkill = translate('Add Skill');
+      },
+      _skillTypesNormalizedObserver: function (newValue, oldValue) {
+        this.toggleClass('skillTypesNormalized', newValue);
+      },
+      _skillLevelsNormalizedObserver: function (newValue, oldValue) {
+        this.toggleClass('skillLevelsNormalized', newValue);
+      },
+      _skillsNormalizedObserver: function (newValue, oldValue) {
+        this.toggleClass('skillsNormalized', newValue);
+      },
+      getSkills: function () {
+        let that = this;
+        const params = { userId: that.userId };
+        project.ajax.post('/ng-rt-admin/skillsByUserId', params, res => {
+          that.skills = res;
+          that.normSkills();
+        });
+      },
+      getMainDisruptiveTechnologies: function () {
+        return this.getAsync('/ng-rt-admin/mainDisruptiveTechnologies')
+          .then(ret => {
+            this.mainDisruptiveTechnologies = ret.res;
+            this.mainDisruptiveTechnologiesNormalized = ret.res.map(item => item.name);
+          });
+      },
+      getMainDisruptiveSpecialisms: function () {
+        return this.getAsync('/ng-rt-admin/mainDisruptiveSpecialisms')
+          .then(ret => {
+            this.mainDisruptiveSpecialisms = ret.res;
+            this.mainDisruptiveSpecialismsNormalized = ret.res.map(item => item.name);
+          });
+      },
+      getUser: function () {
+        return new Promise((resolve, reject) => project.ajax.get('/ng-rt-admin/user', {}, res => resolve(res)));
+      },
+      runSpeedTest() {
+        let that = this;
+        var startTime, endTime, fileSize;
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4 && xhr.status === 200) {
+            endTime = (new Date()).getTime();
+            fileSize = xhr.responseText.length;
+            var speed = (fileSize * 8) / ((endTime - startTime) / 1000) / 1024;
+            that.userSpecsSpeed = speed + " Kbps"
+          }
+        }
+        startTime = (new Date()).getTime();
+        xhr.open("GET", "./res/ngrt-user-profile/picture_speed_test.jpg", true);
+        xhr.send();
+      },
+      runFingerprint: function () {
+        let that = this;
+        var d1 = new Date();
+        var fp = new Fingerprint2();
+        fp.get(function (result, components) {
+          var d2 = new Date();
+          var timeString = "Time took to calculate the fingerprint: " + (d2 - d1) + "ms";
+          var details = "<strong>Detailed information: </strong><br />";
+          if (typeof window.console !== "undefined") {
+            let newObj = {}
+            for (var i = 0; i < components.length; i++) {
+              newObj[components[i].key] = components[i].value;
+            }
+            that.userSpecs = newObj;
+          };
+        })
+      },
+      getThemeList: function () {
+        self = this;
+        app.getThemeList().then(data => {
+          if (data && data.themeHost) { self.themeList = data.themeList }
+        })
+      },
+      attached: function () {
+        this.sessionId = project.ajax.getSessionId()
+        this.browserinfo = bowser.name + ' ver.' + bowser.version;
+        I18nMsg.url = '/admin/ng-rt-admin/locales'; // optionally use custom folder for locales.
+        Platform.performMicrotaskCheckpoint();
+        var that = this;
+        this.getThemeList();
+        this.getProfile();
+        this.normSkills();
+        var promises = [];
+        promises.push(this.getUser()
+          .then(res => {
+            that.userId = res.user.id;
+            that.updatePics();
+            that.sshKeys = res.user.sshKeys || [];
+          }));
+        promises.push(new Promise((resolve, reject) => project.ajax.get('/ng-rt-admin/skillTypes', {}, res => resolve(res)))
+          .then(res => that.skillTypes = res));
+        promises.push(new Promise((resolve, reject) => project.ajax.get('/ng-rt-admin/skillLevels', {}, res => resolve(res)))
+          .then(res => that.skillLevels = res));
+        promises.push(this.getBases());
+        promises.push(this.getTribes());
+        promises.push(this.getRoles());
+        promises.push(this.getProfileEditors());
+        let id = '';
+        Promise.all(promises)
+          .then(() => {
+            return Promise.all([
+              that.getSkills(),
+              that.getMyDetails()
+            ])
+          })
+          .then(ret => {
+            return Promise.all([
+              that.getBase(),
+              that.getTribe(),
+              that.getMainDisruptiveTechnologies(),
+              that.getMainDisruptiveSpecialisms()
+            ])
+          })
+          .then(() => {
+            that.normBaseTribes();
+            let arrTech = that.mainDisruptiveTechnologies.filter(
+              item => item.id == that.myDetails.mainDisruptiveTechnologyId
+            );
+            let arrSpec = that.mainDisruptiveSpecialisms.filter(
+              item => item.id == that.myDetails.mainDisruptiveSpecialismId
+            );
+            that.$.mainDisruptiveTechnologyDropdown.value = (arrTech[0] || {}).name;
+            that.$.mainDisruptiveSpecialismDropdown.value = (arrSpec[0] || {}).name;
+          })
+        this.runFingerprint()
+      },
+      normSkills: function (except) {
+        Platform.performMicrotaskCheckpoint();
+        this.skillsNormalized = this.skills
+          .map(skill => ({
+            id: skill.id,
+            userId: skill.userId,
+            skillTypeId: skill.skillTypeId,
+            skillLevelId: skill.skillLevelId,
+            skillType: (this.skillTypes.filter(st => st.id == skill.skillTypeId)[0] || {}).name,
+            skillLevel: (this.skillLevels.filter(sl => sl.id == skill.skillLevelId)[0] || {}).name
+          }));
+        var skillsList = this.skillsNormalized.map(sn => sn.skillType);
+        this.skillTypesNormalized = this.skillTypes.map(st => st.name).filter(st => skillsList.indexOf(st) == -1 ||
+          st == except);
+        this.skillLevelsNormalized = this.skillLevels.map(sl => sl.name);
+      },
+      normBaseTribes: function () {
+        this.baseNormalized = this.bases.filter(base => this.base == base.id).map(base => base.name)[0];
+        this.tribesNormalized = (this.tribes || [])
+          .filter(tribe => (this.tribe || []).indexOf(tribe.id) !== -1).map(tribe => tribe.name).join(', ');
+      },
+      skillOptToggleWithProps: function (ev) {
+        if (!ev.model.item) {
+          if (this.skillTypesNormalized.length == 0) {
+        
+            const toaster = document.getElementById('toaster');
+            toaster.show(translate('This user have all skills!'));
+            return;
+          }
+          this.curSkillId = undefined;
+          this.normSkills();
+          this.$.skillTypeDropdown.value = undefined;
+          this.$.skillLevelDropdown.value = undefined;
+        } else {
+          let skillType = ev.model.item.skillType;
+          let skillLevel = ev.model.item.skillLevel;
+          this.curSkillId = ev.model.item.id;
+          this.normSkills(skillType);
+          this.$.skillTypeDropdown.value = skillType;
+          this.$.skillLevelDropdown.value = skillLevel;
+        }
+        this.$.SkillOpt.toggle();
+      },
+      deleteSkill: function (ev) {
+        ev.preventDefault();
+        ev.stopPropagation();
+        const param = { skillId: ev.model.item.id };
+        project.ajax.delete('/ng-rt-admin/skills', param, res => {
+          this.getSkills();
+        });
+      },
+      saveSkill: function (ev) {
+        if (this.saveEnabled == false) return;
+        var skillType = this.$.skillTypeDropdown.value;
+        var skillLevel = this.$.skillLevelDropdown.value;
+        if (!skillType || !skillLevel) {
+          const toaster = document.getElementById('toaster');
+          toaster.show(translate('Select skill and level!'), 'alert');
+          ev.preventDefault();
+          ev.stopPropagation();
+          return;
+        }
+        var save = {
+          id: this.curSkillId,
+          userId: this.userId,
+          skillTypeId: this.skillTypes.filter(st => st.name == skillType)[0].id,
+          skillLevelId: this.skillLevels.filter(sl => sl.name == skillLevel)[0].id
+        };
+        this.saveEnabled = false;
+        project.ajax.put('/ng-rt-admin/skills', save, res => {
+          this.$.SkillOpt.toggle();
+          this.getSkills();
+          setTimeout(() => this.saveEnabled = true, 300);
+        });
+      },
+      sshKeysOptToggleWithProps: function (e) {
+        this.$.SshKeyOpt.toggle();
+      },
+      deleteSshKey: function (e) {
+        var self = this;
+        let removeIndex = this.sshKeys.indexOf(e.model.item);
+        this.sshKeys.splice(removeIndex, 1);
+        project.ajax.ajax('/user-profile', 'PUT', {
+          sshKeys: this.sshKeys
+        }, 'ng-rt-jwt-auth', function (response, xhr) {
+          if (!response) {
+            self.handleError(xhr);
+            return;
+          }
+          const toaster = document.getElementById('toaster');
+          toaster.show('Ssh key deleted.');
+          self.getUser().then(res => {
+            self.sshKeys = res.user.sshKeys || [];
+          });
+        });
+      },
+      saveSshKey: function () {
+        var self = this;
+        this.sshKeys.push({
+          name: this.sshKeyName,
+          key: this.sshKey
+        });
+        project.ajax.post('/ssh-keys', {
+          sshKeys: this.sshKeys
+        }, 'ng-rt-jwt-auth', function (response, xhr) {
+          self.getUser().then(res => {
+            self.sshKeys = res.user.sshKeys || [];
+          });
+          if (!response) {
+            self.handleError(xhr);
+            return;
+          }
+          const toaster = document.getElementById('toaster');
+          toaster.show('Ssh key added updated successfully.');
+          self.$.SshKeyOpt.close();
+        });
+        this.sshKeyName = '';
+        this.sshKey = '';
+      },
+      isDomainActive: function (domainId) {
+        return domainId == this.domainId;
+      },
+      openSelectDomainDlg: function () {
+        if (typeof this.selectedDomainIndex !== 'undefined') {
+          this.set('domains.' + this.selectedDomainIndex + '.cssClass', '');
+          delete this.selectedDomainIndex;
+        }
+        domainSwitchDialog.toggle();
+      },
+      selectDomain: function (ev) {
+        if (typeof this.selectedDomainIndex !== 'undefined') {
+          this.set('domains.' + this.selectedDomainIndex + '.cssClass', '');
+        }
+        this.selectedDomainIndex = ev.model.index;
+        this.set('domains.' + ev.model.index + '.cssClass', 'selected');
+      },
+      openDomainSwitchConfirmDlg: function () {
+        if (typeof this.selectedDomainIndex === 'undefined')
+          return;
+        this.selectedDomainId = this.domains[this.selectedDomainIndex].domainId;
+        if (this.selectedDomainId === this.domainId)
+          return;
+        ConfirmSwitch.toggle();
+      },
+      switchDomain: function () {
+        var self = this;
+        project.ajax.ajax('/user-domain', 'PUT', {
+          domainId: this.selectedDomainId
+        }, 'ng-rt-jwt-auth', function (response, xhr) {
+          if (!response) {
+            self.handleError(xhr);
+            return;
+          }
+          window.location.reload();
+        });
+      },
+      langSet: function () {
+        this.selectedlang = this.$.langbox.selectedItem.value;
+        I18nMsg.lang = this.selectedlang;
+        setTimeout(() => Platform.performMicrotaskCheckpoint(), 1000);
+        setTimeout(() => this.translate(), 2000);
+      },
+      getProfile: function () {
+        var self = this;
+        project.ajax.get('/user-profile', 'ng-rt-jwt-auth', function (response, xhr) {
+          if (!response) {
+            self.handleError(xhr);
+            return;
+          }
+          var user = response;
+          self.fullname = user.fullname;
+          self.username = user.username;
+          self.email = user.email;
+          self.phone = user.phone;
+          self.emailVerified = user.emailVerified || false;
+          self.phoneVerified = user.phoneVerified || false;
+          self.advanced = user.advanced;
+          self.domainId = user.domainId;
+          self.theme = user.theme;
+          self.languages.forEach(function (lang, index) {
+            if (lang.id === user.defaultLocale) {
+              self.$.langbox.selected = index;
+              //self.langSet();
+            }
+          });
+        });
+        project.ajax.get("/availabledomains", {}, (response, xhr) => {
+          if (!response) {
+            self.handleError(xhr);
+            return;
+          }
+          self.set('domains', response);
+        });
+      },
+      getBases: function () {
+        return this.getAsync('/ng-rt-admin/bases')
+          .then(ret => {
+            this.bases = ret.res;
+          })
+      },
+      getTribes: function () {
+        return this.getAsync('/ng-rt-admin/tribes')
+          .then(ret => {
+            this.tribes = ret.res;
+          })
+      },
+      getBase: function (id) {
+        if (!this.myDetails.id) return;
+        let url = '/ng-rt-admin/myDetails/' + this.myDetails.id + '/base';
+        return this.base = this.myDetails.base;
+        
+      },
+      getTribe: function (id) {
+        if (!this.myDetails.id) return;
+        let url = '/ng-rt-admin/myDetails/' + this.myDetails.id + '/tribe';
+        return this.tribe = this.myDetails.tribe;
+      },
+      getRoles: function () {
+        return this.getAsync('/ng-rt-admin/roles')
+          .then(ret => {
+            this.userRoles = ret.res.roles;
+            this.isAdmin = (ret.res.roles.indexOf('admin') !== -1) || (ret.res.roles.indexOf('sysadmin') !== -1);
+            this.isUser = ret.res.roles.indexOf('user') !== -1;
+          });
+      },
+      getProfileEditors: function () {
+        return this.getAsync('/ng-rt-admin/settings')
+          .then(ret => {
+            this.profileEditors = (ret.res.settings || {}).profileEditors || ['user', 'admin'];
+          });
+      },
+      isProfileEditor: function (userRoles, profileEditors) {
+        userRoles = userRoles || [];
+        profileEditors = profileEditors || [];
+        for (let i = 0; i < userRoles.length; i += 1) {
+          if (profileEditors.indexOf(userRoles[i]) !== -1) return ''
+        }
+        return 'display: none;'
+      },
+      getShown: function (condition) {
+        return condition ? '' : 'display: none;';
+      },
+      qryAsync: function (method, url, data) {
+        return new Promise((resolve, reject) => {
+          project.ajax[method](url, data, (res, xhr) => {
+            if (xhr.status >= 400) return reject({
+              res: res,
+              xhr: xhr,
+              status: xhr.status,
+              statusText: xhr.statusText
+            });
+            resolve({
+              res: res,
+              xhr: xhr,
+              status: xhr.status,
+              statusText: xhr.statusText
+            });
+          })
+        })
+      },
+      getAsync: function (url) {
+        return this.qryAsync('get', url, {});
+      },
+      putAsync: function (url, data) {
+        return this.qryAsync('put', url, data);
+      },
+      postAsync: function (url, data) {
+        return this.qryAsync('post', url, data);
+      },
+      getMyDetails: function () {
+        let userId = '';
+        try {
+          userId = JSON.parse(atob(localStorage.session_token.split('.')[1])).uid;
+        } catch (e) {
+        }
+        return this.postAsync('/ng-rt-admin/myDetailsByUserId', { userId: userId })
+          .then(ret => {
+            this.myDetails = ret.res[0] || this.myDetails;
+            //this.normBaseTribes();
+          })
+          .catch(err=>{});
+      },
+      saveMyDetails: function (ev) {
+        let url = '/ng-rt-admin/myDetails';
+        this.myDetails.mainDisruptiveTechnologyId = (
+          (this.mainDisruptiveTechnologies || []).filter(
+            item => item.name == this.$.mainDisruptiveTechnologyDropdown.value
+          )[0] || {}
+        ).id;
+        this.myDetails.mainDisruptiveSpecialismId = (
+          (this.mainDisruptiveSpecialisms || []).filter(
+            item => item.name == this.$.mainDisruptiveSpecialismDropdown.value
+          )[0] || {}
+        ).id;
+        this.myDetails.userId = this.myDetails.userId || this.userId;
+        return this.putAsync(url, this.myDetails)
+          .then(ret => {
+            return this.getMyDetails()
+              .then(ret => {
+              })
+              .catch(err => {
+              })
+          })
+          .catch(err => {
+          })
+      },
+      handleUpdateProfile: function () {
+        var self = this;
+        var valid =
+          (this.$.fullname ? this.$.fullname.validate() : true) &
+          (this.$.username ? this.$.username.validate() : true) &
+          (this.$.email ? this.$.email.validate() : true) &
+          //(this.$.email2 ? this.$.email2.validate() : true) &
+          ((this.$.phone != undefined & this.$.phone.value != "") ? this.$.phone.validate() : true);
+        if (!valid) return;
+        var body = {
+          fullname: this.fullname,
+          username: this.username,
+          email: this.email,
+          phone: this.phone,
+          advanced: this.advanced,
+          defaultLocale: this.$.langbox.selectedItem.value,
+          theme: self.theme
+        };
+        project.ajax.ajax('/user-profile', 'PUT', body, 'ng-rt-jwt-auth', function (response, xhr) {
+          if (!response) {
+            self.handleError(xhr);
+            return;
+          }
+          const toaster = document.getElementById('toaster');
+          toaster.show('User profile updated successfully.');
+        });
+      },
+      handleUpdateResponse: function (e) {
+        const toaster = document.getElementById('toaster');
+        toaster.show('User profile updated successfully.');
+      },
+      handleError: function (xhr) {
+        var response = xhr.response;
+        const toaster = document.getElementById('toaster');
+        toaster.show(response.message, 'alert');
+      },
+      getVerifySMS: function () {
+        var self = this;
+        project.ajax.get('/profile/verify/sms', 'ng-rt-jwt-auth', function (response, xhr) {
+          if (xhr.status != 200) {
+            self.handleError(xhr);
+            return;
+          }
+          const toaster = document.getElementById('toaster');
+          toaster.show('We have sent you a message with activation code');
+        });
+      },
+      validateVerifySMS: function () {
+        var self = this;
+        project.ajax.ajax('/profile/verify/sms', 'POST', {
+          token: self.phoneverificationcode
+        }, 'ng-rt-jwt-auth', function (response, xhr) {
+          if (xhr.status != 200) {
+            self.handleError(xhr);
+            return;
+          }
+          self.$.verifyphonedialog.toggle();
+          self.getProfile();
+
+          const toaster = document.getElementById('toaster');
+          toaster.show('User phone verified successfully.');
+        });
+      },
+      getVerifyMail: function () {
+        var self = this;
+        project.ajax.get('/profile/verify/email', 'ng-rt-jwt-auth', function (response, xhr) {
+          if (xhr.status != 200) {
+            self.handleError(xhr);
+            return;
+          }
+          const toaster = document.getElementById('toaster');
+          toaster.show('We have sent you an activation link');
+
+        });
+      },
+      handleChangePassword: function () {
+        var self = this;
+        var valid = this.$.old_password.validate() &
+          this.$.new_password.validate();
+        if (!valid) return;
+        var body = {
+          old_password: this.old_password,
+          new_password: this.new_password
+        };
+        project.ajax.post('/change-password', body, function (response) {
+          const toaster = document.getElementById('toaster');
+          toaster.show('Password changed successfully.');
+        });
+        this.old_password = "";
+        this.new_password = "";
+      },
+      ActiveTabCheck: function (index, selected) {
+        return index == selected;
+      },
+      selectImage: function (ev) {
+        var el = document.getElementById('uploadImage');
+        el.click();
+      },
+      selectUserpic: function (ev) {
+        var el = document.getElementById('uploadUserpic');
+        el.click();
+      },
+      selectCompanypic: function (ev) {
+        var el = document.getElementById('uploadCompanypic');
+        el.click();
+      },
+      uploadUserpic: function (ev) {
+        var file = ev.target.files[0];
+        file.progress = 0;
+        file.error = false;
+        file.complete = false;
+        this.uploadFile(file, 'user');
+        //this.$.userpicForm.submit();
+      },
+      uploadCompanypic: function (ev) {
+        var file = ev.target.files[0];
+        file.progress = 0;
+        file.error = false;
+        file.complete = false;
+        this.uploadFile(file, 'company');
+        //this.$.companypicForm.submit();
+      },
+      uploadImage: function (ev) {
+        var file = ev.target.files[0];
+        file.progress = 0;
+        file.error = false;
+        file.complete = false;
+        this.uploadFile(file);
+      },
+      uploadFile: function (file, dir) {
+        let formData = new FormData();
+        formData.append('file', file, file.name);
+        let request = new XMLHttpRequest();
+        let whatpic;
+        if (dir == 'user') {
+          whatpic = 'ng-rt-admin/userpic'
+        } else if (dir == 'company') {
+          whatpic = 'ng-rt-admin/companypic';
+        } else {
+          throw new Error('Wrong dir = ' + dir);
+        }
+        request.open('POST', '/' + whatpic);
+        //this.$[whatpic].src = 'img/' + dir + '/' + this.userId + '?ts=' + Date.now();
+        request.upload.addEventListener('loadend', ev => {
+          // When the request has completed (either in success or failure).
+          // Just like 'load', even if the server hasn't
+          // responded that it finished processing the request.
+          this.updatePics();
+        });
+        request.send(formData);
+      },
+      updatePics: function () {
+      let userpicUrl = 'img/user/img' + this.userId + '?ts=' + Date.now();
+      this.getAsync(userpicUrl)
+        .then(() => {
+          this.$.userpic.src = userpicUrl;
+        });
+      let companypicUrl = 'img/company/img' + this.userId + '?ts=' + Date.now();
+      this.getAsync(companypicUrl)
+        .then(() => {
+          this.$.companypic.src = companypicUrl;
+        });
+      }
+    });
+  </script>
+</dom-module>

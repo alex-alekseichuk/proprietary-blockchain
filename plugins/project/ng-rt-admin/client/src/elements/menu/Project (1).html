@@ -1,0 +1,605 @@
+<link rel="import" href="ng-rt-menu-item.html">
+
+<dom-module id="ng-rt-menu">
+  <template>
+    <style include="shared-styles"></style>
+    <style is="custom-style">
+      /* :root {} */
+
+      :host {
+        float: left;
+        width: 100%;
+        height: 100%;
+        background-color: var(--sidebar-bg);
+        box-shadow: 1px 1px 5px 2px #00000029;
+      }
+
+      iron-icon {
+        margin-right: 20px;
+        /* opacity: 0.54; */
+      }
+
+      .sidebar {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      logosidebar paper-menu {
+        box-sizing: border-box;
+        padding: 0 0 0 0;
+        margin: 0;
+        z-index: 1;
+        /*overflow-y: scroll;
+      overflow-x: hidden;*/
+      }
+
+      .menulist {
+        /*height: calc(100% - 50px);*/
+        margin-bottom: 0;
+        flex: 1;
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
+
+      .menulist>div {
+        float: left;
+      }
+
+      paper-menu {
+        --paper-menu: {
+          color: var(--sidebar-text);
+        }
+
+        ;
+        --paper-menu-background-color: none;
+        --paper-menu-color: var(--sidebar-text);
+
+        --paper-menu-selected-item: {
+          background-color: var(--primary-color);
+          color: var(--sidebar-text);
+        }
+
+        ;
+
+        --paper-menu-focused-item: {
+          background-color: var(--primary-color);
+          color: var(--sidebar-text);
+        }
+
+        ;
+      }
+
+      .logoblock {
+        width: 100%;
+        flex: 0 0 var(--toolbar-height);
+        height: var(--toolbar-height);
+        line-height: var(--toolbar-height);
+        font-weight: bold;
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      .sidelogo {
+        float: left;
+        background-color: var(--primary-color);
+        /*background-image: url("../../res/projectlogo.png");*/
+        background-size: 100% 100%;
+        width: var(--toolbar-height);
+        height: var(--toolbar-height);
+      }
+
+      .sidelogotext {
+        float: left;
+        /*background: url("../../res/projectlogotext.png") no-repeat;*/
+        background-repeat: no-repeat;
+        background-position: 20px center;
+        width: calc(100% - 70px);
+        height: var(--toolbar-height);
+      }
+
+      .menusearch {
+        flex: 0 0 50px;
+        padding: 5px 5px;
+        box-sizing: border-box;
+        position: relative;
+        margin-top: 5px;
+        border-radius: 20px;
+      }
+
+      .menusearch paper-icon-button {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        color: white;
+        /* opacity: 0.5; */
+      }
+
+      .menusearch paper-icon-button:hover {
+        opacity: 1;
+      }
+
+      .menusearch input {
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(0, 0, 0, 0.1);
+        color: rgba(0, 0, 0, 0.9);
+        line-height: 40px;
+        width: 100%;
+        height: 40px;
+        box-sizing: border-box;
+        padding: 0 10px 0 10px;
+        outline: none;
+      }
+
+      .menusearch input:focus {
+        border: 1px solid var(--primary-color);
+        color: rgba(255, 255, 255, 0.6);
+      }
+
+      .menusearch input:placeholder {
+        color: rgba(0, 0, 0, 0.4);
+      }
+
+      .menucont {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+
+      .favsection {
+        position: relative;
+        flex: 0 0 auto;
+        color: rgba(255, 255, 255, 0.2);
+      }
+
+      .menusection {
+        flex: 0 0 40px;
+        box-sizing: border-box;
+        overflow-x: hidden;
+        overflow-y: hidden;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        transition: all 0.3s cubic-bezier(.68, -0.33, .31, 1.39);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+      }
+
+      .menusection.opened {
+        flex: 1;
+        overflow-y: auto;
+        border-bottom: 1px solid transparent;
+      }
+
+      .menuheader {
+        flex: 0 0 40px;
+        line-height: 40px;
+        font-size: 12px;
+        /* opacity: 0.4; */
+        height: 40px;
+        width: 100%;
+        /* color: white; */
+        padding: 0 10px;
+        box-sizing: border-box;
+        text-transform: uppercase;
+        font-weight: 500;
+        /* background: rgba(0, 0, 0, 0.1); */
+        cursor: pointer;
+        position: relative;
+      }
+
+      .menuheader:hover {
+        /* background: rgba(0, 0, 0, 0.05); */
+      }
+
+      .menuheader paper-icon-button {
+        position: absolute;
+        top: 0;
+        right: 0;
+        transition: 0.2s all;
+        pointer-events: none;
+      }
+
+      .opened .menuheader paper-icon-button {
+        transform: rotate(180deg);
+
+      }
+
+      .menusection.opened .menuheader {
+        background: rgba(0, 0, 0, 0);
+        opacity: 0.7;
+      }
+
+      .userblock {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        color: white;
+        background: var(--primary-color);
+        z-index: 2;
+        transition: all 0.3s ease-out;
+        max-height: 60px;
+        min-height: 60px;
+        perspective: 1000px;
+      }
+
+      .userblock:hover {
+        cursor: pointer;
+      }
+
+      .user-button:hover {
+        filter: brightness(0.95)
+      }
+
+      .userblock.opened {
+        transition: all 0.3s ease-out;
+        max-height: 300px;
+      }
+
+      .userblock paper-menu {
+        display: flex;
+        flex: 1;
+        height: auto;
+        margin-bottom: 60px;
+        position: absolute;
+        bottom: -130px;
+        padding-bottom: 60px;
+        left: 0;
+        width: 100%;
+        transition: all 0.6s cubic-bezier(.68, -0.33, .31, 1.39);
+        transform: rotateX(60deg);
+        transform-style: preserve-3d;
+        transform-origin: 0% 100% 0px;
+        background-color: rgba(20, 20, 20, 1);
+      }
+
+      .userblock.opened paper-menu {
+        display: flex;
+        transform: rotateX(0deg);
+        bottom: -60px;
+      }
+
+      .user-button {
+        background: rgba(40, 40, 40, 1);
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 60px;
+        width: 100%;
+      }
+
+      .user-button iron-icon {
+        position: absolute;
+        right: 0;
+        top: 16px;
+        width: 30px;
+        height: 30px;
+        margin: 0 10px;
+        transition: 0.2s all;
+      }
+
+      .userblock.opened .user-button iron-icon {
+        transform: rotate(180deg);
+
+      }
+
+      .logged {
+        font-size: 0.8em;
+        position: absolute;
+        color: rgba(255, 255, 255, 0.6);
+        bottom: 12px;
+        left: 70px;
+      }
+
+      .logged iron-icon {
+        height: 15px;
+        width: 15px;
+        margin-right: 5px;
+      }
+
+      .logged b {
+        color: rgba(255, 255, 255, 0.8);
+        margin-left: 5px;
+      }
+
+      .username {
+        font-size: 1em;
+        position: absolute;
+        top: 9px;
+        font-weight: 500;
+        left: 70px;
+      }
+
+      .userpic {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.1) url("../../res/user.png") center no-repeat;
+        background-size: 100% 100%;
+      }
+
+      .logout {
+        position: absolute;
+        right: 5px;
+        top: 10px;
+      }
+
+      /* Second Scroll*/
+
+      ::-webkit-scrollbar-track {
+        border-radius: 2px;
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      ::-webkit-scrollbar {
+        width: 5px;
+        background-color: transparent;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        border-radius: 2px;
+        background-color: rgba(255, 255, 255, 0.2);
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background-color: rgba(255, 255, 255, 0.3);
+      }
+    </style>
+
+    <div fixed class="sidebar">
+
+      <div style="padding: 0 10px; ">
+        <paper-input id="menuFilter" type="text" label="Search" value="{{menuSearch}}">
+          <template is="dom-if" if="{{filterOn}}">
+            <paper-icon-button suffix icon="icons:close" title="" on-click="cancelFilter"></paper-icon-button>
+          </template>
+          <template is="dom-if" if="{{!filterOn}}">
+            <paper-icon-button suffix icon="icons:search" title="" on-click="menuFilter"></paper-icon-button>
+          </template>
+        </paper-input>
+      </div>
+
+
+      <div class="menucont">
+
+        <template is="dom-if" if="{{checkFav(favorites)}}">
+          <div class="favsection">
+            <div class="menuheader" on-click="menuSlide">favorites</div>
+            <div class="menusection">
+              <paper-menu class="menulist" attr-for-selected="data-route" selected="[[route]]">
+                <template is="dom-repeat" items="{{favorites}}" as="favoriteItem">
+                  <ng-rt-menu-item menu-item="[[favoriteItem]]" data-route$="[[favoriteItem.route]]" route="{{route}}"
+                    submenu="{{submenu}}" isfavorite="true" favorites="{{favorites}}"></ng-rt-menu-item>
+                </template>
+              </paper-menu>
+            </div>
+          </div>
+        </template>
+
+        <template is="dom-repeat" items="[[menuItems]]">
+          <div class$="rolemenus menusection {{firstItem(index)}}">
+            <div class="menuheader" on-click="menuSlide">[[item.name]]
+              <paper-icon-button icon="icons:expand-more"></paper-icon-button>
+            </div>
+            <paper-menu class="menulist" attr-for-selected="data-route" selected="[[route]]">
+              <template is="dom-repeat" items="[[item.items]]" as="menuItem">
+                <ng-rt-menu-item menu-item="[[menuItem]]" data-route$="[[menuItem.route]]" route="{{route}}"
+                  submenu="{{submenu}}" favorites="{{favorites}}"></ng-rt-menu-item>
+              </template>
+            </paper-menu>
+          </div>
+        </template>
+      </div>
+
+    </div>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'ng-rt-menu',
+      properties: {
+        "application": {
+          type: String
+        },
+        "menuSearch": {
+          type: String,
+          value: ""
+        },
+        "menuItems": {
+          type: Array,
+          value: []
+        },
+        "filterOn": {
+          type: Boolean,
+          value: false
+        },
+        "prefilteredItems": {
+          type: Array,
+          value: []
+        },
+        "favorites": {
+          type: Array,
+          value: []
+        },
+        "submenu": {
+          type: String,
+          value: "",
+          notify: true,
+          observer: "_submenuchanged"
+        },
+        "profile": {
+          type: Array,
+          value: []
+        },
+        uploadFile: {
+          type: Object,
+          value: null
+        },
+        downloadFile: {
+          type: Object,
+          value: null
+        }
+      },
+      attached: function () {
+
+        document.getElementById('menuFilter').addEventListener('keydown', (event) => {
+          if (event.keyCode === 13) {
+            this.menuFilter()
+            event.preventDefault();
+          }
+        });
+
+        var self = this;
+        self.getMenu();
+        self.getProfile();
+
+      },
+      onUserBlock: function () {
+        document.getElementById("userblock").classList.toggle("opened");
+      },
+      menuSlide: function (e) {
+        var x = document.getElementsByClassName("menusection");
+        var i;
+        for (i = 0; i < x.length; i++) {
+          x[i].classList.remove("opened");
+        }
+        if (e.target) target = e.target.parentElement;
+        else if (e.srcElement) target = e.srcElement.parentElement;
+        target.classList.add("opened");
+      },
+      firstItem: function (itemindex) {
+        return itemindex === 0 ? 'opened' : '';
+      },
+      getProfile: function () {
+        var self = this;
+        project.ajax.get('/user-profile', 'ng-rt-jwt-auth', function (response, xhr) {
+          if (!response) {
+            self.handleError(xhr);
+            return;
+          }
+          project.config.user = {
+            username: response.username,
+            roles: response.roles,
+            useremail: response.email,
+            domainId: response.domainId
+          };
+          self.name = response.name;
+          self.username = response.username;
+          self.roles = response.roles;
+          self.email = response.email;
+          self.email2 = response.email2;
+          self.scope = response.domainId;
+        });
+      },
+      getMenu: function () {
+        var self = this;
+        project.ajax.get('/menu?name=' + this.application, {}, function (response) {
+          if (response) {
+            self.menuItems = response.items;
+            self.favorites = response.favorites;
+            self.profile = response.profile;
+          }
+        });
+      },
+      checkFav: function (array) {
+        return true;
+        //return array.length > 1;
+      },
+      menuFilter: function () {
+        if (!this.filterOn) {
+          this.prefilteredItems = [...this.menuItems];
+          this.filterOn = true;
+        }
+        let list = [...this.menuItems];
+        let value = this.menuSearch;
+
+        let newList = []
+
+        list.map((item, index) => {
+          newList[index] = {
+            name: item.name,
+            items: item.items.filter(inner => {
+              if (inner.caption.toLowerCase().startsWith(value.toLowerCase())) {
+                return true;
+              }
+
+            })
+          }
+        })
+        this.menuItems = newList;
+
+      },
+      cancelFilter: function () {
+        if (this.filterOn) {
+          this.menuItems = [...this.prefilteredItems];
+          this.filterOn = false;
+          this.menuSearch = ""
+        }
+        this.menuSearch = ""
+      },
+      toggleSubmenu: function (e) {
+        e.target.parentNode.classList.toggle('submenu-expanded');
+      },
+      onDataRouteClick: function () {
+        // Close drawer after menu item is selected if drawerPanel is narrow
+        var drawerPanel = document.querySelector('#paperDrawerPanel');
+        if (drawerPanel.narrow) {
+          drawerPanel.closeDrawer();
+        }
+
+        // adjust charts to widgets size
+        var charts = document.getElementsByTagName('google-chart');
+        setTimeout(function () {
+          for (var i = 0; i < charts.length; i++) {
+            charts[i].drawChart();
+          }
+        }, 0);
+      },
+      logoutHandler: function () {
+        project.ajax.logout();
+      },
+      handleError: function () {
+        res.logout();
+      },
+      _submenuchanged: function (newValue) {
+        this.fire('_submenuchanged', {
+          value: newValue
+        });
+      },
+      showToast: function (text, duration) {
+        const toaster = document.getElementById('toaster');
+        toaster.duration = duration || toaster.duration;
+        if (toaster.duration > 0) toaster.hide();
+        toaster.show(text);
+      },
+      attachListeners: function () {
+        if (window.uploadFile && this.uploadFile !== window.uploadFile) {
+          this.uploadFile = window.uploadFile;
+          this.uploadFile.on('data', progress => this.showToast(
+            'Upload file, completed ' + Math.floor(progress * 10000) / 100 + '%',
+            progress >= 1 ? 3000 : -1)
+          )
+        }
+        if (window.downloadFile && this.downloadFile !== window.downloadFile) {
+          this.downloadFile = window.downloadFile;
+          this.downloadFile.on('data', progress => this.showToast(
+            'Download file, completed ' + Math.floor(progress * 10000) / 100 + '%',
+            progress >= 1 ? 3000 : -1)
+          )
+        }
+        setTimeout(() => this.attachListeners(), 5000)
+      },
+      ready: function () {
+        if (!window.uploadFile) window.uploadFile = new EventEmitter2();
+        if (!window.downloadFile) window.downloadFile = new EventEmitter2();
+        this.attachListeners();
+      }
+    });
+  </script>
+
+</dom-module>

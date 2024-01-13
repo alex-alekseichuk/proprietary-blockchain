@@ -1,0 +1,25 @@
+[
+  {
+    "name": "nodeRedSessions",
+    "base": "commonDataModel",
+    "options": {
+      "idInjection": true,
+      "hana": {
+        "schema": "PROJECT",
+        "table": "NODEREDSESSIONS"
+      }
+    },
+    "properties": {
+      "accessToken": {
+        "type": "string"
+      },
+      "user": {
+        "type": "string"
+      }
+    },
+    "validations": [],
+    "relations": {},
+    "acls": [],
+    "methods": {}
+  }
+]

@@ -1,0 +1,90 @@
+<dom-module id="ngrt-add-transaction">
+  <style include="shared-styles"></style>
+  <style is="custom-style">
+    :host {
+      width: 100%;
+      height:100%;
+    }
+
+
+  </style>
+
+  <template>
+    <iron-ajax id="addTransactionRequest" url="/transaction/create" method="POST" content-type="application/json"
+               on-response="handleResponse" on-error="handleError"></iron-ajax>
+    <paper-header-panel class="appPanel">
+
+      <!--Toolbar-->
+      <paper-toolbar class="appToolbar">
+
+        <!--Top-->
+        <paper-icon-button id="paperToggle" icon="menu" paper-drawer-toggle></paper-icon-button>
+        <span class="title">Create transaction</span>
+        <span class="flex"></span>
+        <pa-search></pa-search>
+        <paper-icon-button icon="icons:settings" ></paper-icon-button>
+      </paper-toolbar>
+
+      <!--Content-->
+      <div class="content fit">
+        <paper-material elevation="1">
+          <!--<content></content>-->
+          <h3>Create transaction</h3>
+          <paper-input name="amount" type="text" label="Amount" value="{{amount}}" auto-validate pattern="[[rules.decimalnumber]]" error-message="[[errors.decimalnumber]]"></paper-input>
+          <paper-input name="description" type="text" label="Description" value="{{description}}"></paper-input>
+          <paper-button class='light' on-click="handleCreate">CREATE</paper-button>
+        </paper-material>
+      </div>
+
+    </paper-header-panel>
+  </template>
+
+  <script>
+    Polymer({
+      is: "ngrt-add-transaction",
+      properties: {
+        amount: {
+          type: "string",
+          value: ""
+        },
+
+        description: {
+          type: "string",
+          value: ""
+        },
+      },
+      handleCreate: function () {
+        const toaster = document.getElementById('toaster');
+        if (this.amount.trim() == "") {
+          toaster.show("Amount cannot be blank", 'alert');
+          return;
+        }
+        var key = project.KeysService.getDefault().pubkey;
+        if (!key) {
+          toaster.show("There is no keys to apply ownership", 'alert');
+          return;
+        }
+
+        var body = {
+          amount: this.amount,
+          description: this.description,
+          ownerPubKey: key
+        };
+        this.$.addTransactionRequest.body = JSON.stringify(body);
+        this.$.addTransactionRequest.generateRequest();
+      },
+      handleResponse: function (e) {
+        alert("Transaction created.");
+        this.amount = "";
+        this.description = "";
+      },
+      handleError: function (e) {
+        const toaster = document.getElementById('toaster');
+        var response = e.detail.request.xhr.response;
+        toaster.show(response.message, 'alert');
+      }
+    });
+  </script>
+
+</dom-module>
+

@@ -1,0 +1,36 @@
+
+<dom-module id="ngrt-CRUD-data-list">
+    <template>
+        <div>
+            <table>
+                <template id="done" is="dom-repeat" items="{{elements}}">
+                    <tr>
+                        <td style="background-color: #f0f0f0">{{item.name}}</td>
+                        <td>{{item.value}}</td>
+                    </tr>
+                </template>
+            </table>
+        </div>
+    </template>
+</dom-module>
+<script>
+    Polymer({
+        is: "ngrt-CRUD-data-list",
+        properties: {
+            elements: {
+                type: "array",
+                value: [],
+                notify: true
+            }
+        },
+        setCRUDObject: function (obj) {
+            var self = this;
+            this.elements = [];
+            Object.keys(obj).forEach(function(key){
+                self.push('elements', {name: key, value: obj[key]});
+            });
+        }
+    });
+</script>
+
+

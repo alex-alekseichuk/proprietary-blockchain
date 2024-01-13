@@ -1,0 +1,35 @@
+{
+  "entryPoints": [{
+    "type": "route",
+    "parameters": {
+      "file": "server/routes.js"
+    }
+  }],
+  "actions": {
+    "after_install": [
+
+    ],
+    "before_install": [],
+    "after_uninstall": [],
+    "before_activate": [],
+    "after_activate": [],
+    "before_deactivate": [],
+    "after_deactivate": []
+  },
+  "name": "ng-css-theme",
+  "type": "optional",
+  "author": "PROJECT",
+  "description": "PROJECT Blockchain Solution Platform",
+  "pluginDescription": "application ng-css-theme",
+  "copyright": "PROJECT BV 2016 - 2019",
+  "version": "3.2.",
+  "sharedServices": [],
+  "apiServices": [],
+  "settings": [
+    {
+      "name": "namespace",
+      "caption": "Root name of the URL for the route",
+      "value": "ng-css-theme"
+    }
+  ]
+}

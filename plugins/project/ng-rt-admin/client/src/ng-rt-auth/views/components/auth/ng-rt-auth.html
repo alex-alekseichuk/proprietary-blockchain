@@ -1,0 +1,419 @@
+<link rel="import" href="ng-rt-sign.html">
+<link rel="import" href="ngrt-otp.html">
+<link rel="import" href="ngrt-verify-phone.html">
+
+<link rel="import" href="ngrt-forgot-password.html">
+<link rel="import" href="ngrt-terms.html">
+
+<link rel="import" href="ngrt-reset-password.html">
+
+<!--<link rel="import" href="../../components/auth/ng-rt-forgot-password.html">-->
+<dom-module id="ng-rt-auth">
+  <style include="shared-styles"></style>
+  <style is="custom-style">
+    :host {
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: url("/images/bg.jpg") center no-repeat;
+      background-color: #efefef;
+      height: 100%;
+      min-height: 100%;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .login-page {
+      margin: 0px auto;
+      width: 400px;
+      -webkit-transition: 0.5s;
+      /*text-align: center;*/
+      position: relative;
+    }
+
+    .versionblock {
+      width: 100%;
+      float: left;
+      margin-top: 30px;
+      opacity: 0.5;
+    }
+
+    .versionblock:hover>div:nth-child(1),
+    .versionblock:hover>div:nth-child(3) {
+      display: block;
+    }
+
+    .versionblock>div {
+      color: #343434;
+      font-size: 12px;
+      line-height: 22px;
+      text-align: center;
+      float: left;
+      width: 100%;
+      margin-right: 30px;
+    }
+
+
+
+    .logo {
+      width: 300px;
+      height: 130px;
+      display: block;
+      margin: 30px auto 30px auto;
+      transition: 0.3s;
+      background-image: url('../../../../res/t-logo.png');
+      background-size: auto;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    .logo-small {
+      display: none;
+    }
+
+    #loginform {
+      width: 100%;
+      padding: 20px 20px;
+      /* height: 325px; */
+      /* border: 1px solid var(--brd-color); */
+      box-sizing: border-box;
+      background: var(--window-bg);
+      transition: 0.3s all;
+      overflow: hidden;
+    }
+
+    #loginform .reset {
+      height: 200px;
+    }
+
+    #loginform .login-tab {
+      width: 200px;
+    }
+
+
+
+    .login-social {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .login-social .signwith {
+      width: 100%;
+      float: left;
+      margin: 30px 0;
+      font-size: 1.33em;
+    }
+
+    .login-social img {
+      -webkit-filter: grayscale(100%);
+      margin: 0 10px;
+      opacity: 0.3;
+      cursor: pointer;
+      -webkit-transition: 0.3s;
+    }
+
+    .login-social img:hover {
+      -webkit-filter: grayscale(0%);
+      opacity: 1;
+    }
+
+    .area-reset {
+      margin: 20px 0 0 0;
+    }
+
+    @media (max-width: 480px) {
+      .logo {
+        margin: 10px auto;
+        height: 50px;
+      }
+
+      .login-page {
+        width: 100%;
+      }
+
+      #loginform .area-login {
+        width: 100%;
+      }
+
+      #loginform .area-login .login-button {
+        float: left;
+        width: calc(100% - 0.29em * 2);
+      }
+
+      #loginform .area-login .area-remember {
+        width: 100%;
+        float: left;
+        margin-top: 30px;
+        margin-left: 0px;
+      }
+    }
+
+    @media (max-height: 860px) {
+      .logo {
+        background-image: url('../../../../res/project-hor.png');
+        height: 70px;
+      }
+
+      .versionblock>div:nth-child(3) {
+        display: none;
+      }
+
+      .versionblock>div:nth-child(1) {
+        display: none;
+      }
+    }
+
+    neon-animated-pages,
+    neon-animatable {
+      height: 100%;
+      width: 100%;
+      padding-top: 10px;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+
+    #warningtoast {
+      --paper-toast-background-color: white;
+      --paper-toast-color: black;
+      text-align: center;
+      font-weight: bold;
+      font-size: 1.1em;
+    }
+
+    #warningtoast paper-button {
+      text-transform: none;
+      margin-left: 20px;
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      filter: blur(14px)
+    }
+
+    .hero-sign {
+      position: absolute;
+      left: 10px;
+      top: 10px;
+      /*margin-left: -75px;*/
+    }
+
+    .dialog-hero {
+      height: 70px;
+    }
+
+    .dialog-hero h4 {
+      color: white;
+      position: absolute;
+      left: 80px;
+      top: 25px;
+    }
+
+    #loginform {
+      flex-direction: column;
+      display: flex;
+    }
+  </style>
+
+  <template>
+    <canvas id="c"></canvas>
+    <iron-media-query query="(min-width: 290px)" query-matches="{{small}}"></iron-media-query>
+    <div class="login-page">
+      <template is="dom-if" if="{{small}}">
+        <div class="logo"></div>
+      </template>
+
+      <!--Form-->
+      <paper-material id="loginform" elevation="0" class="window-login vertical">
+
+        <template is="dom-if" if="{{isVisible(view, 'sign')}}">
+          <ng-rt-sign selected="{{selected}}"></ng-rt-sign>
+        </template>
+
+        <template is="dom-if" if="{{isVisible(view, 'fp')}}">
+          <ngrt-forgot-password></ngrt-forgot-password>
+        </template>
+
+        <template is="dom-if" if="{{isVisible(view, 'rp')}}">
+          <ngrt-reset-password accesstoken="{{rpaccesstoken}}"></ngrt-reset-password>
+        </template>
+
+        <template is="dom-if" if="{{isVisible(view, 'otp')}}">
+          <ngrt-otp></ngrt-otp>
+        </template>
+
+        <template is="dom-if" if="{{isVisible(view, 'vp')}}">
+          <ngrt-verify-phone></ngrt-verify-phone>
+        </template>
+
+        <template is="dom-if" if="{{isVisible(view, 'terms')}}">
+          <ngrt-terms token="{{token}}" terms-type="{{termsType}}" terms-text="{{termsText}}" results="{{results}}"></ngrt-terms>
+        </template>
+
+      </paper-material>
+      <!--<div class="login-social">
+                  <span class="signwith">Sign In with</span>
+                  <a href="/auth/google"><img src="../images/social-google.png" alt=""></a>
+                  <a href="/auth/twitter"><img src="../images/social-twitter.png" alt=""></a>
+              </div>-->
+    </div>
+    <div class="versionblock">
+      <div>HOST: {{host}}</div>
+      <div>VERSION: {{version}}</div>
+      <div>BUILD: {{build}}</div>
+      <div>CLIENT ID: [[clientId]]</div>
+    </div>
+
+
+    <paper-toast duration="0" id="warningtoast" class="fit-bottom" text="Please use Chrome browser">
+      <paper-button onclick="warningtoast.toggle()" class="yellow-button">Okay</paper-button>
+    </paper-toast>
+
+    <paper-dialog modal id="browserWarning" role="alertdialog" entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+
+
+      <!--<paper-toolbar class="dialog_toolbar medium">
+
+        <div class="top dialog-header">
+          <h4 style="text-align: left">Your browser is not compatible</h4>
+        </div>
+      </paper-toolbar>-->
+
+      <div class="dialog-hero vbg">
+        <h4 style="text-align: left">Your browser is not compatible</h4>
+        <svg x="0px" y="0px" viewBox="0 0 612 612" style="enable-background:new 0 0 612 612;" xml:space="preserve" width="50px" height="50px"
+          class="hero-sign">
+          <g>
+            <path d="M306,612c-28.152,0-55.284-3.672-81.396-11.016c-26.112-7.347-50.49-17.646-73.134-30.906    s-43.248-29.172-61.812-47.736c-18.564-18.562-34.476-39.168-47.736-61.812c-13.26-22.646-23.562-47.022-30.906-73.135    C3.672,361.284,0,334.152,0,306s3.672-55.284,11.016-81.396s17.646-50.49,30.906-73.134s29.172-43.248,47.736-61.812    s39.168-34.476,61.812-47.736s47.022-23.562,73.134-30.906S277.848,0,306,0c42.024,0,81.702,8.058,119.034,24.174    s69.768,37.944,97.308,65.484s49.368,59.976,65.484,97.308S612,263.976,612,306c0,28.152-3.672,55.284-11.016,81.396    c-7.347,26.109-17.646,50.487-30.906,73.134c-13.26,22.644-29.172,43.248-47.736,61.812    c-18.562,18.564-39.168,34.479-61.812,47.736c-22.646,13.26-47.022,23.562-73.136,30.906C361.284,608.328,334.152,612,306,612z     M471.852,256.428H140.148c-2.448,0-4.488,0.918-6.12,2.754c-1.632,1.836-2.448,3.774-2.448,5.814v82.008    c0,2.04,0.816,3.979,2.448,5.814c1.632,1.836,3.672,2.754,6.12,2.754h331.704c2.448,0,4.488-0.918,6.12-2.754    s2.448-3.774,2.448-5.814v-82.008c0-2.04-0.816-3.978-2.448-5.814S474.3,256.428,471.852,256.428z"
+              fill="#FFFFFF" />
+          </g>
+        </svg>
+      </div>
+
+      <div class="dialog-content">
+        <p style="text-align: left">
+          <div style="padding: 10px; background: rgba(0,0,0,0.1); border: 1px solid rgba(0,0,0,0); width: calc(100% + 20px); margin: -20px 0 10px -20px;">
+            You are using
+            <strong>[[browserName]] [[browserVersion]]</strong>
+          </div>
+          <h4>Compatible browsers</h4>
+
+          <div class="list-header">
+            <iron-grid>
+              <div class="s6 xs6">Browser name</div>
+              <div class="s6 xs6">Version</div>
+            </iron-grid>
+          </div>
+
+          <template is="dom-repeat" items="{{browsers}}">
+            <div class="list-row horizontal layout">
+              <iron-grid>
+                <div class="s6 xs6">[[item.name]]</div>
+                <div class="s6 xs6">[[item.version]]</div>
+              </iron-grid>
+            </div>
+          </template>
+
+
+        </p>
+
+      </div>
+      <div class="buttons">
+        <!--<paper-button dialog-dismiss>Cancel</paper-button>-->
+        <paper-button autofocus on-click="" style="flex:1">Contact Administrator</paper-button>
+      </div>
+
+    </paper-dialog>
+
+    <script type="text/javascript" src="../../../../js/authanimation.js"></script>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'ng-rt-auth',
+      properties: {
+        clientId: {
+          type: String,
+          value: ""
+        },
+        view: {
+          type: String,
+          value: 'sign'
+        },
+        token: {
+          type: String,
+          value: ''
+        },
+        termsType: {
+          type: String,
+          value: ''
+        },
+        termsText: {
+          type: String,
+          value: ''
+        },
+        results: {
+          type: Object,
+          value: {}
+        },
+        browserName: {
+          type: String,
+          value: ''
+        },
+        browserVersion: {
+          type: String,
+          value: ''
+        },
+        browsers: {
+          type: Object,
+          value: []
+        },
+        selected: 0
+      },
+      ready: function (e) {
+        this.clientId = project.ajax.getClientId();
+        var that = this;
+        project.ajax.on('terms', function (options) {
+          that.view = 'terms';
+          that.token = options.token;
+          that.termsType = options.termsType;
+          that.termsText = options.termsText;
+          that.results = options.results;
+        });
+
+        app.loadTheme();
+        this.browserName = bowser.name;
+        this.browserVersion = bowser.version;
+
+        //this.scopeSubtree(this.$.svg, true);
+        var loginWindow = this;
+        project.ajax.get('/ng-rt-core/version', function (res, xhr) {
+          if (xhr.status == 200) {
+            try {
+              if (res.version)
+                loginWindow.version = res.version;
+              if (res.buildId)
+                loginWindow.build = res.buildId.substring(0, 1) + "-" + res.build_number.substring(0, res.build_number.length)
+              if (res.hostname)
+                loginWindow.host = res.hostname;
+            } catch (e) {
+            }
+          }
+        });
+
+        this.checkBrowser();
+      },
+      checkBrowser: function () {
+        var self = this;
+        browserUtils.checkBrowser()
+          .catch(() => {
+            document.getElementById('toaster').show(translate('Your browser is not compatible'), 'alert');
+          })
+      },
+      isVisible: function (currentView, view) {
+        return currentView === view;
+      }
+    });
+  </script>
+</dom-module>

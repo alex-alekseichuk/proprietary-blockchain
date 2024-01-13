@@ -1,0 +1,1569 @@
+[
+    {
+        "id": "be0b6171.b36aa",
+        "type": "tab",
+        "label": "SC_Escrow",
+        "disabled": false,
+        "info": "The escrow smart contract locks both assets and releases assets to the respective parties once specific conditions are met.",
+        "nodes": [
+            {
+                "id": "7a523b0a.d051c4",
+                "type": "escrow-asset-transfer",
+                "z": "be0b6171.b36aa",
+                "name": "escrow-asset-transfer",
+                "assetId": "",
+                "x": 2380,
+                "y": 980,
+                "wires": [
+                    [
+                        "87f937eb.8e3998"
+                    ]
+                ]
+            },
+            {
+                "id": "1fc172ee.89e15d",
+                "type": "function",
+                "z": "be0b6171.b36aa",
+                "name": "error message",
+                "func": "msg.payload = {};\nmsg.payload = \n    {\n        state: false,\n        msg: \"Buyer has not confirmed the delivery !!\"\n    };\nreturn msg;",
+                "outputs": 1,
+                "noerr": 0,
+                "x": 1600,
+                "y": 1120,
+                "wires": [
+                    [
+                        "5f8483bc.7eeaac"
+                    ]
+                ]
+            },
+            {
+                "id": "5aa8b0b7.d91dc",
+                "type": "done",
+                "z": "be0b6171.b36aa",
+                "name": "",
+                "x": 3330,
+                "y": 600,
+                "wires": []
+            },
+            {
+                "id": "33b23286.10289e",
+                "type": "switch",
+                "z": "be0b6171.b36aa",
+                "name": "check assetId",
+                "property": "sellerAssetId",
+                "propertyType": "msg",
+                "rules": [
+                    {
+                        "t": "eq",
+                        "v": "transferData.id",
+                        "vt": "msg"
+                    },
+                    {
+                        "t": "else"
+                    }
+                ],
+                "checkall": "true",
+                "repair": false,
+                "outputs": 2,
+                "x": 1880,
+                "y": 560,
+                "wires": [
+                    [
+                        "3be5ec05.646454"
+                    ],
+                    [
+                        "f839ce21.73eef"
+                    ]
+                ]
+            },
+            {
+                "id": "bbc1d339.b5636",
+                "type": "switch",
+                "z": "be0b6171.b36aa",
+                "name": "check STATE ",
+                "property": "memory.state",
+                "propertyType": "msg",
+                "rules": [
+                    {
+                        "t": "eq",
+                        "v": "assetsLocked",
+                        "vt": "str"
+                    },
+                    {
+                        "t": "eq",
+                        "v": "deliveredToSeller",
+                        "vt": "str"
+                    },
+                    {
+                        "t": "eq",
+                        "v": "deliveredToBuyer",
+                        "vt": "str"
+                    },
+                    {
+                        "t": "eq",
+                        "v": "finished",
+                        "vt": "str"
+                    },
+                    {
+                        "t": "else"
+                    }
+                ],
+                "checkall": "true",
+                "repair": false,
+                "outputs": 5,
+                "x": 470,
+                "y": 1220,
+                "wires": [
+                    [
+                        "5494155a.e3d99c"
+                    ],
+                    [
+                        "5494155a.e3d99c"
+                    ],
+                    [
+                        "5494155a.e3d99c"
+                    ],
+                    [
+                        "65069c0f.b4c074"
+                    ],
+                    [
+                        "d82b941d.763e18"
+                    ]
+                ]
+            },
+            {
+                "id": "b8ee4395.47559",
+                "type": "arguments",
+                "z": "be0b6171.b36aa",
+                "name": "get argument \"cancel\"",
+                "position": 0,
+                "destination": "cancel",
+                "dataType": "boolean",
+                "description": "'True' means buyer is not happy with the asset. 'False' means buyer is happy with the asset.",
+                "x": 860,
+                "y": 1900,
+                "wires": [
+                    [
+                        "4180ba62.0b7f84"
+                    ]
+                ]
+            },
+            {
+                "id": "e44d4ed9.7a745",
+                "type": "set-memory-field",
+                "z": "be0b6171.b36aa",
+                "name": "set memory field",
+                "field": "sellerAssetId",
+                "source": "transferData.id",
+                "x": 2390,
+                "y": 500,
+                "wires": [
+                    [
+                        "bfaecc19.f85f7"
+                    ]
+                ]
+            },
+            {
+                "id": "c92ef41e.81e2b8",
+                "type": "contract in",
+                "z": "be0b6171.b36aa",
+                "name": "getState",
+                "url": "/getState",
+                "method": "get",
+                "swaggerDoc": "",
+                "x": 80,
+                "y": 1600,
+                "wires": [
+                    [
+                        "13f9b948.216cd7"
+                    ]
+                ],
+                "info": "To check the current state of contract"
+            },
+            {
+                "id": "65069c0f.b4c074",
+                "type": "function",
+                "z": "be0b6171.b36aa",
+                "name": "error message",
+                "func": "msg.payload = {};\nmsg.payload = \n    {\n        state: false,\n        msg: \"Rewards have been delivered !!\"\n    };\nreturn msg;",
+                "outputs": 1,
+                "noerr": 0,
+                "x": 1260,
+                "y": 1360,
+                "wires": [
+                    [
+                        "5f8483bc.7eeaac"
+                    ]
+                ]
+            },
+            {
+                "id": "9a77d9e2.edbb48",
+                "type": "contract in",
+                "z": "be0b6171.b36aa",
+                "name": "getContractMemory",
+                "url": "/getContractMemory",
+                "method": "get",
+                "swaggerDoc": "",
+                "x": 110,
+                "y": 2180,
+                "wires": [
+                    [
+                        "ec7ffcbc.d7464"
+                    ]
+                ],
+                "info": "To read the complete memory"
+            },
+            {
+                "id": "752e358c.4a2acc",
+                "type": "function",
+                "z": "be0b6171.b36aa",
+                "name": "error message",
+                "func": "msg.payload = {};\nmsg.payload = \n    {\n        state: false,\n        msg: \"Only buyer is allowed to update !!\"\n    };\nreturn msg;",
+                "outputs": 1,
+                "noerr": 0,
+                "x": 840,
+                "y": 2000,
+                "wires": [
+                    [
+                        "a1c93f00.0c04d"
+                    ]
+                ]
+            },
+            {
+                "id": "4215e7f3.c19378",
+                "type": "function",
+                "z": "be0b6171.b36aa",
+                "name": "Check state",
+                "func": "if((typeof msg.payload == \"undefined\") || (msg.payload === null)){\n    msg.payload = \n    {\n        state: false,\n        msg: \"State not defined!!\"\n    };\n}\nreturn msg;",
+                "outputs": 1,
+                "noerr": 0,
+                "x": 530,
+                "y": 1600,
+                "wires": [
+                    [
+                        "3252f92c.ad7bf6"
+                    ]
+                ]
+            },
+            {
+                "id": "58365bb3.d31c74",
+                "type": "change",
+                "z": "be0b6171.b36aa",
+                "name": "update nextOwner",
+                "rules": [
+                    {
+                        "t": "set",
+                        "p": "transferData.outgoingDestination",
+                        "pt": "msg",
+                        "to": "memory.buyer",
+                        "tot": "msg"
+                    }
+                ],
+                "action": "",
+                "property": "",
+                "from": "",
+                "to": "",
+                "reg": false,
+                "x": 1610,
+                "y": 1200,
+                "wires": [
+                    [
+                        "40f9bd1.1d47a44"
+                    ]
+                ]
+            },
+            {
+                "id": "b200c9b5.4d6ed8",
+                "type": "contract in",
+                "z": "be0b6171.b36aa",
+                "name": "transferAsset",
+                "url": "/transferAsset",
+                "method": "get",
+                "swaggerDoc": "",
+                "x": 80,
+                "y": 700,
+                "wires": [
+                    [
+                        "c972c251.3770b"
+                    ]
+                ],
+                "info": "To initiate transfer to lock assets"
+            },
+            {
+                "id": "f5e0700.4ac699",
+                "type": "set-memory-field",
+                "z": "be0b6171.b36aa",
+                "name": "set memory field",
+                "field": "state",
+                "source": "state",
+                "x": 2290,
+                "y": 220,
+                "wires": [
+                    [
+                        "7d8b0132.1a8e6"
+                    ]
+                ]
+            },
+            {
+                "id": "32304c67.11f374",
+                "type": "get-memory-field",
+                "z": "be0b6171.b36aa",
+                "name": "get buyerAssetId",
+                "field": "buyerAssetId",
+                "destination": "buyerAssetId",
+                "x": 1650,
+                "y": 680,
+                "wires": [
+                    [
+                        "cc7dce2c.2e058"
+                    ]
+                ]
+            },
+            {
+                "id": "533b204c.111e8",
+                "type": "set-memory-field",
+                "z": "be0b6171.b36aa",
+                "name": "set memory field",
+                "field": "buyerAssetId",
+                "source": "transferData.id",
+                "x": 2390,
+                "y": 700,
+                "wires": [
+                    [
+                        "edbbe6e6.92b9c8"
+                    ]
+                ]
+            },
+            {
+                "id": "3be5ec05.646454",
+                "type": "get-transfer-info",
+                "z": "be0b6171.b36aa",
+                "name": "get TRANSFER info",
+                "destination": "payload",
+                "x": 2170,
+                "y": 500,
+                "wires": [
+                    [
+                        "e44d4ed9.7a745"
+                    ]
+                ]
+            },
+            {
+                "id": "d25dc1f2.0cb9d",
+                "type": "function",
+                "z": "be0b6171.b36aa",
+                "name": "filter for tmTx",
+                "func": "msg.payload = {\n    modelName: \"tmTx\",\n    filter: {\"where\": {\"txData.metadata.lockedOnContract\":msg.env.ownContractId}}\n}\nreturn msg;",
+                "outputs": 1,
+                "noerr": 0,
+                "x": 2030,
+                "y": 1200,
+                "wires": [
+                    [
+                        "87e57b07.1f4508"
+                    ]
+                ]
+            },
+            {
+                "id": "3484b1ff.b70cee",
+                "type": "lb-find",
+                "z": "be0b6171.b36aa",
+                "name": "tmTx",
+                "modelname": "tmTx",
+                "filter": "",
+                "x": 2190,
+                "y": 980,
+                "wires": [
+                    [
+                        "7a523b0a.d051c4"
+                    ]
+                ]
+            },
+            {
+                "id": "c944bd79.8733d",
+                "type": "arguments",
+                "z": "be0b6171.b36aa",
+                "name": "arguments buyer",
+                "position": "1",
+                "destination": "buyer",
+                "dataType": "address",
+                "description": "Buyer public key",
+                "x": 690,
+                "y": 220,
+                "wires": [
+                    [
+                        "598c2da5.4dc3a4"
+                    ]
+                ]
+            },
+            {
+                "id": "40f9bd1.1d47a44",
+                "type": "set-memory-field",
+                "z": "be0b6171.b36aa",
+                "name": "set memory field",
+                "field": "outgoingDestination",
+                "source": "transferData.outgoingDestination",
+                "x": 1830,
+                "y": 1200,
+                "wires": [
+                    [
+                        "d25dc1f2.0cb9d"
+                    ]
+                ]
+            },
+            {
+                "id": "f839ce21.73eef",
+                "type": "function",
+                "z": "be0b6171.b36aa",
+                "name": "error message",
+                "func": "msg.payload = {};\nmsg.payload = \n    {\n        state: false,\n        msg: \"Seller assetId is not valid !!\"\n    };\nreturn msg;",
+                "outputs": 1,
+                "noerr": 0,
+                "x": 2160,
+                "y": 620,
+                "wires": [
+                    [
+                        "99ad6f3a.05045"
+                    ]
+                ]
+            },
+            {
+                "id": "76a00f2a.43456",
+                "type": "contract in",
+                "z": "be0b6171.b36aa",
+                "name": "checkReward",
+                "url": "/checkReward",
+                "method": "get",
+                "swaggerDoc": "",
+                "x": 90,
+                "y": 1780,
+                "wires": [
+                    [
+                        "bfefcf83.10438"
+                    ]
+                ],
+                "info": "To check the availability of reward"
+            },
+            {
+                "id": "b705496a.08f7a8",
+                "type": "done",
+                "z": "be0b6171.b36aa",
+                "name": "done",
+                "x": 770,
+                "y": 1780,
+                "wires": []
+            },
+            {
+                "id": "23bd381a.a812b8",
+                "type": "function",
+                "z": "be0b6171.b36aa",
+                "name": "error message",
+                "func": "msg.payload = {};\nmsg.payload = \n    {\n        state: false,\n        msg: \"Buyer is not happy with the asset !!\"\n    };\nreturn msg;",
+                "outputs": 1,
+                "noerr": 0,
+                "x": 1600,
+                "y": 1060,
+                "wires": [
+                    [
+                        "5f8483bc.7eeaac"
+                    ]
+                ]
+            },
+            {
+                "id": "4180ba62.0b7f84",
+                "type": "set-memory-field",
+                "z": "be0b6171.b36aa",
+                "name": "set memory field",
+                "field": "cancel",
+                "source": "cancel",
+                "x": 1110,
+                "y": 1900,
+                "wires": [
+                    [
+                        "471d4980.b86cb8"
+                    ]
+                ]
+            },
+            {
+                "id": "d853f984.9b4158",
+                "type": "function",
+                "z": "be0b6171.b36aa",
+                "name": "error message",
+                "func": "msg.payload = {};\nmsg.payload = \n    {\n        state: false,\n        msg: \"Reward can not been delivered as caller is neither seller or buyer!!\"\n    };\nreturn msg;",
+                "outputs": 1,
+                "noerr": 0,
+                "x": 1600,
+                "y": 1300,
+                "wires": [
+                    [
+                        "5f8483bc.7eeaac"
+                    ]
+                ]
+            },
+            {
+                "id": "95ffcf09.70a4d",
+                "type": "function",
+                "z": "be0b6171.b36aa",
+                "name": "send STATE ->",
+                "func": "if (msg.state == \"buyerAssetReceived\"){\n    msg.state = \"assetsLocked\";\n}else{\n    msg.state = \"sellerAssetReceived\";   \n}\nreturn msg;",
+                "outputs": 1,
+                "noerr": 0,
+                "x": 2840,
+                "y": 500,
+                "wires": [
+                    [
+                        "c05975f8.89e8f8"
+                    ]
+                ]
+            },
+            {
+                "id": "13f9b948.216cd7",
+                "type": "get-memory-field",
+                "z": "be0b6171.b36aa",
+                "name": "get memory field",
+                "field": "state",
+                "destination": "payload",
+                "x": 300,
+                "y": 1600,
+                "wires": [
+                    [
+                        "4215e7f3.c19378"
+                    ]
+                ]
+            },
+            {
+                "id": "d807adce.49847",
+                "type": "done",
+                "z": "be0b6171.b36aa",
+                "name": "done",
+                "x": 510,
+                "y": 2180,
+                "wires": []
+            },
+            {
+                "id": "d82b941d.763e18",
+                "type": "function",
+                "z": "be0b6171.b36aa",
+                "name": "error message",
+                "func": "msg.payload = {};\nmsg.payload = \n    {\n        state: false,\n        msg: \"Wrong state !!\"\n    };\nreturn msg;",
+                "outputs": 1,
+                "noerr": 0,
+                "x": 1260,
+                "y": 1440,
+                "wires": [
+                    [
+                        "5f8483bc.7eeaac"
+                    ]
+                ]
+            },
+            {
+                "id": "87e57b07.1f4508",
+                "type": "lb-find",
+                "z": "be0b6171.b36aa",
+                "name": "tmTx",
+                "modelname": "tmTx",
+                "filter": "",
+                "x": 2190,
+                "y": 1200,
+                "wires": [
+                    [
+                        "30fa9d1a.1b6f12"
+                    ]
+                ]
+            },
+            {
+                "id": "ab79a42a.4287d8",
+                "type": "caller-pubkey",
+                "z": "be0b6171.b36aa",
+                "name": "caller public key",
+                "destination": "payload",
+                "x": 1100,
+                "y": 620,
+                "wires": [
+                    [
+                        "80b062e7.f60aa"
+                    ]
+                ]
+            },
+            {
+                "id": "c972c251.3770b",
+                "type": "get-memory-field",
+                "z": "be0b6171.b36aa",
+                "name": "get \"STATE\" flag",
+                "field": "state",
+                "destination": "state",
+                "x": 260,
+                "y": 700,
+                "wires": [
+                    [
+                        "f5976c80.8e6ae"
+                    ]
+                ]
+            },
+            {
+                "id": "7d8b0132.1a8e6",
+                "type": "done",
+                "z": "be0b6171.b36aa",
+                "name": "",
+                "x": 2470,
+                "y": 220,
+                "wires": []
+            },
+            {
+                "id": "c05975f8.89e8f8",
+                "type": "set-memory-field",
+                "z": "be0b6171.b36aa",
+                "name": "set memory field",
+                "field": "state",
+                "source": "state",
+                "x": 3050,
+                "y": 500,
+                "wires": [
+                    [
+                        "5aa8b0b7.d91dc"
+                    ]
+                ]
+            },
+            {
+                "id": "7493c915.7adf88",
+                "type": "get-memory-field",
+                "z": "be0b6171.b36aa",
+                "name": "get buyer",
+                "field": "buyer",
+                "destination": "buyer",
+                "x": 920,
+                "y": 620,
+                "wires": [
+                    [
+                        "ab79a42a.4287d8"
+                    ]
+                ]
+            },
+            {
+                "id": "39df0620.84e57a",
+                "type": "function",
+                "z": "be0b6171.b36aa",
+                "name": "send STATE ->",
+                "func": "msg.payload = msg.transferData;\n\nif (msg.memory.state == \"deliveredToBuyer\"){\n    msg.state = \"finished\";\n}else{\n    msg.state = \"deliveredToSeller\";   \n}\n\nreturn msg;",
+                "outputs": 1,
+                "noerr": 0,
+                "x": 2820,
+                "y": 980,
+                "wires": [
+                    [
+                        "f29e9af1.e04428"
+                    ]
+                ]
+            },
+            {
+                "id": "ad001703.9e27b8",
+                "type": "change",
+                "z": "be0b6171.b36aa",
+                "name": "update nextOwner",
+                "rules": [
+                    {
+                        "t": "set",
+                        "p": "transferData.outgoingDestination",
+                        "pt": "msg",
+                        "to": "memory.seller",
+                        "tot": "msg"
+                    }
+                ],
+                "action": "",
+                "property": "",
+                "from": "",
+                "to": "",
+                "reg": false,
+                "x": 1610,
+                "y": 980,
+                "wires": [
+                    [
+                        "33f5561e.ff02ca"
+                    ]
+                ]
+            },
+            {
+                "id": "77fb0a2e.adad54",
+                "type": "function",
+                "z": "be0b6171.b36aa",
+                "name": "Is reward available??",
+                "func": "if(msg.payload == \"assetsLocked\"){\n    msg.payload = \n    {\n        state: true,\n        msg: \"Reward is available !!!\"\n    };\n}else if (msg.payload == \"finished\" ){\n    msg.payload = \n    {\n        state: true,\n        msg: \"Reward has been delivered successfully !!!\"\n    };\n} else {\n    msg.payload = \n    {\n        state: false,\n        msg: \"Reward is not available !!!\"\n    };\n}\nreturn msg;",
+                "outputs": 1,
+                "noerr": 0,
+                "x": 560,
+                "y": 1780,
+                "wires": [
+                    [
+                        "b705496a.08f7a8"
+                    ]
+                ]
+            },
+            {
+                "id": "b8a1a468.28d538",
+                "type": "contract in",
+                "z": "be0b6171.b36aa",
+                "name": "init",
+                "url": "/escrow",
+                "method": "get",
+                "swaggerDoc": "",
+                "x": 70,
+                "y": 220,
+                "wires": [
+                    [
+                        "5564d76a.f77fa8"
+                    ]
+                ],
+                "info": "To publish the instance of contract"
+            },
+            {
+                "id": "5f8483bc.7eeaac",
+                "type": "rollback",
+                "z": "be0b6171.b36aa",
+                "name": "",
+                "x": 1880,
+                "y": 1440,
+                "wires": []
+            },
+            {
+                "id": "33f5561e.ff02ca",
+                "type": "set-memory-field",
+                "z": "be0b6171.b36aa",
+                "name": "set memory field",
+                "field": "outgoingDestination",
+                "source": "transferData.outgoingDestination",
+                "x": 1830,
+                "y": 980,
+                "wires": [
+                    [
+                        "a6d2546a.bd9778"
+                    ]
+                ]
+            },
+            {
+                "id": "f7fcafa1.c61ea",
+                "type": "function",
+                "z": "be0b6171.b36aa",
+                "name": "error message",
+                "func": "msg.payload = {};\nmsg.payload = \n    {\n        state: false,\n        msg: \"Buyer assetId is not valid !!\"\n    };\nreturn msg;",
+                "outputs": 1,
+                "noerr": 0,
+                "x": 2160,
+                "y": 800,
+                "wires": [
+                    [
+                        "221d228d.c514ae"
+                    ]
+                ]
+            },
+            {
+                "id": "abfe2f7.aac67d",
+                "type": "get-transfer-info",
+                "z": "be0b6171.b36aa",
+                "name": "get TRANSFER info",
+                "destination": "payload",
+                "x": 2170,
+                "y": 700,
+                "wires": [
+                    [
+                        "533b204c.111e8"
+                    ]
+                ]
+            },
+            {
+                "id": "71f325e.ffc6edc",
+                "type": "contract in",
+                "z": "be0b6171.b36aa",
+                "name": "setCancel",
+                "url": "/setCancel",
+                "method": "get",
+                "swaggerDoc": "",
+                "x": 80,
+                "y": 1940,
+                "wires": [
+                    [
+                        "1aef62a.166e39d"
+                    ]
+                ],
+                "info": "To cancel the transaction"
+            },
+            {
+                "id": "5564d76a.f77fa8",
+                "type": "arguments",
+                "z": "be0b6171.b36aa",
+                "name": "arguments seller",
+                "position": "0",
+                "destination": "seller",
+                "dataType": "address",
+                "description": "Seller public key",
+                "x": 260,
+                "y": 220,
+                "wires": [
+                    [
+                        "852089f.d32bc78"
+                    ]
+                ]
+            },
+            {
+                "id": "1d31ac8.25bde54",
+                "type": "switch",
+                "z": "be0b6171.b36aa",
+                "name": "Is buyer OK??",
+                "property": "memory.cancel",
+                "propertyType": "msg",
+                "rules": [
+                    {
+                        "t": "eq",
+                        "v": "false",
+                        "vt": "str"
+                    },
+                    {
+                        "t": "eq",
+                        "v": "true",
+                        "vt": "str"
+                    },
+                    {
+                        "t": "else"
+                    }
+                ],
+                "checkall": "true",
+                "repair": false,
+                "outputs": 3,
+                "x": 1260,
+                "y": 1080,
+                "wires": [
+                    [
+                        "ad001703.9e27b8"
+                    ],
+                    [
+                        "23bd381a.a812b8"
+                    ],
+                    [
+                        "1fc172ee.89e15d"
+                    ]
+                ]
+            },
+            {
+                "id": "6daa8385.3f3c7c",
+                "type": "rollback",
+                "z": "be0b6171.b36aa",
+                "name": "",
+                "x": 1000,
+                "y": 740,
+                "wires": []
+            },
+            {
+                "id": "2357752e.a028ea",
+                "type": "arguments",
+                "z": "be0b6171.b36aa",
+                "name": "arguments sellerAssetId",
+                "position": "2",
+                "destination": "sellerAssetId",
+                "dataType": "asset",
+                "description": "The id of the asset created by seller.",
+                "x": 1150,
+                "y": 220,
+                "wires": [
+                    [
+                        "7277fa89.013494"
+                    ]
+                ]
+            },
+            {
+                "id": "bede9cba.b6629",
+                "type": "function",
+                "z": "be0b6171.b36aa",
+                "name": "error message",
+                "func": "msg.payload = {};\nmsg.payload = \n    {\n        state: false,\n        msg: \"Not valid State !!!\"\n    };\nreturn msg;",
+                "outputs": 1,
+                "noerr": 0,
+                "x": 780,
+                "y": 740,
+                "wires": [
+                    [
+                        "6daa8385.3f3c7c"
+                    ]
+                ]
+            },
+            {
+                "id": "8c6d32a3.dd819",
+                "type": "function",
+                "z": "be0b6171.b36aa",
+                "name": "check if already delivered??",
+                "func": "if (msg.payload == msg.memory.buyer && msg.memory.state == \"deliveredToBuyer\"){\n    msg.payload = \n    {\n        state: false,\n        msg: \"Already delivered to buyer !!!\"\n    };\n    return [msg, null]\n}else if (msg.payload == msg.memory.seller && msg.memory.state == \"deliveredToSeller\"){\n    msg.payload = \n    {\n        state: false,\n        msg: \"Already delivered to seller !!!\"\n    };\n    return [msg, null]\n}else{\n    return [null, msg]\n}\n",
+                "outputs": 2,
+                "noerr": 0,
+                "x": 980,
+                "y": 1200,
+                "wires": [
+                    [
+                        "5f8483bc.7eeaac"
+                    ],
+                    [
+                        "aef780c7.036e1"
+                    ]
+                ]
+            },
+            {
+                "id": "30fa9d1a.1b6f12",
+                "type": "escrow-asset-transfer",
+                "z": "be0b6171.b36aa",
+                "name": "escrow-asset-transfer",
+                "assetId": "",
+                "x": 2380,
+                "y": 1200,
+                "wires": [
+                    [
+                        "8b86be36.3a4a1"
+                    ]
+                ]
+            },
+            {
+                "id": "b491cf34.12008",
+                "type": "get-memory-field",
+                "z": "be0b6171.b36aa",
+                "name": "get seller",
+                "field": "seller",
+                "destination": "seller",
+                "x": 760,
+                "y": 620,
+                "wires": [
+                    [
+                        "7493c915.7adf88"
+                    ]
+                ]
+            },
+            {
+                "id": "f5976c80.8e6ae",
+                "type": "switch",
+                "z": "be0b6171.b36aa",
+                "name": "What is the current STATE?",
+                "property": "state",
+                "propertyType": "msg",
+                "rules": [
+                    {
+                        "t": "eq",
+                        "v": "Initialized",
+                        "vt": "str"
+                    },
+                    {
+                        "t": "eq",
+                        "v": "sellerAssetReceived",
+                        "vt": "str"
+                    },
+                    {
+                        "t": "eq",
+                        "v": "buyerAssetReceived",
+                        "vt": "str"
+                    },
+                    {
+                        "t": "else"
+                    }
+                ],
+                "checkall": "true",
+                "repair": false,
+                "outputs": 4,
+                "x": 520,
+                "y": 700,
+                "wires": [
+                    [
+                        "b491cf34.12008"
+                    ],
+                    [
+                        "b491cf34.12008"
+                    ],
+                    [
+                        "b491cf34.12008"
+                    ],
+                    [
+                        "bede9cba.b6629"
+                    ]
+                ]
+            },
+            {
+                "id": "f29e9af1.e04428",
+                "type": "set-memory-field",
+                "z": "be0b6171.b36aa",
+                "name": "set memory field",
+                "field": "state",
+                "source": "state",
+                "x": 3030,
+                "y": 980,
+                "wires": [
+                    [
+                        "8b7b61b4.948ff"
+                    ]
+                ]
+            },
+            {
+                "id": "3252f92c.ad7bf6",
+                "type": "done",
+                "z": "be0b6171.b36aa",
+                "name": "done",
+                "x": 770,
+                "y": 1600,
+                "wires": []
+            },
+            {
+                "id": "55e2e719.8cc8e8",
+                "type": "set-memory-field",
+                "z": "be0b6171.b36aa",
+                "name": "set memory field",
+                "field": "state",
+                "source": "state",
+                "x": 3030,
+                "y": 1200,
+                "wires": [
+                    [
+                        "8b7b61b4.948ff"
+                    ]
+                ]
+            },
+            {
+                "id": "7277fa89.013494",
+                "type": "set-memory-field",
+                "z": "be0b6171.b36aa",
+                "name": "set memory field",
+                "field": "sellerAssetId",
+                "source": "sellerAssetId",
+                "x": 1390,
+                "y": 220,
+                "wires": [
+                    [
+                        "3099baa2.64a886"
+                    ]
+                ]
+            },
+            {
+                "id": "8f24713b.b0a04",
+                "type": "get-memory-field",
+                "z": "be0b6171.b36aa",
+                "name": "get \"STATE\" flag",
+                "field": "state",
+                "destination": "state",
+                "x": 260,
+                "y": 1220,
+                "wires": [
+                    [
+                        "bbc1d339.b5636"
+                    ]
+                ]
+            },
+            {
+                "id": "598c2da5.4dc3a4",
+                "type": "set-memory-field",
+                "z": "be0b6171.b36aa",
+                "name": "set memory field",
+                "field": "buyer",
+                "source": "buyer",
+                "x": 910,
+                "y": 220,
+                "wires": [
+                    [
+                        "2357752e.a028ea"
+                    ]
+                ]
+            },
+            {
+                "id": "b2336bed.6bf208",
+                "type": "function",
+                "z": "be0b6171.b36aa",
+                "name": "send STATE ->",
+                "func": "msg.payload = msg.transferData;\n\nif (msg.memory.state == \"deliveredToSeller\"){\n    msg.state = \"finished\";\n}else {\n    msg.state = \"deliveredToBuyer\";    \n}\n\nreturn msg;",
+                "outputs": 1,
+                "noerr": 0,
+                "x": 2820,
+                "y": 1200,
+                "wires": [
+                    [
+                        "55e2e719.8cc8e8"
+                    ]
+                ]
+            },
+            {
+                "id": "8b894a8a.d043f8",
+                "type": "set-memory-field",
+                "z": "be0b6171.b36aa",
+                "name": "set memory field",
+                "field": "buyerAssetId",
+                "source": "buyerAssetId",
+                "x": 1870,
+                "y": 220,
+                "wires": [
+                    [
+                        "94dcf681.4a63a8"
+                    ]
+                ]
+            },
+            {
+                "id": "92dd9511.854578",
+                "type": "get-memory-field",
+                "z": "be0b6171.b36aa",
+                "name": "get sellerAssetId",
+                "field": "sellerAssetId",
+                "destination": "sellerAssetId",
+                "x": 1650,
+                "y": 560,
+                "wires": [
+                    [
+                        "33b23286.10289e"
+                    ]
+                ]
+            },
+            {
+                "id": "80b062e7.f60aa",
+                "type": "switch",
+                "z": "be0b6171.b36aa",
+                "name": "Confirm the seller / buyer??",
+                "property": "payload",
+                "propertyType": "msg",
+                "rules": [
+                    {
+                        "t": "eq",
+                        "v": "seller",
+                        "vt": "msg"
+                    },
+                    {
+                        "t": "eq",
+                        "v": "buyer",
+                        "vt": "msg"
+                    },
+                    {
+                        "t": "else"
+                    }
+                ],
+                "checkall": "true",
+                "repair": false,
+                "outputs": 3,
+                "x": 1360,
+                "y": 620,
+                "wires": [
+                    [
+                        "92dd9511.854578"
+                    ],
+                    [
+                        "32304c67.11f374"
+                    ],
+                    [
+                        "dd737d93.4e867"
+                    ]
+                ]
+            },
+            {
+                "id": "cc7dce2c.2e058",
+                "type": "switch",
+                "z": "be0b6171.b36aa",
+                "name": "check assetId",
+                "property": "buyerAssetId",
+                "propertyType": "msg",
+                "rules": [
+                    {
+                        "t": "eq",
+                        "v": "transferData.id",
+                        "vt": "msg"
+                    },
+                    {
+                        "t": "else"
+                    }
+                ],
+                "checkall": "true",
+                "repair": false,
+                "outputs": 2,
+                "x": 1880,
+                "y": 680,
+                "wires": [
+                    [
+                        "abfe2f7.aac67d"
+                    ],
+                    [
+                        "f7fcafa1.c61ea"
+                    ]
+                ]
+            },
+            {
+                "id": "2771e64a.a351fa",
+                "type": "set-memory-field",
+                "z": "be0b6171.b36aa",
+                "name": "set memory field",
+                "field": "state",
+                "source": "state",
+                "x": 3050,
+                "y": 700,
+                "wires": [
+                    [
+                        "5aa8b0b7.d91dc"
+                    ]
+                ]
+            },
+            {
+                "id": "5494155a.e3d99c",
+                "type": "caller-pubkey",
+                "z": "be0b6171.b36aa",
+                "name": "caller public key",
+                "destination": "payload",
+                "x": 720,
+                "y": 1200,
+                "wires": [
+                    [
+                        "8c6d32a3.dd819"
+                    ]
+                ]
+            },
+            {
+                "id": "3099baa2.64a886",
+                "type": "arguments",
+                "z": "be0b6171.b36aa",
+                "name": "arguments buyerAssetId",
+                "position": "3",
+                "destination": "buyerAssetId",
+                "dataType": "asset",
+                "description": "The id of the asset created by buyer.",
+                "x": 1630,
+                "y": 220,
+                "wires": [
+                    [
+                        "8b894a8a.d043f8"
+                    ]
+                ]
+            },
+            {
+                "id": "ec7ffcbc.d7464",
+                "type": "get-memory",
+                "z": "be0b6171.b36aa",
+                "name": "get memory",
+                "destination": "payload",
+                "x": 330,
+                "y": 2180,
+                "wires": [
+                    [
+                        "d807adce.49847"
+                    ]
+                ]
+            },
+            {
+                "id": "8b7b61b4.948ff",
+                "type": "done",
+                "z": "be0b6171.b36aa",
+                "name": "",
+                "x": 3230,
+                "y": 1100,
+                "wires": []
+            },
+            {
+                "id": "1aef62a.166e39d",
+                "type": "caller-pubkey",
+                "z": "be0b6171.b36aa",
+                "name": "sender public key",
+                "destination": "payload",
+                "x": 330,
+                "y": 1940,
+                "wires": [
+                    [
+                        "43411e5d.eb633"
+                    ]
+                ]
+            },
+            {
+                "id": "99ad6f3a.05045",
+                "type": "rollback",
+                "z": "be0b6171.b36aa",
+                "name": "",
+                "x": 2380,
+                "y": 620,
+                "wires": []
+            },
+            {
+                "id": "37f95c22.a3b8a4",
+                "type": "contract in",
+                "z": "be0b6171.b36aa",
+                "name": "transferReward",
+                "url": "/transferReward",
+                "method": "get",
+                "swaggerDoc": "",
+                "x": 80,
+                "y": 1220,
+                "wires": [
+                    [
+                        "8f24713b.b0a04"
+                    ]
+                ],
+                "info": "To initiate transfer to get reward"
+            },
+            {
+                "id": "87f937eb.8e3998",
+                "type": "allow-transfer",
+                "z": "be0b6171.b36aa",
+                "name": "allow TRANSFER",
+                "assetId": "",
+                "x": 2610,
+                "y": 980,
+                "wires": [
+                    [
+                        "39df0620.84e57a"
+                    ]
+                ]
+            },
+            {
+                "id": "a6d2546a.bd9778",
+                "type": "function",
+                "z": "be0b6171.b36aa",
+                "name": "filter for tmTx",
+                "func": "msg.payload = {\n    modelName: \"tmTx\",\n    filter: {\"where\": {\"txData.metadata.lockedOnContract\":msg.env.ownContractId}}\n}\nreturn msg;",
+                "outputs": 1,
+                "noerr": 0,
+                "x": 2030,
+                "y": 980,
+                "wires": [
+                    [
+                        "3484b1ff.b70cee"
+                    ]
+                ]
+            },
+            {
+                "id": "93566530.636368",
+                "type": "rollback",
+                "z": "be0b6171.b36aa",
+                "name": "",
+                "x": 1860,
+                "y": 800,
+                "wires": []
+            },
+            {
+                "id": "94dcf681.4a63a8",
+                "type": "function",
+                "z": "be0b6171.b36aa",
+                "name": "send STATE ->",
+                "func": "msg.state = \"Initialized\";\nreturn msg;",
+                "outputs": 1,
+                "noerr": 0,
+                "x": 2080,
+                "y": 220,
+                "wires": [
+                    [
+                        "f5e0700.4ac699"
+                    ]
+                ]
+            },
+            {
+                "id": "dd737d93.4e867",
+                "type": "function",
+                "z": "be0b6171.b36aa",
+                "name": "error message",
+                "func": "msg.payload = {};\nmsg.payload = \n    {\n        state: false,\n        msg: \"Caller is neither seller or buyer!!\"\n    };\nreturn msg;",
+                "outputs": 1,
+                "noerr": 0,
+                "x": 1640,
+                "y": 800,
+                "wires": [
+                    [
+                        "93566530.636368"
+                    ]
+                ]
+            },
+            {
+                "id": "a07924e3.de2378",
+                "type": "function",
+                "z": "be0b6171.b36aa",
+                "name": "send STATE ->",
+                "func": "if (msg.state == \"sellerAssetReceived\"){\n    msg.state = \"assetsLocked\";\n}else{\n    msg.state = \"buyerAssetReceived\";   \n}\nreturn msg;",
+                "outputs": 1,
+                "noerr": 0,
+                "x": 2840,
+                "y": 700,
+                "wires": [
+                    [
+                        "2771e64a.a351fa"
+                    ]
+                ]
+            },
+            {
+                "id": "bfefcf83.10438",
+                "type": "get-memory-field",
+                "z": "be0b6171.b36aa",
+                "name": "get memory field",
+                "field": "state",
+                "destination": "payload",
+                "x": 300,
+                "y": 1780,
+                "wires": [
+                    [
+                        "77fb0a2e.adad54"
+                    ]
+                ]
+            },
+            {
+                "id": "43411e5d.eb633",
+                "type": "switch",
+                "z": "be0b6171.b36aa",
+                "name": "Is this buyer??",
+                "property": "payload",
+                "propertyType": "msg",
+                "rules": [
+                    {
+                        "t": "eq",
+                        "v": "memory.buyer",
+                        "vt": "msg"
+                    },
+                    {
+                        "t": "else"
+                    }
+                ],
+                "checkall": "true",
+                "repair": false,
+                "outputs": 2,
+                "x": 580,
+                "y": 1940,
+                "wires": [
+                    [
+                        "b8ee4395.47559"
+                    ],
+                    [
+                        "752e358c.4a2acc"
+                    ]
+                ]
+            },
+            {
+                "id": "aef780c7.036e1",
+                "type": "switch",
+                "z": "be0b6171.b36aa",
+                "name": "who is asking for reward??",
+                "property": "payload",
+                "propertyType": "msg",
+                "rules": [
+                    {
+                        "t": "eq",
+                        "v": "memory.seller",
+                        "vt": "msg"
+                    },
+                    {
+                        "t": "eq",
+                        "v": "memory.buyer",
+                        "vt": "msg"
+                    },
+                    {
+                        "t": "else"
+                    }
+                ],
+                "checkall": "true",
+                "repair": false,
+                "outputs": 3,
+                "x": 1300,
+                "y": 1200,
+                "wires": [
+                    [
+                        "1d31ac8.25bde54"
+                    ],
+                    [
+                        "58365bb3.d31c74"
+                    ],
+                    [
+                        "d853f984.9b4158"
+                    ]
+                ]
+            },
+            {
+                "id": "852089f.d32bc78",
+                "type": "set-memory-field",
+                "z": "be0b6171.b36aa",
+                "name": "set memory field",
+                "field": "seller",
+                "source": "seller",
+                "x": 470,
+                "y": 220,
+                "wires": [
+                    [
+                        "c944bd79.8733d"
+                    ]
+                ]
+            },
+            {
+                "id": "221d228d.c514ae",
+                "type": "rollback",
+                "z": "be0b6171.b36aa",
+                "name": "",
+                "x": 2380,
+                "y": 800,
+                "wires": []
+            },
+            {
+                "id": "471d4980.b86cb8",
+                "type": "done",
+                "z": "be0b6171.b36aa",
+                "name": "done",
+                "x": 1330,
+                "y": 1900,
+                "wires": []
+            },
+            {
+                "id": "8b86be36.3a4a1",
+                "type": "allow-transfer",
+                "z": "be0b6171.b36aa",
+                "name": "allow TRANSFER",
+                "assetId": "",
+                "x": 2610,
+                "y": 1200,
+                "wires": [
+                    [
+                        "b2336bed.6bf208"
+                    ]
+                ]
+            },
+            {
+                "id": "852ac249.acddc",
+                "type": "comment",
+                "z": "be0b6171.b36aa",
+                "name": "SC_Escrow",
+                "info": "The escrow smart contract locks both assets and releases assets to the respective parties once specific conditions are met.",
+                "x": 300,
+                "y": 80,
+                "wires": []
+            },
+            {
+                "id": "a1c93f00.0c04d",
+                "type": "rollback",
+                "z": "be0b6171.b36aa",
+                "name": "",
+                "x": 1060,
+                "y": 2000,
+                "wires": []
+            },
+            {
+                "id": "bfaecc19.f85f7",
+                "type": "allow-transfer",
+                "z": "be0b6171.b36aa",
+                "name": "allow TRANSFER",
+                "assetId": "",
+                "x": 2610,
+                "y": 500,
+                "wires": [
+                    [
+                        "95ffcf09.70a4d"
+                    ]
+                ]
+            },
+            {
+                "id": "c784f201.a05ce",
+                "type": "project-sc-1.0",
+                "z": "be0b6171.b36aa",
+                "name": "SC_Escrow",
+                "version": "1.0",
+                "x": 90,
+                "y": 80,
+                "wires": []
+            },
+            {
+                "id": "edbbe6e6.92b9c8",
+                "type": "allow-transfer",
+                "z": "be0b6171.b36aa",
+                "name": "allow TRANSFER",
+                "assetId": "",
+                "x": 2610,
+                "y": 700,
+                "wires": [
+                    [
+                        "a07924e3.de2378"
+                    ]
+                ]
+            }
+        ]
+    }
+]

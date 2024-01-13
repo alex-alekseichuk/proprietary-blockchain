@@ -1,0 +1,16 @@
+{
+  "name": "ng-admin-logviewer-backend",
+  "description": "License Details UI",
+  "version": "3.2.72513",
+  "copyright": "",
+  "author": "PROJECT PROPERTIES B.V.",
+  "homepage": "https://www.project.com/",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.project.com:plugins/ng-admin-logviewer-backend.git"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

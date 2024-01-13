@@ -1,0 +1,50 @@
+
+
+<script type="text/javascript">
+  RED.nodes.registerType('get-memory', {
+    category: 'Project_Smart_Contracts_Core',
+    color: '#94bee2',
+    defaults: {
+      name: {
+        value: "get memory"
+      },
+      destination : {
+        value : "payload"
+      }
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: "Project.png",
+    label: function() {
+      return this.name || "get-memory";
+    }
+  });
+</script>
+<script type="text/x-red" data-template-name="get-memory">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-destination"></i>Property msg.</label>
+        <input type="text" id="node-input-destination" placeholder="">
+    </div>
+
+</script>
+
+
+<script type="text/x-red" data-help-name="get-memory">
+    <p>Node to read complete memory of the contract.</p>
+
+    <h3>Output</h3>
+    <dl class="message-properties">
+        <dt>msg.payload
+            <span class="property-type">utf8 string</span>
+        </dt>
+        <dd> Memory object.</dd>
+    </dl>
+
+    <h3>Details</h3>
+    Reads the complete <code>msg.memory</code> and stores it in <code>msg.payload</code>.
+
+</script>

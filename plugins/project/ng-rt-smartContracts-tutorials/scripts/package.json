@@ -1,0 +1,25 @@
+{
+  "name": "ng-rt-abci-server",
+  "description": "Tendermint Application plugin  ",
+  "main": "index.js",
+  "scripts": {},
+  "dependencies": {
+    "abci": "5.0.1",
+    "fast-json-stable-stringify": "^2.0.0",
+    "js-base64": "^2.4.8",
+    "js-sha3": "^0.7.0",
+    "legally": "git+ssh://git@gitlab.project.com:os/legally.git",
+    "ng-signature": "git+https://gitlab.project.com/packages/ng-signature.git#dev/3.0",
+    "request": "^2.87.0",
+    "request-promise": "^4.2.2"
+  },
+  "license": "SEE LICENSE IN LICENSE.md",
+  "devDependencies": {
+    "chai-http": "^4.3.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.project.com:project/ng-rt-abci-server.git"
+  },
+  "author": "PROJECT BV"
+}

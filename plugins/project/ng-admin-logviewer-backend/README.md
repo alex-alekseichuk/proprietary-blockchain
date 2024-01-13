@@ -1,0 +1,1 @@
+Contains two routes used by logviewer. The UI as well the full state machine/redux used for this plugin is still part of ng-rt-admin plugin.

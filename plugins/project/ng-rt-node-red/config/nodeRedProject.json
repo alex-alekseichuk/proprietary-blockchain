@@ -1,0 +1,22 @@
+[
+  {
+    "name": "nodeRedProject",
+    "base": "commonDataModel",
+    "options": {
+      "idInjection": true,
+      "hana": {
+        "schema": "PROJECT",
+        "table": "NODEREDPROJECT"
+      }
+    },
+    "properties": {
+      "description": {
+        "type": "string"
+      }
+    },
+    "validations": [],
+    "relations": {},
+    "acls": [],
+    "methods": {}
+  }
+]

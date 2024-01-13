@@ -1,0 +1,22 @@
+[
+    {
+        "name": "img",
+        "base": "commonDataModel",
+        "idInjection": true,
+        "properties": {
+         "dir": {
+          "type": "string"
+         },
+         "fileName": {
+          "type": "string"
+         },
+         "data": {
+          "type": "string"
+         }
+        },
+        "validations": [],
+        "relations": {},
+        "acls": [],
+        "methods": []
+       }
+]

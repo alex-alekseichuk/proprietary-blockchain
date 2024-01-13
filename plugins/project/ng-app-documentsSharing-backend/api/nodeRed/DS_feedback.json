@@ -1,0 +1,1029 @@
+[
+  {
+    "id": "7f780483.20fa5c",
+    "type": "tab",
+    "label": "DS_feedback",
+    "nodes": [
+      {
+        "id": "6a1549fd.032548",
+        "type": "function",
+        "z": "7f780483.20fa5c",
+        "name": "get payload",
+        "func": "//msg.ctx = {};\n//msg.ctx.recepient = msg.payload.recepient;\n//msg.ctx.payload = msg.payload.payload;\nmsg.ctx.template = 'DS_feedback';\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 263,
+        "y": 156,
+        "wires": [
+          [
+            "7d3be27e.671c1c",
+            "aac0a404.f5d658"
+          ]
+        ]
+      },
+      {
+        "id": "92d6a23d.55453",
+        "type": "comment",
+        "z": "7f780483.20fa5c",
+        "name": "Document Sharing",
+        "info": "",
+        "x": 145,
+        "y": 1057,
+        "wires": []
+      },
+      {
+        "id": "172c33dc.30a71c",
+        "type": "debug",
+        "z": "7f780483.20fa5c",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 619.5,
+        "y": 1764,
+        "wires": []
+      },
+      {
+        "id": "5f16ae64.b8f1d",
+        "type": "ui-listener",
+        "z": "7f780483.20fa5c",
+        "name": "Encrypt Document",
+        "applicationName": "",
+        "event": "DS_encrypt_document",
+        "x": 153.5,
+        "y": 1221,
+        "wires": [
+          [
+            "a7436458.44f2e8"
+          ]
+        ]
+      },
+      {
+        "id": "1bb9be85.1c9d01",
+        "type": "ui-listener",
+        "z": "7f780483.20fa5c",
+        "name": "Create document",
+        "applicationName": "Some app",
+        "event": "DS_create_document",
+        "x": 104.5,
+        "y": 620.7616882324219,
+        "wires": [
+          [
+            "4c71fca3.50c924",
+            "8d33ccab.df3c6"
+          ]
+        ]
+      },
+      {
+        "id": "cd92b6b.9350748",
+        "type": "debug",
+        "z": "7f780483.20fa5c",
+        "name": "prepare request",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 687,
+        "y": 1358,
+        "wires": []
+      },
+      {
+        "id": "48ffaeac.5a0c3",
+        "type": "debug",
+        "z": "7f780483.20fa5c",
+        "name": "111",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 56.5,
+        "y": 1437,
+        "wires": []
+      },
+      {
+        "id": "fc004a03.f095c8",
+        "type": "sync-listener-end",
+        "z": "7f780483.20fa5c",
+        "name": "DONE",
+        "x": 2272,
+        "y": 915,
+        "wires": []
+      },
+      {
+        "id": "f871e1f.715232",
+        "type": "debug",
+        "z": "7f780483.20fa5c",
+        "name": "add keys",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 1182,
+        "y": 755,
+        "wires": []
+      },
+      {
+        "id": "6ce8ba24.f34c34",
+        "type": "ui-listener",
+        "z": "7f780483.20fa5c",
+        "name": "Get emaill with public keys",
+        "applicationName": "Some app",
+        "event": "DS_getEmail_and_Pubkey",
+        "x": 149.5,
+        "y": 1679,
+        "wires": [
+          [
+            "4e3f4462.530aec"
+          ]
+        ]
+      },
+      {
+        "id": "96bf35f0.e907c8",
+        "type": "email-bykey",
+        "z": "7f780483.20fa5c",
+        "key": "",
+        "x": 381.5,
+        "y": 1110,
+        "wires": [
+          [
+            "6cba33b7.40061c"
+          ]
+        ]
+      },
+      {
+        "id": "5606aa94.1bd154",
+        "type": "ui-listener",
+        "z": "7f780483.20fa5c",
+        "name": "Decrypt Document",
+        "applicationName": "",
+        "event": "DS_decrypt_document",
+        "x": 132.5,
+        "y": 1528,
+        "wires": [
+          [
+            "a48167e5.d7c848",
+            "c0a7e65d.ef7f98"
+          ]
+        ]
+      },
+      {
+        "id": "99c9369e.b8aa98",
+        "type": "debug",
+        "z": "7f780483.20fa5c",
+        "name": "debug listener ",
+        "active": false,
+        "console": "true",
+        "complete": "true",
+        "x": 216,
+        "y": 267,
+        "wires": []
+      },
+      {
+        "id": "a37582a2.0d017",
+        "type": "debug",
+        "z": "7f780483.20fa5c",
+        "name": "after 5 seconds",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 1740,
+        "y": 580,
+        "wires": []
+      },
+      {
+        "id": "1450ba62.df7486",
+        "type": "debug",
+        "z": "7f780483.20fa5c",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 932,
+        "y": 1295,
+        "wires": []
+      },
+      {
+        "id": "4e3f4462.530aec",
+        "type": "switch",
+        "z": "7f780483.20fa5c",
+        "name": "Check if email",
+        "property": "ctx.key",
+        "propertyType": "msg",
+        "rules": [
+          {
+            "t": "regex",
+            "v": "[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}",
+            "vt": "str",
+            "case": true
+          },
+          {
+            "t": "else"
+          }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 393.5,
+        "y": 1679,
+        "wires": [
+          [
+            "80ef3d1.e8dcbc"
+          ],
+          [
+            "ea5c110.96da4f",
+            "172c33dc.30a71c"
+          ]
+        ]
+      },
+      {
+        "id": "7d3be27e.671c1c",
+        "type": "email-template-sender",
+        "z": "7f780483.20fa5c",
+        "recepient": "",
+        "template": "",
+        "payload": "",
+        "x": 440,
+        "y": 270,
+        "wires": [
+          [
+            "44dca64a.49d0a8",
+            "a2a2d652.be4c88"
+          ]
+        ]
+      },
+      {
+        "id": "e0f7357a.ad93e8",
+        "type": "debug",
+        "z": "7f780483.20fa5c",
+        "name": "prepare message_set",
+        "active": true,
+        "tosidebar": true,
+        "console": true,
+        "complete": "true",
+        "x": 1025.611083984375,
+        "y": 1401.4444274902344,
+        "wires": []
+      },
+      {
+        "id": "2ec4013d.dd7a5e",
+        "type": "function",
+        "z": "7f780483.20fa5c",
+        "name": "B2S",
+        "func": "try{\n    msg.transaction = JSON.parse((new Buffer(msg.payload)).toString())\n    msg.transaction.tx_id = msg.transaction.id;\n    msg.foundTransaction = msg.transaction;\n\nconsole.log(\"----- TRANSact ----\");\nconsole.log(msg.transaction)\n}\ncatch(err){\n    console.log(err);\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 422,
+        "y": 1295,
+        "wires": [
+          [
+            "7b0367af.afad08",
+            "b597a19e.e4541"
+          ]
+        ]
+      },
+      {
+        "id": "4cabba1d.119224",
+        "type": "function",
+        "z": "7f780483.20fa5c",
+        "name": "prepare request",
+        "func": "msg.transaction = /*JSON.parse(*/msg.payload/*)*/;\n\nmsg.transaction.tx_id = msg.transaction.id;\n\n\nmsg.foundTransaction = msg.transaction;\n\nconsole.log(\"----- TRANSact ----\");\nconsole.log(msg.transaction)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 422,
+        "y": 1355,
+        "wires": [
+          [
+            "cd92b6b.9350748"
+          ]
+        ]
+      },
+      {
+        "id": "c0a7e65d.ef7f98",
+        "type": "debug",
+        "z": "7f780483.20fa5c",
+        "name": "msg",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 373.5,
+        "y": 1549,
+        "wires": []
+      },
+      {
+        "id": "fbe9c12a.827b1",
+        "type": "debug",
+        "z": "7f780483.20fa5c",
+        "name": "response",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 1310,
+        "y": 460,
+        "wires": []
+      },
+      {
+        "id": "4c6345f5.76af7c",
+        "type": "delay",
+        "z": "7f780483.20fa5c",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 1295,
+        "y": 537,
+        "wires": [
+          [
+            "ede4ff3b.07ede"
+          ]
+        ]
+      },
+      {
+        "id": "53155432.ad5a6c",
+        "type": "email-template-sender",
+        "z": "7f780483.20fa5c",
+        "recepient": "",
+        "template": "",
+        "payload": "",
+        "x": 1031.111083984375,
+        "y": 1532.111083984375,
+        "wires": [
+          []
+        ]
+      },
+      {
+        "id": "7dd0705.3bb389",
+        "type": "comment",
+        "z": "7f780483.20fa5c",
+        "name": "with contract - encrypted keys saved in contract isolated memory",
+        "info": "",
+        "x": 722,
+        "y": 690,
+        "wires": []
+      },
+      {
+        "id": "94bc8f4f.0ea68",
+        "type": "encrypt-by-publickey",
+        "z": "7f780483.20fa5c",
+        "key": "",
+        "content": "",
+        "x": 161.5,
+        "y": 1163,
+        "wires": [
+          []
+        ]
+      },
+      {
+        "id": "80ef3d1.e8dcbc",
+        "type": "byemail-key",
+        "z": "7f780483.20fa5c",
+        "key": "",
+        "x": 669.5,
+        "y": 1656,
+        "wires": [
+          [
+            "8498f1f4.f1e26"
+          ]
+        ]
+      },
+      {
+        "id": "eb21d519.0f6798",
+        "type": "sync-listener-end",
+        "z": "7f780483.20fa5c",
+        "name": "End",
+        "x": 551.5,
+        "y": 1220,
+        "wires": []
+      },
+      {
+        "id": "50146505.1aaf4c",
+        "type": "ui-listener",
+        "z": "7f780483.20fa5c",
+        "name": "Get email by public key",
+        "applicationName": "Some app",
+        "event": "DS_getEmail_byPubkey",
+        "x": 164.5,
+        "y": 1109,
+        "wires": [
+          [
+            "96bf35f0.e907c8"
+          ]
+        ]
+      },
+      {
+        "id": "44dca64a.49d0a8",
+        "type": "debug",
+        "z": "7f780483.20fa5c",
+        "name": "debug email-template",
+        "active": false,
+        "console": "true",
+        "complete": "true",
+        "x": 770,
+        "y": 280,
+        "wires": []
+      },
+      {
+        "id": "4c71fca3.50c924",
+        "type": "debug",
+        "z": "7f780483.20fa5c",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 306,
+        "y": 614.4283447265625,
+        "wires": []
+      },
+      {
+        "id": "ea5c110.96da4f",
+        "type": "email-bykey",
+        "z": "7f780483.20fa5c",
+        "key": "",
+        "x": 676.5,
+        "y": 1706,
+        "wires": [
+          [
+            "8498f1f4.f1e26"
+          ]
+        ]
+      },
+      {
+        "id": "dee13cfa.8b8d8",
+        "type": "http request",
+        "z": "7f780483.20fa5c",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": false,
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 1105,
+        "y": 537,
+        "wires": [
+          [
+            "4c6345f5.76af7c",
+            "fbe9c12a.827b1"
+          ]
+        ]
+      },
+      {
+        "id": "95f218a1.7a7cd8",
+        "type": "inject",
+        "z": "7f780483.20fa5c",
+        "name": "trigger",
+        "topic": "trigger mail",
+        "payload": "{\"recepient\": [\"vladislav.ankudinov@example.com\"], \"payload\": {\"filename\": \"somefile.txt\", \"username\": \"vlada\"}}",
+        "payloadType": "json",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 65.5,
+        "y": 379,
+        "wires": [
+          [
+            "72d9b62.2ed4f48",
+            "c1209655.3570f8"
+          ]
+        ]
+      },
+      {
+        "id": "8d33ccab.df3c6",
+        "type": "function",
+        "z": "7f780483.20fa5c",
+        "name": "Prepare digital asset body",
+        "func": "msg.ctx.digitalAsset = {type: \"document_sharing\",\n                        provider: msg.ctx.provider,\n                        fileId: msg.ctx.fileId,\n                        filename: msg.ctx.fileName,\n                        enableEncrypt: msg.ctx.enableEncrypt,\n                        fileHash: msg.ctx.fileHash,\n                        fileSize: msg.ctx.fileSize,\n                        blockSize: msg.ctx.blockSize,\n                        blocksCount: msg.ctx.blocksCount,\n                        username: msg.ctx.username,\n                        project_id: msg.ctx.project_id,\n                        additionalMsg : msg.ctx.additionalMsg,\n                        timeout : msg.ctx.SC ? msg.ctx.SC.parameters.timeout : false\n};\nmsg.ctx.digitalAssetType = \"documents_sharing\";\nmsg.ctx.file = null;\nmsg.ctx.txContext = msg.ctx.txContext;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 222.49999237060547,
+        "y": 685.7616577148438,
+        "wires": [
+          [
+            "9098d8e1.7ef748"
+          ]
+        ]
+      },
+      {
+        "id": "1a6b9359.b4a08d",
+        "type": "email-template-sender",
+        "z": "7f780483.20fa5c",
+        "recepient": "",
+        "template": "",
+        "payload": "",
+        "x": 489,
+        "y": 391,
+        "wires": [
+          [
+            "42d188f9.b5fcd8"
+          ]
+        ]
+      },
+      {
+        "id": "5b3fd564.90529c",
+        "type": "debug",
+        "z": "7f780483.20fa5c",
+        "name": "debug email",
+        "active": false,
+        "console": "true",
+        "complete": "true",
+        "x": 832,
+        "y": 169,
+        "wires": []
+      },
+      {
+        "id": "aac0a404.f5d658",
+        "type": "debug",
+        "z": "7f780483.20fa5c",
+        "name": "debug get payload",
+        "active": true,
+        "console": "true",
+        "complete": "true",
+        "x": 582,
+        "y": 155,
+        "wires": []
+      },
+      {
+        "id": "6aa70713.595b98",
+        "type": "ui-listener",
+        "z": "7f780483.20fa5c",
+        "name": "Post signed tx",
+        "applicationName": "Documents Sharing",
+        "event": "DS_post_signed_tx",
+        "x": 2112.6190795898438,
+        "y": 914.7861022949219,
+        "wires": [
+          [
+            "fc004a03.f095c8"
+          ]
+        ]
+      },
+      {
+        "id": "5addaec7.cbb09",
+        "type": "e-mail",
+        "z": "7f780483.20fa5c",
+        "server": "smtp.gmail.com",
+        "port": "465",
+        "secure": true,
+        "name": "admin@project.com",
+        "dname": "",
+        "x": 412,
+        "y": 99,
+        "wires": []
+      },
+      {
+        "id": "72d9b62.2ed4f48",
+        "type": "debug",
+        "z": "7f780483.20fa5c",
+        "name": "debug trigger",
+        "active": true,
+        "console": "true",
+        "complete": "true",
+        "x": 219.5,
+        "y": 320,
+        "wires": []
+      },
+      {
+        "id": "9bbbc898.8b35d8",
+        "type": "rabbitmq-queue-listener",
+        "z": "7f780483.20fa5c",
+        "queue": "abciServer",
+        "x": 146.5,
+        "y": 1361,
+        "wires": [
+          [
+            "74ddfcad.4a8d24",
+            "48ffaeac.5a0c3",
+            "2ec4013d.dd7a5e"
+          ]
+        ]
+      },
+      {
+        "id": "a3869b94.299608",
+        "type": "debug",
+        "z": "7f780483.20fa5c",
+        "name": "sc creating",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 1332,
+        "y": 675,
+        "wires": []
+      },
+      {
+        "id": "9fb98e0e.fcfd2",
+        "type": "debug",
+        "z": "7f780483.20fa5c",
+        "name": "create digital asset signed by client",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 2020,
+        "y": 720,
+        "wires": []
+      },
+      {
+        "id": "55774fcb.4c044",
+        "type": "function",
+        "z": "7f780483.20fa5c",
+        "name": "Add keys info to digital asset body with encrypted secret key",
+        "func": "var keys = msg.ctx.keys;\nmsg.ctx.digitalAsset.keys = [];//msg.ctx.keys;\n\nkeys.forEach(function(key) {\n    if (key.email)\n    {\n        msg.ctx.digitalAsset.keys.push({email: key.email, pubkey: key.pubkey, key: key.key});        \n    }\n});\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 835,
+        "y": 896,
+        "wires": [
+          [
+            "404f1010.beda8"
+          ]
+        ]
+      },
+      {
+        "id": "a7436458.44f2e8",
+        "type": "aes-encrypt",
+        "z": "7f780483.20fa5c",
+        "message": "",
+        "x": 373.5,
+        "y": 1222,
+        "wires": [
+          [
+            "eb21d519.0f6798"
+          ]
+        ]
+      },
+      {
+        "id": "7f3911a8.3f5b7",
+        "type": "debug",
+        "z": "7f780483.20fa5c",
+        "name": "SC check",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 662,
+        "y": 775,
+        "wires": []
+      },
+      {
+        "id": "d9e058e3.d86078",
+        "type": "function",
+        "z": "7f780483.20fa5c",
+        "name": "key by email",
+        "func": "msg.ctx.pubkey=\"4aC9RCSYMjxJZzktdpqwuys9jTUZHcnDH38VTXSenqQA\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 709.5,
+        "y": 1581,
+        "wires": [
+          []
+        ]
+      },
+      {
+        "id": "a48167e5.d7c848",
+        "type": "aes-decrypt",
+        "z": "7f780483.20fa5c",
+        "message": "",
+        "x": 366.5,
+        "y": 1504,
+        "wires": [
+          [
+            "5e76ee9e.53dc7"
+          ]
+        ]
+      },
+      {
+        "id": "fc98b71e.c69bb8",
+        "type": "debug",
+        "z": "7f780483.20fa5c",
+        "name": "222",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 405,
+        "y": 1437,
+        "wires": []
+      },
+      {
+        "id": "ce6b8a33.9d2ac8",
+        "type": "function",
+        "z": "7f780483.20fa5c",
+        "name": "Prepare address for SC creating",
+        "func": "\nvar querystring = global.get(\"querystring\");\n\nvar fileName = querystring.escape(msg.ctx.digitalAsset.filename);\n\nvar mailKeyHash = \"sg4tergserg8w5te\";\n\nmsg.url = 'http://' + msg.ctx.scAddr + ':' + msg.ctx.scPort + '/ng-rt-smartContracts/contracts/permissions_sc_doc_sharing'\nmsg.payload = {\n    args: [msg.ctx.fileId, mailKeyHash],\n    privKey: msg.ctx.keyPair.private,\n    pubKey: msg.ctx.keyPair.public,\n    txContext: JSON.stringify(msg.ctx.txContext)\n};\n\nconsole.log(\"SC CALL URL:\", msg.url);\n\nmsg.headers = {};\nmsg.headers['Authorization'] = msg.ctx.token;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1065,
+        "y": 637,
+        "wires": [
+          [
+            "dee13cfa.8b8d8",
+            "a3869b94.299608"
+          ]
+        ]
+      },
+      {
+        "id": "6cba33b7.40061c",
+        "type": "sync-listener-end",
+        "z": "7f780483.20fa5c",
+        "name": "End",
+        "x": 536.5,
+        "y": 1110,
+        "wires": []
+      },
+      {
+        "id": "42d188f9.b5fcd8",
+        "type": "debug",
+        "z": "7f780483.20fa5c",
+        "name": "debug email-template-sender",
+        "active": true,
+        "console": "true",
+        "complete": "true",
+        "x": 802,
+        "y": 335,
+        "wires": []
+      },
+      {
+        "id": "9b966035.b225e",
+        "type": "ui-listener",
+        "z": "7f780483.20fa5c",
+        "name": "",
+        "applicationName": "",
+        "event": "DS_feedback",
+        "x": 60,
+        "y": 227,
+        "wires": [
+          [
+            "6a1549fd.032548",
+            "99c9369e.b8aa98"
+          ]
+        ]
+      },
+      {
+        "id": "9098d8e1.7ef748",
+        "type": "switch",
+        "z": "7f780483.20fa5c",
+        "name": "SC check",
+        "property": "ctx.SC",
+        "propertyType": "msg",
+        "rules": [
+          {
+            "t": "nnull"
+          },
+          {
+            "t": "else"
+          }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 455,
+        "y": 797,
+        "wires": [
+          [
+            "e6a89068.1158",
+            "7f3911a8.3f5b7"
+          ],
+          [
+            "55774fcb.4c044"
+          ]
+        ]
+      },
+      {
+        "id": "c1209655.3570f8",
+        "type": "function",
+        "z": "7f780483.20fa5c",
+        "name": "get-payload",
+        "func": "msg.ctx = {};\nmsg.ctx.recepient = msg.payload.recepient;\nmsg.ctx.payload = msg.payload.payload;\nmsg.ctx.template = 'DS_feedback'\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 236.5,
+        "y": 390,
+        "wires": [
+          [
+            "e8b9c200.b7ea9",
+            "1a6b9359.b4a08d"
+          ]
+        ]
+      },
+      {
+        "id": "8419f6de.ee9c88",
+        "type": "comment",
+        "z": "7f780483.20fa5c",
+        "name": "Share document",
+        "info": "",
+        "x": 115,
+        "y": 557,
+        "wires": []
+      },
+      {
+        "id": "dcb08fb1.e9b87",
+        "type": "sync-listener-end",
+        "z": "7f780483.20fa5c",
+        "name": "tx_not_signed",
+        "x": 1931.763916015625,
+        "y": 916.4527893066406,
+        "wires": []
+      },
+      {
+        "id": "7b0367af.afad08",
+        "type": "debug",
+        "z": "7f780483.20fa5c",
+        "name": "B2S",
+        "active": true,
+        "tosidebar": true,
+        "console": true,
+        "tostatus": false,
+        "complete": "true",
+        "x": 552,
+        "y": 1275,
+        "wires": []
+      },
+      {
+        "id": "e9071a16.ad0c38",
+        "type": "comment",
+        "z": "7f780483.20fa5c",
+        "name": "without contract - save encrypted secret keys in blockchain",
+        "info": "",
+        "x": 823,
+        "y": 857,
+        "wires": []
+      },
+      {
+        "id": "1263e722.980b49",
+        "type": "email-sender",
+        "z": "7f780483.20fa5c",
+        "recepient": "admin@project.com",
+        "message": "qq",
+        "subject": "schedule",
+        "x": 594,
+        "y": 228,
+        "wires": [
+          [
+            "5b3fd564.90529c"
+          ]
+        ]
+      },
+      {
+        "id": "e6a89068.1158",
+        "type": "function",
+        "z": "7f780483.20fa5c",
+        "name": "Add keys info to digital asset body w/o encrypted secret key",
+        "func": "var keys = msg.ctx.keys;\nmsg.ctx.digitalAsset.keys = [];//msg.ctx.keys;\n\nkeys.forEach(function(key) {\n    if (key.email)\n    {\n        msg.ctx.digitalAsset.keys.push({email: key.email, pubkey: key.pubkey});        \n    }\n});\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 835,
+        "y": 729,
+        "wires": [
+          [
+            "ce6b8a33.9d2ac8",
+            "f871e1f.715232"
+          ]
+        ]
+      },
+      {
+        "id": "74ddfcad.4a8d24",
+        "type": "debug",
+        "z": "7f780483.20fa5c",
+        "name": "httpin",
+        "active": true,
+        "console": "true",
+        "complete": "true",
+        "x": 242,
+        "y": 1275,
+        "wires": []
+      },
+      {
+        "id": "b597a19e.e4541",
+        "type": "function",
+        "z": "7f780483.20fa5c",
+        "name": "Prepare message",
+        "func": "let tx = msg.foundTransaction;\n\nlet expiration;\n\nif (!tx.asset.data.timeout || tx.asset.data.timeout == \"false\" || tx.asset.data.timeout == 3214080000)\n{\n    expiration = \"never\";\n}\nelse\n{\n    expiration = new Date();\n    expiration.setSeconds(expiration.getSeconds() + tx.asset.data.timeout);\n}\n\nif(tx.asset.data.type == 'document_sharing') {\n  return {\n    ctx: {\n      recepient: tx.asset.data.keys.map(function(key) {\n        return key.email;\n      }),\n      template: \"documentSharing\",\n      payload: {\n        fileid: tx.id,\n        username: tx.asset.data.username,\n        filename: tx.asset.data.filename,\n        project_id: tx.asset.data.project_id,\n        fileSize: tx.asset.data.fileSize,\n        subject: \"Download file \" + tx.asset.data.filename + \" shared by \" + tx.asset.data.username,\n        additionalMsg: tx.asset.data.additionalMsg,\n        expiration : expiration.toString()\n      }\n    }\n };\n}\nreturn null;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 791.5,
+        "y": 1467.1111145019531,
+        "wires": [
+          [
+            "e0f7357a.ad93e8",
+            "53155432.ad5a6c"
+          ]
+        ]
+      },
+      {
+        "id": "5e76ee9e.53dc7",
+        "type": "sync-listener-end",
+        "z": "7f780483.20fa5c",
+        "name": "End",
+        "x": 579.5,
+        "y": 1516,
+        "wires": []
+      },
+      {
+        "id": "19ad109c.18c6af",
+        "type": "json",
+        "z": "7f780483.20fa5c",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 248,
+        "y": 1416,
+        "wires": [
+          [
+            "4cabba1d.119224",
+            "fc98b71e.c69bb8"
+          ]
+        ]
+      },
+      {
+        "id": "ede4ff3b.07ede",
+        "type": "function",
+        "z": "7f780483.20fa5c",
+        "name": "Add contract id to digitall asset body",
+        "func": "msg.ctx.digitalAsset.contractId = JSON.parse(msg.payload).result.hash;\nmsg.contractId = JSON.parse(msg.payload).result.hash;\n\n//msg.url = \"http://\" + msg.ctx.bigchainDbHost + ':' + msg.ctx.bigchainDbPort + \"/api/v1/transactions/\" + msg.ctx.digitalAsset.contractId;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1479,
+        "y": 617,
+        "wires": [
+          [
+            "a37582a2.0d017",
+            "404f1010.beda8"
+          ]
+        ]
+      },
+      {
+        "id": "e8b9c200.b7ea9",
+        "type": "debug",
+        "z": "7f780483.20fa5c",
+        "name": "degug get-peayload",
+        "active": true,
+        "console": "true",
+        "complete": "true",
+        "x": 502.5,
+        "y": 328,
+        "wires": []
+      },
+      {
+        "id": "8498f1f4.f1e26",
+        "type": "sync-listener-end",
+        "z": "7f780483.20fa5c",
+        "name": "End",
+        "x": 896.5,
+        "y": 1670,
+        "wires": []
+      },
+      {
+        "id": "a2a2d652.be4c88",
+        "type": "sync-listener-end",
+        "z": "7f780483.20fa5c",
+        "name": "",
+        "x": 812,
+        "y": 395,
+        "wires": []
+      },
+      {
+        "id": "eeae0f70.701ff",
+        "type": "get-transaction",
+        "z": "7f780483.20fa5c",
+        "key": "",
+        "x": 720,
+        "y": 1220,
+        "wires": [
+          [
+            "1450ba62.df7486"
+          ]
+        ]
+      },
+      {
+        "id": "404f1010.beda8",
+        "type": "create-digitalAsset-signed-by-client",
+        "z": "7f780483.20fa5c",
+        "key": "",
+        "x": 1540,
+        "y": 880,
+        "wires": [
+          [
+            "9fb98e0e.fcfd2",
+            "dcb08fb1.e9b87"
+          ]
+        ]
+      }
+    ]
+  }
+]

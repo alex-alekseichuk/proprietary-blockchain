@@ -1,0 +1,33 @@
+[{
+  "name": "validatorSet",
+  "base": "commonDataModel",
+  "options": {
+    "idInjection": true,
+    "validateUpsert": true,
+    "hana": {
+      "schema": "PROJECT",
+      "table": "VALIDATORSET"
+    }
+  },
+  "plural": "validatorSets",
+  "properties": {
+    "pubKey": {
+      "type": "Object",
+      "postgresql": {
+        "dataType": "json"
+      },
+      "hana": {
+        "dataType": "nvarchar",
+        "dataLength": 5000
+      }
+    },
+
+    "power": {
+      "type": "number"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}]

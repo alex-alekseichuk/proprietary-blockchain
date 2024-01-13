@@ -1,0 +1,75 @@
+
+
+<script type="text/javascript">
+  RED.nodes.registerType('allow-transfer', {
+    category: 'Project_Smart_Contracts_Core',
+    color: '#94bee2',
+    defaults: {
+      name: {
+        value: "allow transfer"
+      },
+      assetId : {
+        value : ""
+      }
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: "Project.png",
+    label: function() {
+      return this.name || "allow transfer";
+    }
+  });
+</script>
+<script type="text/x-red" data-template-name="allow-transfer">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <!--div class="form-row">
+        <label for="node-input-assetId"><i class="icon-tag"></i> asset id </label>
+        <input type="text" id="node-input-assetId" placeholder="">
+    </div-->
+    <div>
+
+</script>
+
+
+<script type="text/x-red" data-help-name="allow-transfer">
+    <p>Node to allow transfer</p>
+
+    <h3>Output</h3>
+      <dl class="message-properties">
+          <dt> <code>msg.allowTransfer</code>
+              <span class="property-type">boolean</span>
+          </dt>
+      </dl>
+
+    <h3>Details</h3>
+    <dl class="message-properties">
+      <p/>
+        <dd>
+      Block allows to do outgoing transfer of transaction.
+
+      Digital assets or tokens can be owned by contract. No one can have direct access to this assets/tokens owned by contract.
+      Asset/tokens can be send from contract to person public key using "outgoing transfer call".
+
+      <p/>
+
+      <code><span>
+          node . transfer_call \ <p/>
+              &emsp;&emsp;--contractId=936e05b8e479e71e134f6ad174250b766632cbca29cc2333dae9f8df6b776ad1 \ <p/>
+              &emsp;&emsp;--functionName=withdraw_gift \ <p/>
+              &emsp;&emsp;--assetId=a661aec1dffc878c16de7ebbed74043c1d0d05e1eac3e257b763893dbf233ce5  \ <p/>
+              &emsp;&emsp;--latestTxId=2ca761b5879f56ff2dd0599484acb2d4ca2371566d8e694dd55d755435ae31ba \ <p/>
+              &emsp;&emsp;--nextOwner=87njZ7njZV28cWtN8b6hioDrftUXKemDY6v2wuoWZrAW
+      </span></code>
+
+      <p/>
+      <p/>
+
+      Execution of this function goes thought node-red flow, and if execution reach "allow transfer" block and finished with "commit" operation - outgoing transfer will happen.
+
+      <p/>
+    </dd>
+    </dl>
+</script>

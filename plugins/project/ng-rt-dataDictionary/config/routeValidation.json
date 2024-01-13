@@ -1,0 +1,28 @@
+[
+  {
+    "name": "routeValidation",
+    "base": "commonDataModel",
+    "idInjection": true,
+    "options": {
+      "validateUpsert": true
+    },
+    "properties": {
+      "route": {
+        "type": "string"
+      },
+      "operation": {
+        "type": "string"
+      },
+      "validation": {
+        "type": "object"
+      },
+      "recordStatus": {
+        "type": "string"
+      }
+    },
+    "validations": [],
+    "relations": {},
+    "acls": [],
+    "methods": {}
+  }
+]

@@ -1,0 +1,16 @@
+{
+  "name": "ng-rt-tc",
+  "description": "Terms and Conditions",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.project.com:plugins/ng-rt-tc.git"
+  },
+  "author": "PROJECT PROPERTIES B.V.",
+  "dependencies": {
+    "path": "^0.12.7"
+  },
+  "devDependencies": {},
+  "version": "3.2.72465"
+}

@@ -1,0 +1,40 @@
+
+<script type="text/javascript">
+    RED.nodes.registerType('appLogin', {
+      category: 'Project_Core',
+        color: '#81F7F3',
+        defaults: {
+            
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "Project.png",
+        label: function() {
+            return this.name || "appLogin";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="appLogin">
+    
+</script>
+
+<script type="text/x-red" data-help-name="appLogin">
+    <p>Login to TBSP via application key</p>
+
+    <h3>Inputs</h3>
+        <dl class="message-properties">
+            <dt>msg.payload.txContext <span class="property-type">object</span></dt>
+                <dd>Created client transaction context</dd>
+        </dl>
+
+     <h3>Outputs</h3>
+         <ol class="node-ports">
+             <li>Standard output
+                 <dl class="message-properties">
+                     <dt>msg.payload <span class="property-type">object</span></dt>
+                     <dd>Token added to txContext. </dd>
+                 </dl>
+             </li>
+         </ol>
+</script>

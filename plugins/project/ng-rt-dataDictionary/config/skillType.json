@@ -1,0 +1,16 @@
+[
+    {
+        "name": "skillType",
+        "base": "commonDataModel",
+        "idInjection": true,
+        "properties": {
+            "name": {
+                "type": "string"
+            }
+        },
+        "validations": [],
+        "relations": {},
+        "acls": [],
+        "methods": []
+    }
+]

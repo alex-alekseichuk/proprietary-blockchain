@@ -1,0 +1,6 @@
+{
+  "name": "ng-rt-bc-private",
+  "useDefaultConnection": true,
+  "databasePrefix": "default",
+  "database": "ng_rt_bc_private"
+}

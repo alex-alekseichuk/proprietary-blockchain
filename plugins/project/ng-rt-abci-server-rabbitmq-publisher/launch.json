@@ -1,0 +1,18 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+      {
+          "name": "Remote Vagrant - Docker",
+          "type": "node",
+          "request": "attach",
+          "port": 9929,
+          "address": "192.168.50.10",
+          "restart": true,
+          "sourceMaps": false,
+          "outFiles": [ "${workspaceFolder}/*/.js" ],
+          "localRoot": "${workspaceRoot}",
+          "remoteRoot": "/tmp/ng-rt/plugins/project/ng-rt-abci-server-rabbitmq-publisher",
+          "protocol": "auto"
+      }
+  ]
+}

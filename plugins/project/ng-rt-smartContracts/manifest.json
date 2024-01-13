@@ -1,0 +1,244 @@
+{
+  "name": "ng-smart-contracts",
+  "description": "smart contracts",
+  "version": "3.2.",
+  "dependencies": {
+    "database": {}
+  },
+  "useAsApp": true,
+  "entryPoints": [
+    {
+      "type": "service",
+      "parameters": {
+        "file": "./server/services/service.js"
+      }
+    },
+    {
+      "type": "route",
+      "parameters": {
+        "file": "./server/routes/routes.js"
+      }
+    },
+    {
+      "type": "route",
+      "parameters": {
+        "file": "./config/datasources/datasources.js"
+      }
+    }
+  ],
+  "actions": {
+    "before_install": [
+      {
+        "type": "NPM_INSTALL",
+        "parameters": {
+          "package": true
+        }
+      },
+      {
+        "name": "remove dataDictionary record",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "criteries": [
+            {
+              "name": "worldState"
+            }
+          ]
+        }
+      },
+      {
+        "name": "remove dataDictionary record",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "criteries": [
+            {
+              "name": "scInstance"
+            }
+          ]
+        }
+      },
+      {
+        "name": "remove dataDictionary record",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "criteries": [
+            {
+              "name": "scTemplate"
+            }
+          ]
+        }
+      },
+      {
+        "name": "remove dataSourceRouting record",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "criteries": [
+            {
+              "datadictname": "worldState",
+              "datasourcename": "ng-rt-smart-contracts"
+            }
+          ]
+        }
+      },
+      {
+        "name": "remove dataSourceRouting record",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "criteries": [
+            {
+              "datadictname": "scInstance",
+              "datasourcename": "ng-rt-smart-contracts"
+            }
+          ]
+        }
+      },
+      {
+        "name": "remove dataSourceRouting record",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "criteries": [
+            {
+              "datadictname": "scTemplate",
+              "datasourcename": "ng-rt-smart-contracts"
+            }
+          ]
+        }
+      },
+      {
+        "name": "create ng-rt-smart-contracts datasource",
+        "type": "CREATE_DATASOURCE",
+        "parameters": {
+          "file": "./config/datasources/ng-rt-smart-contracts.json"
+        }
+      }
+    ],
+    "after_install": [
+      {
+        "name": "copy docs",
+        "type": "COPY_FILES",
+        "parameters": {
+          "source": "docs/api",
+          "target": "config/docs/api/ng-rt-smartContracts"
+        }
+      },
+      {
+        "name": "add worldState model to dataDictionary",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "config/models/worldState.json"
+        }
+      },
+      {
+        "name": "add ScInstance model to dataDictionary",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "config/models/scInstance.json"
+        }
+      },
+      {
+        "name": "add ScInstance model to dataDictionary",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "config/models/scTemplate.json"
+        }
+      },
+      {
+        "name": "add worldState to dataSourceRouting",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [
+            {
+              "datadictname": "worldState",
+              "datasourcename": "ng-rt-smart-contracts"
+            }
+          ]
+        }
+      },
+      {
+        "name": "add scInstance to dataSourceRouting",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [
+            {
+              "datadictname": "scInstance",
+              "datasourcename": "ng-rt-smart-contracts"
+            }
+          ]
+        }
+      },
+      {
+        "name": "add scTemplate to dataSourceRouting",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [
+            {
+              "datadictname": "scTemplate",
+              "datasourcename": "ng-rt-smart-contracts"
+            }
+          ]
+        }
+      }
+    ],
+    "before_activate": [],
+    "after_activate": [
+      {
+        "name": "add flow",
+        "type": "NODE_RED_ADD_FLOW",
+        "parameters": {
+          "replace": true,
+          "flows": [
+            {
+              "id": "79418cb8.7e9123",
+              "type": "tab",
+              "label": "smart-contract-execution",
+              "nodes": []
+            }
+          ]
+        }
+      }
+    ],
+    "before_deactivate": [
+      {
+        "name": "remove flow",
+        "type": "NODE_RED_REMOVE_FLOW",
+        "parameters": {
+          "flows": [
+            "79418cb8.7e9123"
+          ]
+        }
+      }
+    ],
+    "after_deactivate": [],
+    "after_uninstall": []
+  },
+  "sharedServices": [],
+  "apiServices": [],
+  "settings": [
+    {
+      "name": "routeValidation",
+      "caption": "Route should be validated or not",
+      "value": true
+    },
+    {
+      "name": "matchNodes",
+      "caption": "Match nodes with the given value",
+      "value": "project-sc*"
+    },
+    {
+      "name": "ignoreTab",
+      "caption": "Ignore tab with given value",
+      "value": "smart-contract-execution*"
+    }
+  ]
+}

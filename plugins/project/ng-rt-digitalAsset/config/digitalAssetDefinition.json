@@ -1,0 +1,115 @@
+[{
+  "name": "digitalAssetDefinition",
+  "base": "commonDataModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "digitalAsset": {
+      "type": "string",
+      "required": true,
+      "description": "name of the asset"
+    },
+    "digitalAssetDescription": {
+      "type": "string",
+      "description": "description of the asset"
+    },
+    "createTransactionAllowedBySystem": {
+      "type": "boolean",
+      "description": "If true CREATE transactions can be initiated by a system"
+    },
+    "transferOwnershipAllowedBySystem": {
+      "type": "boolean",
+      "description": "If true TRANSFER transactions can be initiated by the a system"
+    },
+    "createTransactionAllowedByUser": {
+      "type": "boolean",
+      "description": "If true CREATE transactions can be initiated by an user"
+    },
+    "transferOwnershipAllowedByUser": {
+      "type": "boolean",
+      "description": "If true TRANSFER transactions can be initiated by the an user"
+    },
+    "verifySignature": {
+      "type": "boolean",
+      "description": "If true the transaction signature will be verified"
+    },
+    "validateSchema": {
+      "type": "boolean",
+      "description": "If true the transaction data will be validated against the transaction schema"
+    },
+    "divisibleAsset": {
+      "type": "boolean",
+      "description": "If true the asset is divisible"
+    },
+    "fungibleAsset": {
+      "type": "boolean",
+      "description": "If true the asset is fungible"
+    },
+    "privateAsset": {
+      "type": "boolean",
+      "description": "If true the asset is a private asset"
+    },
+    "whiteListing": {
+      "type": "boolean",
+      "description": "If true the whitelisting is active"
+    },
+    "blackListing": {
+      "type": "boolean",
+      "description": "If true the blacklisting is active"
+    },
+    "assetDefinition": {
+      "type": "object",
+      "description": "the definition of the asset"
+    },
+    "blockchainProvider": {
+      "type": "string",
+      "description": "the blockchain provider"
+    },
+    "blockchainProviderVersion": {
+      "type": "string",
+      "description": "the version of the blockchain provider"
+    },
+    "blockchainDriver": {
+      "type": "string",
+      "description": "the blockchain driver"
+    },
+    "blockchainDriverVersion": {
+      "type": "string",
+      "description": "the version blockchain driver"
+    },
+    "HTTPBlockchainIPAddress": {
+      "type": "string",
+      "description": "the IP address of the blockchain server"
+    },
+    "HTTPBlockchainPort": {
+      "type": "number",
+      "description": "the port of the blockchain server"
+    },
+    "systemAsset": {
+      "type": "boolean",
+      "description": "If true the asset is an internal system asset"
+    },
+    "minAmountValue": {
+      "type": "number",
+      "description": "Minimal possible value for digitalAsset output amount",
+      "default": 0,
+      "postgresql": {
+        "dataType": "decimal"
+      }
+    },
+    "maxAmountValue": {
+      "type": "number",
+      "description": "Maximal possible value for digitalAsset output amount",
+      "default": 0,
+      "postgresql": {
+        "dataType": "decimal"
+      }
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}]

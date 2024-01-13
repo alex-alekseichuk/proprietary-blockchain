@@ -1,0 +1,51 @@
+[{
+    "name": "scTemplate",
+    "base": "commonDataModel",
+    "options": {
+      "idInjection": true,
+      "validateUpsert": true,
+      "hana": {
+        "schema": "PROJECT",
+        "table": "SCTEMPLATE"
+      }
+    },
+    "plural": "",
+    "properties": {
+      "address": {
+        "type": "string"
+      },
+      "txId": {
+        "type": "string"
+      },
+      "type": {
+        "type": "string"
+      },
+      "memory": {
+        "type": "Object",
+        "postgresql": {
+          "dataType": "json"
+        },
+        "hana": {
+          "dataType": "nvarchar",
+          "dataLength": 5000
+        }
+      },
+      "source": {
+        "type": "string"
+      },
+      "sourceHash": {
+        "type": "string"
+      },
+      "hashRandomizer": {
+        "type": "string"
+      },
+      "ownerPublicKeys":{
+        "type": ["string"],
+        "default":[]
+      }
+    },
+    "validations": [],
+    "relations": {},
+    "acls": [],
+    "methods": {}
+  }]

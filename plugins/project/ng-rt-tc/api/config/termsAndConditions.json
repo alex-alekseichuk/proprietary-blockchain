@@ -1,0 +1,28 @@
+[
+  {
+    "name": "termsAndConditions",
+    "plural": "termsAndConditions",
+    "description": "Terms and Conditions",
+    "base": "commonDataModel",
+    "options": {
+      "idInjection": false
+    },
+    "properties": {
+      "html": {
+        "type": "string",
+        "hana": {
+          "columnName": "html",
+          "dataType": "clob"
+        }
+      },
+      "timestamp": {
+        "type": "date"
+      }
+    },
+    "validations": [],
+    "relations": {},
+    "acls": [],
+    "methods": {},
+    "mixins": {}
+  }
+]

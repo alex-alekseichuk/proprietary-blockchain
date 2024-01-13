@@ -1,0 +1,38 @@
+[{
+  "name": "domain",
+  "base": "aclParent",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "domainId": {
+      "type": "string",
+      "id": true
+    },
+    "domainName": {
+      "type": "string"
+    },
+    "domainDescription": {
+      "type": "string"
+    },
+    "tenantId": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "tenant": {
+      "type": "belongsTo",
+      "model": "tenant",
+      "foreignKey": "tenantId"
+    },
+    "subdomains": {
+      "type": "hasMany",
+      "model": "subDomain",
+      "foreignKey": "domainId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}]

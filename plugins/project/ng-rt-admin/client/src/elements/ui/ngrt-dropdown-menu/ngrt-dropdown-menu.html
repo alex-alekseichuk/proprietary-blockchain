@@ -1,0 +1,70 @@
+<link rel="import" href="../../../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../../../../bower_components/iron-flex-layout/iron-flex-layout.html">
+
+<link rel="import" href="ngrt-dropdown.html">
+
+
+<dom-module id="ngrt-dropdown-menu">
+  <template strip-whitespace>
+    <style>
+      :host {
+        display: inline-block;
+        position: relative;
+      }
+
+      .trigger ::slotted(*) {
+        cursor: pointer;
+      }
+    </style>
+    <div class="trigger">
+      <slot id="trigger" name="trigger"></slot>
+    </div>
+    <ngrt-dropdown id="dropdown" opened="{{opened}}" alignment="[[alignment]]">
+      <slot></slot>
+    </ngrt-dropdown>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'ngrt-dropdown-menu',
+
+      properties: {
+        /**
+         * Determines whether the dropdown is opened or closed
+         */
+        opened: {
+          type: Boolean,
+          value: false,
+          notify: true,
+          reflectToAttribute: true
+        },
+        alignment: {
+          type: String,
+          value: 'right',
+          reflectToAttribute: true
+        }
+      },
+
+      created: function () {
+        Polymer.Gestures.add(document.documentElement, 'tap', null);
+      },
+
+      attached: function () {
+        this._toggle = this._toggle.bind(this);
+        this._triggerElement.addEventListener('tap', this._toggle);
+      },
+
+      detached: function () {
+        this._triggerElement.removeEventListener('tap', this._toggle);
+      },
+      get _triggerElement() {
+        return Polymer.dom(this.$.trigger).getDistributedNodes()[0];
+      },
+
+      _toggle: function () {
+        this.$.dropdown.toggle();
+      }
+    });
+  </script>
+</dom-module>

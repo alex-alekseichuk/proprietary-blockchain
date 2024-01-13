@@ -1,0 +1,207 @@
+<dom-module id="ng-rt-page-item">
+  <template id="t">
+    <style include="shared-styles"></style>
+    <style is="custom-style">
+      paper-dialog {
+        padding: 20px;
+      }
+
+      paper-dialog paper-button {
+        border: none;
+      }
+
+      paper-dialog span.title {
+        font-size: 20px;
+        padding: 0 20px 20px 20px;
+        float: left;
+        width: 100%;
+      }
+    </style>
+
+
+    <!--///PANEL DEFINITION-->
+    <template is="dom-if" if="{{isPageItem(pageItem.type, 'panel')}}">
+      <paper-toolbar class$="{{pageItem.class}}">
+        <ng-rt-page-sub-items root-item="[[pageItem]]" app-id="{{appId}}"></ng-rt-page-sub-items>
+      </paper-toolbar>
+    </template>
+
+    <!--///DIV-->
+    <template is="dom-if" if="{{isPageItem(pageItem.type, 'div')}}">
+      <div class$="{{pageItem.class}}" id="{{appId}}-{{pageItem.id}}">
+        <ng-rt-page-sub-items root-item="[[pageItem]]" app-id="{{appId}}"></ng-rt-page-sub-items>
+      </div>
+    </template>
+
+    <!--///SPAN-->
+    <template is="dom-if" if="{{isPageItem(pageItem.type, 'span')}}">
+      <span class$="{{pageItem.class}}">{{pageItem.text}}</span>
+    </template>
+
+
+    <!--////BUTTON-->
+
+    <!--1. icon button-->
+    <template is="dom-if" if="{{isPageItem(pageItem.type, 'icon-button')}}">
+      <paper-icon-button on-click="handleButtonClick" icon="{{pageItem.icon}}">{{pageItem.title}}
+      </paper-icon-button>
+    </template>
+
+    <!--2. Paper button-->
+    <template is="dom-if" if="{{isPageItem(pageItem.type, 'button')}}">
+      <paper-button on-click="handleButtonClick" icon="{{pageItem.icon}}" class$="{{pageItem.class}}">
+        {{pageItem.title}}
+      </paper-button>
+    </template>
+
+
+    <!--///Table-->
+    <template is="dom-if" if="{{isPageItem(pageItem.type, 'grid')}}">
+      <div id="gridHolder" class$="{{pageItem.class}}">
+        <ng-rt-grid id="{{appId}}-{{pageItem.id}}" on-row-selected="handleGridOnRowSelected" app-id="{{appId}}">
+        </ng-rt-grid>
+      </div>
+    </template>
+
+    <!--FORM -->
+    <!--1. IRON-FORM-->
+    <template is="dom-if" if="{{isPageItem(pageItem.type, 'form')}}">
+      <form is="iron-form" id="{{appId}}-{{pageItem.id}}" method="post" on-iron-form-submit="formSubmited"
+        class$="{{pageItem.class}}">
+        <ng-rt-page-sub-items root-item="[[pageItem]]" app-id="{{appId}}"></ng-rt-page-sub-items>
+      </form>
+    </template>
+
+    <!--DropDown-->
+    <template is="dom-if" if="{{isPageItem(pageItem.type, 'dropdown')}}">
+      <ng-rt-dropdown id="{{appId}}-{{pageItem.id}}" label="{{pageItem.title}}"></ng-rt-dropdown>
+    </template>
+
+    <!--INPUT-->
+    <template is="dom-if" if="{{isPageItem(pageItem.type, 'input')}}">
+      <paper-input name="{{pageItem.name}}" id="{{appId}}-{{pageItem.id}}" type="text" on-change="handleInputOnChange"
+        label="{{pageItem.title}}" disabled$="[[pageItem.disabled]]" class$="{{pageItem.class}}"></paper-input>
+    </template>
+
+    <template is="dom-if" if="{{isPageItem(pageItem.type, 'hideninput')}}">
+      <input type="hidden" name="[[pageItem.name]]" id="{{pageItem.id}}" />
+    </template>
+
+    <!-- FORM -->
+
+
+    <!-- IRON-GRID -->
+    <template is="dom-if" if="{{isPageItem(pageItem.type, 'grid-container')}}">
+      <iron-grid class$="{{pageItem.class}}">
+        <template is="dom-repeat" items="{{pageItem.items}}" as="subitem">
+          <div class$="s{{subitem.width }} {{subitem.class}}" style="display:block;">
+            <ng-rt-page-sub-items root-item="[[subitem]]" app-id="{{appId}}"></ng-rt-page-sub-items>
+          </div>
+        </template>
+      </iron-grid>
+    </template>
+
+
+    <!-- //IRON-GRID -->
+
+    <template is="dom-if" if="{{isPageItem(pageItem.type, 'details-span')}}">
+      <p class$="{{pageItem.class}}">
+        <span>
+          <label>{{pageItem.label}}</label>:
+          <span id="[[pageItem.name]]"></span>
+        </span>
+      </p>
+    </template>
+
+    <!--CRUD CREATE FORM-->
+    <template is="dom-if" if="{{isPageItem(pageItem.type, 'dynamic-form')}}">
+      <ngrt-create-object-container id="{{appId}}-{{pageItem.id}}" app-id="{{appId}}" formid="dyn_[[pageItem.id]]"
+        input-disabled="{{pageItem.inputDisabled}}"></ngrt-create-object-container>
+    </template>
+
+    <!--Dynamic data-->
+    <template is="dom-if" if="{{isPageItem(pageItem.type, 'dynamic-data-details')}}">
+      <ngrt-CRUD-data-list id="{{appId}}-{{pageItem.id}}" app-id="{{appId}}"></ngrt-CRUD-data-list>
+    </template>
+
+    <!--Dialog-->
+    <template is="dom-if" if="{{isPageItem(pageItem.type, 'dialog')}}">
+      <paper-dialog id="{{appId}}-{{pageItem.id}}" modal>
+        <ng-rt-page-sub-items root-item="[[pageItem]]" app-id="{{appId}}"></ng-rt-page-sub-items>
+      </paper-dialog>
+    </template>
+
+  </template>
+
+
+
+  <script>
+    Polymer({
+      is: "ng-rt-page-item",
+      properties: {
+        pageItem: {
+          type: "object",
+          value: {},
+          notify: true,
+          reflectToAttribute: true
+        },
+        appId: {
+          type: "string",
+          value: ""
+        }
+      },
+      attached: function () {
+        var self = this;
+        setTimeout(function () {
+          var spaEngine = Polymer.dom(document.getElementById(self.appId)).node;
+
+          if (self.pageItem.type === "grid") {
+            if (!self.pageItem.columns) self.pageItem.columns = [];
+            let gridId = `${self.appId}-${self.pageItem.id}`;
+            var grid = document.getElementById(gridId);
+            var columns = [];
+            if (self.pageItem.columns) {
+              columns = self.pageItem.columns;
+            }
+            grid.setRows(spaEngine.attachDataSource(self.pageItem.dataSourceName, {
+              grid: grid,
+              gridOptions: self.pageItem.gridOptions,
+              columns: self.pageItem.columns,
+              pageItem: self.pageItem
+            }));
+          }
+        }, 0);
+      },
+      ready: function () {
+
+      },
+      isPageItem: function (pageItemType, type) {
+        return pageItemType === type;
+      },
+      handleButtonClick: function (e) {
+        var spaEngine = Polymer.dom(document.getElementById(this.appId)).node;
+        var action = e.model.pageItem.action;
+        spaEngine.callEvent(action);
+      },
+      handleInputOnChange: function (e) {
+        var spaEngine = Polymer.dom(document.getElementById(this.appId)).node;
+        var action = e.model.pageItem.onChange;
+        if (action)
+          spaEngine.callEvent(action);
+      },
+      handleGridOnRowSelected: function (e) {
+        var spaEngine = Polymer.dom(document.getElementById(this.appId)).node;
+        var action = e.model.pageItem.onRowSelect;
+        var payload = {
+          index: e.detail.index,
+          id: e.detail.data.id
+        };
+        spaEngine.populateDatasource({ dataSource: "gridSelectedId" }, payload);
+        spaEngine.callEvent(action);
+
+
+      }
+
+    });
+  </script>
+</dom-module>

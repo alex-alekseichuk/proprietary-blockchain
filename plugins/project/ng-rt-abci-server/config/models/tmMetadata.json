@@ -1,0 +1,67 @@
+[{
+  "name": "tmMetadata",
+  "base": "commonDataModel",
+  "options": {
+    "idInjection": true,
+    "validateUpsert": true,
+    "hana": {
+      "schema": "PROJECT",
+      "table": "TMMETADATA"
+    }
+  },
+  "plural": "tmMetadata",
+  "properties": {
+    "txTmHash": {
+      "type": "string"
+    },
+    "txId": {
+      "type": "string"
+    },
+    "client": {
+      "type": "Object",
+      "postgresql": {
+        "dataType": "json"
+      },
+      "hana": {
+        "dataType": "clob"
+      }
+    },
+    "project": {
+      "type": "Object",
+      "postgresql": {
+        "dataType": "json"
+      },
+      "client": {
+        "type": "Object",
+        "postgresql": {
+          "dataType": "json"
+        },
+        "hana": {
+          "dataType": "clob"
+        }
+      },
+      "project": {
+        "type": "Object",
+        "postgresql": {
+          "dataType": "json"
+        },
+        "hana": {
+          "dataType": "clob"
+        }
+      },
+      "txTime": {
+        "type": "number"
+      }
+    },
+    "txTime": {
+      "type": "number",
+      "postgresql": {
+        "dataType": "bigint"
+      }
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}]

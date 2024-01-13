@@ -1,0 +1,48 @@
+
+<script type="text/javascript">
+    RED.nodes.registerType('generateKeyPairs', {
+      category: 'Project_DigitalAsset',
+        color: '#b9b1eb',
+        defaults: {
+            name: {
+                value: "generateKeyPairs"
+            },
+            field : {
+                value : ""
+            },
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "Project.png",
+        label: function() {
+            return this.name || "generateKeyPairs";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="generateKeyPairs">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-field"></i> Variable</label>
+        <input type="text" id="node-input-field" placeholder="">
+    </div>
+
+</script>
+
+<script type="text/x-red" data-help-name="generateKeyPairs">
+
+    <p>generate keypairs </p>
+
+     <h3>Outputs</h3>
+         <ol class="node-ports">
+             <li>Standard output
+                 <dl class="message-properties">
+                     <dt>msg.payload <span class="property-type">object</span></dt>
+                     <dd>encoded signing keypair</dd>
+                 </dl>
+             </li>
+         </ol>
+</script>

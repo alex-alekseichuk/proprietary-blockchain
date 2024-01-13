@@ -1,0 +1,317 @@
+<dom-module id="ng-rt-tc-index">
+  <style include="shared-styles"></style>
+  <style is="custom-style">
+     :root {
+      --my-custom-color: #2166ab;
+      --drawer-bg: #434c54;
+      --primary-color: #2166ab;
+
+      --paper-tab-ink: var(--my-custom-color);
+      --primary-color: #2166ab;
+      /* Primary color*/
+      --paper-button: {
+        background: var(--my-custom-color);
+        color: white;
+      }
+
+      .uploadblock {
+        --paper-button: {
+          /*background: blue;*/
+          color: #464646;
+          font-weight: bold;
+        }
+      }
+    }
+
+    #mainToolbar {
+      paper-toolbar {
+        --paper-toolbar-sm-height: 70px;
+        --paper-toolbar-height: 70px;
+        --paper-toolbar-background: var(--my-custom-color);
+        --paper-toolbar: {
+          color: #ffffff;
+        }
+        ;
+      }
+    }
+
+    paper-drawer-panel {
+      --paper-drawer-panel-left-drawer-container: {
+        background-color: var(--drawer-bg);
+        color: white;
+      }
+      ;
+      --paper-toolbar-background: var(--drawer-bg);
+    }
+
+    .logosidebar {
+      float: left;
+      width: 100%;
+      height: 70px;
+      line-height: 70px;
+      font-weight: bold;
+      background: var(--drawer-bg);
+    }
+
+    .projectlogo {
+      float: left;
+      background-color: var(--my-custom-color);
+      background-image: url("res/projectlogo.png");
+      background-size: 100% 100%;
+      width: 70px;
+      height: 70px;
+      margin-right: 20px;
+    }
+
+    .projectlogotext {
+      float: left;
+      background: url("res/projectlogotext.png") no-repeat;
+      width: 101px;
+      height: 70px;
+    }
+  </style>
+
+  <template>
+    <paper-header-panel class="appPanel">
+
+      <!--Toolbar-->
+      <paper-toolbar class="appToolbar">
+
+        <!--Top-->
+        <paper-icon-button id="paperToggle" icon="menu" paper-drawer-toggle></paper-icon-button>
+        <span class="title"><i18n-msg msgid="TermsAndConditons">Terms and Conditions</i18n-msg></span>
+        <span class="flex"></span>
+        <!--<pa-search></pa-search>
+        <paper-icon-button icon="icons:settings"></paper-icon-button>-->
+      </paper-toolbar>
+
+      <!--Content-->
+      <div class="content fit">
+        <paper-material elevation="1">
+          <!--<h3>Terms and Conditions</h3>-->
+
+          <!--<h2>1</h2>
+
+          <h1>2</h1>-->
+          <p><strong>Terms of use</strong></p>
+          <p><strong>Grant Thornton Secure File Transfer Proof of Concept Terms of Use</strong></p>
+          <p><strong>PLEASE READ THESE TERMS AND CONDITIONS CAREFULLY BEFORE USING THIS FACILITY</strong></p>
+          <p><strong>Information about Us</strong></p>
+          <p>This Facility is provided by Grant Thornton UK LLP, a limited liability partnership in accordance with the Limited
+            Liability Partnerships Act 2000 (with registered number OC307742 and registered office at Grant Thornton House,
+            Melton Street, London, NW1 2EP). We are authorised and regulated by the Financial Conduct Authority for designated
+            investment business.</p>
+          <p>&copy; 2017 Grant Thornton UK LLP &ndash; All rights reserved.</p>
+          <p>&ldquo;Grant Thornton&rdquo; refers to the brand under which the Grant Thornton member firms provide assurance,
+            tax and advisory services to their clients and/or refers to one or more member firms, as the context requires.
+            &ldquo;GTIL&rdquo; refers to Grant Thornton International Ltd (GTIL). Grant Thornton UK LLP is a member firm
+            of GTIL. GTIL and each member firm of GTIL is a separate legal entity. GTIL is a non-practicing, international
+            umbrella entity organised as a private company limited by guarantee incorporated in England and Wales. GTIL does
+            not deliver services in its own name or at all. Services are delivered by the member firms. GTIL and its member
+            firms are not agents of, and do not obligate, one another and are not liable for one another&rsquo;s act or omissions.
+            The name &ldquo;Grant Thornton&rdquo;, the Grant Thornton logo, including the Mobius symbol/ device, and &ldquo;Instinct
+            for growth&rdquo; are trademarks of GTIL. All copyright is owned by GTIL, including the copyright in the Grant
+            Thornton logo; all rights are reserved.</p>
+          <p><strong>Terms of Use</strong></p>
+          <p>These Terms of Use (together with the documents referred to in it) set out the basis on which you may make use
+            of the Facility. Use of the Facility includes accessing, browsing, or registering to use the&nbsp;Facility.</p>
+          <p>By using the Facility, you agree to be bound by these Terms of Use. If you do not agree with these Terms of Use
+            then you are not authorised to use or access this Facility.</p>
+          <p><strong>Interpretation</strong></p>
+          <p>In these Terms of Use the following words shall have the following meanings:</p>
+          <p>&ndash; &ldquo;<strong>Grant Thornton</strong>&rdquo; refers to Grant Thornton UK LLP and &ldquo;<strong>we</strong>&ldquo;,
+            &ldquo;<strong>our</strong>&rdquo; and &ldquo;<strong>us</strong>&rdquo; will be construed accordingly.</p>
+          <p>&ndash; &ldquo;<strong>You</strong>&rdquo; refers to the user who uses the Facility subject to these Terms of Use
+            and &ldquo;<strong>your</strong>&rdquo; will be construed accordingly.</p>
+          <p>&ndash; &ldquo;<strong>Facility</strong>&rdquo; means the secure file transfer site on the World Wide Web located
+            at [add web address], and &ldquo;<strong>Functionality</strong>&rdquo; means the information on, and functions
+            available through, the Facility.</p>
+          <p><strong>Other applicable terms</strong></p>
+          <p>These Terms of Use refer to the following additional policy documents, which also apply to your use of the Facility:</p>
+          <p>&ndash; our Privacy Policy, which set out information about the cookies on the Facility and the terms on which
+            we process any personal data we collect from you, or that you provide to us. By using the Facility, you consent
+            to such processing and you warrant that all data provided by you is accurate.</p>
+          <p><strong>Personal information</strong></p>
+          <p>Grant Thornton will endeavour to ensure the information we hold will be accurate and up to date. We will use any
+            information you give us in line with the law on data protection. This means we will make sure you know how we
+            are going to use your information, and who it may be shared with/shown to.</p>
+          <p>Please view our <a href="http://www.grantthornton.co.uk/privacy/">Privacy Policy</a> for more information.</p>
+          <p><strong>Changes to these Terms of Use</strong></p>
+          <p>We keep these Terms of Use under review and may revise them at any time by amending this page. These Terms of Use
+            were last updated on&nbsp;10th&nbsp;May 2017.</p>
+          <p><strong>Changes to the Facility</strong></p>
+          <p>We may update the Facility from time to time, and may change the Functionality at any time. Please note that any
+            of the Functionality may be out of date at any given time, and we are under no obligation to update it.</p>
+          <p>We do not guarantee that our Facility, or any of it Functionality, will be free from errors or omissions.</p>
+          <p><strong>Accessing and availability of the Facility</strong></p>
+          <p>Our Facility is made available free of charge.</p>
+          <p>We do not guarantee that the Facility, or any Functionality, will always be available or be uninterrupted. Access
+            to the Facility is permitted on a temporary basis. We may suspend, withdraw, discontinue or change all or any
+            part of the Facility without notice. We will not be liable to you if for any reason the Facility is unavailable
+            at any time or for any period.</p>
+          <p>You acknowledge that it is technically impossible to provide the Facility free of faults and that we do not undertake
+            to do so; that faults may lead to the temporary unavailability of the Facility; and that the operation of the
+            Facility may be adversely affected by conditions and performances outside our control, including, without limitation,
+            transmission and telecommunications links between us and you and between us and other systems and networks.</p>
+          <p>You are responsible for making all arrangements necessary for you to have access to the Facility.</p>
+          <p>You are also responsible for ensuring that all persons who access the Facility through your internet connection
+            are aware of these Terms of Use and other applicable terms and conditions, and that they comply with them.</p>
+          <p>Our Facility is directed to businesses trading in the United Kingdom. We do not represent that the Functionality
+            available through the Facility is appropriate or available in other locations or to consumer users. We may limit
+            the availability of our Facility to any person or geographic area at any time. If you choose to access our Facility
+            from outside the United Kingdom, you do so at your own risk.</p>
+          <p><strong>Warranty</strong></p>
+          <p>We will perform our services with reasonable care and skill. No representation or warranty is given that the services
+            will be uninterrupted or error free or that all errors or defects can be corrected or remedied. The Facility
+            is used at your own risk. We accept no liability for any loss or damage to your hardware and/or software and/or
+            data resulting from your access and/or use of the Facility.</p>
+          <p><strong>No reliance on information</strong></p>
+          <p>Although we make reasonable efforts to update the Facility, we make no representations, warranties or guarantees,
+            whether express or implied, that the Functionality is accurate, complete or up-to-date.</p>
+          <p><strong>Intellectual Property and use of Software</strong></p>
+          <p>We are the owner or the licensee of all intellectual property rights in our Facility. Those works are protected
+            by copyright laws and treaties around the world. All such rights are reserved.</p>
+          <p>You acknowledge that all copyright, trademarks, database rights and all other intellectual property rights in the
+            Functionality shall remain vested in us or our licensors. Your use of any software that is made available to
+            download/upload from the Facility or via any hyperlink contained on the Facility (&ldquo;<strong>Software</strong>&ldquo;)
+            is governed by the terms of the end user license agreement, if any, which accompanies or is included with the
+            Software (&ldquo;<strong>Licence Agreement</strong>&ldquo;). You may not install, copy or use any Software that
+            is accompanied by or includes a Licence Agreement unless you first agree to the terms of such Licence Agreement.</p>
+          <p>All title, copyrights and other intellectual property subsisting in or on this Facility or in any artwork connected
+            with the Facility belong to us and will remain our property at all times &ndash; unless otherwise stated.</p>
+          <p>You may print off one copy, and may download extracts, of any page(s) from the Facility to draw the attention of
+            others within your organisation to the Functionality available through the Facility.</p>
+          <p>You must not modify the paper or digital copies of any materials you have printed off or downloaded in any way,
+            and you must not use any illustrations, photographs, video or audio sequences or any graphics separately from
+            any accompanying text.</p>
+          <p>Our status as the authors of Functionality available through the Facility must always be acknowledged.</p>
+          <p>You must not use any part of the Functionality on our Facility for commercial purposes without obtaining a licence
+            to do so from us or our licensors.</p>
+          <p>If you print off, copy or download any part of the Facility in breach of these terms of use, your right to use
+            the Facility will cease immediately and you must, at our option, return or destroy any copies of the materials
+            you have made.</p>
+          <p><strong>Security of your account and password</strong></p>
+          <p>You are responsible for the security and proper use of (any) user name and passwords used from time to time in
+            connection with the Facility and must take all necessary steps to ensure that they are kept confidential, secure,
+            used properly and not disclosed to unauthorised people. You must immediately inform us if there is any reason
+            to believe that your user name or password has or is likely to become known to someone not authorised to use
+            it or is being or is likely to be used in an unauthorised way. If you forget or lose a password or user name
+            you must contact us and satisfy such security checks as we may operate. We reserve the right to suspend user
+            name and password access to the Facility and the services if at any time we consider that there is or is likely
+            to be a breach of security. We reserve the right (in our sole discretion) to require you to change any or all
+            of the passwords used by you in connection with the Facility. You must immediately inform us of any changes to
+            the information you supplied when registering for the Facility.</p>
+          <p><strong>Viruses</strong></p>
+          <p>We do not guarantee that the Facility will be secure or free from bugs or viruses.</p>
+          <p>You are responsible for configuring your information technology, computer programmes and platform in order to access
+            the Facility. You should use your own virus protection software.</p>
+          <p>You must not misuse the Facility by knowingly introducing viruses, trojans, worms, logic bombs or other material
+            which is malicious or technologically harmful. You must not attempt to gain unauthorised access to the Facility,
+            the server on which the Facility is stored or any server, computer or database connected to the Facility. You
+            must not attack the Facility via a denial-of-service attack or a distributed denial-of service attack. By breaching
+            this provision, you would commit a criminal offence under the Computer Misuse Act 1990. We will report any such
+            breach to the relevant law enforcement authorities and we will co-operate with those authorities by disclosing
+            your identity to them. In the event of such a breach, your right to use the Facility will cease immediately.</p>
+          <p><strong>Linking to the Facility</strong></p>
+          <p>You must not establish a link to our Facility in such a way as to suggest any form of association, approval or
+            endorsement on our part where none exists.</p>
+          <p>You must not establish a link to the Facility in any website that is not owned by you.</p>
+          <p>The Facility must not be framed on any other site, nor may you create a link to any part of the Facility other
+            than the home page.</p>
+          <p>If you wish to make any use of Functionality available through our Facility other than that set out above, please
+            contact us.</p>
+          <p><strong>Third party links and resources in the Facility</strong></p>
+          <p>Where the Facility contains links to other sites and resources provided by third parties, these links are provided
+            for your information only.</p>
+          <p>We have no control over the content of those sites or resources.</p>
+          <p>We make no representation or commitment and shall have no liability or obligation whatsoever in relation to the
+            content or use of, or correspondence with, any such third-party website, or any transactions completed, and any
+            contract entered into by you, with any such third party. Any contract entered into and any transaction completed
+            via any third-party website is between you and the relevant third party, and not us. We recommend that you refer
+            to the third party&rsquo;s website terms and conditions and privacy policy prior to using the relevant third
+            party website.</p>
+          <p><strong>Uploading/Downloading content to our Facility</strong></p>
+          <p>Any content you upload/download to our Facility will be considered confidential. You retain all of your ownership
+            rights in your content, but you are required to grant us the right to use, store and copy that content and to
+            distribute and make it available to relevant Grant Thornton recipients.</p>
+          <p>We also have the right to disclose your identity to any third party who is claiming that any content uploaded by
+            you through our Facility constitutes a violation of their intellectual property rights, or of their right to
+            privacy.</p>
+          <p>We will not be responsible, or liable to any third party, for the content or accuracy of any content uploaded by
+            you or any other user of our Facility.</p>
+          <p>You are solely responsible for securing and backing up your content.</p>
+          <p><strong>Limitation of our liability</strong></p>
+          <p>Nothing in these Terms of Use excludes or limits our liability for death or personal injury arising from our negligence,
+            or our fraud or fraudulent misrepresentation, or any other liability that cannot be excluded or limited by English
+            law.</p>
+          <p>To the extent permitted by law, we exclude all conditions, warranties, representations or other terms which may
+            apply to the Facility or any Functionality on it, whether express or implied.</p>
+          <p>We will not be liable to any user for any loss or damage, whether in contract, tort (including negligence), breach
+            of statutory duty, or otherwise, even if foreseeable, arising under or in connection with:</p>
+          <p>&ndash; use of, or inability to use, the Facility; or use of or reliance on any Functionality on the Facility.</p>
+          <p>Please note that in particular, we will not be liable for:</p>
+          <ul>
+            <li>loss of profits, sales, business, or revenue;</li>
+            <li>business interruption;</li>
+            <li>loss of anticipated savings;</li>
+            <li>loss of business opportunity, goodwill or reputation; or</li>
+            <li>any indirect or consequential loss or damage.</li>
+          </ul>
+          <p>We will not be liable for any loss or damage caused by a virus, distributed denial-of-service attack, or other
+            technologically harmful material that may infect your computer equipment, computer programs, data or other proprietary
+            material due to your use of the Facility.</p>
+          <p>We assume no responsibility for the content of websites linked on the Facility. Such links should not be interpreted
+            as endorsement by us of those linked websites. We will not be liable for any loss or damage that may arise from
+            your use of them.</p>
+          <p><strong>Force Majeure</strong></p>
+          <p>We shall have no liability to you under the Terms of Use if we are prevented from or delayed in performing our
+            obligations under this agreement by matters, circumstances, acts, events, omissions or accidents beyond our reasonable
+            control including (without limitation) strikes, lock-outs or other industrial disputes (whether involving our
+            workforce or any other party), failure of a utility service or transport or telecommunications network or the
+            internet, unexpected system downtime , act of God, war, riot, civil commotion, malicious damage, compliance with
+            any law or governmental order, rule, regulation or direction, accident, breakdown of plant or machinery, fire,
+            flood, storm or default of suppliers or sub-contractors.</p>
+          <p><strong>Applicable law and jurisdiction</strong></p>
+          <p>The Terms of Use are governed by English law and both parties submit to the exclusive jurisdiction of the courts
+            of England and Wales.</p>
+          <p><strong>Termination</strong></p>
+          <p>We may terminate your use of the Facility at any time with immediate effect. On termination of the Terms of Use,
+            all rights granted to the you under the Terms of Use will cease immediately.</p>
+          <p><strong>Miscellaneous</strong></p>
+          <p>Any failure or delay by us in exercising our rights under any provisions of the Terms of Use will not be construed
+            as a waiver of those rights.</p>
+          <p>The Terms of Use&nbsp;supersede all prior agreements and understandings between the parties concerning its subject
+            matter, constitutes the entire agreement between the parties and can only be varied in writing.</p>
+          <p>Your statutory rights are not affected at all by these Terms of Use.</p>
+          <p>If any part of the Terms of Use is proven to be invalid, unenforceable or illegal, the other provisions will remain
+            in force.</p>
+          <p>The Terms of Use shall not be assigned or otherwise transferred in whole or in part by you.</p>
+          <p>Nothing in the Terms of Use will be construed as creating a partnership, joint venture or agency relationship between
+            the parties.</p>
+          <p>The Terms of Use do not create or confer any rights on third parties under the Contracts (Rights of Third Parties)
+            Act 1999 (as may be amended or replaced).</p>
+          <p><strong>Contact us</strong></p>
+          <p>To contact us please email info@grantthornton.co.uk</p>
+          <p>Thank you for visiting the Facility.</p>
+
+        </paper-material>
+
+
+      </div>
+    </paper-header-panel>
+  </template>
+
+  <script>
+    Polymer({
+      is: "ng-rt-tc-index",
+      properties: {},
+      ready: function () {},
+      attached: function () {
+        // i18n
+        I18nMsg.url = 'ng-rt-tc/locales'; // optionally use custom folder for locales.
+        Platform.performMicrotaskCheckpoint();
+      }
+    });
+  </script>
+
+</dom-module>

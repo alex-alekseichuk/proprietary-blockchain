@@ -1,0 +1,64 @@
+
+
+<script type="text/javascript">
+    RED.nodes.registerType('decrypt-by-privatekey', {
+        category: 'Project_Blockchain',
+        color: '#b9b1eb',
+        defaults: {
+            pubkey: {
+                value: ""
+            },
+            prvkey: {
+              value: ""
+            },
+            content: {
+                value: ""
+            }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "Project.png",
+        label: function() {
+            return this.name || "decrypt-by-privatekey";
+        }
+    });
+</script>
+<script type="text/x-red" data-template-name="decrypt-by-privatekey">
+    <div class="form-row">
+        <label for="node-input-pubkey"><i class="icon-tag"></i>Public Key</label>
+        <input type="text" id="node-input-pubkey" placeholder="publickey">
+    </div>
+    <div class="form-row">
+        <label for="node-input-prvkey"><i class="icon-tag"></i>Private Key</label>
+        <input type="text" id="node-input-prvkey" placeholder="privatekey">
+    </div>
+    <div class="form-row">
+        <label for="node-input-content"><i class="icon-tag"></i> Content</label>
+        <input type="text" id="node-input-content" placeholder="content">
+    </div>
+
+</script>
+
+<script type="text/x-red" data-help-name="decrypt-by-privatekey">
+    <p>Decrypt by privatekey</p>
+
+    <h3>Inputs</h3>
+        <dl class="message-properties">
+            <dt>msg.decrypt_by_privatekey.pubkey <span class="property-type">string</span></dt>
+            <dd>Public key</dd>
+            <dt>msg.decrypt_by_privatekey.prvkey <span class="property-type">string</span></dt>
+            <dd>Private key</dd>
+            <dt>msg.decrypt_by_privatekey.content <span class="property-type">string</span></dt>
+            <dd>Content</dd>
+        </dl>
+
+     <h3>Outputs</h3>
+         <ol class="node-ports">
+             <li>Standard output
+                 <dl class="message-properties">
+                     <dt>msg.decrypt_by_privatekey.result <span class="property-type">string</span></dt>
+                     <dd>Descrypted content</dd>
+                 </dl>
+             </li>
+         </ol>
+</script>

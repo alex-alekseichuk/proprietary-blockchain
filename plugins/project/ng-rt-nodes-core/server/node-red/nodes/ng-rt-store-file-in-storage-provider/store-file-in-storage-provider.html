@@ -1,0 +1,58 @@
+
+
+<script type="text/javascript">
+    RED.nodes.registerType('store-file-in-storage-provider', {
+      category: 'Project_Core',
+        color: '#81F7F3',
+        defaults: {
+            key: {
+                value: ""
+            }
+        },
+        inputs: 2,
+        outputs: 1,
+        icon: "Project.png",
+        label: function() {
+            return this.name || "store-file-in-storage-provider";
+        }
+    });
+</script>
+<script type="text/x-red" data-template-name="store-file-in-storage-provider">
+    <div class="form-row">
+        <label for="node-input-key"><i class="icon-tag"></i> File</label>
+        <input type="text" id="node-input-key" placeholder="File">
+
+        <label for="node-input-key"><i class="icon-tag"></i> Provider</label>
+        <input type="text" id="node-input-key" placeholder="Provider">
+    </div>
+
+
+</script>
+
+<script type="text/x-red" data-help-name="store-file-in-storage-provider">
+    <p>
+      Save file in the storage.
+    </p>
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>msg.ctx.provider
+            <span class="property-type">string</span>
+        </dt>
+        <dd> storage provider name.</dd>
+        <dt>msg.ctx.file
+            <span class="property-type">object</span>
+        </dt>
+        <dd> file to save.</dd>
+    </dl>
+    <h3>Output</h3>
+    <dl class="message-properties">
+        <dt>msg.fileId
+            <span class="property-type">string</span>
+        </dt>
+        <dd> ID of saved file.</dd>
+    </dl>
+    <h3>Details</h3>
+    <p>
+      There are several storage providers to save file/content persistently.
+    </p>
+</script>

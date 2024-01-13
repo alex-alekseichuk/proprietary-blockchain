@@ -1,0 +1,159 @@
+<dom-module id="ng-rt-documentation"><style include="shared-styles"></style><style is="custom-style">:host {
+  width: 100%;
+  height: 100%;
+}
+paper-toggle-button {
+  --paper-toggle-button-checked-bar-color: var(--my-custom-color);
+  --paper-toggle-button-checked-button-color: var(--my-custom-color);
+  --paper-toggle-button-checked-ink-color: var(--my-custom-color);
+  /*--paper-toggle-button-unchecked-bar-color:  var(--paper-teal-500);*/
+  /*--paper-toggle-button-unchecked-button-color:  var(--paper-teal-500);*/
+  /*--paper-toggle-button-unchecked-ink-color: var(--paper-teal-500);*/
+}
+ng-rt-smartContracts {
+  width: 100%;
+}
+paper-dialog {
+  width: 640px;
+}
+.dialog-header {
+  position: relative;
+  width: 100%;
+  height: 260px;
+  background: var(--primary-color);
+  margin: 0;
+  box-sizing: border-box;
+  padding: 0;
+  /* background-image: url("../res/dialog-header.png"); */
+}
+
+.dialog-header iron-icon {
+  color: white;
+}
+.closedialog {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  color: white !important;
+}
+
+.closedialog iron-icon {
+  color: white !important;
+}
+
+.fileicon {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  width: 100px;
+  height: 100px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  /*border: 2px solid white;*/
+/ / background-image: url("../res/plugins-icon-default.png");
+  background-size: 60%;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.fileicon iron-icon {
+  font-size: 30px;
+  color: white;
+  height: 60px;
+  width: 100%;
+}
+.filenamehead {
+  position: absolute;
+  left: 140px;
+  top: 40px;
+  font-size: 24px;
+  color: white;
+  font-weight: 200;
+}
+.dialog-header .label {
+  position: absolute;
+  opacity: 0.5;
+  top: -20px;
+  font-size: 13px;
+  left: 0;
+}
+.dialog-header .pubid {
+  position: absolute;
+  top: 100px;
+  left: 140px;
+  font-size: 13px;
+  color: white;
+}
+.headcolumns {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  padding: 10px 5px;
+  display: flex;
+  flex-direction: row;
+/ / background: rgba(0, 0, 0, 0.03);
+/ / border-top: 1 px solid rgba(255, 255, 255, 0.2);
+  box-sizing: border-box;
+  background: #515c6a;
+}
+.headcolumns > span {
+  flex: 1;
+  border-radius: 6px;
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  min-width: 120px;
+  max-width: 130px;
+  height: 60px;
+  padding: 10px;
+  margin: 5px;
+  position: relative;
+}
+.labelblock {
+  position: absolute;
+  left: 40px;
+  top: 12px;
+  font-size: 13px;
+}
+.blockcont {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  font-size: 20px;
+  font-weight: 200;
+}
+.dialog-header .righttop {
+  position: absolute;
+  text-align: right;
+  top: 60px;
+  right: 20px;
+  color: white;
+}
+.dialog-header .rightbot {
+  position: absolute;
+  text-align: right;
+  bottom: 30px;
+  right: 20px;
+  color: white;
+}
+.keysrow {
+  padding: 0;
+  width: 100%;
+}
+.keysrow .fileicons {
+  padding: 0 20px 0 0;
+  opacity: 0.6;
+}
+
+.keysrow div .filename {
+  text-overflow: ellipsis!important;
+  overflow: hidden;
+}
+
+.doc-link {
+  width: 100%;
+  text-decoration: none;
+  color: #000;
+}</style><template><paper-header-panel class="appPanel"><!-- Toolbar--><paper-toolbar class="appToolbar"><!-- Top--><paper-icon-button id="paperToggle" icon="menu" paper-drawer-toggle=""></paper-icon-button><span class="title">{{title}}</span><span class="flex"></span></paper-toolbar><!-- Content--><div class="content"><paper-material elevation="0"><div class="listheader"><iron-grid><div class="m12 s12 xs12">documentation</div></iron-grid></div><template id="docsList" is="dom-repeat" items="{{docs}}" observe="type updated_at"><div class="keysrow"><iron-grid><a class="doc-link" href="{{item.link}}" target="_blank"><div class="m12 s12 xs12"><span class="filename">{{item.name}}</span></div></a></iron-grid></div></template></paper-material></div></paper-header-panel></template></dom-module><script type="text/javascript" src="js/app.js"></script>

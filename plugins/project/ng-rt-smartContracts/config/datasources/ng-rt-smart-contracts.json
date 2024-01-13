@@ -1,0 +1,6 @@
+{
+    "name": "ng-rt-smart-contracts",
+    "useDefaultConnection": true,
+    "databasePrefix": "default",
+    "database": "ng_rt_smart_contracts"
+}

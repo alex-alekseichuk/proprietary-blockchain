@@ -1,0 +1,123 @@
+/* DEFAULT VENDOR CSS FILE*/
+/* For REFERENCE */
+/* DO NOT MODIFY */
+
+/* Accent colors */
+/* primarycolor: #fc6821*/
+/* secondcolor: #9e5fd4*/
+
+* {
+  font-family: 'Arial', sans-serif !important;
+}
+
+.projectlogo {
+  background-color: #fc6821 !important;
+}
+.ng-rt-menu-item-0.iron-selected a.ng-rt-menu-item {
+  background-color: #fc6821 !important;
+}
+.iron-selected a.ng-rt-menu-item iron-icon {
+  color: white !important;
+}
+iron-icon {
+  color: #fc6821 !important;
+}
+paper-item::after {
+  background: #fc6821 !important;
+}
+.listheader,
+.list-header {
+  border-bottom-color: #fc6821 !important;
+}
+.selected {
+  background: #9e5fd4 !important;
+  color: white !important;
+}
+.keysrow::after,
+.list-row::after {
+  background-color: #fc6821 !important;
+}
+h2 {
+  color: #fc6821 !important;
+}
+paper-dialog paper-toolbar {
+  background-color: #fc6821 !important;
+}
+#drawer iron-icon {
+  color: white !important;
+}
+#drawer a.ng-rt-menu-item:hover::after {
+  background-color: #fc6821;
+}
+#selectionBar {
+  background-color: #fc6821 !important;
+}
+paper-button {
+  border-color: #fc6821 !important;
+  color: #fc6821 !important;
+}
+paper-button:hover {
+  background: #fc6821 !important;
+  color: white !important;
+}
+paper-button:hover iron-icon {
+  color: white !important;
+}
+paper-button[active] {
+  background: #9e5fd4 !important;
+  border-color: #9e5fd4 !important;
+  color: white  !important;
+}
+paper-toggle-button .toggle-button {
+  border-color: #fc6821 !important;
+}
+paper-toggle-button[checked]:not([disabled]) .toggle-button {
+  border-color: #9e5fd4 !important;
+  background-color: #9e5fd4 !important;
+}
+.label-is-highlighted label {
+  color: #fc6821 !important;
+}
+.is-highlighted .paper-input-char-counter {
+  color: #fc6821 !important;
+}
+paper-dialog {
+  border-color: #fc6821 !important;
+}
+paper-checkbox #checkbox.checked.paper-checkbox {
+  background-color: #fc6821 !important;
+  border-color: #fc6821 !important;
+}
+.focused-line {
+  border-color: #fc6821 !important;
+}
+.menusearch input:focus {
+  border-color: #fc6821 !important;
+}
+.vbg {
+  background-color: #fc6821 !important;
+}
+.vc {
+  color: #fc6821 !important;
+}
+.vbrd {
+  border-color: #fc6821 !important;
+}
+.vbgh:hover {
+  background-color: #fc6821 !important;
+}
+.vch:hover {
+  color: #fc6821 !important;
+}
+.vbrdh:hover {
+  border-color: #fc6821 !important;
+}
+.vbgh::after {
+  background-color: #fc6821 !important;
+}
+.vch::after {
+  color: #fc6821 !important;
+}
+.vbrdh::after {
+  border-color: #fc6821 !important;
+}

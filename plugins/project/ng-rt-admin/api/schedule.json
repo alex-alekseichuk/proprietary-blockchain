@@ -1,0 +1,206 @@
+{
+  "id": "7058b00b.bf66d",
+  "type": "tab",
+  "label": "schedule",
+  "nodes": [
+    {
+      "id": "92ecb912.6cb418",
+      "type": "ui-listener",
+      "z": "7058b00b.bf66d",
+      "name": "",
+      "applicationName": "",
+      "event": "ADMIN_schedule",
+      "x": 391,
+      "y": 510,
+      "wires": [
+        [
+          "cac463b1.84d33",
+          "54237287.05bc8c"
+        ]
+      ]
+    },
+    {
+      "id": "6bf94905.040bf8",
+      "type": "email-template-sender",
+      "z": "7058b00b.bf66d",
+      "recepient": "",
+      "template": "",
+      "payload": "",
+      "x": 718,
+      "y": 484,
+      "wires": [
+        [
+          "7d1bb535.9b1a6c"
+        ]
+      ]
+    },
+    {
+      "id": "7d1bb535.9b1a6c",
+      "type": "debug",
+      "z": "7058b00b.bf66d",
+      "name": "debug email-template",
+      "active": false,
+      "console": "true",
+      "complete": "true",
+      "x": 884,
+      "y": 592,
+      "wires": []
+    },
+    {
+      "id": "857d7118.ad5e",
+      "type": "debug",
+      "z": "7058b00b.bf66d",
+      "name": "debug get payload",
+      "active": true,
+      "console": "true",
+      "complete": "true",
+      "x": 809,
+      "y": 279,
+      "wires": []
+    },
+    {
+      "id": "9b8f42db.f640f",
+      "type": "email-sender",
+      "z": "7058b00b.bf66d",
+      "recepient": "admin@project.com",
+      "message": "qq",
+      "subject": "schedule",
+      "x": 751,
+      "y": 371,
+      "wires": [
+        [
+          "ed764c2a.49ba5"
+        ]
+      ]
+    },
+    {
+      "id": "ed764c2a.49ba5",
+      "type": "debug",
+      "z": "7058b00b.bf66d",
+      "name": "debug email",
+      "active": false,
+      "console": "true",
+      "complete": "true",
+      "x": 985,
+      "y": 406,
+      "wires": []
+    },
+    {
+      "id": "cac463b1.84d33",
+      "type": "function",
+      "z": "7058b00b.bf66d",
+      "name": "get payload",
+      "func": "//msg.payload = msg.ctx.payload.message\n//msg.topic = msg.ctx.topic\nmsg.ctx.template = 'schedule';\n//msg.ctx.recepient = ['admin@project.com'];\n\nreturn msg;",
+      "outputs": 1,
+      "noerr": 0,
+      "x": 482,
+      "y": 376,
+      "wires": [
+        [
+          "6bf94905.040bf8",
+          "857d7118.ad5e"
+        ]
+      ]
+    },
+    {
+      "id": "54237287.05bc8c",
+      "type": "debug",
+      "z": "7058b00b.bf66d",
+      "name": "debug listener ",
+      "active": false,
+      "console": "true",
+      "complete": "true",
+      "x": 576,
+      "y": 598,
+      "wires": []
+    },
+    {
+      "id": "ba806c7c.1c3d4",
+      "type": "email-template-sender",
+      "z": "7058b00b.bf66d",
+      "recepient": "",
+      "template": "",
+      "payload": "",
+      "x": 723.5,
+      "y": 985,
+      "wires": [
+        [
+          "456d1ad.97147e4"
+        ]
+      ]
+    },
+    {
+      "id": "77b193da.234c8c",
+      "type": "inject",
+      "z": "7058b00b.bf66d",
+      "name": "trigger",
+      "repeat": "",
+      "crontab": "",
+      "once": false,
+      "topic": "trigger mail",
+      "payload": "{\"recepient\": [\"admin@project.com\"], \"payload\": {\"callerEmail\": \"foo@example.com\", \"calledEmail\": \"bar@example.com\"}}",
+      "payloadType": "json",
+      "x": 448,
+      "y": 789,
+      "wires": [
+        [
+          "e6298554.3f4d58",
+          "e578460b.2a6a98"
+        ]
+      ]
+    },
+    {
+      "id": "456d1ad.97147e4",
+      "type": "debug",
+      "z": "7058b00b.bf66d",
+      "name": "debug email-template-sender",
+      "active": true,
+      "console": "true",
+      "complete": "true",
+      "x": 952.5,
+      "y": 888,
+      "wires": []
+    },
+    {
+      "id": "e6298554.3f4d58",
+      "type": "debug",
+      "z": "7058b00b.bf66d",
+      "name": "debug trigger",
+      "active": true,
+      "console": "true",
+      "complete": "true",
+      "x": 560,
+      "y": 679,
+      "wires": []
+    },
+    {
+      "id": "1fa39143.8017df",
+      "type": "debug",
+      "z": "7058b00b.bf66d",
+      "name": "degug get-peayload",
+      "active": true,
+      "console": "true",
+      "complete": "true",
+      "x": 729,
+      "y": 781,
+      "wires": []
+    },
+    {
+      "id": "e578460b.2a6a98",
+      "type": "function",
+      "z": "7058b00b.bf66d",
+      "name": "get-payload",
+      "func": "msg.ctx = {};\nmsg.ctx.recepient = msg.payload.recepient;\n//msg.ctx.template = msg.payload.template;\nmsg.ctx.payload = msg.payload.payload;\n//msg.ctx.payload.callerEmail = 'foo@example.com';\n//msg.ctx.payload.calledEmail = 'bar@example.com';\nmsg.ctx.template = 'schedule'\nreturn msg;\n",
+      "outputs": 1,
+      "noerr": 0,
+      "x": 552,
+      "y": 887,
+      "wires": [
+        [
+          "1fa39143.8017df",
+          "ba806c7c.1c3d4"
+        ]
+      ]
+    }
+  ]
+}

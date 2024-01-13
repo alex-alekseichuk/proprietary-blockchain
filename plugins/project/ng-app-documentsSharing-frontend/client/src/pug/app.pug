@@ -1,0 +1,143 @@
+dom-module#ng-app-documentsSharing
+  style(include='shared-styles').
+  include /styles/style
+  template
+    paper-header-panel.appPanel
+      // Toolbar
+      paper-toolbar(class$='appToolbar {{hideToStyle(hideinbox)}}')
+        // Top
+        paper-icon-button#paperToggle(icon='menu', paper-drawer-toggle='')
+        span.title
+          i18n-msg(msgid='Document Sharing') Document Sharing
+        span.flex
+        //pa-search
+        //paper-icon-button(icon='icons:settings')
+          
+        //Bottom
+        template(is="dom-if", if="{{!hideinbox}}")
+          paper-tabs.bottom.fit(selected='{{sharingTab}}', noink='true')
+            paper-tab(id='send_files_tab') Send files
+            paper-tab(id='inbox_tab') Inbox
+
+        // Content
+      
+      neon-animated-pages.flex(selected='[[sharingTab]]', entry-animation='[[entryAnimation]]', exit-animation='[[exitAnimation]]')
+          neon-animatable
+            .content
+              paper-material#copywindow.layout.vertical.illustratedpaper(elevation='0')
+                .verticalhero
+                  .icon.vbg
+                    img(src='/ng-app-documentsSharing-frontend/images/securitycopy.svg', alt='')
+                .contentblock
+                  paper-progress(indeterminate='')
+                  template(is="dom-if", if="[[isChrome()]]")
+                    span.warning Please use Chrome browser
+
+                  div
+                    //h3
+                      i18n-msg(msgid='Upload File') Upload File
+                    div#fileselected
+                      span(id="filesnamelabel") No files selected
+                      label(for="fileToShare", id="fileToShareLabel", class="labelUpload vbg vcw") Browse
+                        input#fileToShare(type='file', name='fileToShare', on-change='setFile', onchange='document.getElementById("filesnamelabel").firstChild.nodeValue = this.files[0].name; ;' ,style="opacity: 0; display: none;")
+                    br
+
+                  div.message-block
+                    textarea(id="message-textarea", placeholder="Add your message here", value='{{additionalMsg::input}}')
+
+                  .selectProjectBlock
+                    //h3
+                      i18n-msg(msgid='Select Project') Select Project
+                    vaadin-combo-box(items="{{projects}}",
+                    value='{{project_id}}',
+                    item-label-path='name',
+                    item-value-path='id',
+                    required='true',
+                    label='Project',
+                    always-float-label,
+                    )
+                  br
+
+                  .recipientsblock
+                    
+                    .headerblock
+                      div(class="flex layout horizontal", style="align-items: center; margin-bottom: 10px;")
+                        h3.flex
+                          i18n-msg(msgid='Recipients') Recipients
+                        paper-icon-button(icon='icons:add', on-click='addRecipient')
+                        paper-icon-button(icon='icons:perm-contact-calendar', onclick="components_contact_book.toggle()")
+                    template#recipients(is='dom-repeat', items='{{recipients}}', as='recipient')
+                      div(class="flex layout horizontal", style="align-items: center;")
+                        i18n-msg(msgid='Recipient', msg='{{Recipient}}', style='display: none')
+                        vaadin-combo-box(
+                        label='Recipient',
+                        items="{{contacts}}",
+                        value='{{recipient.pubKey}}',
+                        required='true',
+                        class="flex",
+                        always-float-label,
+                        style="padding: 0; margin: 0 0 10px 0"
+                        )
+                        paper-icon-button(index='index', suffix='', icon='delete', on-tap='removeRecepient', alt='Delete', title='Delete', class="delete_button", style="flex: 0 0 40px")
+
+
+                  // Footer
+                  paper-button(on-click='onSubmit', class='submitButton vbg vbrd vbgh vcw')
+                    iron-icon(icon='icons:send', class="vcw vchw")
+                    i18n-msg(msgid='Send files') Send files
+
+                  iron-ajax#createDigitalAsset(url='/create-digital-asset', handle-as='json', content-type='application/json', method='POST', on-response='handleResponseEnd')
+                  .bottomsubmit
+                    .layout.vertical
+                      #storageSection
+                        i18n-msg(msgid='Store file in', msg='{{Store_file_in}}', style='display: none') Store file in
+                        paper-dropdown-menu#storageType(label='[[Store_file_in]]')
+                          paper-listbox#lstStorages.dropdown-content
+                            template#pageItems(is='dom-repeat', items='{{providers}}', as='provider')
+                              paper-item(id='{{provider}}') {{provider}}
+                  paper-checkbox#enableEncrypt(checked$='{{enableEncrypt}}', on-click='toggleEncrypt') Encryption enabled
+          //Inbox
+          neon-animatable
+            .content(style="height:100%")
+              paper-material.layout.horizontal(elevation='0',style='margin: 0px 0 0 0')
+                vaadin-grid#inboxgrid(aria-label="Inbox", items="[[inboxDB]]", active-item="{{inboxSelected}}", multi-sort="[[true]]")
+
+                  vaadin-grid-column(width='180px', flex-grow='0', on-click='changeSort')
+                    template.header
+                      vaadin-grid-sorter(path='date')
+                        .cell(style='padding-left: 20px;')
+                          span Time
+                          iron-icon(icon='icons:arrow-upward')
+                    template
+                      .cell(style='padding-left: 20px;' on-click="emailClick") [[item.date]]
+
+                  vaadin-grid-column(flex='1')
+                    template.header
+                      vaadin-grid-sorter(path='filename')
+                        .cell
+                          span Filename
+                    template
+                      .cell.cell-data(on-click="emailClick") [[item.payload.filename]]
+
+                  vaadin-grid-column(width='120px', flex-grow='0', on-click='changeSort')
+                    template.header
+                      vaadin-grid-sorter(path='seen')
+                        .cell
+                          span Status
+                    template
+                      .cell.cell-data(on-click="emailClick") [[item.seen]]
+
+                  vaadin-grid-column(width='180px', flex-grow='0', on-click='changeSort')
+                    template.header
+                      vaadin-grid-sorter(path='payload.username')
+                        .cell
+                          span Sender
+                    template
+                      .cell.cell-data(on-click="emailClick") [[item.payload.username]]
+      
+      //- paper-toast#warningpost(text='Please use Chrome browser')
+      //-   paper-button.yellow-button(onclick="warningtoast.toggle()") Okay
+      ng-rt-components-contact-book#components_contact_book
+
+  script(src="/ng-app-documentsSharing-frontend/js/app.js")
+ng-app-documentsSharing

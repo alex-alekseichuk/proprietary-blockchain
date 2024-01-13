@@ -1,0 +1,22 @@
+{
+  "name": "ng-app-documentsSharing-backend",
+  "description": "",
+  "version": "3.2.74135",
+  "author": "PROJECT PROPERTIES B.V.",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git@xxxxxxxx:xxxx/ng-app-documentsSharing-backend.git"
+  },
+  "dependencies": {
+    "hot-shots": "^6.8.0",
+    "path": "^0.12.7",
+    "rethinkdb": "^2.3.3",
+    "ng-rt-digitalAsset-sdk": "git+https://gitlab.project.com/sdk/ng-rt-digitalAsset-sdk.git#dev/3.2"
+  },
+  "devDependencies": {
+    "express": "^4.17.1",
+    "request": "^2.88.0",
+    "lodash": "^4.17.15"
+  }
+}

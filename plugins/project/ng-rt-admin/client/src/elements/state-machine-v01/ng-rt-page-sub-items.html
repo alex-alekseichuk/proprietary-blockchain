@@ -1,0 +1,28 @@
+
+<dom-module id="ng-rt-page-sub-items">
+    <template>
+
+        <template id="done" is="dom-repeat" items="{{rootItem.items}}" as="subitem">
+            <ng-rt-page-item page-item="[[subitem]]" app-id="{{appId}}"></ng-rt-page-item>
+        </template>
+
+    </template>
+
+</dom-module>
+
+<script>
+    Polymer({
+        is: "ng-rt-page-sub-items",
+        properties: {
+            rootItem: {
+                type: "object",
+                value: {},
+                notify: true
+            },
+            appId: {
+                type: "string",
+                value: ""
+            }
+        }
+    });
+</script>

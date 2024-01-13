@@ -1,0 +1,33 @@
+[{
+  "name": "subDomain",
+  "base": "aclParent",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "subDomainId": {
+      "type": "string",
+      "id": true
+    },
+    "subDomainName": {
+      "type": "string"
+    },
+    "subDomainDescription": {
+      "type": "string"
+    },
+    "domainId": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "domain": {
+      "type": "belongsTo",
+      "model": "domain",
+      "foreignKey": "domainId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}]

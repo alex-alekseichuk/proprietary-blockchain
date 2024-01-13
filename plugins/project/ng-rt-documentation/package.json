@@ -1,0 +1,14 @@
+{
+  "name": "ng-rt-documentation",
+  "description": "",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.project.com:plugins/ng-rt-documentation.git"
+  },
+  "author": "PROJECT PROPERTIES B.V.",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "version": "3.2.72506"
+}

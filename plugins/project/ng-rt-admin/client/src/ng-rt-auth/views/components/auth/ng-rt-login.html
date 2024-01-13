@@ -1,0 +1,325 @@
+<dom-module id="ng-rt-login">
+  <style include="shared-styles"></style>
+  <style is="custom-style">
+    :host {
+      height: 100%;
+      width: 100%;
+      padding: 0 0 0 0;
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+      position: relative;
+    }
+
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+      -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+    }
+
+    .forgot {
+      margin: 15px 0 0 0;
+    cursor: pointer;
+    font-size: 13px;
+      padding: 0;
+      color: var(--primary-color);
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .footer {
+      width: 100%;
+      display: block;
+      padding: 40px 0 0 0;
+    }
+
+    #remember_me {
+      font-size: 0.75em;
+      opacity: 1;
+      transition: 0.3s all;
+      margin-bottom: 0px;
+    }
+
+    #remember_me[active] {
+      opacity: 1;
+    }
+
+    #remember_me:hover {
+      opacity: 1;
+    }
+
+    #buttonlogin,
+    #buttonloginLDAP {
+      flex: 1;
+    }
+
+    #loginopt {
+      flex: 0 0 50px;
+      min-width: 50px;
+      padding: 0;
+      border-left: none !important;
+    }
+
+    #loginopt iron-icon {
+      margin: 0;
+    }
+
+    .loginbutton {
+      display: flex;
+      flex-direction: row;
+      position: relative;
+    }
+
+    #loginswitch {
+      display: flex;
+      flex-direction: row;
+      opacity: 0;
+      position: absolute;
+      background: var(--window-bg);
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+
+      transform-origin: bottom center;
+      animation-fill-mode: forwards;
+      pointer-events: none;
+      transition: 0.3s all;
+      opacity: 0;
+      transform: rotateX(90deg);
+    }
+
+    .showIt {
+      opacity: 1 !important;
+      transform: rotateX(0deg) !important;
+      pointer-events: all !important;
+    }
+
+    .hideIt {
+      /*      animation: disappear 0.5s 1;
+            pointer-events: none;*/
+    }
+
+    #loginswitch>* {
+      flex: 1
+    }
+
+    @keyframes appear {
+      0% {
+        opacity: 0;
+        transform: rotateX(90deg);
+      }
+      100% {
+        opacity: 1;
+        transform: rotateX(0deg);
+      }
+    }
+
+    @keyframes disappear {
+      0% {
+        opacity: 1;
+        transform: rotateX(0deg);
+      }
+      100% {
+        opacity: 0;
+        transform: rotateX(90deg);
+      }
+    }
+  </style>
+  <template>  
+      <template is="dom-if" if="{{!LoginType}}">
+      <paper-input id='auth_username' name="username" type="text" autocomplete="off" label="User Name" value="{{username}}"
+        autofocus>
+        <iron-icon icon="social:person" prefix></iron-icon>
+        <paper-toggle-button tabindex="-1" suffix name="remember_me" id="remember_me" title="Remember me" checked="{{remember_me}}"
+          class="rem">remember
+        </paper-toggle-button>
+      </paper-input>
+
+      <gold-password-input
+      id='auth_password' name="password" type="password" autocomplete="new-password" label="Password" value="{{password}}"
+       on-keydown="checkForEnter"
+            reveal
+            suffix
+          ></gold-password-input>
+
+    </template>
+    <template is="dom-if" if="{{LoginType}}">
+      <paper-input name="username" type="text" label="LDAP User Name" value="{{username}}"
+         autofocus>  <iron-icon icon="social:person" prefix></iron-icon>
+        </paper-input>
+         <gold-password-input
+         id='auth_password' name="password" type="password" autocomplete="new-password" label="Password" value="{{password}}"
+         auto-validate on-keydown="checkForEnter"
+               reveal
+               suffix
+             ></gold-password-input>
+   
+    </template>
+
+    <span class="footer">
+      <span class="loginbutton">
+        <template is="dom-if" if="[[!LoginType]]">
+          <paper-button id="buttonlogin" on-click="handleLogin">Login</paper-button>
+        </template>
+        <template is="dom-if" if="[[LoginType]]">
+          <paper-button id="buttonloginLDAP" on-click="handleLogin">LDAP Login</paper-button>
+        </template>
+        <paper-button id="loginopt" on-click="showSwitch">
+          <iron-icon icon="icons:arrow-drop-down"></iron-icon>
+        </paper-button>
+        <span id="loginswitch">
+          <paper-button on-click="hideSwitch" id="stndlogin" active="{{LoginType}}" >Standard Login</paper-button>
+          <paper-button on-click="hideSwitch" id="ldaplogin" active="{{!LoginType}}" >LDAP Login</paper-button>
+        </span>
+      </span>
+      <!--<template is="dom-if" if="{{!LoginType}}">
+              </template>-->
+
+    </span>
+    <div class="forgot vc" on-click="recoverClick">Reset password</div>
+  </template>
+
+
+  <script>
+    Polymer({
+      is: "ng-rt-login",
+      properties: {
+        username: {
+          type: String,
+          value: ""
+        },
+        LoginType: {
+          type: Boolean,
+          value: false /* False is Standard*/
+        },
+      },
+      ready: function () {
+        this.logger = window.log4js.getLogger('ng-rt-admin/auth/login');
+      },
+      handleLogin: function () {
+        var self = this;
+        const toaster = document.getElementById('toaster');
+        if (this.username.trim() == "") {
+          toaster.show("Username cannot be blank", 'alert');
+          return;
+        }
+        if (this.password == "") {
+          toaster.show("Password cannot be blank", 'alert');
+          return;
+        }
+        tasker.show(translate('Login into the system'));
+        project.ajax.setRememberMe(this.remember_me);
+        project.ajax.post('/auth/login', {
+          username: this.username,
+          password: this.password,
+          remember_me: this.remember_me,
+          isLdap: this.LoginType
+        })
+        .catch(err => 
+        {
+          self.password = "";
+          tasker.hide();
+          toaster.show(translate("Incorrect credentials"));
+          return;  
+        })
+        .then (response => 
+        { 
+          const token = response.token;
+
+          if (response.u2f) 
+          {     
+            const ch = response.u2f.challenge;
+            
+            project.ajax.setPreSessionToken(token);
+
+            project.u2f.sign_login_challenge(response.u2f)
+            .catch(err => 
+            {
+              tasker.hide();
+              toaster.show(translate(err.message? err.message : "Could not sign login challenge"));
+            })
+            .then( pubKey => project.u2f.publicKeyCredentialToJSON ( pubKey ) )
+            .then( pubKey => { 
+              return project.ajax.post("/auth/u2f", {token: token, cred : pubKey, challenge : ch})
+              .catch( err=>
+              {
+                tasker.hide();
+                toaster.show(translate(err.message ? err.message : "Incorrect credentials"));
+              })
+              .then(response =>
+              { 
+                tasker.hide();
+                self.setSessionToken(response.token);
+              })
+            })
+          }
+          else 
+          {  
+            tasker.hide()
+            self.setSessionToken(token)
+          }
+        }); 
+      },
+
+      setSessionToken : function (token) {
+        var self = this;
+        project.ajax.setSessionTokenNoRedirect(token, function () {
+          Promise.all([
+            pajax.get('/ng-rt-admin/user'),
+            pajax.get('/ng-rt-admin/roles'),
+            pajax.get('/ng-rt-tc/termsAndConditions'),
+            pajax.get('/ng-rt-tc/settings')
+          ])
+          .then(results => {
+            project.ajax.logoutNoRedirect(() => {
+              tasker.hide();
+              if (!results[2].licenseAgreed) {
+                if ((results[1].roles || []).indexOf('sysadmin') == -1) {
+                  return window.location = "/admin/res/html/declined.html";
+                }
+                const o = { token: token, termsType: 'eula', termsText: results[2].eulaText, results: results };
+                self.logger.info(translate('license not agreed, o = ') + JSON.stringify(o));
+                project.ajax.emit('terms', o);
+              } else if (results[3].settings.requireTerms && !(results[0].user || {}).termsAccepted) {
+                const o = {
+                  token: token,
+                  termsType: 'tc',
+                  termsText: results[2].termsAndConditions,
+                  results: results
+                };
+                project.ajax.emit('terms', o);
+              } else {
+                setTimeout(() => project.ajax.setSessionToken(token), results[3].settings.setSessionTokenTimeout || 100)
+              }
+            });
+          })
+          .catch(error => {
+            tasker.hide();
+            self.logger.debug(translate('error = ') + error.message);
+            project.ajax.logout()
+          })
+        });
+      },
+      checkForEnter: function (e) {
+        // check if 'enter' was pressed
+        if (e.keyCode === 13) {
+          this.handleLogin();
+        }
+      },
+      showSwitch: function (e) {
+        this.$.loginswitch.classList.add("showIt");
+      },
+      changeLogin: function (value) {
+        this.LoginType = value;
+      },
+      hideSwitch: function (e) {
+        setTimeout(() => this.$.loginswitch.classList.remove("showIt"), 200);
+      },
+      recoverClick: function (e) {
+        project.ajax.emit('fp');
+      }
+    });
+  </script>
+</dom-module>

@@ -1,0 +1,60 @@
+{
+ "name": "ng-rt-coreServices",
+ "type": "optional",
+ "author": "Project BV",
+ "copyright": "Project BV 2016 - 2019",
+ "description": "application ng-rt-coreServices",
+ "version": "3.2.",
+ "entryPoints": [
+  {
+   "type": "route",
+   "parameters": {
+    "file": "./api/services.js"
+   }
+  },
+  {
+   "type": "route",
+   "parameters": {
+    "file": "./api/routes/authorization.js"
+   }
+  }
+ ],
+ "actions": {
+  "before_install": [
+   {
+    "type": "NPM_INSTALL",
+    "parameters": {
+     "package": true
+    }
+   }
+  ],
+  "after_install": [
+   {
+    "name": "copy docs",
+    "type": "COPY_FILES",
+    "parameters": {
+     "source": "docs/api",
+     "target": "config/docs/api/ng-rt-coreServices"
+    }
+   }
+  ],
+  "after_uninstall": [],
+  "before_activate": [
+   {
+    "name": "register authorisation model",
+    "type": "REGISTER_MODEL",
+    "parameters": {
+     "json": "config/authorisation.json",
+     "js": "config/authorisation.js",
+     "public": true,
+     "dataSource": "ng_rt"
+    }
+   }
+  ],
+  "after_activate": [],
+  "after_deactivate": []
+ },
+ "sharedServices": [],
+ "apiServices": [],
+ "settings": []
+}

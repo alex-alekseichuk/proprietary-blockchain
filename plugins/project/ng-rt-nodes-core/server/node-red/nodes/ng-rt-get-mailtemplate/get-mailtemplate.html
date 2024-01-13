@@ -1,0 +1,52 @@
+<script type="text/javascript">
+  RED.nodes.registerType('get-mailtemplate', {
+    category: 'Project_Core',
+    color: '#81F7F3',
+    defaults: {
+      recepient: {
+        value: ""
+      },
+      template: {
+        value: ""
+      },
+      payload: {
+        value: ""
+      }
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: "Project.png",
+    label: function() {
+      return this.name || "get-mailtemplate";
+    }
+  });
+</script>
+<script type="text/x-red" data-template-name="get-mailtemplate">
+  <div class="form-row">
+    <label for="node-input-recepient"><i class="icon-tag"></i> Name</label>
+    <input type="text" id="node-input-name" placeholder="name">
+  </div>
+</script>
+<script type="text/x-red" data-help-name="get-mailtemplate">
+  <p>
+    Get mailtemplate by name.
+  </p>
+  <h3>Properties</h3>
+  <dl class="message-properties">
+    <dt>Name
+            <span class="property-type">string</span>
+        </dt>
+    <dd> mail template name.</dd>
+  </dl>
+  <h3>Inputs</h3>
+  <dl class="message-properties">
+    <dt>msg.ctx.name
+            <span class="property-type">string | array</span>
+        </dt>
+    <dd> mail template name.</dd>
+  </dl>
+  <h3>Details</h3>
+  <p>
+    Input parameters of the node are treated as default values and properties are used for overriding. Properties take precedence over the input parameters.
+  </p>
+</script>

@@ -1,0 +1,28 @@
+[
+    {
+        "name": "skill",
+        "base": "commonDataModel",
+        "idInjection": true,
+        "properties": {},
+        "validations": [],
+        "relations": {
+         "user": {
+          "model": "user",
+          "foreignKey": "userId",
+          "type": "belongsTo"
+         },
+         "skillType": {
+          "model": "skillType",
+          "foreignKey": "skillTypeId",
+          "type": "hasOne"
+         },
+         "skillLevel": {
+          "model": "skillLevel",
+          "foreignKey": "skillLevelId",
+          "type": "hasOne"
+         }
+        },
+        "acls": [],
+        "methods": []
+       }
+]

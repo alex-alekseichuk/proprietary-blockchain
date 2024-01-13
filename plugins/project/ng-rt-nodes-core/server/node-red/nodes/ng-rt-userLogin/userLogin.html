@@ -1,0 +1,54 @@
+
+<script type="text/javascript">
+    RED.nodes.registerType('userLogin', {
+      category: 'Project_Core',
+        color: '#81F7F3',
+        defaults: {
+            adminUsername : {
+                value : ""
+            },
+            adminPassword : {
+                value : ""
+            }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "Project.png",
+        label: function() {
+            return this.name || "userLogin";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="userLogin">
+    <div class="form-row">
+        <label for="node-input-adminUsername"></i> adminUsername</label>
+        <input type="text" id="node-input-adminUsername" placeholder="">
+    </div>
+    <div class="form-row">
+        <label for="node-input-adminPassword"></i> adminPassword</label>
+        <input type="password" id="node-input-adminPassword" placeholder="">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="userLogin">
+    <p>Login to TBSP via username/password</p>
+
+    <h3>Inputs</h3>
+        <dl class="message-properties">
+            <dt>msg.payload.txContext <span class="property-type">object</span></dt>
+                <dd>Created client transaction context</dd>
+            <dt>assetDefinition <span class="property-type">object</span></dt>
+                <dd>Asset definition parameters like type of asset name, description etc.</dd>
+        </dl>
+
+     <h3>Outputs</h3>
+         <ol class="node-ports">
+             <li>Standard output
+                 <dl class="message-properties">
+                     <dt>msg.payload <span class="property-type">object</span></dt>
+                     <dd>Created digital asset definition with given properties.</dd>
+                 </dl>
+             </li>
+         </ol>
+</script>

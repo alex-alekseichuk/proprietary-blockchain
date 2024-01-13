@@ -1,0 +1,32 @@
+[
+    {
+        "name": "application",
+        "base": "commonDataModel",
+        "idInjection": true,
+        "options": {
+         "validateUpsert": true
+        },
+        "properties": {
+         "name": {
+          "type": "string",
+          "required": true
+         },
+         "version": {
+          "type": "string",
+          "required": true
+         },
+         "installed": {
+          "type": "date",
+          "required": true
+         },
+         "active": {
+          "type": "boolean",
+          "default": false
+         }
+        },
+        "validations": [],
+        "relations": {},
+        "acls": [],
+        "methods": {}
+       }
+]

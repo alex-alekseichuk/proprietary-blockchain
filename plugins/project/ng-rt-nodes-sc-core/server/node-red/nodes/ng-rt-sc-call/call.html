@@ -1,0 +1,50 @@
+
+<script type="text/javascript">
+  RED.nodes.registerType('call', {
+    category: 'Project_Smart_Contracts_Core',
+    color: '#94bee2',
+    defaults: {
+      name: {
+        value: "call"
+      },
+      contractId : {
+        value : ""
+      }
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: "Project.png",
+    label: function() {
+      return this.name || "call";
+    }
+  });
+</script>
+<script type="text/x-red" data-template-name="call">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-contractId"><i class="icon-tag"></i> Contract Id </label>
+        <input type="text" id="node-input-contractId" placeholder="">
+    </div>
+</script>
+
+
+<script type="text/x-red" data-help-name="call">
+    <p>Node to call a contract</p>
+
+    <h3>Output</h3>
+      <dl class="message-properties">
+          <dt> <code>msg.payload</code>
+              <span class="property-type">object</span>
+          </dt>
+      </dl>
+
+    <h3>Details</h3>
+    <dl class="message-properties">
+      
+      <p> Node to call a contract instance </p>
+    
+    </dl>
+</script>

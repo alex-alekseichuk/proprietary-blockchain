@@ -1,0 +1,34 @@
+[
+    {
+        "name": "appKey",
+        "base": "commonDataModel",
+        "idInjection": true,
+        "options": {
+         "validateUpsert": true
+        },
+        "properties": {
+         "appID": {
+          "type": "string",
+          "required": true
+         },
+         "appKey": {
+          "type": "string",
+          "default": false
+         },
+         "domainID": {
+          "type": "string",
+          "default": false
+         }
+        },
+        "validations": [],
+        "relations": {
+         "user": {
+          "type": "belongsTo",
+          "model": "user",
+          "foreignKey": "userId"
+         }
+        },
+        "acls": [],
+        "methods": {}
+       }
+]

@@ -1,0 +1,32 @@
+[{
+    "name": "tmUtxo",
+    "base": "commonDataModel",
+    "options": {
+      "idInjection": true,
+      "validateUpsert": true,
+      "hana": {
+        "schema": "PROJECT",
+        "table": "TMUTXO"
+      }
+    },
+    "plural": "tmUtxos",
+    "properties": {
+      "txId": {
+        "type": "string"
+      },
+      "txData": {
+        "type": "Object",
+        "postgresql": {
+          "dataType": "json"
+        },
+        "hana": {
+          "dataType": "nvarchar",
+          "dataLength": 5000
+        }
+      }
+    },
+    "validations": [],
+    "relations": {},
+    "acls": [],
+    "methods": {}
+  }]

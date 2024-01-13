@@ -1,0 +1,453 @@
+<link rel="import" href="../menu/ng-rt-menu-item.html">
+
+<dom-module id="ngrt-topbar">
+  <template>
+    <style include="shared-styles"></style>
+    <style is="custom-style">
+      :root {
+        --toolbar-height: 50px;
+        --profile-background: rgba(50, 50, 50, 1);
+
+      }
+
+      .topbar-wrapper {
+        height: var(--toolbar-height);
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        position: absolute;
+        z-index: 120;
+        box-shadow: 2px 2px 8px 0px #00000087;
+      }
+
+      .logoblock {
+        width: 100%;
+        flex: 0 0 var(--toolbar-height);
+        height: var(--toolbar-height);
+        line-height: var(--toolbar-height);
+        font-weight: bold;
+        min-width: 255px;
+      }
+
+      .sidelogo {
+        float: left;
+        background-color: var(--primary-color);
+        /*background-image: url("../../res/projectlogo.png");*/
+        background-size: 100% 100%;
+        width: var(--toolbar-height);
+        height: var(--toolbar-height);
+      }
+
+      .sidelogotext {
+        float: left;
+        /*background: url("../../res/projectlogo-text.png") no-repeat;*/
+        background-repeat: no-repeat;
+        background-position: 20px center;
+        width: calc(100% - 70px);
+        height: var(--toolbar-height);
+      }
+
+      #paperDrawerPanel {
+        top: var(--toolbar-height);
+        height: calc(100% - 50px);
+        z-index: 10;
+      }
+
+      /* Right side */
+
+      .profile-block {
+        position: relative;
+        padding-left: 10px;
+        width: 80px;
+        color: white;
+        z-index: 2;
+        transition: all 0.3s ease-out;
+        max-height: var(--toolbar-height);
+        min-height: var(--toolbar-height);
+        perspective: 1000px;
+      }
+
+      .profile-block.opened {
+        background: rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease-out;
+        max-height: 300px;
+      }
+
+      .profile-block .user-popup {
+        min-width: 255px;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        height: auto;
+        top: 30px;
+        position: absolute;
+        right: 5px;
+        opacity: 0;
+        transition: all 0.3s cubic-bezier(.68, -0.33, .31, 1.39);
+        /* filter: blur(5px); */
+        /* transform: rotateX(20deg) scaleY(0.5); */
+        /* transform-style: preserve-3d; */
+        transform-origin: 50% 0%;
+        background: white;
+        color: black;
+        pointer-events: none;
+        box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.1);
+
+      }
+
+      .profile-block.opened .user-popup {
+        display: flex;
+        /* filter: blur(0px); */
+        pointer-events: unset;
+        /* transform: scaleY(1); */
+        opacity: 1;
+        top: 60px;
+      }
+
+      .menu-angle {
+        font-size: 0px;
+        line-height: 0%;
+        width: 0px;
+        border-bottom: 8px solid var(--profile-background);
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        position: absolute;
+        top: -8px;
+        right: 10px;
+      }
+
+      .profile-block paper-menu {
+        overflow: hidden;
+        display: flex;
+        flex: 1;
+        width: 100%;
+        background: #272a2d
+      }
+
+      #user-button {
+        min-width: 60px;
+        position: relative;
+        height: var(--toolbar-height);
+        cursor: pointer;
+        width: auto;
+      }
+
+      #user-button iron-icon {
+        position: absolute;
+        right: 0;
+        top: 10px;
+        margin: 5px 20px 5px 5px;
+        transition: 0.2s all;
+        height: 20px;
+        width: 20px;
+        opacity: 0.7;
+      }
+
+
+
+      .profile-block.opened #user-button iron-icon {
+        transform: rotate(180deg);
+      }
+
+      .user-details {
+        position: relative;
+        width: 100%;
+        height: 120px;
+        background: var(--profile-background)
+      }
+
+      .user-details .profile-button {
+        position: absolute;
+        width: 50px;
+        padding: 0;
+        height: 50px;
+        left: 10px;
+        top: 10px;
+      }
+
+      .user-details .username {
+        font-size: 1em;
+        position: absolute;
+        bottom: 30px;
+        font-weight: 500;
+        left: 20px;
+      }
+
+      .user-details .logged {
+        font-size: 0.8em;
+        position: absolute;
+        color: rgba(255, 255, 255, 0.6);
+        bottom: 12px;
+        left: 20px;
+      }
+
+      .user-details .logged iron-icon {
+        height: 15px;
+        width: 15px;
+        margin-right: 5px;
+      }
+
+      .user-details.logged b {
+        color: rgba(255, 255, 255, 0.8);
+        margin-left: 5px;
+      }
+
+      .user-details #logoutButton {
+
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        line-height: 30px;
+        border: none;
+        color: white !important;
+        box-shadow: none;
+        padding: 0 10px;
+      }
+
+
+
+      .userpic {
+        position: absolute;
+        top: 10px;
+        left: 0px;
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.1) url("../../res/user.png") center no-repeat;
+        background-size: 100% 100%;
+      }
+
+      .userpicarrow {
+        height: 20px;
+        width: 20px;
+        margin-top: 5px;
+      }
+
+      .search-bar {
+        display: none;
+        border: none;
+        height: 30px;
+        width: 100%;
+        position: relative;
+      }
+
+      .search-bar input {
+        position: absolute;
+        box-sizing: border-box;
+        width: 100%;
+        top: 0;
+        left: 0;
+        right: 40px;
+        bottom: 0;
+        color: white;
+        font-size: 1em;
+        border: none;
+        padding: 0 15px;
+        border-radius: 5px;
+        background: rgba(0, 0, 0, 0.1);
+        line-height: 30px;
+        border: 1px solid transparent;
+      }
+
+      .search-bar input:placeholder {
+        color: rgba(255, 255, 255, 0.4) !important !important;
+      }
+
+      .search-bar input:focus {
+        outline: none;
+        border-color: rgba(255, 255, 255, 0.1);
+      }
+
+      .search-bar paper-icon-button {
+        padding: 3px;
+        position: absolute;
+        right: 5px;
+        height: 30px;
+        width: 30px;
+        fill: white;
+
+        --paper-icon-button: {
+          fill: white;
+          color: white;
+        }
+      }
+
+      .search-bar iron-icon {
+        fill: white;
+      }
+
+
+      #ntfbtn {
+        min-width: 40px;
+        margin: 0 10px 0 10px;
+      }
+
+      .profile-block .favstar {
+        display: none !important
+      }
+    </style>
+
+    <div class="topbar-wrapper">
+      <!-- leftside -->
+      <div class="logoblock">
+        <div class="sidelogo"></div>
+        <div class="sidelogotext"></div>
+      </div>
+      <span class="flex"></span>
+      <!-- middle -->
+      <div class="search-bar">
+        <input class="search-input" placeholder="type your search" />
+        <paper-icon-button class="search-button" icon="search"></paper-icon-button>
+      </div>
+
+      <!-- right side -->
+      <paper-icon-button id="ntfbtn" class="notificationButton" icon="social:notifications" onclick="toastDialog.toggle()"></paper-icon-button>
+      <div id="profile-block" class="profile-block">
+
+        <div class="user-popup">
+          <div class="menu-angle"></div>
+
+          <div class="user-details">
+            <!-- <a data-route="pXrofile" href="profile" class="menu-trigger">
+              <iron-icon on-click="_onClick" icon="icons:account-circle"></iron-icon>
+              <span on-click=" _onClick ">Profile</span>
+            </a> -->
+            <paper-icon-button class="profile-button" icon="icons:account-circle"></paper-icon-button>
+            <span class="username vcw">{{username}}</span>
+            <span class="logged">{{scope}}</span>
+            <paper-button id="logoutButton" on-click="logoutHandler" icon="icons:exit-to-app">
+              <iron-icon icon="icons:exit-to-app" suffix></iron-icon>
+              <i18n-msg msgid="Logout">Logout</i18n-msg>
+            </paper-button>
+          </div>
+
+          <paper-menu class="menulist usermenu" attr-for-selected="data-route" selected="[[route]]">
+            <template is="dom-repeat" items="[[profile]]">
+              <ng-rt-menu-item menu-item="[[item]]" data-route$="[[item.route]]" route="{{route}}" submenu="{{submenu}}"
+                favorites="{{favorites}}"></ng-rt-menu-item>
+            </template>
+          </paper-menu>
+        </div>
+
+        <div id="user-button" on-click="onUserBlock">
+          <div class="userpic"></div>
+
+          <iron-icon class="vcw userpicarrow" icon="icons:expand-more"></iron-icon>
+        </div>
+
+      </div>
+    </div>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'ngrt-topbar',
+      properties: {
+        "application": {
+          type: String
+        },
+        "menuItems": {
+          type: Array,
+          value: []
+        },
+        "favorites": {
+          type: Array,
+          value: []
+        },
+        "submenu": {
+          type: String,
+          value: "",
+          notify: true,
+          observer: "_submenuchanged"
+        },
+        "profile": {
+          type: Array,
+          value: []
+        },
+      },
+      attached: function () {
+        var self = this;
+        self.getMenu();
+        self.getProfile();
+        self.clickOutside();
+      },
+      onUserBlock: function () {
+        document.getElementById("profile-block").classList.toggle("opened");
+      },
+      clickOutside: function () {
+        var container = document.getElementById('user-button');
+        document.addEventListener('click', function (event) {
+          if (container !== event.target && !container.contains(event.target)) {
+            document.getElementById("profile-block").classList.remove("opened");
+          }
+        });
+      },
+      getProfile: function () {
+        var self = this;
+        project.ajax.get('/user-profile', 'ng-rt-jwt-auth', function (response, xhr) {
+          if (!response) {
+            self.handleError(xhr);
+            return;
+          }
+          project.config.user = {
+            username: response.username,
+            roles: response.roles,
+            useremail: response.email,
+            domainId: response.domainId
+          };
+          self.name = response.name;
+          self.username = response.username;
+          self.roles = response.roles;
+          self.email = response.email;
+          self.email2 = response.email2;
+          self.scope = response.domainId;
+        });
+      },
+      getMenu: function () {
+        var self = this;
+        project.ajax.get('/menu?name=' + this.application, {}, function (response) {
+          if (response) {
+            self.menuItems = response.items;
+            self.favorites = response.favorites;
+            self.profile = response.profile;
+          }
+        });
+      },
+      checkFav: function (array) {
+        return true;
+      },
+      toggleSubmenu: function (e) {
+        e.target.parentNode.classList.toggle('submenu-expanded');
+      },
+      onDataRouteClick: function () {
+        // Close drawer after menu item is selected if drawerPanel is narrow
+        var drawerPanel = document.querySelector('#paperDrawerPanel');
+        if (drawerPanel.narrow) {
+          drawerPanel.closeDrawer();
+        }
+
+        // adjust charts to widgets size
+        var charts = document.getElementsByTagName('google-chart');
+        setTimeout(function () {
+          for (var i = 0; i < charts.length; i++) {
+            charts[i].drawChart();
+          }
+        }, 0);
+      },
+      logoutHandler: function () {
+        project.ajax.logout();
+      },
+      handleError: function () {
+        res.logout();
+      },
+      _submenuchanged: function (newValue) {
+        this.fire('_submenuchanged', {
+          value: newValue
+        });
+      },
+    });
+  </script>
+
+</dom-module>

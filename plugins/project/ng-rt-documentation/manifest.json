@@ -1,0 +1,152 @@
+{
+    "name": "ng-rt-documentation",
+    "type": "optional",
+    "author": "PROJECT",
+    "description": "The Blockchain Solution Platform",
+    "copyright": "PROJECT PROPERTIES B.V.",
+    "version": "3.2.",
+    "entryPoints": [
+        {
+            "type": "route",
+            "parameters": {
+                "file": "./api/routes/routes.js"
+            }
+        }
+    ],
+    "actions": {
+        "before_install": [],
+        "after_install": [
+            {
+                "name": "add config",
+                "type": "ADD_CONFIG",
+                "parameters": {
+                    "key": "ng-rt-documentation",
+                    "data": {
+                        "url": ""
+                    }
+                }
+            }
+        ],
+        "after_uninstall": [
+            {
+                "name": "remove config",
+                "type": "REMOVE_CONFIG",
+                "parameters": {
+                    "key": "ng-rt-documentation"
+                }
+            }
+        ],
+        "before_activate": [],
+        "after_activate": [
+            {
+                "name": "remove menu item",
+                "type": "REMOVE_DATA",
+                "parameters": {
+                    "model_name": "route",
+                    "criteries": [
+                        {
+                            "type": "submenu",
+                            "caption": "Documentation",
+                            "module": "admin"
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "add menu item",
+                "type": "ADD_DATA",
+                "parameters": {
+                    "model_name": "route",
+                    "data": [
+                        {
+                            "type": "submenu",
+                            "caption": "Documentation",
+                            "icon": "icons:help",
+                            "roles": [
+                                "admin", "user"
+                            ],
+                            "module": "admin",
+                            "order": 8001,
+                            "items": [
+                                {
+                                    "type": "href",
+                                    "route": "/ng-rt-documentation/api",
+                                    "href": "pluginsdisplay/!ng-rt-documentation!index.html/ng-rt-documentation/{\"title\":\"Documentation - API\",\"folder\":\"api\"}/api/Documentation - API",
+                                    "icon": "icons:help",
+                                    "caption": "API",
+                                    "roles": [
+                                        "admin"
+                                    ],
+                                    "module": "admin",
+                                    "order": 8001
+                                },
+                                {
+                                    "type": "href",
+                                    "route": "/ng-rt-documentation/guides",
+                                    "href": "pluginsdisplay/!ng-rt-documentation!index.html/ng-rt-documentation/{\"title\":\"Documentation - Guides\",\"folder\":\"guides\"}/guides/Documentation - Guides",
+                                    "icon": "icons:help",
+                                    "caption": "Guides",
+                                    "roles": [
+                                        "admin"
+                                    ],
+                                    "module": "admin",
+                                    "order": 8000
+                                },
+                                {
+                                    "type": "href",
+                                    "route": "/ng-rt-documentation/userguides",
+                                    "href": "pluginsdisplay/!ng-rt-documentation!index.html/ng-rt-documentation/{\"title\":\"Documentation - Userguides\",\"folder\":\"userguides.enduser\"}/userguides/Documentation - Userguides",
+                                    "icon": "icons:help",
+                                    "caption": "User Guides",
+                                    "roles": [
+                                        "user"
+                                    ],
+                                    "module": "admin",
+                                    "order": 8002
+                                },
+                                {
+                                    "type": "href",
+                                    "route": "/ng-rt-documentation/adminguides",
+                                    "href": "pluginsdisplay/!ng-rt-documentation!index.html/ng-rt-documentation/{\"title\":\"Documentation - Adminguides\",\"folder\":\"userguides.admin\"}/userguides/Documentaion - Adminguides",
+                                    "icon": "icons:help",
+                                    "caption": "Admin Guides",
+                                    "roles": [
+                                        "admin"
+                                    ],
+                                    "module": "admin",
+                                    "order": 8002
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        ],
+        "before_deactivate": [],
+        "after_deactivate": [
+            {
+                "name": "remove menu item",
+                "type": "REMOVE_DATA",
+                "parameters": {
+                    "model_name": "route",
+                    "criteries": [
+                        {
+                            "type": "submenu",
+                            "caption": "Documentation",
+                            "module": "admin"
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    "sharedServices": [],
+    "apiServices": [],
+    "settings": [
+        {
+            "name": "namespace",
+            "caption": "Root name of the URL for the route",
+            "value": "ng-rt-documentation"
+        }
+    ]
+}

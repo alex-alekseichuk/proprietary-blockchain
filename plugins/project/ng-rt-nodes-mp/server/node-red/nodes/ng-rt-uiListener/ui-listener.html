@@ -1,0 +1,61 @@
+<script type="text/javascript">
+    RED.nodes.registerType('ui-listener', {
+      category: 'Project_UX',
+        color: '#e5deb2',
+        defaults: {
+            name: {
+                value: ""
+            },
+            applicationName: {
+                value: ""
+            },
+            event: {
+                value: ""
+            }
+        },
+        inputs: 0,
+        outputs: 1,
+        icon: "Project.png",
+        label: function() {
+            return this.name || "ui-listener";
+        }
+    });
+</script>
+<script type="text/x-red" data-template-name="ui-listener">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-applicationName"><i class="icon-tag"></i> Application Name</label>
+        <input type="text" id="node-input-applicationName" placeholder="Application Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-event"><i class="icon-tag"></i> Event</label>
+        <input type="text" id="node-input-event" placeholder="Event">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="ui-listener">
+    <p>Listen for specific UI event</p>
+    <h3>Properties</h3>
+     <dl class="message-properties">
+        <dt>Name
+            <span class="property-type">string</span>
+        </dt>
+        <dd> event/flow name. </dd>
+        <dt>Application Name
+            <span class="property-type">string</span>
+        </dt>
+        <dd> the name of the application. </dd>
+        <dt>Event
+            <span class="property-type">string</span>
+        </dt>
+        <dd> specific event ID to trigger the flow. </dd>
+    </dl>
+    <h3>Details</h3>
+    <p>
+      UI events are triggered by in web browser side (UI).
+      Each such event has unique ID like APP_event_id.
+    </p>
+</script>

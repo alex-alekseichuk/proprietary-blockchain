@@ -1,0 +1,119 @@
+body {
+  padding: 0;
+  margin: 0;
+  text-rendering: geometricPrecision ;
+  color: #212121;
+  font-weight: 400;
+  font-family: 'Roboto', sans-serif;
+  background: url("../images/bg.jpg") #efefef;
+}
+
+.login-page {
+  margin: 0px auto;
+  width: 380px;
+  -webkit-transition: 0.5s;
+}
+.logo {
+  margin: 50px 0;
+  -webkit-transition: 0.3s;
+}
+.window-login {
+  width: 100%;
+  background: white;
+  padding: 0px;
+  height: 420px;
+}
+
+.window-login.reset {
+    height: 200px;
+}
+
+
+.window-login .login-tab {
+  width: 200px;
+}
+
+.window-login .login-button {
+  width: auto;
+  color: white;
+  width: 130px;
+  -webkit-transition: 0.3s;
+}
+.window-login .login-form {
+  padding: 20px;
+}
+.window-login .login-form .area-forgot {
+  width: 100%;
+  float: left;
+  font-size: smaller;
+  padding: 0 0 10px 0;
+  text-align: right;
+}
+.window-login .login-form .area-login {
+  width: 100%;
+  float: left;
+  padding: 40px 0 0 0;
+}
+.window-login .login-form .area-remember {
+  text-align: center;
+  width: auto;
+  margin-left: 20px;
+}
+.login-social {
+  text-align: center;
+  margin-bottom: 40px;
+}
+.login-social .signwith {
+  width: 100%;
+  float: left;
+  margin: 30px 0;
+  font-size: 1.33em;
+}
+.login-social img {
+  -webkit-filter: grayscale(100%);
+  margin: 0 10px;
+  opacity: 0.3;
+  cursor: pointer;
+  -webkit-transition: 0.3s;
+}
+.login-social img:hover {
+  -webkit-filter: grayscale(0%);
+  opacity: 1;
+}
+
+paper-button {
+    width: auto;
+    color: white;
+    width: auto;
+    -webkit-transition: 0.3s;
+}
+
+.area-reset {
+    margin: 20px 0 0 0;
+}
+
+
+
+
+@media (max-width: 480px) {
+  .logo {
+    margin: 10px 10px;
+    height: 50px;
+  }
+  .login-page {
+    width: 100%;
+  }
+  .window-login .area-login {
+    width: 100%;
+  }
+  .window-login .area-login .login-button {
+    float: left;
+    width: calc(100% - 0.29em*2);
+  }
+  .window-login .area-login .area-remember {
+    width: 100%;
+    float: left;
+    margin-top: 30px ;
+    margin-left: 0px;
+  }
+}

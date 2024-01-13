@@ -1,0 +1,57 @@
+
+<script type="text/javascript">
+  RED.nodes.registerType('caller-pubkey', {
+    category: 'Project_Smart_Contracts_Core',
+    color: '#94bee2',
+    defaults: {
+      name: {
+        value: "caller public key"
+      },
+      destination : {
+        value : "payload"
+      }
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: "Project.png",
+    label: function() {
+      return this.name || "caller-pubkey";
+    }
+  });
+</script>
+<script type="text/x-red" data-template-name="caller-pubkey">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-destination"></i>Property msg. </label>
+        <input type="text" id="node-input-destination" placeholder="">
+    </div>
+
+</script>
+
+
+<script type="text/x-red" data-help-name="caller-pubkey">
+    <p>Retrieve information about function caller</p>
+
+    <h3>Inputs</h3>
+      <dl class="message-properties">
+        <dt>Name
+            <span class="property-type">string</span>
+        </dt>
+        <dd> Node name </dd>
+        
+      </dl>
+    <h3>Outputs</h3>
+      <dl class="message-properties">
+        <dt>Property
+            <span class="property-type">string</span>
+        </dt>
+        <dd> save caller pubkey in <code>msg.env.caller</code> </dd>
+      </dl>
+        
+    <h3>Details</h3>
+        Sends caller public key next into a flow context.
+
+</script>

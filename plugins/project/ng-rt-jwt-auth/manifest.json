@@ -1,0 +1,84 @@
+{
+ "name": "ng-rt-jwt-auth",
+ "type": "optional",
+ "description": "JWT authentication routes",
+ "version": "3.2.",
+ "entryPoints": [
+  {
+   "type": "route",
+   "parameters": {
+    "file": "./server/routes/routes.js"
+   }
+  },
+  {
+   "type": "route",
+   "parameters": {
+    "file": "./server/routes/user-profile.js"
+   }
+  }
+ ],
+ "actions": {
+  "before_install": [
+   {
+    "type": "NPM_INSTALL",
+    "parameters": {
+     "package": true
+    }
+   }
+  ],
+  "after_install": [
+   {
+    "name": "copy docs",
+    "type": "COPY_FILES",
+    "parameters": {
+     "source": "docs/api",
+     "target": "config/docs/api/ng-rt-jwt-auth"
+    }
+   }
+  ],
+  "after_uninstall": [],
+  "before_activate": [],
+  "after_activate": [
+   {
+    "name": "add flow",
+    "type": "NODE_RED_ADD_FLOW",
+    "parameters": {
+     "replace": true,
+     "file": "./server/nodeRed/userResetPassword.json"
+    }
+   }
+  ],
+  "before_deactivate": [
+   {
+    "name": "remove flow",
+    "type": "NODE_RED_REMOVE_FLOW",
+    "parameters": {
+     "flows": [
+      "d2a41d0e.9675d"
+     ]
+    }
+   }
+  ],
+  "after_deactivate": []
+ },
+ "sharedServices": [],
+ "apiServices": [],
+ "settings": [
+  {
+   "name": "ldap",
+   "caption": "LDAP configuration",
+   "value": {
+    "url": "ldap://10.132.0.7:389",
+    "bindDn": "cn=admin,dc=project,dc=com",
+    "bindCredentials": "project.design",
+    "searchBase": "ou=users,dc=project,dc=com",
+    "searchFilter": "(uid=${username})"
+   }
+  },
+  {
+   "name": "ldapAutoRegister",
+   "caption": "Auto register new user in ldap authorization if not exists",
+   "value": false
+  }
+ ]
+}

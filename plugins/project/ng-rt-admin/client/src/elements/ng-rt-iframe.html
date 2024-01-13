@@ -1,0 +1,20 @@
+<dom-module id="ng-rt-iframe">
+  <style include="shared-styles"></style>
+  <style is="custom-style">
+    :host {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+  <template>
+    <iframe width="100%" height="100%" frameborder="0" scrolling="no" src="[[url]]"></iframe>
+  </template>
+  <script>
+    Polymer({
+      is: 'ng-rt-iframe',
+      properties: {
+        url: String
+      }
+    });
+  </script>
+</dom-module>

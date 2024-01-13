@@ -1,0 +1,74 @@
+
+<dom-module id="ngrt-create-object-container">
+    <template>
+        <div>
+            <form is="iron-form" id="{{appId}}-{{formid}}" >
+                <input type="hidden" value="[[name]]" name="itemModel" id="itemModel">
+                <input type="hidden" name="id" value="">
+                <template id="done" is="dom-repeat" items="{{elements}}">
+                    <div>
+                        <template is="dom-if" if="{{isShowField(item)}}">
+                        <ngrt-field input-disabled="{{inputDisabled}}" type="{{item.type}}" ui-editor="{{item.uiEditor}}" name="{{item.name}}"></ngrt-field>
+                            </template>
+                    </div>
+                </template>
+            </form>
+        </div>
+    </template>
+</dom-module>
+<script>
+    Polymer({
+        is: "ngrt-create-object-container",
+        properties: {
+            crudId: {
+                type: "string",
+                value: "",
+                notify: true
+            },
+            elements: {
+                type: "array",
+                value: [],
+                notify: true
+            },
+            name: {
+                type: "string",
+                value: [],
+                notify: true
+            },
+            visible: {
+                type: "string",
+                value: "display:none;",
+                notify: true
+            },
+            formid: {
+                type: "string",
+                value: "",
+                notify: true
+            },
+            inputDisabled: {
+                type: "Boolean",
+                value: false,
+                notify: true
+            },
+            appId: {
+                type: "string",
+                value: ""
+            }
+        },
+        setCRUDObject: function (crudObject) {
+            if(crudObject.id) this.visible="";
+            this.crudId=crudObject.id;
+            var self = this;
+            self.name = crudObject.name;
+            self.elements = [];
+            Object.keys(crudObject.properties).forEach(function(key){
+                self.push('elements', {name: key, uiEditor:crudObject.properties[key].uiEditor?crudObject.properties[key].uiEditor: "input", type: crudObject.properties[key].type,readOnly:crudObject.properties[key].readOnly});
+            });
+        },
+        isShowField: function(item){
+            return !(item.readOnly && !this.inputDisabled);
+        }
+    });
+</script>
+
+

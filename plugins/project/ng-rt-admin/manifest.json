@@ -1,0 +1,353 @@
+{
+  "name": "ng-rt-admin",
+  "type": "mandatory",
+  "author": "PROJECT",
+  "description": "Administration Functions",
+  "copyright": "PROJECT BV  2016 - 2019",
+  "version": "3.2.",
+  "useAsApp": true,
+  "htmlHelpFile": "docs/build/index.html",
+  "entryPoints": [ {
+   "type": "route",
+   "parameters": {
+    "file": "./api/routes/entry.js"
+   }
+  }],
+  "actions": {
+   "before_install": [],
+   "after_install": [
+    {
+     "name": "copy docs",
+     "type": "COPY_FILES",
+     "parameters": {
+      "source": "docs/api",
+      "target": "config/docs/api/ng-rt-admin"
+     }
+    },
+    {
+     "name": "copy docs",
+     "type": "COPY_FILES",
+     "parameters": {
+      "source": "docs/dist/userguides/enduser",
+      "target": "config/docs/userguides/enduser/ng-rt-admin"
+     }
+    },
+    {
+     "name": "copy ng-rt-client-web-sdk docs",
+     "type": "COPY_FILES",
+     "parameters": {
+      "source": "client/bower_components/ng-rt-client-web-sdk/docs/api",
+      "target": "config/docs/api/ng-rt-client-web-sdk"
+     }
+    },
+    {
+     "name": "copy docs",
+     "type": "COPY_FILES",
+     "parameters": {
+      "source": "docs/dist/userguides/admin",
+      "target": "config/docs/userguides/admin/ng-rt-admin"
+     }
+    },
+    {
+     "name": "add flow",
+     "type": "NODE_RED_ADD_FLOW",
+     "parameters": {
+      "replace": true,
+      "file": "./api/nodeRed/schedule.json"
+     }
+    }
+   ],
+   "after_uninstall": [],
+   "before_activate": [
+    {
+     "name": "remove menu items",
+     "type": "REMOVE_DATA",
+     "parameters": {
+      "model_name": "route",
+      "criteries": [
+       {
+        "type": "href",
+        "route": "logviewer",
+        "module": "admin"
+       },
+       {
+        "type": "href",
+        "route": "home",
+        "module": "admin"
+       },
+       {
+        "type": "href",
+        "route": "treeview",
+        "module": "admin"
+       },
+       {
+        "type": "href",
+        "href": "/explorer",
+        "module": "admin"
+       },
+       {
+        "type": "href",
+        "route": "users",
+        "module": "admin"
+       },
+       {
+        "type": "href",
+        "route": "pXrofile",
+        "module": "admin"
+       },
+       {
+        "type": "href",
+        "route": "securitykeys",
+        "module": "admin"
+       },
+       {
+        "type": "href",
+        "route": "keys",
+        "module": "admin"
+       },
+       {
+        "type": "href",
+        "route": "appkeys",
+        "module": "admin"
+       },
+       {
+        "type": "href",
+        "route": "emailTemplates",
+        "module": "admin"
+       }
+      ]
+     }
+    },
+    {
+     "name": "add menu data",
+     "type": "ADD_DATA",
+     "parameters": {
+      "model_name": "route",
+      "data": [
+       {
+        "type": "href",
+        "route": "logviewer",
+        "href": "logviewer",
+        "icon": "search",
+        "caption": "Log Viewer",
+        "roles": [
+         "admin"
+        ],
+        "module": "admin",
+        "trustLevel": 1,
+        "order": 0
+       },
+       {
+        "type": "href",
+        "route": "home",
+        "href": "home",
+        "icon": "home",
+        "caption": "Home",
+        "module": "admin",
+        "trustLevel": 1,
+        "order": 0
+       },
+       {
+        "type": "href",
+        "route": "emailTemplates",
+        "href": "emailTemplates",
+        "icon": "icons:shop",
+        "caption": "Email Templates",
+        "roles": [
+         "admin"
+        ],
+        "module": "admin",
+        "trustLevel": 1,
+        "order": 6000
+       },
+       {
+       "type": "href",
+        "route": "users",
+        "href": "users",
+        "icon": "supervisor-account",
+        "caption": "Users",
+        "roles": [
+         "admin"
+        ],
+        "module": "admin",
+        "trustLevel": 1,
+        "order": 6040
+       },
+       {
+        "type": "href",
+        "route": "pXrofile",
+        "href": "profile",
+        "icon": "icons:account-circle",
+        "trustLevel": 1,
+        "caption": "Profile",
+        "module": "admin",
+        "profile": "true"
+       },
+       {
+        "type": "href",
+        "route": "securitykeys",
+        "href": "securitykeys",
+        "icon": "icons:save",
+        "trustLevel": 1,
+        "caption": "Security Keys",
+        "module": "admin",
+        "profile": "true"
+       },
+       {
+        "type": "href",
+        "route": "keys",
+        "href": "keys",
+        "icon": "communication:vpn-key",
+        "trustLevel": 1,
+        "caption": "Keys",
+        "module": "admin",
+        "profile": "true"
+       },
+       {
+        "type": "href",
+        "route": "appkeys",
+        "href": "appkeys",
+        "icon": "lock",
+        "trustLevel": 1,
+        "caption": "App keys",
+        "module": "admin",
+        "profile": "true"
+       }
+      ]
+     }
+    }
+   ],
+   "after_activate": [],
+   "before_deactivate": [
+    {
+     "name": "remove menu items",
+     "type": "REMOVE_DATA",
+     "parameters": {
+      "model_name": "route",
+      "criteries": [
+       {
+        "type": "href",
+        "route": "logviewer",
+        "module": "admin"
+       },
+       {
+        "type": "href",
+        "route": "home",
+        "module": "admin"
+       },
+       {
+        "type": "href",
+        "route": "treeview",
+        "module": "admin"
+       },
+       {
+        "type": "href",
+        "href": "/explorer",
+        "module": "admin"
+       },
+       {
+        "type": "href",
+        "route": "users",
+        "module": "admin"
+       },
+       {
+        "type": "href",
+        "route": "pXrofile",
+        "module": "admin"
+       },
+       {
+        "type": "href",
+        "route": "securitykeys",
+        "module": "admin"
+       },
+       {
+        "type": "href",
+        "route": "keys",
+        "module": "admin"
+       },
+       {
+        "type": "href",
+        "route": "appkeys",
+        "module": "admin"
+       },
+       {
+        "type": "href",
+        "route": "emailTemplates",
+        "module": "admin"
+       }
+      ]
+     }
+    }
+   ],
+   "after_deactivate": []
+  },
+  "sharedServices": [],
+  "apiServices": [],
+  "settings": [
+   {
+    "name": "redirectFromHomeRules",
+    "caption": [{"oneTimeRedirect" : true, "roleRedirect" : "applicant", "redirectDataRoute" : "scuk-applications"}],
+    "value": null
+   },
+   {
+    "name": "namespace",
+    "caption": "Root name of the URL for the route",
+    "value": "ng-rt-admin"
+   },
+   {
+    "name": "requireFullname",
+    "caption": "Require full name",
+    "value": false
+   },
+   {
+    "name": "profileEditors",
+    "caption": "Roles which can edit profile",
+    "value": [
+     "admin",
+     "user"
+    ]
+   },
+   {
+    "name": "keysStrategy",
+    "caption": "Keys Strategy",
+    "value": "saveAuto",
+    "choose": [
+     "saveEncrypted",
+     "saveAuto",
+     ""
+    ]
+   },
+   {
+    "name": "client",
+    "caption": "Client configuration",
+    "value": {
+     "browserversions": [
+      {
+       "name": "Chrome",
+       "version": ".*"
+      },
+      {
+       "name": "Opera",
+       "version": ".*"
+      },
+      {
+       "name": "Firefox",
+       "version": ".*"
+      },
+      {
+       "name": "Internet Explorer",
+       "version": ".*"
+      },
+      {
+       "name": "Edge",
+       "version": ".*"
+      },
+      {
+       "name": "Safari",
+       "version": ".*"
+      }
+     ]
+    }
+   }
+  ]
+ }

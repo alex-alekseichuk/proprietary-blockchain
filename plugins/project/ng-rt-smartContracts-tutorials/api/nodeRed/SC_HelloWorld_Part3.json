@@ -1,0 +1,317 @@
+[
+    {
+        "id": "97d8b464.36f1b8",
+        "type": "tab",
+        "label": "SC_HelloWorld_Part3",
+        "disabled": false,
+        "info": "The contract is the extenstion of part2 where authorization is checked to update the memory.",
+        "nodes": [
+            {
+                "id": "8f54539f.37034",
+                "type": "arguments",
+                "z": "97d8b464.36f1b8",
+                "name": "get argument \"greeting\"",
+                "position": 0,
+                "destination": "greeting",
+                "dataType": "string",
+                "description": "A simple greeting message.",
+                "x": 1150,
+                "y": 740,
+                "wires": [
+                    [
+                        "26e292d2.d9c7be"
+                    ]
+                ]
+            },
+            {
+                "id": "3e4e9ca9.4da524",
+                "type": "switch",
+                "z": "97d8b464.36f1b8",
+                "name": "Is sender the owner ?",
+                "property": "payload",
+                "propertyType": "msg",
+                "rules": [
+                    {
+                        "t": "eq",
+                        "v": "robotOwner",
+                        "vt": "msg"
+                    },
+                    {
+                        "t": "else"
+                    }
+                ],
+                "checkall": "true",
+                "repair": false,
+                "outputs": 2,
+                "x": 860,
+                "y": 800,
+                "wires": [
+                    [
+                        "8f54539f.37034"
+                    ],
+                    [
+                        "4ec39b50.4012d4"
+                    ]
+                ]
+            },
+            {
+                "id": "f8cf6c70.5dd5a",
+                "type": "done",
+                "z": "97d8b464.36f1b8",
+                "name": "done",
+                "x": 590,
+                "y": 600,
+                "wires": []
+            },
+            {
+                "id": "b1ce96d2.43a198",
+                "type": "caller-pubkey",
+                "z": "97d8b464.36f1b8",
+                "name": "caller public key",
+                "destination": "robotOwner",
+                "x": 1320,
+                "y": 420,
+                "wires": [
+                    [
+                        "6617246c.50bddc"
+                    ]
+                ]
+            },
+            {
+                "id": "38c89e6f.0cfd92",
+                "type": "contract in",
+                "z": "97d8b464.36f1b8",
+                "name": "init",
+                "url": "/helloWorld_Part3",
+                "method": "get",
+                "swaggerDoc": "",
+                "x": 110,
+                "y": 420,
+                "wires": [
+                    [
+                        "77a73c3a.c29724"
+                    ]
+                ],
+                "info": "To publish the instance of contract"
+            },
+            {
+                "id": "14e17767.6ccd99",
+                "type": "get-memory-field",
+                "z": "97d8b464.36f1b8",
+                "name": "get memory field",
+                "field": "robotOwner",
+                "destination": "robotOwner",
+                "x": 380,
+                "y": 800,
+                "wires": [
+                    [
+                        "2c25bf59.b6c41"
+                    ]
+                ]
+            },
+            {
+                "id": "69ce301d.2f7cc",
+                "type": "comment",
+                "z": "97d8b464.36f1b8",
+                "name": "SC_HelloWorld_Part3",
+                "info": "The contract is the extenstion of part2 where authorization is checked to update the memory.",
+                "x": 720,
+                "y": 220,
+                "wires": []
+            },
+            {
+                "id": "3bb48908.cfff86",
+                "type": "set-memory-field",
+                "z": "97d8b464.36f1b8",
+                "name": "set memory field",
+                "field": "robotName",
+                "source": "robotName",
+                "x": 1070,
+                "y": 420,
+                "wires": [
+                    [
+                        "b1ce96d2.43a198"
+                    ]
+                ]
+            },
+            {
+                "id": "6f45469c.40c108",
+                "type": "get-memory",
+                "z": "97d8b464.36f1b8",
+                "name": "read memory",
+                "destination": "payload",
+                "x": 350,
+                "y": 600,
+                "wires": [
+                    [
+                        "f8cf6c70.5dd5a"
+                    ]
+                ]
+            },
+            {
+                "id": "b58ce181.c59fa",
+                "type": "done",
+                "z": "97d8b464.36f1b8",
+                "name": "Published successfully",
+                "x": 1820,
+                "y": 420,
+                "wires": []
+            },
+            {
+                "id": "55069d2b.693764",
+                "type": "contract in",
+                "z": "97d8b464.36f1b8",
+                "name": "changeGreeting",
+                "url": "/changeGreeting",
+                "method": "get",
+                "swaggerDoc": "",
+                "x": 140,
+                "y": 800,
+                "wires": [
+                    [
+                        "14e17767.6ccd99"
+                    ]
+                ],
+                "info": "To update the value of greeting variable"
+            },
+            {
+                "id": "26e292d2.d9c7be",
+                "type": "set-memory-field",
+                "z": "97d8b464.36f1b8",
+                "name": "set memory field",
+                "field": "greeting",
+                "source": "greeting",
+                "x": 1430,
+                "y": 740,
+                "wires": [
+                    [
+                        "e04c3ab2.e97978"
+                    ]
+                ]
+            },
+            {
+                "id": "77a73c3a.c29724",
+                "type": "arguments",
+                "z": "97d8b464.36f1b8",
+                "name": "get argument \"greeting\"",
+                "position": 0,
+                "destination": "greeting",
+                "dataType": "string",
+                "description": "A simple greeting message.",
+                "x": 390,
+                "y": 420,
+                "wires": [
+                    [
+                        "5f8ac361.d4fc1c"
+                    ]
+                ]
+            },
+            {
+                "id": "30612917.b654d6",
+                "type": "contract in",
+                "z": "97d8b464.36f1b8",
+                "name": "getContractMemory",
+                "url": "/getContractMemory",
+                "method": "get",
+                "swaggerDoc": "",
+                "x": 130,
+                "y": 600,
+                "wires": [
+                    [
+                        "6f45469c.40c108"
+                    ]
+                ],
+                "info": "To read complete memory"
+            },
+            {
+                "id": "2c25bf59.b6c41",
+                "type": "caller-pubkey",
+                "z": "97d8b464.36f1b8",
+                "name": "sender public key",
+                "destination": "payload",
+                "x": 630,
+                "y": 800,
+                "wires": [
+                    [
+                        "3e4e9ca9.4da524"
+                    ]
+                ]
+            },
+            {
+                "id": "5f8ac361.d4fc1c",
+                "type": "set-memory-field",
+                "z": "97d8b464.36f1b8",
+                "name": "set memory field",
+                "field": "greeting",
+                "source": "greeting",
+                "x": 630,
+                "y": 420,
+                "wires": [
+                    [
+                        "3f2c9d78.419232"
+                    ]
+                ]
+            },
+            {
+                "id": "6b666e71.7b39a",
+                "type": "project-sc-1.0",
+                "z": "97d8b464.36f1b8",
+                "name": "SC_HelloWorld_Part3",
+                "version": "1.0",
+                "x": 160,
+                "y": 220,
+                "wires": []
+            },
+            {
+                "id": "6617246c.50bddc",
+                "type": "set-memory-field",
+                "z": "97d8b464.36f1b8",
+                "name": "set memory field",
+                "field": "robotOwner",
+                "source": "robotOwner",
+                "x": 1570,
+                "y": 420,
+                "wires": [
+                    [
+                        "b58ce181.c59fa"
+                    ]
+                ]
+            },
+            {
+                "id": "e04c3ab2.e97978",
+                "type": "done",
+                "z": "97d8b464.36f1b8",
+                "name": "done with greeting changes",
+                "x": 1740,
+                "y": 740,
+                "wires": []
+            },
+            {
+                "id": "3f2c9d78.419232",
+                "type": "arguments",
+                "z": "97d8b464.36f1b8",
+                "name": "get robot name",
+                "position": "1",
+                "destination": "robotName",
+                "dataType": "string",
+                "description": "The name of the caller.",
+                "x": 840,
+                "y": 420,
+                "wires": [
+                    [
+                        "3bb48908.cfff86"
+                    ]
+                ]
+            },
+            {
+                "id": "4ec39b50.4012d4",
+                "type": "rollback",
+                "z": "97d8b464.36f1b8",
+                "name": "",
+                "x": 1116.6666666666665,
+                "y": 856.6666666666665,
+                "wires": []
+            }
+        ]
+    }
+]

@@ -47,7 +47,7 @@ server/component-config.json
 server/config.json
 !server/private/.gitkeep
 config copy/*
-plugins/[^.]*
+#plugins/[^.]*
 plugins-app/*
 plugins-login/*
 dexports.json

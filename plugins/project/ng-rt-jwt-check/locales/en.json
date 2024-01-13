@@ -1,0 +1,12 @@
+{
+	"Gulp task 'dist' finished successfully!": "Gulp task 'dist' finished successfully!",
+	"Uploading error: %s": "Uploading error: %s",
+	"Uploading done": "Uploading done",
+	"Gulp task 'build' finished successfully!": "Gulp task 'build' finished successfully!",
+	"Gulp task 'test.unit' finished successfully!": "Gulp task 'test.unit' finished successfully!",
+	"Gulp task 'lint' finished successfully!": "Gulp task 'lint' finished successfully!",
+	"Running gulp task %s": "Running gulp task %s",
+	"Gulp task %s finished successfully!": "Gulp task %s finished successfully!",
+	"Gulp task lint finished successfully!": "Gulp task lint finished successfully!",
+	"Gulp task %s has finished with error! %s": "Gulp task %s has finished with error! %s"
+}

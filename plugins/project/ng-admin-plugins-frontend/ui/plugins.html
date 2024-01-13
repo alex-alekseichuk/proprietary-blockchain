@@ -1,0 +1,2195 @@
+<dom-module id="ngrt-plugins">
+  <template>
+    <style include="shared-styles"></style>
+
+    <style is="custom-style">
+      :host {
+        width: 100%;
+        height: 100%;
+      }
+
+
+      paper-dialog {
+        width: 500px;
+      }
+
+      p {
+        text-transform: capitalize;
+      }
+
+      #pluginstatus,
+      #pluginstate {
+        width: 400px;
+      }
+
+      .headbg {
+        position: relative;
+        width: 100%;
+        height: 200px;
+        background: var(--project-blue);
+        background-image: url("../res/headbg.png");
+      }
+
+      @keyframes animatedBackground {
+        from {
+          background-position: 0 0;
+        }
+
+        to {
+          background-position: 240px 240px;
+        }
+      }
+
+      #pluginselect {
+        width: 800px;
+        height: 700px;
+        min-width: 300px;
+        min-height: 500px;
+        border-radius: 5px;
+        overflow: hidden;
+      }
+
+      #pluginselect[selectedtab="selectedTab3"] {
+        height: calc(100% - 20px);
+      }
+
+      #pluginselect paper-toolbar {
+        background-position: 0px 0px;
+        background-repeat: repeat;
+        background-image: url("../res/headbg.png");
+        animation: animatedBackground 10s linear infinite;
+      }
+
+      #pluginselect paper-tabs {}
+
+      #pluginselect paper-header-panel .title {
+        font-size: 22px;
+        /*font-weight: 300;*/
+        /*margin-top: 10px;*/
+        margin: 5px 0 0 10px;
+      }
+
+      #pluginselect .pluginheadicon {
+        width: 60px;
+        height: 60px;
+        align-self: flex-start;
+        margin: 10px 0 0 -20px;
+        padding: 10px;
+        border-radius: 5px;
+      }
+
+      #pluginselect .versionBlock {
+        margin-left: 100px;
+        color: white;
+        opacity: 0.8;
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      #pluginselect .versionBlock .currentVersion {
+        flex: 1;
+      }
+
+      #pluginselect .versionBlock paper-button {
+        color: white;
+        border: none;
+        align-self: flex-end;
+      }
+
+      #pluginselect .pluginheadmandatory {
+        flex: 0;
+        color: white;
+        margin: 0 0 5px 0;
+        opacity: 0.5;
+        width: 20px;
+      }
+
+      #pluginselect .pluginicon {
+        position: absolute;
+        left: 20px;
+        top: 20px;
+        width: 100px;
+        height: 100px;
+        background: rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        background-image: url("../res/plugins-icon-default.png");
+        background-size: 60%;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+
+      .licenseblock {
+        text-align: center;
+        width: 100%;
+        height: 100%;
+        opacity: 0.8;
+        font-size: 0.9em;
+        overflow: hidden;
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      #pluginstate .headbg {
+        background: var(--primary-color);
+      }
+
+      @keyframes pluginadd {
+        0% {
+          top: -67px;
+        }
+
+        100% {
+          top: 130px;
+        }
+      }
+
+      @keyframes plugingear {
+        0% {
+          transform: rotate(0deg);
+        }
+
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .plugins_app {
+        width: 88px;
+        height: 67px;
+        position: absolute;
+        left: 156px;
+        top: -50px;
+        background: url("../res/plugins-app.png") no-repeat;
+        background-size: 100%;
+        animation-name: pluginadd;
+        animation-duration: 3s;
+        animation-delay: 0.5s;
+        animation-iteration-count: infinite;
+        animation-timing-function: ease-out;
+      }
+
+      .plugins_bag {
+        width: 140px;
+        height: 130px;
+        position: absolute;
+        left: 130px;
+        bottom: 0px;
+        background: url("../res/plugins-bag.png") no-repeat;
+        background-size: 100%;
+      }
+
+      .plugins_bagfront {
+        width: 140px;
+        height: 95px;
+        position: absolute;
+        left: 130px;
+        bottom: 0px;
+        background: url("../res/plugins-bagfront.png") no-repeat;
+        background-size: 100%;
+      }
+
+      .plugins_gear {
+        width: 108px;
+        height: 108px;
+        position: absolute;
+        left: 60px;
+        bottom: 65px;
+        background: url("../res/plugin-gear.png") no-repeat;
+        background-size: 100%;
+        animation-name: plugingear;
+        animation-duration: 3s;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+      }
+
+      .plugins_gear3 {
+        width: 108px;
+        height: 108px;
+        position: absolute;
+        left: 220px;
+        bottom: 65px;
+        background: url("../res/plugin-gear.png") no-repeat;
+        background-size: 100%;
+        animation-name: plugingear;
+        animation-duration: 3s;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+      }
+
+      .plugins_gear2 {
+        width: 88px;
+        height: 88px;
+        position: absolute;
+        left: 150px;
+        bottom: 20px;
+        background: url("../res/plugin-gear.png") no-repeat;
+        background-size: 100%;
+        animation-name: plugingear;
+        animation-duration: 3s;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+        animation-direction: reverse;
+        filter: brightness(0.8);
+      }
+
+      paper-progress {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        --paper-progress-active-color: var(--primary-color);
+        --paper-progress-secondary-color: var(--paper-light-blue-100);
+      }
+
+      .keysrow paper-checkbox {
+        margin: 0px 0 0 0;
+      }
+
+      .licensetext {
+        min-height: 300px;
+        overflow-x: auto;
+        overflow-y: scroll;
+        margin: 0 !important;
+        box-sizing: border-box;
+        font-size: 0.8em;
+        padding: 20px 20px 0 20px;
+        white-space: pre;
+        font-family: monospace, monospace;
+        border-top: 1px solid #eee;
+      }
+
+      #pluginselect .licensetext {
+        flex: 1;
+        overflow-x: auto;
+        overflow-y: scroll;
+        min-height: 0;
+      }
+
+      .licensenameapp {
+        padding: 10px 20px 20px 20px;
+        box-sizing: border-box;
+        width: 100%;
+        font-weight: bold;
+        margin: 0;
+      }
+
+      .headmenu {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        color: white;
+      }
+
+      paper-item {
+        cursor: pointer;
+      }
+
+      .pluginsGridMaterial {
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        overflow: hidden;
+      }
+
+      #pluginsGrid {
+        height: 100%;
+      }
+
+      .dates {
+        float: left;
+        width: 100%;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: row;
+      }
+
+      .dates paper-input {
+        flex: 1;
+      }
+
+      .plugincontent {
+        flex: 1;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .plugincontent>div {
+        flex: 0 0 50px;
+        margin: 0px 0;
+        align-items: center;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      }
+
+      .iron-selected .paper-tab {
+        color: black;
+      }
+
+      .plugin-tabs iron-icon {
+        color: var(--project-blue);
+      }
+
+      .pluginTabbar .paper-tab {
+        color: white !important;
+      }
+
+      .settings-tab paper-button {
+        border: none;
+        line-height: 30px;
+      }
+
+      .pluginActivated {
+        margin: -20px -20px 20px -20px;
+        padding: 0 20px;
+        background: rgba(0, 0, 0, 0.06);
+        font-size: 18px;
+      }
+
+      .plugactiv[hidden] {
+        display: none;
+      }
+
+      .dialog-hero {
+        background-position: 0px 0px;
+        background-repeat: repeat;
+        background-color: var(--primary-color);
+        background-image: url('../res/headbg.png');
+        animation: animatedBackground 10s linear infinite;
+      }
+
+      .dialog-hero svg {
+        width: 180px;
+        height: 140px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        filter: drop-shadow(0px 5px 3px rgba(0, 0, 0, 0.5));
+        margin-left: -90px;
+        margin-top: -70px;
+      }
+
+
+
+      .cell-data {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        text-overflow: ellipsis;
+        white-space: normal;
+        overflow: hidden;
+      }
+
+      paper-button.borderlessButton[disabled] {
+        opacity: 0.5;
+      }
+
+      paper-button[disabled] {
+        opacity: 0.5;
+      }
+    </style>
+
+    <!-- Main pages -->
+    <iron-pages class="fit" selected={{selectedPage}}>
+      <!--Content-->
+      <paper-header-panel class="appPanel">
+        <!--Toolbar-->
+        <paper-toolbar class="appToolbar medium-tall">
+          <!--Top-->
+          <span class="title">
+            <i18n-msg msgid="Plugins">Plugins</i18n-msg>
+          </span>
+          <span style="opacity: 0.5" hidden$=[[pluginsReady]]>
+            <i18n-msg msgid="System starting">System starting</i18n-msg>
+          </span>
+          <span style="opacity: 0.5" hidden$=[[!pluginsReady]]>
+            <i18n-msg msgid="All plugins ready">All plugins ready</i18n-msg>
+          </span>
+          <span class="flex"></span>
+          <paper-checkbox checked="[[publishToFeed]]" on-change="togglePublishToFeed"><i18n-msg msgid="Publish to feed">Publish to feed</i18n-msg></paper-checkbox>
+          <pa-search id="paSearch" on-search="searchPlugin" on-cancel="searchPluginCancel"></pa-search>
+
+          <!-- <paper-icon-button icon="icons:create-new-folder" on-click="openAddPlugin"></paper-icon-button> -->
+          <paper-button data-where="1" on-click="setActivePage" id="openAddPluginButton">Add Plugin</paper-button>
+          <!-- <paper-button on-click="getAwsPlugins"> Plugin</paper-button> -->
+
+          <paper-tabs class="plugin-tabs bottom fit" selected="{{selected}}" noink="true">
+            <paper-tab on-tap="tabTap" style="flex: 0 0 150px">System plugins</paper-tab>
+            <paper-tab on-tap="tabTap" style="flex: 0 0 150px">Custom plugins</paper-tab>
+          </paper-tabs>
+
+        </paper-toolbar>
+
+        <div class="content" style="height: 100%; height: calc(100% - 12px);">
+
+          <!-- Tabs -->
+          <neon-animated-pages class="flex" selected="[[selected]]" entry-animation="[[entryAnimation]]"
+            exit-animation="[[exitAnimation]]">
+
+            <!-- MAIN -->
+            <neon-animatable entryAnimation="slide-from-left-animation">
+              <paper-material elevation="0" class="pluginsGridMaterial">
+                <vaadin-grid id="pluginsGrid" items="[[pluginsMain]]" active-item="{{activeVaadinPlugin}}"
+                  multi-sort="[[true]]">
+
+                  <vaadin-grid-column flex-grow="1">
+                    <template class="header">
+                      <vaadin-grid-sorter path="name">
+                        <div class="cell" style="padding-left: 20px;">
+                          <span>Name</span>
+                        </div>
+                      </vaadin-grid-sorter>
+                    </template>
+                    <template>
+                      <div class="cell" style="padding-left: 20px;" on-click="openPluginDialog">
+                        [[item.name]]
+                        <template is="dom-if" if="{{compareTwo(item.application.type, 'mandatory')}}">
+                          <span style="opacity: 0.5; padding-left: 10px">
+                            <i18n-msg msgid="mandatory">mandatory</i18n-msg>
+                          </span>
+                        </template>
+                      </div>
+                    </template>
+                  </vaadin-grid-column>
+
+                  <vaadin-grid-column width="140px" flex-grow="0">
+                    <template class="header">
+                      <vaadin-grid-sorter path="application.version">
+                        <div class="cell">
+                          <span>Version</span>
+                        </div>
+                      </vaadin-grid-sorter>
+                    </template>
+                    <template>
+                      <div class="cell" on-click="openPluginDialog">
+                        [[item.application.version]]
+                      </div>
+                    </template>
+                  </vaadin-grid-column>
+
+                  <vaadin-grid-column width="170px" flex-grow="0">
+                    <template class="header">
+                      <vaadin-grid-sorter path="installed">
+                        <div class="cell" on-click="openPluginDialog">
+                          <span>Installed</span>
+                        </div>
+                      </vaadin-grid-sorter>
+                    </template>
+                    <template>
+                      <div class="cell cell-data">
+                        [[formatDatetime(item.application.installed,'D MMM YYYY hh:mm')]]
+                      </div>
+                    </template>
+                  </vaadin-grid-column>
+
+                  <vaadin-grid-column width="80px" flex-grow="0">
+                    <template class="header">
+                      <vaadin-grid-sorter path="active">
+                        <div class="cell">
+                          <span>Status</span>
+                        </div>
+                      </vaadin-grid-sorter>
+                    </template>
+
+                    <template>
+                      <div class="cell" style="padding: 0 15px; float: right">
+                        <template is="dom-if" if="{{item.application.installed}}">
+                          <paper-toggle-button disabled="[[compareTwo(item.application.type, 'mandatory')]]"
+                            checked="[[item.application.active]]" on-click="onPluginToggle"></paper-toggle-button>
+                        </template>
+                      </div>
+                    </template>
+                  </vaadin-grid-column>
+
+
+                </vaadin-grid>
+
+              </paper-material>
+            </neon-animatable>
+
+            <!-- CUSTOM -->
+            <neon-animatable>
+              <paper-material elevation="0" class="pluginsGridMaterial">
+                <vaadin-grid id="pluginsGrid" items="[[pluginsCustom]]" active-item="{{activeVaadinPlugin}}"
+                  multi-sort="[[true]]">
+
+                  <vaadin-grid-column flex-grow="1">
+                    <template class="header">
+                      <vaadin-grid-sorter path="name">
+                        <div class="cell" style="padding-left: 20px;">
+                          <span>Name</span>
+                        </div>
+                      </vaadin-grid-sorter>
+                    </template>
+                    <template>
+                      <div class="cell" style="padding-left: 20px;">
+                        [[item.name]]
+                        <template is="dom-if" if="{{compareTwo(item.application.type, 'mandatory')}}">
+                          <span style="opacity: 0.5; padding-left: 10px">
+                            <i18n-msg msgid="mandatory">mandatory</i18n-msg>
+                          </span>
+                        </template>
+                      </div>
+                    </template>
+                  </vaadin-grid-column>
+
+                  <vaadin-grid-column width="140px" flex-grow="0">
+                    <template class="header">
+                      <vaadin-grid-sorter path="application.version">
+                        <div class="cell">
+                          <span>Version</span>
+                        </div>
+                      </vaadin-grid-sorter>
+                    </template>
+                    <template>
+                      <div class="cell">
+                        [[item.application.version]]
+                      </div>
+                    </template>
+                  </vaadin-grid-column>
+
+                  <vaadin-grid-column width="170px" flex-grow="0">
+                    <template class="header">
+                      <vaadin-grid-sorter path="installed">
+                        <div class="cell">
+                          <span>Installed</span>
+                        </div>
+                      </vaadin-grid-sorter>
+                    </template>
+                    <template>
+                      <div class="cell cell-data">
+                        [[formatDatetime(item.application.installed,'D MMM YYYY hh:mm')]]
+                      </div>
+                    </template>
+                  </vaadin-grid-column>
+
+                  <vaadin-grid-column width="80px" flex-grow="0">
+                    <template class="header">
+                      <vaadin-grid-sorter path="active">
+                        <div class="cell">
+                          <span>Status</span>
+                        </div>
+                      </vaadin-grid-sorter>
+                    </template>
+
+                    <template>
+                      <div class="cell" style="padding: 0 15px; float: right">
+                        <template is="dom-if" if="{{item.application.installed}}">
+                          <paper-toggle-button disabled="[[compareTwo(item.application.type, 'mandatory')]]"
+                            checked="[[item.application.active]]" on-click="onPluginToggle"></paper-toggle-button>
+                        </template>
+                      </div>
+                    </template>
+                  </vaadin-grid-column>
+
+
+                </vaadin-grid>
+
+              </paper-material>
+              <!-- <paper-material elevation="0" class="list">
+                <div class="listheader">
+                  <div class="hStatus">
+                    <i18n-msg msgid="Status">Status</i18n-msg>
+                  </div>
+                  <div class="hName">
+                    <i18n-msg msgid="Name">Name</i18n-msg>
+                  </div>
+                  <div>
+                    <i18n-msg msgid="Version">Version</i18n-msg>
+                  </div>
+                  <div>
+                    <i18n-msg msgid="Added">Added</i18n-msg>
+                  </div>
+                  <div></div>
+                </div>
+
+                <template is="dom-repeat" items="{{plugins}}">
+                  <template is="dom-if" if="{{isShowPlugin(item, selected)}}">
+                    <div class="keysrow" on-click="userSelectClick">
+                      <div>
+                        <template is="dom-if" if="[[item.application.installed]]">
+                          <template is="dom-if" if="[[!isMandatory(item.application)]]">
+                            <paper-checkbox checked="[[item.application.active]]" on-click="onPluginToggle"></paper-checkbox>
+                          </template>
+                          <template is="dom-if" if="[[isMandatory(item.application)]]">
+                            <paper-checkbox disabled checked=true></paper-checkbox>
+
+                          </template>
+                          <template is="dom-if" if="[[hasErrorMsg(item.application)]]">
+                            <paper-icon-button icon="error" title="[[item.application.message]]" id="[[errorIconId(index)]]"></paper-icon-button>
+                            <paper-tooltip for$="[[errorIconId(index)]]" position="bottom">[[item.application.message]]
+                            </paper-tooltip>
+                          </template>
+                        </template>
+                      </div>
+                      <div>[[item.name]]</div>
+                      <div>[[item.application.version]]</div>
+                      <div>[[formatDatetime(item.application.installed,'YYYY.MM.DD hh:mm')]]</div>
+                    </div>
+                  </template>
+                </template>
+              </paper-material> -->
+            </neon-animatable>
+
+          </neon-animated-pages>
+          <!-- Main pages end -->
+        </div>
+      </paper-header-panel>
+      <!-- Add plugin -->
+      <paper-header-panel class="appPanel" id="addPluginsPanel">
+        <!-- Add plugin page -->
+        <!--Toolbar-->
+        <paper-toolbar class="appToolbar medium-tall">
+          <!--Top-->
+          <paper-icon-button style="margin-right: 20px" icon="icons:arrow-back" data-where="0" on-click="setActivePage">
+          </paper-icon-button>
+          <span class="title">
+            <i18n-msg msgid="Add plugin">Add plugin</i18n-msg>
+          </span>
+          <span class="flex"></span>
+
+          <span class="label">
+            <i18n-msg msgid="Custom storage">Custom storage</i18n-msg>
+          </span>
+          <paper-toggle-button class="plugintogglebutton" id="storagetoggle" checked="[[false]]" on-click="">
+          </paper-toggle-button>
+
+          <paper-tabs class="plugin-tabs bottom fit" selected="{{selectedUploadPage}}" noink="true">
+            <paper-tab on-tap="tabTap" style="flex: 0 0 150px">
+              <i18n-msg msgid="Bucket">Bucket</i18n-msg>
+            </paper-tab>
+            <paper-tab id="URLtab" on-tap="tabTap" style="flex: 0 0 150px">
+              <i18n-msg msgid="URL">URL</i18n-msg>
+            </paper-tab>
+            <paper-tab on-tap="tabTap" style="flex: 0 0 150px">
+              <i18n-msg msgid="Local file">Local file</i18n-msg>
+            </paper-tab>
+          </paper-tabs>
+
+        </paper-toolbar>
+        <div class="content fit">
+          <!-- Tabs -->
+          <neon-animated-pages class="flex" selected="[[selectedUploadPage]]">
+
+
+            <neon-animatable entryAnimation="slide-from-left-animation">
+              <paper-material class="layout vertical fit">
+                <div class="layout vertical" style="height: 100%">
+                  <h3>
+                    <i18n-msg msgid="From bucket">From bucket</i18n-msg>
+                  </h3>
+                  <br />
+                  <vaadin-combo-box label='Bucket name' always-float-label items="[[bucketItems]]"
+                    value='{{selectedBucketItems}}'></vaadin-combo-box>
+                  <br />
+                  <vaadin-grid id="awsPlugins" items="[[awsPlugins]]" active-item="{{awsPluginsSelected}}"
+                    multi-sort="[[true]]">
+                    <vaadin-grid-column width="250px" flex-grow="1">
+                      <template class="header">
+                        <vaadin-grid-sorter path="Key">
+                          <div class="cell" style="padding-left: 20px;">
+                            <span>Key</span>
+                          </div>
+                        </vaadin-grid-sorter>
+                      </template>
+                      <template class="header"></template>
+                      <template>
+                        <div class="cell" style="padding-left: 20px;" title="[[item.Key]]">
+                          [[item.Key]]
+                        </div>
+                      </template>
+                    </vaadin-grid-column>
+
+                    <vaadin-grid-column width="150px" flex-grow="0">
+                      <template class="header">
+                        <vaadin-grid-sorter path="LastModified">
+                          <div class="cell" style="padding-left: 20px;">
+                            <span>Date</span>
+                          </div>
+                        </vaadin-grid-sorter>
+                      </template>
+                      <template>
+                        <div class="cell" style="padding-left: 20px;">
+                          [[formatDatetime(item.LastModified,'DD.MM.YY hh:mm')]]
+                        </div>
+                      </template>
+                    </vaadin-grid-column>
+
+                    <vaadin-grid-column width="90px" flex-grow="0">
+                      <template class="header">
+                        <vaadin-grid-sorter path="Size">
+                          <div class="cell">
+                            <span>Size</span>
+                          </div>
+                        </vaadin-grid-sorter>
+                      </template>
+                      <template>
+                        <div class="cell">
+                          [[kbytesToSize(item.Size)]]
+                        </div>
+                      </template>
+                    </vaadin-grid-column>
+
+                    <vaadin-grid-column width="120px" flex-grow="0">
+                      <template class="header">
+                        <div class="cell" style="padding-left: 20px;">
+                          <span></span>
+                        </div>
+                      </template>
+                      <template>
+                        <paper-button style="line-height: 14px; margin-right: 10px" data-where="1"
+                          on-click="addPluginFromBucket">
+                          <i18n-msg msgid="add">add</i18n-msg>
+                        </paper-button>
+                      </template>
+                    </vaadin-grid-column>
+
+                  </vaadin-grid>
+                </div>
+              </paper-material>
+            </neon-animatable>
+
+
+            <!-- From URL -->
+            <neon-animatable entryAnimation="slide-from-left-animation">
+              <paper-material class="layout vertical illustratedpaper">
+                <div class="verticalhero">
+                  <div class="icon vbg" style="border-radius: 50%;padding: 30px;box-sizing: border-box;">
+                    <svg x="0px" y="0px" viewBox="0 0 512.092 512.092">
+                      <g>
+                        <g>
+                          <path
+                            d="M312.453,199.601c-6.066-6.102-12.792-11.511-20.053-16.128c-19.232-12.315-41.59-18.859-64.427-18.859    c-31.697-0.059-62.106,12.535-84.48,34.987L34.949,308.23c-22.336,22.379-34.89,52.7-34.91,84.318    c-0.042,65.98,53.41,119.501,119.39,119.543c31.648,0.11,62.029-12.424,84.395-34.816l89.6-89.6    c1.628-1.614,2.537-3.816,2.524-6.108c-0.027-4.713-3.87-8.511-8.583-8.484h-3.413c-18.72,0.066-37.273-3.529-54.613-10.581    c-3.195-1.315-6.867-0.573-9.301,1.877l-64.427,64.512c-20.006,20.006-52.442,20.006-72.448,0    c-20.006-20.006-20.006-52.442,0-72.448l108.971-108.885c19.99-19.965,52.373-19.965,72.363,0    c13.472,12.679,34.486,12.679,47.957,0c5.796-5.801,9.31-13.495,9.899-21.675C322.976,216.108,319.371,206.535,312.453,199.601z"
+                            fill="#FFFFFF" />
+                        </g>
+                      </g>
+                      <g>
+                        <g>
+                          <path
+                            d="M477.061,34.993c-46.657-46.657-122.303-46.657-168.96,0l-89.515,89.429c-2.458,2.47-3.167,6.185-1.792,9.387    c1.359,3.211,4.535,5.272,8.021,5.205h3.157c18.698-0.034,37.221,3.589,54.528,10.667c3.195,1.315,6.867,0.573,9.301-1.877    l64.256-64.171c20.006-20.006,52.442-20.006,72.448,0c20.006,20.006,20.006,52.442,0,72.448l-80.043,79.957l-0.683,0.768    l-27.989,27.819c-19.99,19.965-52.373,19.965-72.363,0c-13.472-12.679-34.486-12.679-47.957,0    c-5.833,5.845-9.35,13.606-9.899,21.845c-0.624,9.775,2.981,19.348,9.899,26.283c9.877,9.919,21.433,18.008,34.133,23.893    c1.792,0.853,3.584,1.536,5.376,2.304c1.792,0.768,3.669,1.365,5.461,2.048c1.792,0.683,3.669,1.28,5.461,1.792l5.035,1.365    c3.413,0.853,6.827,1.536,10.325,2.133c4.214,0.626,8.458,1.025,12.715,1.195h5.973h0.512l5.12-0.597    c1.877-0.085,3.84-0.512,6.059-0.512h2.901l5.888-0.853l2.731-0.512l4.949-1.024h0.939c20.961-5.265,40.101-16.118,55.381-31.403    l108.629-108.629C523.718,157.296,523.718,81.65,477.061,34.993z"
+                            fill="#FFFFFF" />
+                        </g>
+                      </g>
+                    </svg>
+                  </div>
+                </div>
+
+                <h3>
+                  <i18n-msg msgid="From URL">From URL</i18n-msg>
+                </h3>
+                <br />
+                <paper-input id="inputurlfile" always-float-label label="Enter plugin archive url" required>
+                </paper-input>
+                <paper-button on-click="uploadFromUrl">
+                  <i18n-msg msgid="Add Plugin">Add Plugin</i18n-msg>
+                </paper-button>
+
+              </paper-material>
+            </neon-animatable>
+
+
+            <!-- From local file -->
+            <neon-animatable entryAnimation="slide-from-left-animation" id="localFileUploadPage">
+              <paper-material class="layout vertical illustratedpaper">
+                <div class="verticalhero">
+                  <div class="icon vbg" style="border-radius: 50%;padding: 35px;box-sizing: border-box;">
+                    <svg x="0px" y="0px" viewBox="0 0 438.533 438.533">
+                      <g>
+                        <g>
+                          <path
+                            d="M382.58,108.493l-89.078-89.081c-9.521-9.517-22.087-15.706-37.692-18.558v145.324h145.326    C398.281,130.566,392.091,118.006,382.58,108.493z"
+                            fill="#FFFFFF" />
+                          <path
+                            d="M246.676,182.72c-7.617,0-14.089-2.663-19.417-7.993c-5.33-5.327-7.992-11.799-7.992-19.414V0H63.953    C56.341,0,49.869,2.663,44.54,7.993c-5.33,5.327-7.994,11.799-7.994,19.414v383.719c0,7.617,2.664,14.089,7.994,19.417    c5.33,5.325,11.801,7.991,19.414,7.991h310.633c7.611,0,14.079-2.666,19.407-7.991c5.328-5.332,7.994-11.8,7.994-19.417V182.72    H246.676z"
+                            fill="#FFFFFF" />
+                        </g>
+                      </g>
+                    </svg>
+                  </div>
+                </div>
+
+                <h3>
+                  <i18n-msg msgid="From local file">From local file</i18n-msg>
+                </h3>
+                <br />
+                <input type="file" id="addPluginInput" on-change="addPluginInputChange" hidden multiple="false">
+                <paper-input id="inputlocalfile" always-float-label label="Choose local archive file"
+                  value="{{inputlocalfileValue}}" on-change="fileInputChanged" auto-validate
+                  pattern="[[fileValidationPattern]]" error-message="[[fileErrorMessage]]">
+                  <paper-button suffix on-click="addFromFile" style="flex:1">Browse</paper-button>
+                </paper-input>
+                <paper-button on-click="uploadFromFile">
+                  <i18n-msg msgid="Add Plugin">Add Plugin</i18n-msg>
+                </paper-button>
+              </paper-material>
+            </neon-animatable>
+          </neon-animated-pages>
+        </div>
+      </paper-header-panel>
+
+
+    </iron-pages>
+
+
+    <paper-dialog id="pluginselect" on-iron-overlay-opened="onPluginDialogOpen" selectedtab="[[selectedPluginTab]]"
+      role="alertdialog" entry-animation="scale-up-animation" exit-animation="fade-out-animation" no-cancel-on-outside-click>
+      <paper-header-panel class="dialog_headerpanel">
+        <paper-toolbar id="contact_toolbar" class="dialog_toolbar tall">
+
+          <paper-icon-button id="paperToggle" icon="menu" paper-drawer-toggle></paper-icon-button>
+          <iron-icon class="pluginheadicon" icon="icons:settings-applications"></iron-icon>
+
+          <span class="title userTab flex">{{selectedPlugin.name}}
+            <template is="dom-if" if="{{isMandatory(selectedPlugin.application)}}">
+              <iron-icon class="pluginheadmandatory" title="Mandatory" icon="icons:lock"></iron-icon>
+            </template>
+          </span>
+
+          <paper-icon-button dialog-dismiss icon="icons:close"></paper-icon-button>
+
+          <div class="versionBlock middle">
+            <template is="dom-if" if="{{updater.has}}">
+              <div class="currentVersion">
+                [[selectedPlugin.application.version]]
+              </div>
+            </template>
+            <template is="dom-if" if="{{!updater.has}}">
+              <div class="currentVersion">
+                [[selectedPlugin.application.version]] &nbsp;
+                <template is="dom-if" if="{{!checkUpdater}}">
+                  <i18n-msg msgid="No updates">Latest version</i18n-msg>
+                </template>
+                <template is="dom-if" if="{{checkUpdater}}">
+                  <template is="dom-if" if="{{updater.locally}}">
+                    <i18n-msg msgid="No updates">Locally installed</i18n-msg>
+                  </template>
+                </template>
+              </div>
+            </template>
+
+            <template is="dom-if" if="{{updater.has}}">
+              <paper-button id="updateButton" title="{{updater.newVersion}}" dialog-confirm autofocus
+                on-click="updatePlugin">
+                <i18n-msg msgid="Update">Update</i18n-msg>
+                <template is="dom-if" if="{{updater.hotfix}}">
+                  &nbsp;&nbsp;&nbsp;
+                  (<i18n-msg msgid="Hotfix">Hotfix</i18n-msg>)
+                </template>
+                <!--{{updater.newVersion}}-->
+              </paper-button>
+            </template>
+          </div>
+
+
+
+          <paper-tabs class="bottom fit pluginTabbar" selected="{{selectedPluginTab}}" noink="true">
+            <paper-tab style="flex: 1">
+              <i18n-msg class="flex" msgid="Manage">Manage</i18n-msg>
+            </paper-tab>
+            <paper-tab style="flex: 1">
+              <i18n-msg class="flex" msgid="Information">Information</i18n-msg>
+            </paper-tab>
+            <paper-tab style="flex: 1">
+              <i18n-msg class="flex" msgid="License">License</i18n-msg>
+            </paper-tab>
+            <paper-tab style="flex: 1">
+              <i18n-msg id="messagesTab" class="flex" msgid="Messsages">Messages</i18n-msg>
+              <template is="dom-if" if="{{ showPluginWarning(selectedPlugin) }}">
+                <paper-badge for="messagesTab" icon="icons:error-outline"></paper-badge>
+              </template>
+            </paper-tab>
+            <paper-tab>
+              <i18n-msg class="flex" msgid="Settings">Settings</i18n-msg>
+            </paper-tab>
+          </paper-tabs>
+
+        </paper-toolbar>
+
+        <neon-animated-pages class="flex" selected="[[selectedPluginTab]]" exit-animation="fade-out-animation">
+
+          <!--Settings-->
+          <neon-animatable entry-animation="slide-from-left-animation">
+
+            <div class="plugincontent settings-tab">
+              <template is="dom-if" if="{{selectedPlugin.application.installed}}">
+                <template is="dom-if" if="{{!isMandatory(selectedPlugin.application)}}">
+                  <div class="layout horizontal pluginActivated" style="
+                      margin: -20px -20px 20px -20px;
+                      padding: 0 20px;
+                      background: rgba(0,0,0,0.06);
+                      font-size: 18px;">
+
+                    <div hidden$="[[selectedPlugin.application.active]]" class="plugactiv flex">Enable plugin</div>
+                    <div hidden$="[[!selectedPlugin.application.active]]" class="plugactiv flex">Enable plugin</div>
+
+                    <paper-toggle-button class="plugintogglebutton" checked="[[selectedPlugin.application.active]]"
+                      on-click="onPluginToggle"></paper-toggle-button>
+                  </div>
+                </template>
+              </template>
+
+              <!-- Instal or Uninstall -->
+              <template is="dom-if" restamp="true" if="{{showInstall}}">
+                <div class="layout horizontal">
+                  <div class="flex">Install plugin</div>
+                  <paper-button dialog-confirm on-click="installPlugin" class="borderlessButton">Install</paper-button>
+                </div>
+              </template>
+
+              <div class="layout horizontal">
+                <div class="flex">To uninstall plugin disable it first</div>
+                <paper-button dialog-confirm disabled="{{!showUninstall}}" on-click="uninstallPlugin"
+                  class="borderlessButton">Uninstall</paper-button>
+              </div>
+
+              <div class="layout horizontal">
+                <template is="dom-if" restamp="true" if="[[selectedPlugin.application]]">
+                  <div class="flex">To delete plugin uninstall it first</div>
+                </template>
+                <template is="dom-if" restamp="true" if="[[!selectedPlugin.application]]">
+                  <div class="flex">Ready to be deleted</div>
+                </template>
+                <paper-button dialog-confirm disabled="[[selectedPlugin.application]]" on-click="removePlugin"
+                  class="borderlessButton">Delete</paper-button>
+              </div>
+
+              <div class="layout horizontal">
+                <div class="flex">Publish plugin</div>
+                <paper-button on-click="publishPlugin" id="publish_button" class="borderlessButton">Publish
+                </paper-button>
+              </div>
+
+              <div class="layout horizontal">
+                <i18n-msg class="flex" msgid="Use as application">Use as application</i18n-msg>
+                <paper-toggle-button checked="[[selectedPlugin.application.asApp]]" on-click="toggleAsApp">
+                </paper-toggle-button>
+              </div>
+
+              <div class="layout horizontal">
+                <i18n-msg class="flex" msgid="Use as subscription">Use as subscription</i18n-msg>
+                <paper-toggle-button checked="[[selectedPlugin.application.asSubscription]]"
+                  on-click="toggleAsSubscription"></paper-toggle-button>
+              </div>
+
+            </div>
+          </neon-animatable>
+
+
+          <!--Info-->
+          <neon-animatable entry-animation="slide-from-right-animation">
+
+            <div class="plugincontent">
+              <paper-input readonly alwaysFloatLabel label="Storage" value="[[selectedPlugin.storage]]"></paper-input>
+              <template is="dom-if" if="[[selectedPlugin.application.installed]]">
+                <paper-input readonly alwaysFloatLabel label="Source" value="[[selectedPlugin.application.source]]">
+                </paper-input>
+                <paper-input readonly alwaysFloatLabel label="Installed at"
+                  value="[[formatDatetime(selectedPlugin.application.installed,'YYYY.MM.DD hh:mm')]]"></paper-input>
+                <template is="dom-if" if="[[selectedPlugin.application.activated]]">
+                  <paper-input readonly alwaysFloatLabel label="Activated at"
+                    value="[[formatDatetime(selectedPlugin.application.activatedDate,'YYYY.MM.DD hh:mm')]]">
+                  </paper-input>
+                </template>
+              </template>
+            </div>
+
+          </neon-animatable>
+
+          <!--About-->
+          <neon-animatable entry-animation="slide-from-left-animation">
+            <p class="licensetext">
+              [[license]]
+            </p>
+            <div class="buttons">
+              <div class="licenseblock">
+                <!--<i18n-msg msgid="License state">License state</i18n-msg>:-->
+                <i18n-msg hidden$="[[licenseStateHidden(selectedPlugin.application.licenseState, 0)]]"
+                  msgid="License verify disabled">License verify disabled
+                </i18n-msg>
+                <i18n-msg hidden$="[[licenseStateHidden(selectedPlugin.application.licenseState, 1)]]"
+                  msgid="License verified successfully">License verified successfully
+                </i18n-msg>
+                <i18n-msg hidden$="[[licenseStateHidden(selectedPlugin.application.licenseState, 2)]]"
+                  msgid="No license file">No license file
+                </i18n-msg>
+                <i18n-msg hidden$="[[licenseStateHidden(selectedPlugin.application.licenseState, 3)]]"
+                  msgid="License expired">License expired
+                </i18n-msg>
+                <i18n-msg hidden$="[[licenseStateHidden(selectedPlugin.application.licenseState, 4)]]"
+                  msgid="License file not valid">License file not valid
+                </i18n-msg>
+                <i18n-msg hidden$="[[licenseStateHidden(selectedPlugin.application.licenseState, 5)]]"
+                  msgid="Custom error">
+                  Custom error
+                </i18n-msg>
+              </div>
+            </div>
+
+
+          </neon-animatable>
+
+          <neon-animatable entry-animation="slide-from-left-animation">
+            <div class="plugincontent">
+              <template is="dom-if" if="{{ hasActivateMessages(selectedPlugin) }}">
+                <div class="layout horizontal">
+                  <h5>
+                    <i18n-msg msgid="Errors on activate">Errors on activate</i18n-msg>:
+                  </h5>
+                </div>
+                <template is='dom-repeat' items='{{selectedPlugin.application.activateMessages}}'>
+                  <div class="layout horizontal" style="display: block">
+                    <p style="color: red">[[item]]</p>
+                  </div>
+                </template>
+              </template>
+              <template is="dom-if" if="{{hasSmokeTestError(selectedPlugin)}}">
+                <div class="layout horizontal">
+                  <h5>
+                    <i18n-msg msgid="Smoke tests results">Smoke tests results</i18n-msg>:
+                  </h5>
+                </div>
+                <template is='dom-repeat' items='{{selectedPlugin.application.smokeTestMessages}}'>
+                  <div class="layout horizontal" style="display: block">
+                    <p style="color: red">[[item]]</p>
+                  </div>
+                </template>
+              </template>
+            </div>
+          </neon-animatable>
+
+          <!-- Settings -->
+          <neon-animatable entry-animation="slide-from-left-animation">
+            <div class="plugincontent">
+              <template is="dom-repeat" items="{{pluginConfigs}}" as="item">
+                <template is="dom-if" if="{{isStringItem(item)}}">
+                  <paper-input name="{{item.key}}" type="text" label="{{item.key}}" value="{{item.value}}"
+                    on-change="settingsChanged"></paper-input>
+                </template>
+
+                <template is="dom-if" if="{{isBooleanItem(item)}}">
+                  <div class="layout horizontal">
+                    <span class="flex">[[item.key]]</span>
+                    <paper-toggle-button checked="{{item.value}}" on-change="settingsChanged"></paper-toggle-button>
+                  </div>
+                </template>
+
+                <template is="dom-if" if="{{isObjectItem(item)}}">
+                  <div class="layout vertical" style="align-items: flex-start; flex: unset; display: block">
+                    <div class="flex" style="margin: 10px 0 10px 0; font-size: 12px; line-height: 20px; opacity: 0.7">
+                      [[item.key]]</div>
+                    <juicy-jsoneditor style="flex:0; width: 100%;min-height: 150px; margin-bottom: 10px;"
+                      id="jsonEditor_{{item.key}}" name="{{item.key}}" json="{{item.value}}" on-change="settingsChanged"
+                      search="true" history="true" modes="['code', 'form', 'text', 'tree', 'view']"></juicy-jsoneditor>
+                  </div>
+                </template>
+
+                <template is="dom-if" if="{{isChooseItem(item)}}">
+                  <vaadin-combo-box label=[[item.key]] items="[[item.choose]]" value='{{item.value}}'
+                    on-change="settingsChanged"></vaadin-combo-box>
+                </template>
+              </template>
+            </div>
+            <div class="buttons">
+              <paper-button on-click="saveSettings" id="saveSettingsButton">
+                <i18n-msg msgid="Save settings">Save settings</i18n-msg>
+              </paper-button>
+            </div>
+
+
+          </neon-animatable>
+
+        </neon-animated-pages>
+      </paper-header-panel>
+    </paper-dialog>
+
+
+    <paper-dialog id="pluginstatus" modal role="alertdialog" entry-animation="scale-up-animation"
+      exit-animation="fade-out-animation">
+      <div class="headbg">
+        <div class="plugins_bag"></div>
+        <div class="plugins_app"></div>
+        <div class="plugins_bagfront"></div>
+        <paper-progress indeterminate></paper-progress>
+      </div>
+      <div class="dialog-content">
+        <h4 style="margin: 0 0 20px 0">Please wait</h4>
+        <p style="opacity: 0.7; font-size: 13px;">
+          {{status}}
+        </p>
+      </div>
+    </paper-dialog>
+
+    <paper-dialog id="status_error" role="alertdialog" entry-animation="scale-up-animation"
+      exit-animation="fade-out-animation">
+      <div>
+        Error:
+      </div>
+      <div>
+        {{current_error}}
+      </div>
+      <div class="buttons">
+        <paper-button dialog-dismiss>Close</paper-button>
+      </div>
+    </paper-dialog>
+
+    <paper-dialog id="permissions_dialog" role="alertdialog" entry-animation="scale-up-animation"
+      exit-animation="fade-out-animation">
+      <div class="dialog-content">
+        <h2>Permissions for {{selectedPlugin.name}}</h2>
+        <template is="dom-repeat" items="{{permissions}}">
+          <div>[[item.name]]</div>
+        </template>
+      </div>
+      <div class="buttons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button dialog-confirm autofocus on-click="acceptPermissions">Accept</paper-button>
+      </div>
+    </paper-dialog>
+
+    <paper-dialog id="settings_dialog" role="alertdialog" entry-animation="scale-up-animation"
+      exit-animation="fade-out-animation">
+      <div class="dialog-content">
+        <h2>Settings for {{selectedPlugin.name}}</h2>
+
+        <template is="dom-repeat" items="{{settings}}">
+          <paper-input label="[[item.caption]]" value="{{item.value}}" on-keypress="keyPressed"></paper-input>
+        </template>
+      </div>
+      <div class="buttons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button autofocus on-click="acceptSettings">Accept</paper-button>
+      </div>
+    </paper-dialog>
+
+
+    <paper-dialog id="add_plugin" role="alertdialog" entry-animation="scale-up-animation"
+      exit-animation="fade-out-animation">
+
+
+      <paper-toolbar class="dialog_toolbar medium">
+
+        <div class="top dialog-header">
+          <h4>Add plugin</h4>
+          <paper-icon-button suffix icon="icons:close" dialog-dismiss></paper-icon-button>
+        </div>
+      </paper-toolbar>
+
+      <div class="dialog-hero vbg">
+        <svg x="0px" y="0px" viewBox="0 0 514.135 514.135">
+          <g>
+            <path fill="white"
+              d="M460.801,192.001c-17.066,0-25.6,6.4-34.133,12.8c-4.267,2.133-10.667,2.133-12.8-2.133    c-2.133-2.133-2.133-4.267-2.133-8.533l8.533-98.133c0-2.133,0-6.4-2.133-8.533c-2.133-2.133-4.267-4.267-8.533-4.267h-96    c-8.533,0-14.934,4.267-19.2,10.667c-4.267,6.4-4.267,14.934,0,21.333c4.267,6.4,6.4,10.667,6.4,21.333    c0,17.066-19.2,32-42.667,32s-42.667-14.934-42.667-32c0-8.533,2.133-14.934,6.4-21.333c4.267-6.4,4.267-14.934,0-21.333    s-10.667-10.667-19.2-10.667h-96c-2.133,0-6.4,2.133-8.533,4.267c-2.133,2.133-2.133,4.267-2.133,8.533l8.533,98.133    c0,4.267-2.133,6.4-2.133,8.533c-4.267,4.267-8.533,6.4-14.934,2.133c-8.533-6.4-17.066-10.667-34.133-10.667    c-29.867,0-53.333,27.733-53.333,64c0,36.267,23.467,64,53.333,64c17.066,0,25.6-6.4,34.133-12.8    c4.267-2.133,10.667-2.133,12.8,2.133c2.133,2.133,2.133,4.267,2.133,8.533l-8.533,98.133c0,2.133,0,6.4,2.133,8.533    c2.133,2.133,4.267,4.267,8.533,4.267h96c8.533,0,14.934-4.267,19.2-10.667c4.267-6.4,4.267-14.934,0-21.333    c-4.267-6.4-6.4-10.667-6.4-21.333c0-17.066,19.2-32,42.667-32s42.667,14.934,42.667,32c0,8.533-2.133,14.934-6.4,21.333    c-4.267,6.4-4.267,14.934,0,21.333s10.667,10.667,19.2,10.667h96c2.133,0,6.4-2.133,8.533-4.267    c2.133-2.133,2.133-4.267,2.133-8.533l-8.533-98.133c0-4.267,2.133-6.4,2.133-8.533c4.267-4.267,8.533-6.4,14.934-2.133    c8.533,6.4,17.066,10.667,34.133,10.667c29.867,0,53.333-27.733,53.333-64C514.135,219.734,490.668,192.001,460.801,192.001z"
+              fill="#FFFFFF" />
+          </g>
+        </svg>
+      </div>
+
+      <div class="dialog-content">
+        <paper-input id="input" label="Enter plugin archive url or choose archive file" on-keydown="addpluginkeydown"
+          on-keypress="keyPressed" on-change="fileInputChanged" auto-validate pattern="[[fileValidationPattern]]"
+          error-message="[[fileErrorMessage]]">
+          <paper-icon-button suffix icon="icons:folder-open" on-click="addFromFile"></paper-icon-button>
+        </paper-input>
+        <paper-dropdown-menu label="Storage">
+          <paper-listbox id="storagesbox" class="dropdown-content" selected="0">
+            <paper-listbox id="storagesbox" class="dropdown-content" selected="0">
+              <template is="dom-repeat" items="{{storages}}">
+                <paper-item value="{{item.id}}">[[item.title]]</paper-item>
+              </template>
+            </paper-listbox>
+        </paper-dropdown-menu>
+      </div>
+      <div class="buttons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button autofocus on-click="uploadButtonClicked" style="flex:1">Upload</paper-button>
+      </div>
+
+    </paper-dialog>
+
+    <paper-dialog id="license_dialog" role="alertdialog" on-iron-overlay-opened="checkScrollHeight" modal
+      entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+      <div class="dialog-content">
+        <h2>License</h2>
+        <div class="licensenameapp">{{selectedPlugin.name}}</div>
+        <p class="licensetext" id="licenseAgreement" on-scroll="checkScrollHeight">
+          [[license]]
+        </p>
+      </div>
+      <div class="buttons">
+        <paper-button dialog-dismiss>
+          <iron-icon icon="icons:clear"></iron-icon>
+          &nbsp;&nbsp;I disagree
+        </paper-button>
+        <span class="flex horizontal layout end-justified">
+          <paper-button id="agreebutton" disabled dialog-confirm autofocus on-click="acceptLicense">
+            <iron-icon icon="icons:check"></iron-icon>
+            &nbsp;&nbsp;I agree
+          </paper-button>
+        </span>
+      </div>
+
+    </paper-dialog>
+
+    <paper-dialog id="license_read_dialog" role="alertdialog" on-iron-overlay-opened="checkScrollHeight"
+      entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+      <div class="dialog-content">
+        <h2>License</h2>
+        <div class="licensenameapp">{{selectedPlugin.name}}</div>
+        <p class="licensetext">
+          [[license]]
+        </p>
+      </div>
+      <div class="buttons">
+        <paper-button dialog-confirm autofocus>Close</paper-button>
+      </div>
+    </paper-dialog>
+
+
+    <paper-dialog id="instruction_dialog" role="alertdialog" entry-animation="scale-up-animation"
+      exit-animation="fade-out-animation">
+      <div class="dialog-content">
+        <h2>Please read instruction</h2>
+        <p class="licensetext"> {{ instruction }}
+        </p>
+      </div>
+      <div class="buttons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button dialog-confirm autofocus on-click="acceptInstructions">OK</paper-button>
+      </div>
+
+    </paper-dialog>
+
+    <!--<paper-dialog id="update_dialog" role="alertdialog" entry-animation="scale-up-animation"
+                    exit-animation="fade-out-animation">
+        <h2>Updates</h2>
+        <p class="licensetext" onshow="alert()">
+          <template is="dom-if" if="{{updater.has}}">
+            <i18n-msg msgid="You can update for version">You can update for version</i18n-msg>
+            :&nbsp;{{updater.newVersion}}
+          </template>
+          <template is="dom-if" if="{{!updater.has}}">
+            <template is="dom-if" if="{{!checkUpdater}}">
+              <i18n-msg msgid="No updates">No updates</i18n-msg>
+            </template>
+            <template is="dom-if" if="{{checkUpdater}}">
+              <i18n-msg msgid="Checking updates...">Checking updates...</i18n-msg>
+            </template>
+          </template>
+        </p>
+        <div class="buttons">
+          <paper-button dialog-dismiss>
+            <i18n-msg msgid="Close">Close</i18n-msg>
+          </paper-button>
+          <template is="dom-if" if="{{updater.has}}">
+            <paper-button dialog-confirm autofocus on-click="updatePlugin">
+              <i18n-msg msgid="Update">Update</i18n-msg>
+            </paper-button>
+          </template>
+        </div>
+      </paper-dialog>-->
+
+
+    <paper-toast id="paper-toast"></paper-toast>
+  </template>
+
+
+  <script>
+    Polymer({
+      is: "ngrt-plugins",
+      properties: {
+        pluginsMain: {
+          type: Array,
+          notify: true,
+          value: []
+        },
+        pluginsCustom: {
+          type: Array,
+          notify: true,
+          value: []
+        },
+        activeVaadinPlugin: {
+          type: Object,
+          value: {},
+          // observer: '_selectedPluginChanged'
+        },
+        selectedPlugin: {
+          type: Object,
+          value: {},
+        },
+        activePlugin: {
+          type: Object,
+          value: {},
+        },
+        selectedPlugin: {
+          type: Object,
+          value: {},
+        },
+        status: {
+          type: String
+        },
+        zipUrl: {
+          type: String,
+          value: ""
+        },
+        selected: {
+          type: String,
+          value: "0"
+        },
+        selectedUploadPage: {
+          type: String,
+          value: "0"
+        },
+        preselected: {
+          type: String,
+          value: "0"
+        },
+        permissions: {
+          type: Array,
+          value: []
+        },
+        settings: {
+          type: Array,
+          value: []
+        },
+        storages: {
+          type: Array,
+          value: []
+        },
+        storageSelected: {
+          type: Object,
+          value: {}
+        },
+        updater: {
+          type: Object,
+          value: {
+            has: false
+          }
+        },
+        entryAnimation: {
+          type: "string",
+          value: "slide-from-right-animation"
+        },
+        exitAnimation: {
+          type: "string",
+          value: "fade-out-animation"
+        },
+        selectedPluginTab: {
+          type: String,
+          value: "0"
+        },
+        selectedPage: {
+          type: String,
+          value: "0"
+        },
+        selectedBucketItems: {
+          type: String,
+          value: "ng-rt-development"
+        },
+        bucketItems: {
+          type: Array,
+          value: []
+        },
+        awsPlugins: {
+          type: Array,
+          value: []
+        },
+        awsPluginsSelected: {
+          type: Object,
+          value: {}
+        },
+        urlValidationPattern: {
+          type: String,
+          value: '^(https?://)?(s3://)?(www\\.)?([-a-z0-9]{1,63}\\.)*?[a-z0-9][-a-z0-9]{0,61}[a-z0-9]\\.[a-z]{2,6}(/[-\\w@\\+\\.~#\\?&/=%]*)?$'
+        },
+        urlValidationError: {
+          type: String,
+          value: 'URL is not valid'
+        },
+        fileValidationPattern: {
+          type: String,
+          value: '^(([\w\-. ]+))$'
+        },
+        fileErrorMessage: {
+          type: String,
+          value: 'Incorrect file name'
+        },
+        pluginsReady: {
+          type: Boolean,
+          value: false
+        },
+        pluginConfigs: {
+          type: Array,
+          value: []
+        },
+        publishToFeed: {
+          type: Boolean,
+          value: true
+        },
+        inputlocalfileValue: {
+          type: String,
+          value: ""
+        },
+        isSearching: {
+          type: Boolean,
+          value: false
+        },
+        pluginsMainPreSearch: {
+          type: Array,
+          value: []
+        },
+      },
+      observers: [
+        'selectedBucketItemsChanged(selectedBucketItems)'
+      ],
+      handleError: function (xhr, name) {
+        if (!xhr)
+          return;
+        var response = xhr.response;
+        if (!response)
+          return;
+        const toaster = document.getElementById('toaster');
+        toaster.show(response.message || "Error: " + name, 'alert');
+      },
+      loadConfig: function () {
+        var self = this;
+        project.ajax.get('/ng-rt-core/plugins/configs?plugin=' + this.selectedPlugin.name, {}, (response, xhr) => {
+          if (xhr.status != 200)
+            return self.handleError(xhr, "Load config");
+          self.set('pluginConfigs', []);
+          Object.keys(response).forEach(config => {
+            if (response[config] && response[config].choose) {
+              self.push('pluginConfigs', {
+                key: config,
+                value: response[config].default,
+                type: "choose",
+                choose: response[config].choose,
+                changed: false
+              });
+            } else {
+              self.push('pluginConfigs', {
+                key: config,
+                value: response[config],
+                type: typeof response[config],
+                changed: false
+              });
+            }
+          });
+        });
+      },
+      selectPlugin: function (e) {
+        e.stopPropagation();
+        if (e.model.__data__.item) this.selectedPlugin = e.model.__data__.item;
+        console.log("select plugin", e.model.__data__.item)
+      },
+      onPluginToggle: function (e) {
+        e.stopPropagation();
+        if (e.model.__data__.item) this.selectedPlugin = e.model.__data__.item;
+
+        this.showInstall = !this.selectedPlugin.application || !this.selectedPlugin.application.installed;
+        this.showUninstall = this.selectedPlugin.application && this.selectedPlugin.application.installed && !this.selectedPlugin.application.active;
+
+        var self = this;
+        var application = this.selectedPlugin.application;
+        if (application && application.type && application.type === "mandatory") { } else {
+          if (application.active) {
+            self.deactivatePlugin();
+          } else {
+            self.activatePlugin();
+          }
+        }
+      },
+      togglePublishToFeed: function (e) {
+        this.publishToFeed = e.target.checked;
+      },
+      toggleAsApp: function (e) {
+        var self = this;
+        var application = self.selectedPlugin.application;
+        if (self.selectedPlugin.application.asApp) {
+          self.setAsApp(false);
+        } else {
+          self.setAsApp(true);
+        }
+      },
+      toggleAsSubscription: function (e) {
+        var self = this;
+        var application = self.selectedPlugin.application;
+        if (self.selectedPlugin.application.asSubscription) {
+          self.setAsSubscription(false);
+        } else {
+          self.setAsSubscription(true);
+        }
+      },
+      kbytesToSize: function (bytes) {
+        var sizes = ['b', 'Kb', 'Mb', 'Gb', 'Tb'];
+        for (var i = 0; i < sizes.length; i++) {
+          if (bytes <= 1024) {
+            return bytes + ' ' + sizes[i];
+          } else {
+            bytes = parseFloat(bytes / 1024).toFixed(2)
+          }
+        }
+        return bytes + ' P';
+      },
+      formatDatetime: function (datetime, format) {
+        return project.moment(datetime).format(format);
+      },
+      setAsApp: function (asApp) {
+        let self = this;
+        console.log("will be used as an application:", this.selectedPlugin.name);
+
+        if (this.selectedPlugin.name)
+          project.ajax.post('/ng-rt-core/plugins/asapp', {
+            pluginName: this.selectedPlugin.name,
+            asApp: asApp
+          }, (response, xhr) => {
+            if (xhr.status != 200) {
+              return self.handleError(xhr, "Set as App");
+            }
+            self.selectedPlugin.application.asApp = asApp;
+          });
+      },
+      setAsSubscription: function (asSubscription) {
+        let self = this;
+        console.log("will be useded for subsrciption ", this.selectedPlugin.name);
+
+        if (this.selectedPlugin.name)
+          project.ajax.post('/ng-rt-core/plugins/assubscription', {
+            pluginName: this.selectedPlugin.name,
+            asSubscription: asSubscription
+          }, (response, xhr) => {
+            if (xhr.status != 200) {
+              return self.handleError(xhr, "Set as Subscription");
+            }
+            self.selectedPlugin.application.asSubscription = asSubscription;
+          });
+      },
+      isMandatory: function (application) {
+        if (application && application.type && application.type === "mandatory")
+          return true;
+        return false;
+      },
+      getList: function () {
+        var self = this;
+        project.ajax.get('/ng-rt-core/plugins', {}, (response, xhr) => {
+          if (xhr.status != 200)
+            return self.handleError(xhr, "Get plugin list");
+          let main = response.filter(item => item.storage === "main")
+          let custom = response.filter(item => item.storage !== "main")
+          self.pluginsMain = main;
+          self.pluginsCustom = custom;
+        });
+      },
+      checkScrollHeight: function () {
+        var textElement = this.$.licenseAgreement;
+        if ((textElement.scrollTop + textElement.offsetHeight) >= textElement.scrollHeight) {
+          this.$.agreebutton.disabled = false;
+        }
+      },
+      attached: function () {
+        this.getList();
+        this.isReady();
+        this.getAwsPlugins();
+        this.getStorages();
+        this.getListBuckets();
+      },
+      getStorages: function () {
+        let self = this;
+        project.ajax.get("/ng-rt-core/storages", {}, (response, xhr) => {
+          if (xhr.status != 200)
+            return self.handleError(xhr, "Get storages");
+          console.log("storages", response);
+          self.storages = response;
+        });
+      },
+      isSelectedPage: function (page) {
+        if (page === this.selectedPage)
+          return true;
+        return false;
+      },
+      setActivePage: function (e) {
+        this.selectedPage = e.currentTarget.getAttribute('data-where')
+      },
+      compareTwo: function (tab, name) {
+        if (tab == name) return true; else false;
+      },
+      getAwsPlugins: function () {
+        let self = this;
+
+        project.ajax.get(`/ng-rt-core/plugins/s3bucket/${this.selectedBucketItems}/`, {}, (response, xhr) => {
+          if (xhr.status != 200)
+            return self.handleError(xhr, "get AWS plugins");
+          let list = [...response.items];
+          list = list.filter((item, index) => {
+            return !item.Key.endsWith(".sha256");
+          })
+          self.awsPlugins = list;
+        });
+      },
+      uploadFromFile: function () {
+        let self = this;
+        if (this.$.inputlocalfile && this.$.inputlocalfile.validate) {
+          if (!this.$.inputlocalfile.validate()) {
+            document.getElementById("toaster").show(self.fileValidationError);
+            return
+          };
+        }
+        new Promise((resolve, reject) => {
+          if (this.addPluginFile) {
+            tasker.show("Uploading");
+            let reader = new FileReader();
+            reader.onload = (result) => {
+              fileBuffer = result.target.result;
+              resolve(fileBuffer);
+            }
+            reader.readAsBinaryString(this.addPluginFile);
+          } else
+            resolve();
+        }).then(fileBuffer => {
+          tasker.show("Uploading");
+          project.ajax.post('/ng-rt-core/plugins/zipurl', {
+            url: self.inputlocalfileValue,
+            storage: self.$.storagetoggle.checked ? "customPlugins" : "main",
+            fileContent: fileBuffer
+          }, (response, xhr) => {
+            tasker.hide();
+            self.getList();
+            if (xhr.status != 200) {
+              return self.handleError(xhr, "Zip url"
+              );
+            }
+
+            self.inputlocalfileValue = "";
+
+          });
+        }).catch(err => {
+          console.error(err);
+          self.handleError(err);
+        })
+        tasker.hide();
+        this.addPluginFile = null;
+      },
+      uploadFromUrl: function () {
+        let self = this;
+
+        var valid = this.$.inputurlfile.validate();
+        if (!valid) {
+          document.getElementById("toaster").show(self.urlValidationError);
+          return
+        };
+        // Open status dialog
+        tasker.show("Uploading from URL");
+        project.ajax.post('/ng-rt-core/plugins/zipurl', {
+          url: self.$.inputurlfile.value,
+          storage: self.$.storagetoggle.checked ? "customPlugins" : "main",
+          fileContent: null
+        }, (response, xhr) => {
+          tasker.hide();
+          self.getList();
+          if (xhr.status != 200) {
+            return self.handleError(xhr, "Zip url"
+            );
+          }
+          tasker.hide();
+          self.$.inputurlfile.value = "";
+        });
+      },
+      uploadPlugin: function () {
+        let self = this;
+        console.log(this.$.input.value, " storage", this.$.storagesbox.selectedItem.value);
+        if (!this.$.input.value) {
+          //self.$["paper-toast"].text = this.fileErrorMessage;
+          self.$.input.invalid = true;
+          return;
+        }
+
+        new Promise((resolve, reject) => {
+          if (this.addPluginFile) {
+            tasker.show("Uploading");
+            let reader = new FileReader();
+            reader.onload = (result) => {
+              fileBuffer = result.target.result;
+              resolve(fileBuffer);
+            }
+            reader.readAsBinaryString(this.addPluginFile);
+          } else
+            resolve();
+        }).then(fileBuffer => {
+          tasker.show("Uploading");
+          project.ajax.post('/ng-rt-core/plugins/zipurl', {
+            url: self.$.input.value,
+            storage: self.$.storagesbox.selectedItem.value,
+            fileContent: fileBuffer
+          }, (response, xhr) => {
+            tasker.hide();
+            self.getList();
+            if (xhr.status != 200) {
+              return self.handleError(xhr, "Zip url"
+              );
+            }
+            self.$.input.value = "";
+          });
+        }).catch(err => {
+          self.handleError(err, "Upload plugin");
+        });
+        tasker.hide();
+        this.addPluginFile = null;
+        /*
+         this.asyncFire("message",
+         {
+         message: this.$.input.value
+         });
+         this.$.input.value = "";*/
+      },
+      addpluginkeydown: function (e) {
+        this.fileValidationPattern = '[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}([-a-zA-Z0-9@:%_\+.~#?&//=]*)';
+
+        this.fileErrorMessage = 'URL is incorrect';
+        console.log('key pressed' + e.which + this.fileErrorMessage);
+      },
+      keyPressed: function (event, detail, sender) {
+
+        if (event.which == 13) {
+          this.uploadPlugin();
+          event.preventDefault();
+        }
+      },
+      uploadButtonClicked: function (event, detail, sender) {
+        this.uploadPlugin();
+        event.preventDefault();
+      },
+      updateState: function (plugin) {
+        return (!plugin.application || !plugin.application.installed)
+      },
+      openPluginDialog: function (e) {
+        if (e.model.__data__.item) this.selectedPlugin = e.model.__data__.item;
+        this.$.pluginselect.open();
+      },
+      _selectedPluginChanged: function (item) {
+        if (item && item.name) {
+          this.selectedPlugin = item;
+          this.showInstall = !this.selectedPlugin.application || !this.selectedPlugin.application.installed;
+          this.showUninstall = this.selectedPlugin.application && this.selectedPlugin.application.installed && !this.selectedPlugin.application.active;
+        }
+      },
+      install: function (operationNumber) {
+        var self = this;
+        if (operationNumber == 3) {
+          tasker.show('Installing', self.selectedPlugin.name);
+        }
+
+        project.ajax.post("/ng-rt-core/plugins/install", {
+          pluginName: self.selectedPlugin.name,
+          storage: self.selectedPlugin.storage,
+          lastOperation: operationNumber,
+          publishToFeed: this.publishToFeed
+        }, (response, xhr) => {
+          if (operationNumber == 3) {
+            tasker.hide();
+          }
+          // tasker.hide();
+          if (xhr.status != 200) {
+            const toaster = document.getElementById('toaster');
+            if (xhr.response && xhr.response.data && xhr.response.data.length > 0) {
+              return toaster.show(xhr.response.data[0]._message, 'alert');
+            }
+            return self.handleError(xhr, "Install plugin");
+          }
+          self.runOperation(response, self.selectedPlugin);
+        });
+
+      },
+      installPlugin: function () {
+        this.install(-1, this.selectedPlugin);
+      },
+      runOperation: function (payload) {
+        if (payload) {
+          if (!payload.isError) {
+            switch (payload.operation) {
+              case "license":
+                this.showLicense(payload.data);
+                break;
+              case "instruction":
+                this.showInstructions(payload.data);
+                break;
+              case "permissions":
+                this.showPermissions(payload.data);
+                break;
+              case "settings":
+                this.showSettings(payload.data);
+                break;
+              case "installed":
+                this.pluginInstalled();
+                break;
+            }
+          }
+        }
+      },
+      showLicense: function (data) {
+        this.license = data;
+        document.querySelector('#license_dialog').toggle();
+      },
+      acceptLicense: function () {
+        document.querySelector('#license_dialog').close();
+        this.install(0);
+      },
+      showInstructions: function (data) {
+        this.instruction = data;
+        document.querySelector('#instruction_dialog').toggle();
+      },
+      acceptInstructions: function () {
+        this.install(1);
+      },
+      showPermissions: function (permissions) {
+        this.permissions = permissions;
+        document.querySelector('#permissions_dialog').toggle();
+      },
+      acceptPermissions: function () {
+        //console.log("will install:", this.selectedPlugin.name);
+        document.querySelector('#permissions_dialog').close();
+        this.install(2);
+      },
+      showSettings: function (data) {
+        this.settings = data;
+        document.querySelector('#settings_dialog').toggle();
+      },
+      tabTap: function (e) {
+        var el = e.target;
+        while (el != document.body && el.tagName.toLowerCase() != "paper-tab") {
+          el = el.parentNode;
+        }
+        this.preselected = [].indexOf.call(el.parentNode.children, el);
+        this.preselected--;
+
+        if (parseInt(this.selected, 10) <= parseInt(this.preselected, 10)) {
+          this.entryAnimation = "slide-from-right-animation";
+        } else {
+          this.entryAnimation = "slide-from-left-animation";
+        }
+      },
+      acceptSettings: function () {
+        //console.log("will install:", this.selectedPlugin.name);
+        var self = this;
+        project.ajax.post("/ng-rt-core/plugins/acceptsettings", {
+          plugin: this.selectedPlugin.name,
+          settings: this.settings
+        }, (response, xhr) => {
+          if (xhr.status != 200)
+            return self.handleError(xhr, "Accept settings");
+          document.querySelector('#settings_dialog').close();
+          self.install(3);
+        });
+      },
+      pluginInstalled: function () {
+        tasker.hide();
+        this.getList();
+      },
+      activatePlugin: function () {
+        let self = this;
+        if (self.selectedPlugin.name)
+          project.ajax.post('/ng-rt-core/plugins/activate', {
+            pluginName: self.selectedPlugin.name,
+            storage: self.selectedPlugin.storage,
+            publishToFeed: this.publishToFeed
+          }, (response, xhr) => {
+            if (xhr.status != 200)
+              return self.handleError(xhr);
+            self.getList();
+
+            const toaster = document.getElementById('toaster');
+            toaster.show(self.selectedPlugin.name + " activated");
+            self.selectedPlugin.application.active = true;
+            self._selectedPluginChanged(self.selectedPlugin);
+          });
+      },
+      deactivatePlugin: function () {
+        let self = this;
+        if (self.selectedPlugin.name)
+          project.ajax.post('/ng-rt-core/plugins/deactivate', {
+            pluginName: self.selectedPlugin.name,
+            storage: self.selectedPlugin.storage,
+            publishToFeed: this.publishToFeed
+          }, (response, xhr) => {
+            if (xhr.status != 200)
+              return self.handleError(xhr, "Deactivate plugin");
+            self.getList();
+
+            const toaster = document.getElementById('toaster');
+            toaster.show(self.selectedPlugin.name + " deactivated");
+            self.selectedPlugin.application.active = false;
+            self._selectedPluginChanged(self.selectedPlugin);
+          });
+      },
+      publishPlugin: function () {
+        let self = this;
+        tasker.show('Publishing');
+        project.ajax.post('/ng-rt-core/plugins/publish', {
+          pluginName: this.selectedPlugin.name,
+          storage: this.selectedPlugin.storage
+        }, (response, xhr) => {
+          tasker.hide();
+          if (xhr.status != 200)
+            return self.handleError(xhr);
+        });
+        tasker.hide();
+        //this.socket.emit('publish_plugin', this.selectedPlugin.name, this.selectedPlugin.storage);
+      },
+      uninstallPlugin: function () {
+        let self = this;
+        // console.log("will uninstall:", this.selectedPlugin.name);
+        tasker.show('Uninstalling');
+        project.ajax.post('/ng-rt-core/plugins/uninstall', {
+          pluginName: this.selectedPlugin.name,
+          storage: this.selectedPlugin.storage,
+          publishToFeed: this.publishToFeed
+        }, (response, xhr) => {
+          tasker.hide();
+          if (xhr.status != 200)
+            return self.handleError(xhr, "Uninstall plugin");
+          self.getList();
+        });
+        tasker.hide();
+      },
+      removePlugin: function () {
+        // console.log("will delete:", this.selectedPlugin.name);
+        let self = this;
+        tasker.show('Removing');
+        project.ajax.post('/ng-rt-core/plugins/remove', {
+          pluginName: this.selectedPlugin.name,
+          storage: this.selectedPlugin.storage,
+          publishToFeed: this.publishToFeed
+        }, (response, xhr) => {
+          tasker.hide();
+          if (xhr.status != 200)
+            return self.handleError(xhr);
+          self.getList();
+        });
+      },
+      cancel: function () {
+        tasker.hide();
+      },
+      errorDialogCloseButtonClick: function () {
+        document.querySelector('#status_error').close();
+      },
+      licenseStateHidden: function (state, s) {
+        return state != s;
+      },
+      hasErrorMsg: function (application) {
+        if (application && application.active && !application.activated)
+          return true;
+        return false;
+      },
+      errorIconId: function (index) {
+        return "pluginerroricon" + index;
+      },
+      isShowPlugin: function (item, selected) {
+        //console.log("item", item.name, "storage", item.storage, selected);
+        return selected == 0 && item.storage === "main" || selected != 0 && item.storage !== "main";
+      },
+      onPluginDialogOpen: function () {
+        var self = this;
+        this.showInstall = !self.selectedPlugin.application || !self.selectedPlugin.application.installed;
+        this.showUninstall = self.selectedPlugin.application && self.selectedPlugin.application.installed && !
+          self.selectedPlugin.application.active;
+
+        this.loadConfig()
+        this.set("checkUpdater", true);
+        const app = this.selectedPlugin.application;
+        if (app && app.source.substring(0, 5) === "file:") {
+          this.updater = {
+            has: false,
+            hotfix: false,
+            locally: true
+          }
+          return;
+        }
+        this.checkUpdates();
+        this.getLicense();
+      },
+      updatePlugin: function () {
+        var self = this;
+        tasker.show('Updating');
+        project.ajax.post("/ng-rt-core/plugins/update", {
+          pluginName: self.selectedPlugin.name
+        }, function (response, xhr) {
+          tasker.hide();
+          if (xhr.status != 200) {
+            return self.handleError(xhr, "Plugin update");
+          }
+          self.getList();
+        });
+      },
+      addFromFile: function () {
+        var elem = this.$.addPluginInput;
+        if (elem && document.createEvent) { // sanity check
+          var evt = document.createEvent("MouseEvents");
+          evt.initEvent("click", true, false);
+          elem.dispatchEvent(evt);
+        }
+      },
+      addPluginInputChange: function (e) {
+        var self = this;
+        var length = e.target.files.length;
+        if (window.FileReader === undefined) { // check support FileReader
+          document.getElementById("toaster").show("Your browser doesn't support import.");
+          return;
+        }
+        if (!e.target.files || e.target.files.length == 0)
+          return;
+        this.addPluginFile = e.target.files[0];
+        this.inputlocalfileValue = this.addPluginFile.name;
+        //this.$.add_plugin.toggle();
+      },
+      fileInputChanged: function () {
+        this.addPluginFile = null;
+      },
+      isReady: function () {
+        var self = this;
+        project.ajax.get("/ng-rt-core/plugins/ready", {}, (response, xhr) => {
+          if (xhr.status != 200) {
+            return self.handleError(xhr, "Plugin is ready");
+          }
+          if (response)
+            self.set("pluginsReady", true);
+          else {
+            setTimeout(() => {
+              self.isReady();
+            }, 3000);
+          }
+        });
+      },
+      isChooseItem: function (i) {
+        return i.type === 'choose';
+      },
+      isStringItem: function (i) {
+        return i.type === 'string' && i.key != '_hash';
+      },
+      isObjectItem: function (i) {
+        return i.type === 'object' && i.value != null;
+      },
+      isBooleanItem: function (i) {
+        return i.type === 'boolean';
+      },
+      settingsChanged: function (e) {
+        e.model.set('item.changed', true);
+      },
+      saveSettings: function () {
+        var self = this;
+        let modified = this.pluginConfigs.filter(v => v.changed === true);
+        project.ajax.post('/ng-rt-core/plugins/configs', { plugin: this.selectedPlugin.name, configs: modified }, (response, xhr) => {
+          if (xhr.status != 200)
+            return self.handleError(xhr, "Save settings");
+          const toaster = document.getElementById('toaster');
+          toaster.show("Plugin settings saved");
+        });
+      },
+      errorItemClick: function (e) {
+        var target = Polymer.dom(e).localTarget;
+        var items = document.getElementsByClassName("step-item");
+        for (var i = 0; i < items.length; i++) {
+          items[i].classList.remove("opened");
+        }
+        target.parentNode.classList.toggle("opened");
+      },
+      pluginErrorsCount: pl => {
+        if (!pl || !pl.application)
+          return 0;
+        let count = 0
+        if (pl.application.installMessages)
+          count += pl.application.installMessages.length;
+        if (pl.application.uninstallMessages)
+          count += pl.application.uninstallMessages.length;
+        if (pl.application.activateMessages)
+          count += pl.application.activateMessages.length;
+        if (pl.application.deactivateMessages)
+          count += pl.application.deactivateMessages.length;
+        return count;
+      },
+      getListBuckets: function () {
+        var self = this;
+        project.ajax.get('/ng-rt-core/plugins/s3buckets', (response, xhr) => {
+          if (xhr.status != 200)
+            return self.handleError(xhr, "Get list buckets");
+          self.bucketItems = response;
+        });
+      },
+      selectedBucketItemsChanged: function (selectedBucketItems) {
+        this.getAwsPlugins();
+      },
+      addPluginFromBucket: function (e) {
+        let self = this;
+        tasker.show("Adding plugin", e.model.__data__.item.Key)
+        project.ajax.post('/ng-rt-core/plugins/addbybucket', {
+          bucket: this.selectedBucketItems,
+          key: e.model.__data__.item.Key,
+          storage: self.$.storagetoggle.checked ? "customPlugins" : "main"
+        }, (response, xhr) => {
+          tasker.hide();
+          if (xhr.status != 200)
+            return self.handleError(xhr);
+          self.getList();
+        });
+      },
+      hasSmokeTestError: function (item) {
+        return item && item.application && item.application.smokeTestMessages && item.application.smokeTestMessages.length > 0;
+      },
+      hasActivateMessages: function (item) {
+        return item && item.application && item.application.activateMessages && item.application.activateMessages.length > 0;
+      },
+      showPluginWarning: function (item) {
+        return this.hasSmokeTestError(item) || this.hasActivateMessages(item);
+      },
+      checkUpdates: function () {
+        let self = this;
+        this.updater = {
+          has: false,
+          hotfix: false
+        };
+        //this.$.update_dialog.toggle();
+        project.ajax.post("/ng-rt-core/plugins/hasupdates", {
+          pluginName: self.selectedPlugin.name
+        }, (response, xhr) => {
+          if (xhr.status != 200)
+            return self.handleError(xhr, "Plugin check update");
+          if (response) {
+            self.set("updater.has", response.has);
+            if (response.hotfix)
+              self.set("updater.hotfix", response.hotfix);
+            self.set("updater.newVersion", response.newVersion);
+          }
+          self.set("checkUpdater", false);
+        });
+      },
+      getLicense: function () {
+        this.license = '';
+        let self = this;
+        project.ajax.post('/ng-rt-core/plugins/license', { pluginName: this.selectedPlugin.name }, (response, xhr) => {
+          if (xhr.status != 200)
+            return self.handleError(xhr, "Get license");
+          if (xhr.response)
+            self.license = xhr.response;
+          else
+            self.license = '';
+        });
+      },
+      searchPluginCancel: function (value) {
+        this.isSearching = false
+        this.pluginsMain = [...this.pluginsMainPreSearch]
+      },
+      searchPlugin: function (value) {
+        let val = value.detail;
+        if (!this.isSearching) {
+          this.pluginsMainPreSearch = [...this.pluginsMain];
+          this.isSearching = true;
+        }
+        let list = [...this.pluginsMain];
+        let resultList = list.filter((item, index) => {
+          return item.name.startsWith(val)
+        })
+        if (resultList && resultList.length > 0)
+          this.pluginsMain = resultList;
+      },
+    });
+  </script>
+</dom-module>

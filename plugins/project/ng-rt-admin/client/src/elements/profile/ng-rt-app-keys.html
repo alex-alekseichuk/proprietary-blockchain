@@ -1,0 +1,353 @@
+<!-- pub/prv key pairs management -->
+
+<link rel="import" href="../custom-validator.html">
+
+<dom-module id="ng-rt-app-keys">
+  <template>
+    <style include="shared-styles"></style>
+    <style is="custom-style">
+      :host {
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+
+    <paper-header-panel class="appPanel">
+
+      <!--Toolbar-->
+      <paper-toolbar class="appToolbar">
+
+        <!--Top-->
+        <paper-icon-button id="paperToggle" icon="menu" paper-drawer-toggle></paper-icon-button>
+        <span class="title">App Keys</span>
+        <span class="flex"></span>
+        <pa-search id="paSearch" on-search="appSearch" on-cancel="appSearchCancel"></pa-search>
+        <paper-icon-button icon="icons:add" onclick="appAddKey.toggle()" on-click="addKeyButtonClick">
+        </paper-icon-button>
+      </paper-toolbar>
+
+      <!--Content-->
+      <div class="content">
+        <paper-material elevation="0" class="vaadinMaterial">
+
+          <template is="dom-if" if="{{compare(0,keys.length)}}">
+            <div class="no-items">
+              <iron-icon icon="icons:error"></iron-icon>
+              <span>No app keys added yet</span>
+              <paper-button onclick="appAddKey.toggle()" on-click="addKeyButtonClick">
+                Add Key
+              </paper-button>
+            </div>
+          </template>
+
+          <template is="dom-if" if="{{!compare(0,keys.length)}}">
+            <vaadin-grid id="pluginsGrid" items="[[keys]]" active-item="{{selectedKey}}" multi-sort="[[true]]">
+
+              <vaadin-grid-column flex-grow="1">
+                <template class="header">
+                  <vaadin-grid-sorter path="name">
+                    <div class="cell" style="padding-left: 20px;">
+                      <span>App ID</span>
+                    </div>
+                  </vaadin-grid-sorter>
+                </template>
+                <template>
+                  <div class="cell" style="padding-left: 20px;" onclick="appKeyOpt.toggle()" on-click="showKey">
+                    [[item.appID]]
+                  </div>
+                </template>
+              </vaadin-grid-column>
+
+              <vaadin-grid-column width="140px" flex-grow="0">
+                <template class="header">
+                  <vaadin-grid-sorter path="application.version">
+                    <div class="cell">
+                      <span>DomainID</span>
+                    </div>
+                  </vaadin-grid-sorter>
+                </template>
+                <template>
+                  <div class="cell" onclick="appKeyOpt.toggle()" on-click="showKey">
+                    [[item.domainID]]
+                  </div>
+                </template>
+              </vaadin-grid-column>
+
+              <vaadin-grid-column width="170px" flex-grow="1">
+                <template class="header">
+                  <vaadin-grid-sorter path="installed">
+                    <div class="cell">
+                      <span>App key</span>
+                    </div>
+                  </vaadin-grid-sorter>
+                </template>
+                <template>
+                  <div class="cell cell-data" onclick="appKeyOpt.toggle()" on-click="showKey">
+                    [[item.appKey]]
+                  </div>
+                </template>
+              </vaadin-grid-column>
+
+            </vaadin-grid>
+          </template>
+
+        </paper-material>
+      </div>
+
+    </paper-header-panel>
+
+    <!--Add key-->
+    <paper-dialog id="appAddKey" modal role="alertdialog" entry-animation="scale-up-animation"
+      exit-animation="fade-out-animation">
+
+      <div class="dialog-content">
+        <h2>Create a Key</h2>
+        <paper-dropdown-menu label="Name" id="appID">
+          <paper-listbox class="dropdown-content" selected="{{selectedApp}}">
+            <template id="applications" is="dom-repeat" items="{{applications}}" as="app">
+              <paper-item id="{{app.name}}">{{app.name}}</paper-item>
+            </template>
+          </paper-listbox>
+        </paper-dropdown-menu>
+        <paper-dropdown-menu label="Domain" id="domainID">
+          <paper-listbox class="dropdown-content" selected="{{selectedDomainID}}">
+            <template id="domains" is="dom-repeat" items="{{domains}}" as="domain">
+              <paper-item id="{{domain.domainId}}">{{domain.domainName}}</paper-item>
+            </template>
+          </paper-listbox>
+        </paper-dropdown-menu>
+        <template is="dom-if" if="{{itemAdded}}">
+          <paper-input label="Key" id="appAddKeyInput" value="{{addItem.appKey}}" autofocus>
+            <paper-icon-button suffix icon="icons:content-copy" alt="Copy to Clipboard" title="Copy to Clipboard"
+              on-click="copyPubKeyToClipboard"></paper-icon-button>
+          </paper-input>
+        </template>
+      </div>
+      <div class="buttons">
+        <paper-button dialog-dismiss>Close</paper-button>
+        <paper-button autofocus on-click="saveButtonClick">Create</paper-button>
+      </div>
+    </paper-dialog>
+
+    <!--Key Prop-->
+    <paper-dialog id="appKeyOpt" role="alertdialog" entry-animation="scale-up-animation"
+      exit-animation="fade-out-animation">
+      <div class="dialog-content">
+        <h2>Application Key</h2>
+
+        <paper-input label="Name" value="{{updateItem.appID}}" autofocus>
+        </paper-input>
+        <paper-input label="Domain" value="{{updateItem.domainID}}" autofocus>
+        </paper-input>
+        <paper-input label="Key" id="updateAddKeyInput" value="{{updateItem.appKey}}" autofocus>
+          <paper-icon-button suffix icon="icons:content-copy" alt="Copy to Clipboard" title="Copy to Clipboard"
+            on-click="copyUpdateKeyToClipboard"></paper-icon-button>
+        </paper-input>
+      </div>
+      <div class="buttons">
+        <paper-icon-button dialog-confirm icon="icons:delete" onclick="ConfirmDelete.toggle()"></paper-icon-button>
+        <span class="flex horizontal layout end-justified">
+          <paper-button dialog-dismiss>Close</paper-button>
+        </span>
+      </div>
+    </paper-dialog>
+
+    <paper-dialog id="ConfirmDelete" class="warningdialog" modal role="confirmdialog"
+      entry-animation="scale-up-animation">
+      <div class="dialog-content">
+        <h2>Warning: Are you sure you want to delete the key?</h2>
+        You will not be able to work with it anymore.
+      </div>
+      <div class="buttons">
+        <paper-button dialog-confirm on-click="deleteButtonClick">Yes</paper-button>
+        <paper-button dialog-dismiss>Cancel</paper-button>
+      </div>
+    </paper-dialog>
+
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'ng-rt-app-keys',
+      properties: {
+        keys: {
+          type: Array,
+          value: []
+        },
+        originalKeys: {
+          type: Array,
+          value: []
+        },
+        searchInput: {
+          type: String,
+          value: ""
+        },
+        isSearching: {
+          type: Boolean,
+          value: false
+        },
+        selectedKey: {
+          type: Object,
+          value: {}
+        },
+        addItem: {
+          type: Object,
+          notify: true,
+          value: {
+            appKey: "",
+            appID: ""
+          }
+        },
+        itemAdded: {
+          type: Boolean,
+          value: false
+        },
+        domains: {
+          type: Array,
+          value: []
+        },
+        applications: {
+          type: Array,
+          value: []
+        }
+      },
+      getKeys: function () {
+        var self = this;
+        project.ajax.get("/ng-rt-core/appkeys", function (response) {
+          self.keys = response;
+        });
+      },
+      getApplications: function () {
+        var self = this;
+        const params = { where: { asApp: true }, fields: { name: true } };
+        project.ajax.post('/ng-rt-admin/getApplications', params,
+          function (response) {
+            self.applications = response;
+          });
+      },
+      getDomains: function () {
+        var self = this;
+        project.ajax.get('/availabledomains', {}, function (response, xhr) {
+          if (!response) {
+            self.handleError(xhr);
+            return;
+          }
+          self.set('domains', response);
+        });
+      },
+      ready: function () {
+        this.getKeys();
+        this.getApplications();
+        this.getDomains();
+      },
+      handleError: function (e) {
+        var response = this.addItem.detail.xhr.response;
+        const toaster = document.getElementById('toaster');
+        toaster.show(response, 'alert');
+      },
+      addKeyButtonClick: function () {
+        this.selectedApp = null;
+        this.addItem = {
+          appID: "",
+          appKey: "",
+          domainID: ""
+        };
+      },
+      saveButtonClick: function () {
+        var self = this;
+        if (this.selectedApp != undefined) {
+          var app = self.applications[this.selectedApp];
+          var domain = self.domains[this.selectedDomainID];
+          if (app) {
+            project.ajax.post('/ng-rt-core/appkey', {
+              appID: app.name,
+              domainID: (domain ? domain.domainId : "")
+            },
+              function (response) {
+                self.set('addItem.appKey', response.appKey);
+                self.set('addItem.domainID', response.domainID);
+                self.getKeys();
+              }
+            );
+          }
+        }
+      },
+      copyPubKeyToClipboard: function (e) {
+        document.getElementById('appAddKeyInput').inputElement.select();
+        try {
+          var successful = document.execCommand("Copy");
+          document.getElementById('toaster').show('Key copied to clipboard');
+        } catch (err) {
+          document.getElementById('toaster').show('Oops, unable copy to clipboard', 'alert');
+        }
+        window.getSelection().removeAllRanges();
+      },
+      copyUpdateKeyToClipboard: function (e) {
+        document.getElementById('updateAddKeyInput').inputElement.select();
+        try {
+          var successful = document.execCommand("Copy");
+          document.getElementById('toaster').show('Key copied to clipboard');
+        } catch (err) {
+          document.getElementById('toaster').show('Oops, unable copy to clipboard', 'alert');
+        }
+        window.getSelection().removeAllRanges();
+      },
+      deleteButtonClick: function (e) {
+        var self = this;
+        project.ajax.ajax('/ng-rt-core/appkey', 'DELETE', {
+          id: this.updateItem.id
+        }, function (response, xhr) {
+          if (xhr.status != 200) {
+            const toaster = document.getElementById('toaster');
+            toaster.show(response, 'alert');
+          }
+          self.getKeys();
+        });
+      },
+      compare: function (index, selected) {
+        return index == selected;
+      },
+      showKey: function (e) {
+        var index = e.model.index;
+        this.updateItem = this.keys[index];
+      },
+      searchAppKeys: function (val) {
+
+        if (!this.isSearching) {
+          this.originalKeys = [...this.keys];
+          this.isSearching = true;
+        }
+        let list = [...this.keys];
+        let resultList = list.filter((item, index) => {
+          return item.appID.startsWith(val)
+        })
+        if (resultList && resultList.length > 0)
+          this.keys = resultList;
+      },
+      showMessage: function (msg) {
+        const toaster = document.getElementById('toaster');
+        toaster.show(msg);
+      },
+      observers: [
+        'addItemAppKeyChanged(addItem.*)'
+      ],
+      appSearch: function (value) {
+        this.searchAppKeys(value.detail)
+      },
+      appSearchCancel: function (value) {
+        this.isSearching = false;
+        this.keys = [...this.originalKeys]
+      },
+      addItemAppKeyChanged: function (changeRecord) {
+        if (changeRecord.path === "addItem.appKey") {
+          if (changeRecord.value) {
+            this.itemAdded = true;
+          } else {
+            this.itemAdded = false;
+          }
+        }
+      }
+    });
+  </script>
+</dom-module>

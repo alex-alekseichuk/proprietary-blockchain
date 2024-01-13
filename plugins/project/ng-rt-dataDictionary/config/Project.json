@@ -1,0 +1,37 @@
+[
+    {
+        "name": "Project",
+        "tenant": true,
+        "base": "commonDataModel",
+        "description": "PROJECT Test model",
+        "idInjection": true,
+        "options": {
+         "validateUpsert": true
+        },
+        "properties": {
+         "firstName": {
+          "type": "string",
+          "gridColumn": "First Name"
+         },
+         "lastName": {
+          "type": "string",
+          "gridColumn": "Last Name"
+         },
+         "email": {
+          "type": "string",
+          "uiComponent": "email",
+          "gridColumn": "Email"
+         },
+         "something1": {
+          "type": "string"
+         },
+         "something2": {
+          "type": "string"
+         }
+        },
+        "validations": [],
+        "relations": {},
+        "acls": [],
+        "methods": {}
+       }
+]

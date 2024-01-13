@@ -1,0 +1,161 @@
+<dom-module id="ngrt-dashboard">
+
+  <style is="custom-style">
+
+    :host {
+      width: 100%;
+      height:100%;
+    }
+
+    .axis path,
+    .axis line {
+      fill: none;
+      stroke: #000;
+      shape-rendering: crispEdges;
+    }
+
+    /*.x.axis path {*/
+    /*display: none;*/
+    /*}*/
+
+    .line {
+      fill: none;
+      stroke: steelblue;
+      stroke-width: 1.5px;
+    }
+
+    .axis text {
+      font-size: 9pt;!important;
+    }
+
+  </style>
+
+
+  <template>
+    <paper-header-panel class="appPanel">
+
+      <!--Toolbar-->
+      <paper-toolbar class="appToolbar" >
+
+        <!--Top-->
+        <paper-icon-button id="paperToggle" icon="menu" paper-drawer-toggle></paper-icon-button>
+        <span class="title">Dashboard</span>
+        <span class="flex"></span>
+        <pa-search></pa-search>
+        <paper-icon-button icon="icons:settings" ></paper-icon-button>
+      </paper-toolbar>
+
+      <!--Content-->
+      <div class="content fit">
+        <paper-material elevation="1">
+          <svg id="svg"></svg>
+        </paper-material>
+      </div>
+  </template>
+
+
+
+  <script>
+    Polymer({
+      is: "ng-rt-dashboard",
+      properties: {
+        temperature: {
+          type: "string",
+          value: "0"
+        }
+        /**
+         * Pattern used to validate username.
+         * @type {string}
+         */
+      },
+      ready: function () {
+
+        var self = this;
+        var dataArr = [];
+
+        //var socket = io.connect();
+
+        var margin = {top: 20, right: 20, bottom: 30, left: 40},
+          width = (this.width ? +this.width : 600),
+          height = (this.height ? +this.height : 600);
+
+        var formatDate = d3.time.format.iso.parse;
+        var valueFn = function (d) {
+          return d.value
+        };
+        var dateFn = function (d) {
+          return d.date
+        };
+
+
+        var svg = d3.select(this.$.svg)
+          .attr("width", width)
+          .attr("height", height)
+          .append("g")
+          .attr("transform", "translate(" + margin.left + "," + margin.right + ")");
+
+        var xScale = d3.time.scale()
+          .range([0, width - margin.left - margin.right]);
+
+        var yScale = d3.scale.linear()
+          .range([height - margin.top - margin.bottom, 0]);
+
+        yScale.domain([15, 35]);
+
+        var line = d3.svg.line().interpolate("basis")
+          .x(function (d) {
+            return xScale(d.date)
+          })
+          .y(function (d) {
+            return yScale(d.value)
+          });
+
+        var refreshGraph = function (cb) {
+          xScale.domain([new Date().setMinutes(new Date().getMinutes() - 30), new Date()]);
+          var yAxis = d3.svg.axis()
+            .scale(yScale).orient("left");
+          if (svg.selectAll(".y.axis")[0].length < 1) {
+            svg.append("g")
+              .attr("class", "y axis")
+              .call(yAxis);
+          } else {
+            svg.selectAll(".y.axis").transition().duration(500).call(yAxis);
+          }
+
+          var xAxis = d3.svg.axis()
+            .scale(xScale)
+            .orient('bottom');
+
+          if (svg.selectAll(".x.axis")[0].length < 1) {
+            svg.append('g')
+              .attr('class', 'x axis')
+              .attr('transform', 'translate(0, ' + (height - margin.top - margin.bottom) + ')')
+              .call(xAxis);
+          } else {
+            svg.selectAll(".x.axis").transition().duration(500).call(xAxis);
+          }
+
+          var lines = svg.selectAll(".line").data([dataArr]).attr("class", "line");
+
+          lines.transition().duration(500)
+            .attr("d", line);
+
+          // enter any new data
+          lines.enter()
+            .append("path")
+            .attr("class", "line")
+            .attr("d", line);
+
+          // exit
+          lines.exit().remove();
+
+          if (cb && typeof(cb) == 'function')
+            cb();
+        }
+
+        var firstLoad;
+
+      }
+    });
+  </script>
+</dom-module>

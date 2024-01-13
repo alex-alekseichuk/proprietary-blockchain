@@ -1,0 +1,23 @@
+{
+  "name": "ng-rt-abci-server-rabbitmq-publisher",
+  "description": "Rabbitmq publisher for ABCI Server",
+  "version": "3.2.76035",
+  "copyright": "",
+  "author": "alibek.karimov@project.nl",
+  "homepage": "https://www.project.com/",
+  "license": "MIT",
+  "scripts": {
+    "validate": "npm-run-all --parallel unit lint",
+    "precommit": "npm run validate",
+    "prepush": "npm run validate",
+    "lint": "npx project-dev gulp lint",
+    "integration": "mocha --timeout 2400000 --exit test/plugins/**/*_test.js",
+    "unit": "nyc --nycrc-path=node_modules/ng-rt-dev-tools/.nycrc npx project-dev gulp test.unit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@xxxxxxxx:xxxx/ng-rt-abci-server-rabbitmq-publisher.git"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

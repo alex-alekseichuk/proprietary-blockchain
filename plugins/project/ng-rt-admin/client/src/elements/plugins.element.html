@@ -1,0 +1,113 @@
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+
+<dom-module id="ngrt-plugins-element">
+
+  <style include="shared-styles"></style>
+
+  <style is="custom-style">
+    .settingsblock paper-header-panel {
+      --paper-header-panel-shadow: {
+        box-shadow: none;
+      };
+    }
+
+    .settingsblock paper-toolbar {
+      --paper-toolbar-background: #ebebeb;
+      --paper-toolbar: {
+        color: #2d2d2d;
+        text-transform: uppercase;
+        font-weight:bold;
+      };
+    }
+
+    .uploadblock paper-toolbar {
+      /*--paper-toolbar-background: #2166ab;*/
+    };
+
+    .settingsblock {
+      width: 500px;
+      padding: 0;
+      margin: 0 10px 10px 0;
+      height: 300px;
+    }
+
+    .settingsblock .innerblock {
+      padding: 20px;
+    }
+
+    .settingsblock .title {
+      margin-left: 0;
+    }
+
+  </style>
+
+
+  <template>
+    <paper-material class="settingsblock flex-4" elevation="0" style="height: 470px">
+      <paper-header-panel>
+        <iron-ajax id="getProfile" url="/user-profile" method="GET" content-type="application/json" on-response="handleGetResponse" on-error="handleError"></iron-ajax>
+        <iron-ajax id="updateProfile" url="/user-profile" method="PUT" content-type="application/json" on-response="handleUpdateResponse" on-error="handleError"></iron-ajax>
+        
+        <paper-toolbar>
+          <div class="title">Personal Info</div>
+          <paper-icon-button icon="icons:done" on-click="handleUpdateProfile"></paper-icon-button>
+        </paper-toolbar>
+
+        <div class="innerblock">
+          <paper-input id="name" type="text" label="Name" value="{{name}}" auto-validate pattern="[[rules.fullname]]" error-message="[[errors.fullname]]" required="true"><iron-icon icon="icons:face" prefix></iron-icon>  
+          </paper-input>
+          <paper-input id="username" type="text" label="User Name" value="{{username}}" auto-validate pattern="[[rules.username]]" error-message="[[errors.username]]" required="true"><iron-icon icon="social:person" prefix></iron-icon>
+          </paper-input>
+          <paper-input type="email" pattern="[[rules.email]]" validation-error="[[errors.email" id="email" auto-validate label="Email" value="{{email}}" required="true"><iron-icon icon="mail" prefix></iron-icon></paper-input>
+          <paper-input type="email" pattern="[[rules.email]]" validation-error="[[errors.email" id="email2" auto-validate label="Secondary Email" value="{{email2}}"><iron-icon icon="mail" prefix></iron-icon></paper-input>
+        </div>
+      </paper-header-panel>
+    </paper-material>
+  </template>
+
+
+
+  <script>
+    Polymer({
+      is: 'ngrt-plugins-element',
+      properties : {
+      },
+      attached: function() {
+        this.$.getProfile.generateRequest();
+      },
+      handleGetResponse: function(e) {
+        var response = e.detail.xhr.response;
+        this.name = response.name;
+        this.username = response.username;
+        this.email = response.email;
+        this.email2 = response.email2;
+      },
+      handleUpdateProfile: function () {
+        var valid = this.$.name.validate()
+          & this.$.username.validate()
+          & this.$.email.validate()
+          & this.$.email2.validate();
+        if (!valid) return;
+        var body = {
+          name : this.name,
+          username : this.username,
+          email : this.email,
+          email2 : this.email2
+        };
+        this.$.updateProfile.body = JSON.stringify(body);
+        this.$.updateProfile.generateRequest();
+      },
+      handleUpdateResponse: function(e) {
+        const toaster = document.getElementById('toaster');
+        toaster.show('User profile updated successfully.');
+      },
+      handleError: function(e) {
+        var response = e.detail.request.xhr.response;
+        const toaster = document.getElementById('toaster');
+        toaster.show(response.message, alert);
+      }
+    });
+  </script>
+</dom-module>

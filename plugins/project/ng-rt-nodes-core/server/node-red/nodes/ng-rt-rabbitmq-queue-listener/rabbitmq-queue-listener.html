@@ -1,0 +1,48 @@
+<script type="text/javascript">
+  RED.nodes.registerType('rabbitmq-queue-listener', {
+    category: 'Project_Core',
+    color: '#81F7F3',
+    defaults: {
+      queue: {
+        value: ""
+      }
+    },
+    inputs: 0,
+    outputs: 1,
+    icon: "Project.png",
+    label: function () {
+      return this.name || "rabbitmq-queue-listener";
+    }
+  });
+
+</script>
+<script type="text/x-red" data-template-name="rabbitmq-queue-listener">
+  <div class="form-row">
+    <label for="node-input-queue"><i class="icon-tag"></i>Queue</label>
+    <input type="text" id="node-input-queue" placeholder="queue">
+  </div>
+</script>
+
+<script type="text/x-red" data-help-name="rabbitmq-queue-listener">
+    <p>
+      Listen to specified RabbitMQ queue.
+    </p>
+    <h3>Properties</h3>
+    <dl class="message-properties">
+        <dt>Queue
+            <span class="property-type">string</span>
+        </dt>
+        <dd> RabbitMQ queue name to listen.</dd>
+    </dl>
+    <h3>Outputs</h3>
+    <dl class="message-properties">
+        <dt>msg.payload
+            <span class="property-type">object</span>
+        </dt>
+        <dd> received message.</dd>
+    </dl>
+    <h3>Details</h3>
+    <p>
+      Listen for messages in specified RabbitMQ queue and run following flow on event receiving.
+    </p>
+</script>

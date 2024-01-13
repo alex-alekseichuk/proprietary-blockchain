@@ -1,0 +1,56 @@
+{
+  "days": {
+    "description": "...",
+    "message": "дней"
+  },
+  "hours": {
+    "description": "...",
+    "message": "часов"
+  },
+  "minutes": {
+    "description": "...",
+    "message": "минут"
+  },
+  "Document Sharing": {
+    "message": "Отправка Документов"
+  },
+  "Upload File": {
+    "message": "Загрузить Файл"
+  },
+  "Recipients": {
+    "message": "Получатели"
+  },
+  "Upload": {
+    "message": "Загрузить"
+  },
+  "Recipient": {
+    "message": "Получатель"
+  },
+  "Store file in": {
+    "message": "Сохранить файл в"
+  },
+  "Smart contract": {
+    "message": "Смарт контракт"
+  },
+  "1 minute expiration": {
+    "message": "в течение 1 минуты"
+  },
+  "Error in recipients": {
+    "message": "Ошибка в получателях"
+  },
+  "User with such public key not found!": {
+    "message": "Пользователь с таким публичным ключом не найден!"
+  },
+  "No file selected!": {
+    "message": "Файл не выбран!"
+  },
+  "File sent to user!": {
+    "message": "Файл отправлен пользователю!"
+  },
+  "Error!": {
+    "message": "Ошибка!"
+  },
+  "Select Project": {
+    "message": "Select Project"
+  }
+}

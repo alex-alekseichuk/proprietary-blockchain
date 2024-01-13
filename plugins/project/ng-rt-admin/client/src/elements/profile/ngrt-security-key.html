@@ -1,0 +1,370 @@
+<!-- ubikey managment UI -->
+
+<link rel="import" href="../custom-validator.html">
+
+<dom-module id="ngrt-security-key">
+
+  <style include="shared-styles"></style>
+  <style is="custom-style">
+     :host {
+      width: 100%;
+      height: 100%;
+    }
+
+    paper-dialog {
+      width: 500px;
+      background: white;
+      padding: 0;
+    }
+    /* Keys */
+
+    @keyframes yubiconnect {
+      from {
+        background-position-x: 40%;
+      }
+      to {
+        background-position-x: 50%;
+      }
+    }
+
+    @keyframes yubiadd {
+      0% {
+        opacity: 1
+      }
+      50% {
+        opacity: 0
+      }
+      100% {
+        opacity: 1
+      }
+    }
+
+    .headbg {
+      height: 200px;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+
+    .yubikeybgsearch {
+      background-color: #85abb9;
+      background-image: url("../../res/yubikey.png");
+      background-size: auto;
+      background-position-x: 40%;
+      background-position-y: center;
+      background-repeat: no-repeat;
+      animation-name: yubiconnect;
+      animation-duration: 3s;
+      animation-delay: 0.5s;
+      animation-iteration-count: infinite;
+      animation-timing-function: ease-out;
+    }
+
+    .pcbg {
+      background: #e2e3e5;
+      background-image: url("../../res/macbook.png");
+      float: right;
+      width: 200px;
+      height: 200px;
+    }
+
+    .yubikeyaddbg {
+      background: var(--primary-color);
+    }
+
+    .yubikeyadd1 {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url("../../res/yubikey.png") center no-repeat;
+      width: 100%;
+      height: 200px;
+    }
+
+    .yubikeyadd2 {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url("../../res/yubikey-trans.png") center no-repeat;
+      width: 100%;
+      height: 200px;
+      opacity: 1;
+      animation-name: yubiadd;
+      animation-duration: 3s;
+      animation-delay: 0.0s;
+      animation-iteration-count: infinite;
+      animation-timing-function: ease-out;
+    }
+
+    .keyblock {
+      height: 70px;
+      width: 100%;
+      line-height: 70px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      margin-bottom: 0px;
+    }
+
+    .keyicon {
+      background-image: url("../../res/yubikeyicon.png");
+      background-size: 70% 70%;
+      background-position: center;
+      background-repeat: no-repeat;
+      float: left;
+      width: 70px;
+      height: 70px;
+    }
+
+    .keyname {
+      float: left;
+      padding-left: 20px;
+      line-height: 70px;
+      font-size: 16px;
+    }
+
+    .keydelete {
+      padding-right: 10px;
+      float: right;
+      width: 70px;
+      text-align: right;
+      color: var(--primary-color);
+    }
+  </style>
+
+  <template>
+
+    <paper-header-panel class="appPanel">
+
+      <!--Toolbar-->
+      <paper-toolbar class="appToolbar">
+
+        <!--Top-->
+        <paper-icon-button id="paperToggle" icon="menu" paper-drawer-toggle></paper-icon-button>
+        <span class="title">Security Keys</span>
+        <span class="flex"></span>
+
+        <paper-toggle-button checked="{{useOtp}}" on-change="onUseOtpChange">Use OTP</paper-toggle-button>
+        <paper-icon-button icon="icons:add" on-click="onAddSecurityClick"></paper-icon-button>
+
+      </paper-toolbar>
+
+      <!--Content-->
+      <div class="content">
+
+        <paper-material elevation="0" class="vaadinMaterial">
+
+          <template is="dom-if" if="{{_hasNoKeys(keys)}}">
+            <div class="no-items">
+              <iron-icon icon="icons:error"></iron-icon>
+              <span>No security keys yet</span>
+              <paper-button on-click="onAddSecurityClick">
+                Add key
+              </paper-button>
+            </div>
+          </template>
+
+        <template is="dom-if" if="{{!_hasNoKeys(keys)}}">
+
+          <vaadin-grid id="keysGrid"  items="[[keys]]" active-item="{{selectedKey}}" multi-sort="[[true]]"> 
+
+            <vaadin-grid-column flex-grow="1">
+              <template class="header">
+                <vaadin-grid-sorter path="key">
+                  <div class="cell" style="padding-left: 20px;">
+                    <span>Key</span>
+                  </div>
+                </vaadin-grid-sorter>
+              </template>
+              <template>
+                <div class="cell" style="padding-left: 20px;">
+                    [[item.key]]
+                </div>
+              </template>
+            </vaadin-grid-column>
+    
+            <vaadin-grid-column width="100px" flex-grow="0">
+              <template class="header">
+                  <div class="cell">
+                    <span>Delete</span>
+                  </div>
+              </template>
+              <template>
+                <div class="cell">
+                  <paper-icon-button icon="icons:delete" on-click="deleteKey"></paper-icon-button>
+                </div>
+              </template>
+            </vaadin-grid-column>
+          </vaadin-grid>
+
+        </template>
+      </paper-material>
+      </div>
+
+    </paper-header-panel>
+
+    <paper-dialog id="addSecurity" role="alertdialog" entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+      <div class="headbg yubikeybgsearch">
+        <div class="pcbg"></div>
+      </div>
+      <div class="dialog-content">
+        <h2>Register Your Security Key</h2>
+        <p>
+          Insert your Security Key into USB port on this computer. <br> If it has button or gold disc, tap it.
+        </p>
+      </div>
+
+      <div class="buttons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+      </div>
+    </paper-dialog>
+
+    <paper-dialog id="modalDetails">
+      <div class="headbg yubikeyaddbg">
+        <div class="yubikeyadd1"></div>
+        <div class="yubikeyadd2"></div>
+      </div>
+
+      <div class="dialog-content">
+        <h2>Security Keys</h2>
+        Adding security keys.
+      </div>
+      <div class="buttons">
+        <paper-button dialog-confirm autofocus>OK</paper-button>
+      </div>
+    </paper-dialog>
+  </template>
+  <script>
+    var OTP_LEN = 44;
+    Polymer({
+      is: 'ngrt-security-key',
+      properties: {
+        keys: {
+          type: Array,
+          value: []
+        },
+        useOtp: {
+          type: "boolean",
+          notify: true
+        }
+      },
+      _hasNoKeys: function (keys) {
+        return !keys || keys.length === 0;
+      },
+      ready: function () {
+        this.getKeys();
+        this.getOtpOptions();
+      },
+      getOtpOptions: function () {
+        var self = this;
+        project.ajax.get('/ng-rt-core/yubikeys/options', function (response, xhr) {
+          const toaster = document.getElementById('toaster');
+          if (!response) {
+            if (xhr.response && xhr.response.message)
+              toaster.show(xhr.response.message);
+            return;
+          } else {
+            self.useOtp = response.otp;
+          }
+        });
+      },
+      handleError: function (e) {
+        var response = e.detail.request.xhr.response;
+        const toaster = document.getElementById('toaster');
+        toaster.show(response.message, 'alert');
+      },
+      getKeys: function () {
+        var self = this;
+        project.ajax.get('/ng-rt-core/yubikeys', function (response) {
+          self.set('keys', response);
+          if (self.keys.length === 0 && self.useOtp)
+            self.onUseOtpChange();
+        });
+      },
+
+      // reading yubikey otp
+      // TODO: move it to utils, because it's used in 2 places
+      onAddSecurityClick: function () {
+        var self = this;
+        if (self.onKeyPress)
+          self.$.addSecurity.removeEventListener("keypress", self.onKeyPress);
+        self.$.addSecurity.toggle();
+        var counter = 0;
+        var otp = '';
+        self.onKeyPress = function (e) {
+          e.preventDefault();
+          e = e || window.event;
+          var nChr = e.charCode;
+          // stop reading input keys on 44+1 char
+          if ((++counter) > OTP_LEN) {
+            self.$.addSecurity.removeEventListener("keypress", self.onKeyPress);
+            delete self.onKeyPress;
+
+            self.$.addSecurity.toggle();
+
+            // last char should be Enter
+            if (nChr == 13) {
+              self.registerKey(otp);
+            }
+            return false;
+          }
+          if (e.code.substring(0, 3) === 'Key')
+            otp += e.code.substring(3).toLowerCase();
+          return false;
+        };
+        self.$.addSecurity.addEventListener("keypress", self.onKeyPress);
+      },
+
+      registerKey: function (otp) {
+        var self = this;
+        project.ajax.post('/ng-rt-core/yubikeys', {
+          otp: otp
+        }, function (response, xhr) {
+          const toaster = document.getElementById('toaster');
+          if (!response) {
+            if (xhr.response && xhr.response.message)
+              toaster.show(xhr.response.message);
+            return;
+          }
+          toaster.show("The key was registered successfully");
+          self.getKeys();
+        });
+      },
+
+      deleteKey: function (e) {
+        var index = e.model.index;
+        var id = this.keys[index].id;
+        var self = this;
+        project.ajax.ajax('/ng-rt-core/yubikeys', 'DELETE', {
+          id: id
+        }, function (response, xhr) {
+          const toaster = document.getElementById('toaster');
+          if (!response) {
+            if (xhr.response && xhr.response.message)
+              toaster.show(xhr.response.message);
+            return;
+          }
+          toaster.show("The key was deleted");
+          self.getKeys();
+        });
+      },
+
+      onUseOtpChange: function () {
+        if (this.useOtp && this.keys.length === 0) {
+          this.useOtp = false;
+        }
+        project.ajax.post('/ng-rt-core/yubikeys/options', {
+          otp: this.useOtp
+        }, function (response, xhr) {
+          const toaster = document.getElementById('toaster');
+          if (xhr.status != 200) {
+            if (xhr.response && xhr.response.message)
+              toaster.show(xhr.response.message);
+          }
+        })
+      }
+
+    });
+  </script>
+</dom-module>

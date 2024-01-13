@@ -1,0 +1,48 @@
+[{
+    "name": "scInstance",
+    "base": "commonDataModel",
+    "options": {
+      "idInjection": true,
+      "validateUpsert": true,
+      "hana": {
+        "schema": "PROJECT",
+        "table": "SCINSTANCE"
+      }
+    },
+    "plural": "",
+    "properties": {
+      "txId": {
+        "type": "string"
+      },
+      "type": {
+        "type": "string"
+      },
+      "memory": {
+        "type": "Object",
+        "postgresql": {
+          "dataType": "json"
+        },
+        "hana": {
+          "dataType": "nvarchar",
+          "dataLength": 5000
+        }
+      },
+      "address": {
+        "type": "string"
+      },
+      "functionName": {
+        "type": "string"
+      },
+      "args": {
+        "type": "Array"
+      },
+      "ownerPublicKeys":{
+        "type": ["string"],
+        "default": []
+      }
+    },
+    "validations": [],
+    "relations": {},
+    "acls": [],
+    "methods": {}
+  }]

@@ -1,0 +1,35 @@
+{
+  "entryPoints": [
+    {
+      "type": "route",
+      "parameters": {
+        "file": "./api/routes/routes.js"
+      }
+    }
+  ],
+  "actions": {
+    "after_install": [],
+    "after_activate": [],
+    "after_deactivate": [],
+    "after_uninstall": [],
+    "before_install": [],
+    "before_activate": [],
+    "before_deactivate": []
+  },
+  "apiServices": [],
+  "name": "ng-admin-logviewer-backend",
+  "type": "optional",
+  "author": "PROJECT",
+  "description": "The Blockchain Enterprise Architecture",
+  "pluginDescription": "application ng-admin-logviewer-backend",
+  "copyright": "PROJECT Software 2016 - 2018",
+  "version": "3.2.",
+  "sharedServices": [],
+  "settings": [
+    {
+      "name": "namespace",
+      "caption": "Root name of the URL for the route",
+      "value": "ng-admin-logviewer"
+    }
+  ]
+}

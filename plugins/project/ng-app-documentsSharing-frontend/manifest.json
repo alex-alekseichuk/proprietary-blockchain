@@ -1,0 +1,89 @@
+{
+  "name": "ng-app-documentsSharing-frontend",
+  "type": "optional",
+  "author": "PROJECT Software and Consultancy",
+  "description": "The Blockchain Enterprise Architecture",
+  "pluginDescription": "application ng-app-documentsSharing-frontend",
+  "copyright": "PROJECT BV 2016 - 2019",
+  "version": "3.2.",
+  "sharedServices": [],
+  "settings": [
+    {
+      "name": "namespace",
+      "caption": "Root name of the URL for the route of the plugin",
+      "value": "ng-app-documentsSharing-frontend"
+    },
+    {
+      "name": "hideinbox",
+      "caption": "Flag to hide inbox tab",
+      "value": false
+    },
+    {
+      "name": "maxBlobDownload",
+      "caption": "Max size of file with downloading using blob array into memory",
+      "value": 41943040
+    }
+  ],
+  "entryPoints": [{
+    "type": "route",
+    "parameters": {
+        "file": "./api/routes/routes.js"
+    }
+  }],
+  "actions": {
+    "after_install": [],
+    "after_activate": [
+      {
+        "name": "remove menu item",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "route",
+          "criteries": [{
+            "type": "href",
+            "route": "documentsSharing",
+            "module": "admin"
+          }]
+        }
+      },
+      {
+        "name": "add menu item documents",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "route",
+          "data": [{
+            "type": "href",
+            "route": "documentsSharing",
+            "href": "pluginsdisplay/!empty.html/ng-rt-spa-engine/{\"id\": \"documentsSharing\", \"app\": \"documentsSharing-backend\", \"autoAttach\":\"true\"}/ng-app-documentsSharing-frontend/Documents sharing",
+            "icon": "icons:file-upload",
+            "trustLevel": 2,
+            "caption": "Documents sharing",
+            "roles": [
+              "user"
+            ],
+            "module": "admin",
+            "order": 1150
+          }]
+        }
+      }
+    ],
+    "after_deactivate": [
+      {
+        "name": "remove menu item",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "route",
+          "criteries": [{
+            "type": "href",
+            "route": "documentsSharing",
+            "module": "admin"
+          }]
+        }
+      }
+    ],
+    "after_uninstall": [],
+    "before_install": [],
+    "before_activate": [],
+    "before_deactivate": []
+  },
+  "apiServices": []
+}

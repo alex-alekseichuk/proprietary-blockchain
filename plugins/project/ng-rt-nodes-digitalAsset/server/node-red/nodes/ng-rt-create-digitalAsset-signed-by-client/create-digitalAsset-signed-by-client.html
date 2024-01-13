@@ -1,0 +1,49 @@
+
+<script type="text/javascript">
+    RED.nodes.registerType('create-digitalAsset-signed-by-client', {
+      category: 'Project_DigitalAsset',
+        color: '#b9b1eb',
+        defaults: {
+            key: {
+                value: ""
+            }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "Project.png",
+        label: function() {
+            return this.name || "create-digitalAsset-signed-by-client";
+        }
+    });
+</script>
+<script type="text/x-red" data-template-name="create-digitalAsset-signed-by-client">
+    <div class="form-row">
+
+    </div>
+
+
+</script>
+
+<script type="text/x-red" data-help-name="create-digitalAsset-signed-by-client">
+    <p>Create digital asset signed by client</p>
+
+    <h3>Inputs</h3>
+        <dl class="message-properties">
+            <dt>msg.ctx.digitalAssetType <span class="property-type">string</span></dt>
+            <dd>Type of digital asset</dd>
+            <dt>msg.ctx.digitalAsset <span class="property-type">object</span></dt>
+            <dd>Digital asset object</dd>
+            <dt>msg.ctx.clientId <span class="property-type">string</span></dt>
+            <dd>Client ID</dd>
+        </dl>
+
+     <h3>Outputs</h3>
+         <ol class="node-ports">
+             <li>Standard output
+                 <dl class="message-properties">
+                     <dt>msg.ctx.txData <span class="property-type">object</span></dt>
+                     <dd>Created and signed digital asset object</dd>
+                 </dl>
+             </li>
+         </ol>
+</script>

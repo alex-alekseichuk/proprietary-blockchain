@@ -1,0 +1,810 @@
+<dom-module id="ng-rt-spa-engine">
+
+  <style include="shared-styles"></style>
+  <style is="custom-style">
+     :host {
+      width: 100%;
+      height: 100%;
+    }
+    
+    neon-animated-pages {
+      height: 100%;
+    }
+  </style>
+
+  <template restamp="true">
+    <!--iron-ajax id="getSPAEngine" url="/state-machine/init?id=discount" method="GET" handle-as="json" content-type="application/json" on-response="handleApplicationInitResponse" on-error="handleError"></iron-ajax-->
+    <!--iron-ajax id="staticHtmlLoader" url="/" method="GET" handle-as="text" on-response="handleStaticHtmlResponse" on-error="handleError"></iron-ajax-->
+    <!--iron-ajax id="postApplicationEvent" url="/state-machine-new/action" method="POST" handle-as="json" content-type="application/json" on-response="handleApplicationCommandResponse" on-error="handleError"></iron-ajax-->
+
+
+    <!--Pages-->
+    <neon-animated-pages class="flex" selected="[[selected]]" entry-animation="slide-from-right-animation"
+      exit-animation="fade-out-animation">
+      <neon-animatable>
+        <div>
+          Loading...
+        </div>
+      </neon-animatable>
+      <template is="dom-repeat" items="{{pages}}" as="page">
+        <neon-animatable>
+          <div class="pagediv">
+            <ng-rt-page page="[[page]]" app-id="{{id}}"></ng-rt-page>
+          </div>
+        </neon-animatable>
+      </template>
+  <neon-animatable>
+    <div id="staticHtmlPage" class="fit">
+      <template is="juicy-html" on-stamped="stamped" model="{{staticPageModel}}" content$="{{staticPageModel.pageUrl}}">
+
+          </template>
+    </div>
+  </neon-animatable>
+
+  </neon-animated-pages>
+
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+    is: "ng-rt-spa-engine",
+    properties: {
+      app: {
+        type: "string",
+        value: "",
+        notify: true
+      },
+      modelid: {
+        type: "string",
+        value: "",
+        notify: true
+      },
+      modelname: {
+        type: "string",
+        value: "",
+        notify: true
+      },
+      sortFields: {
+        type: "Array",
+        value: []
+      },
+      uiobject: {
+        type: "string",
+        value: "",
+        notify: true
+      },
+      pages: {
+        type: "array",
+        value: [],
+        notify: true
+      },
+      selected: {
+        type: "number",
+        value: 0,
+        notify: true
+      },
+      pageIndeces: {
+        type: "object",
+        value: {},
+        notify: true
+      },
+      datasources: {
+        type: "object",
+        value: {},
+        notify: true
+      },
+      attachedGrids: {
+        type: "array",
+        value: [],
+        notify: true
+      },
+      events: {
+        type: "array",
+        value: [],
+        notify: true
+      },
+      autoAttach: {
+        type: Boolean,
+        notify: true
+      },
+      context: {
+        type: Object,
+        value: {}
+      }
+    },
+    attached: function() {
+      var self = this;
+      this.logger = project.log4js.getLogger('ng-rt-admin/client/src/elements/state-machine-v01/ng-rt-spa-engine.html')
+      if (this.autoAttach) {
+        console.log('ngrt-spa-engine started for ' + this.app);
+
+        /*
+         this.$.getSPAEngine.url = "/state-machine/init?id=" + this.app;
+         this.$.getSPAEngine.generateRequest();
+         */
+
+        var url = "/state-machine/init?id=" + this.app;
+
+        project.ajax.get(url, function(response, xhr) {
+
+          if (xhr.status !== 200) {
+            self.handleError(xhr);
+            return;
+          }
+
+          self.pages = [];
+          self.pageIndeces = {};
+          self.datasources = {};
+          self.attachedGrids = [];
+          self.events = [];
+
+          var spa = response;
+
+          var index = 1;
+          if (spa.pages) {
+            spa.pages.forEach(function(page) {
+              self.push('pages', page);
+              self.pageIndeces[page.id] = index;
+              index++;
+            });
+          }
+          self.pageIndeces['staticHtml'] = index;
+
+          //Construct pages here
+
+          //Call entryPoint event
+          var body = {
+            id: self.app,
+            x: 'entry_State',
+            y: 'entry_Point',
+            modelName: self.modelname,
+            uiObject: self.uiobject,
+            modelId: self.modelid
+          };
+
+          project.ajax.ajax('/state-machine-new/action', 'POST', {
+            id: self.app,
+            x: 'entry_State',
+            y: 'entry_Point',
+            modelName: self.modelname,
+            uiObject: self.uiobject,
+            modelId: self.modelid
+          }, function(response, xhr) {
+
+            if (xhr.status !== 200) {
+              self.handleError(xhr);
+              return
+            }
+
+            var clientActions = response;
+            self.clientActionPreHandler(clientActions);
+
+          });
+          /*
+           this.$.postApplicationEvent.body = JSON.stringify(body);
+           this.$.postApplicationEvent.generateRequest();
+           */
+        });
+
+      }
+    },
+    //        init: function(){
+    //            console.log('ngrt-spa-engine started for '+this.app);
+    //            this.$.getSPAEngine.url = "/state-machine/init?id=" + this.app;
+    //            this.$.getSPAEngine.generateRequest();
+    //        },
+    handleStaticHtmlResponse: function(e) {
+      //            this.insertAndExecute('staticHtmlPage',e.detail.__data__.response);
+      //            var staticHtmlContainer =  Polymer.dom(document.getElementById("staticHtmlPage"));
+      //            var div = document.createElement('div');
+      //            div.innerHTML = e.detail.__data__.response;
+      //            staticHtmlContainer.appendChild(div);
+    },
+    handleError: function(xhr) {
+      var response = xhr.response;
+      const toaster = document.getElementById('toaster');
+      toaster.show(response.message, 'alert');
+    },
+    insertAndExecute: function(id, text) {
+      document.getElementById(id).innerHTML = text;
+      var scripts = Array.prototype.slice.call(document.getElementById(id).getElementsByTagName("script"));
+      for (var i = 0; i < scripts.length; i++) {
+        if (scripts[i].src != "") {
+          var tag = document.createElement("script");
+          tag.src = scripts[i].src;
+          document.getElementsByTagName("head")[0].appendChild(tag);
+        } else {
+          eval(scripts[i].innerHTML);
+        }
+      }
+    },
+    handleApplicationInitResponse: function(e) {
+      var self = this;
+      this.pages = [];
+      this.pageIndeces = {};
+      this.datasources = {};
+      this.attachedGrids = [];
+      this.events = [];
+      var spa = e.detail.__data__.response;
+      var index = 1;
+      if (spa.pages) {
+        spa.pages.forEach(function(page) {
+          self.push('pages', page);
+          self.pageIndeces[page.id] = index;
+          index++;
+        });
+      }
+      self.pageIndeces['staticHtml'] = index;
+
+
+      //Construct pages here
+
+
+      //Call entryPoint event
+      var body = {
+        id: this.app,
+        x: 'entry_State',
+        y: 'entry_Point',
+        modelName: this.modelname,
+        uiObject: this.uiobject,
+        modelId: this.modelid
+      };
+
+      /*
+       this.$.postApplicationEvent.body = JSON.stringify(body);
+       this.$.postApplicationEvent.generateRequest();*/
+
+      project.ajax.ajax('/state-machine-new/action', 'POST', body, function(response, xhr) {
+
+        if (response) // !TODO
+        {
+          self.handleError(xhr);
+          return;
+        }
+
+        var clientActions = e.detail.__data__.response; // !!! TODO
+        self.clientActionPreHandler(clientActions);
+
+      });
+
+    },
+    handleApplicationCommandResponse: function(e) {
+      var self = this;
+      var clientActions = e.detail.__data__.response;
+      this.clientActionPreHandler(clientActions);
+    },
+    clientActionPreHandler: function(clientActions) {
+      this.clientActionsHandler(clientActions.actions, clientActions.payload);
+    },
+    calculateVariable: function(action) {
+      var self = this;
+      var result = {};
+      action.variables.forEach(function(variable) {
+        result[variable.name];
+        if (variable.type === "fromDataSource") {
+          if (variable.options.datasourceField) {
+            result[variable.name] = self.datasources[variable.options.dataSourceName][variable.options.datasourceField];
+          } else {
+            result[variable.name] = self.datasources[variable.options.dataSourceName];
+          }
+        }
+        if (variable.type === "fromInputField") {
+          var input = Polymer.dom(document.getElementById(this.id + '-' + variable.options.fieldId));
+          result[variable.name] = input.node.value;
+        }
+        if (variable.type === "fromForm") {
+          var form = document.getElementById(self.id + '-' + variable.options.formName);
+          result[variable.name] = form.serialize();
+          var jsonEditors = Polymer.dom(document.getElementById(self.id + '-' + variable.options.formName)).node.querySelectorAll('juicy-jsoneditor');
+          if (jsonEditors && jsonEditors.length > 0) {
+            jsonEditors.forEach(function(jsonEditorElement) {
+              var value = Polymer.dom(jsonEditorElement).node.json;
+              var name = jsonEditorElement.id;
+              result[variable.name][name] = value;
+            });
+          }
+        }
+
+      });
+      return result;
+    },
+    parametersCalculate: function(parameters, variables) {
+      return this.processItem(parameters, variables);
+    },
+    processItem: function(item, variables) {
+      var self = this;
+      var newItem = JSON.parse(JSON.stringify(item));
+      Object.keys(newItem).forEach(function(subItem) {
+        if (typeof newItem[subItem] === 'object') {
+          newItem[subItem] = self.processItem(newItem[subItem], variables);
+        } else {
+          if (newItem[subItem]) {
+            if (newItem[subItem][0] == "$") {
+              newItem[subItem] = variables[newItem[subItem]];
+            }
+          }
+        }
+      });
+      return newItem;
+    },
+    runAction: function(actions, i, payload) {
+      this.logger.debug(`run action i=${i} action=${actions[i]} payload=${payload}`);
+      if (i >= actions.length)
+        return;
+      var self = this;
+      const next = () => {
+        self.runAction(actions, i + 1, payload);
+      }
+      let action = actions[i];
+      var variables = null;
+      var clientPayload = payload;
+      if (!clientPayload)
+        clientPayload = {};
+      if (action.variables) {
+        variables = self.calculateVariable(action);
+      }
+      if (action.payload) {
+        clientPayload = self.parametersCalculate(action.payload, variables);
+      }
+
+      if (action.type === "uiAction") {
+        switch (action.name) {
+          case "populate-datasource":
+            self.populateDatasource(action.parameters, payload.data);
+            next();
+            break;
+          case "move-xy":
+            self.initAction(action.parameters.x, action.parameters.y, clientPayload);
+            next();
+            break;
+          case "show-page":
+            self.showPage(action.parameters, payload);
+            next();
+            break;
+          case "assign_CRUD_grid":
+            self.assign_CRUD_grid_columns(action.parameters.modelsStorage, action.parameters.gridName);
+            next();
+            break;
+          case "hide-element":
+            self.hideElement(action.parameters.element);
+            next();
+            break;
+          case "show-element":
+            self.showElement(action.parameters.element);
+            next();
+            break;
+          case "assign_CRUD_form":
+            self.assign_CRUD_form(action.parameters.dataSourceName, action.parameters.dynamicFormName);
+            next();
+            break;
+          case "populate-form":
+            self.populateFormWithData(action.parameters.dynamicFormName, payload.data);
+            next();
+            break;
+          case "populate-form-from-datasource":
+            self.populateFormWithData(action.parameters.dynamicFormName, clientPayload.data);
+            next();
+            break;
+          case "clear-form":
+            self.clearForm(action.parameters.dynamicFormName);
+            next();
+            break;
+          case "show-dialog":
+            self.openDialog(action.parameters.dialogName);
+            next();
+            break;
+          case "hide-dialog":
+            self.closeDialog(action.parameters.dialogName);
+            next();
+            break;
+          case "key-service-init":
+            self.keyServiceInit(action.parameters);
+            next();
+            break;
+          case "populate-dropdown":
+            self.populateDropDown(action.parameters, payload.data);
+            next();
+            break;
+          case "populate-element-value":
+            self.populateValueForElement(action.parameters.id, payload, action.parameters.keys);
+            next();
+            break;
+          case "post":
+            self.post(action.parameters.url, payload);
+            next();
+            break;
+          case "show-error":
+            self.showError(payload);
+            if (action.parameters && action.parameters.delay)
+              setTimeout(() => {
+                next();
+              }, action.parameters.delay);
+            else
+              next();
+            break;
+          case "show-toast":
+            self.showToast(action.parameters, payload);
+            if (action.parameters && action.parameters.delay)
+              setTimeout(() => {
+                next();
+              }, action.parameters.delay);
+            else
+              next();
+            break;
+          case "createTx":
+            if (!action.parameters) return;
+            self.createTx(action.parameters.createUrl, action.parameters.postUrl, payload, error => {
+              if (error) {
+                console.error(error);
+                if (action.failed) {
+                  payload.errorMessage = error;
+                  self.clientActionsHandler(action.failed, payload);
+                }
+                if (!action.continueOnFail)
+                  return;
+              }
+              next();
+            });
+            break;
+          default:
+            next();
+            break;
+        }
+      } else if (action.type === "uiEvent") {
+        console.log("Event " + action.name + " registered");
+        var isExists = false;
+        self.events.forEach(function(event) {
+          if (event.name === action.name) {
+            isExists = true;
+          }
+        });
+        if (!isExists)
+          self.events.push(action);
+        next();
+      }
+    },
+    clientActionsHandler: function(actions, payload) {
+      this.runAction(actions, 0, payload);
+    },
+
+    populateDatasource: function(parameters, payload) {
+      var datasourceName = parameters.dataSource;
+      var self = this;
+      console.log("DataSource " + datasourceName + " updated!!");
+      this.datasources[datasourceName] = payload;
+
+      this.attachedGrids.forEach(function(attGrid) {
+        if (attGrid.ds === datasourceName) {
+          attGrid.grid.grid.setRows(self.datasources[datasourceName]);
+          //                    attGrid.grid.columns=
+          attGrid.grid.grid.initGrid(attGrid.grid.gridOptions, attGrid.grid.columns, '');
+          console.log("grided");
+        }
+      });
+    },
+
+    populateDropDown: function(parameters, payload) {
+      var dropDownComponent = Polymer.dom(document.getElementById(this.id + '-' + parameters.dropDownId));
+      var dropDownItems = [];
+      payload.forEach(function(item) {
+        dropDownItems.push({
+          name: item[parameters.labelField],
+          value: item[parameters.valueField]
+        });
+      });
+      dropDownComponent.node.setItems(dropDownItems);
+    },
+    attachDataSource: function(dataSourceName, gridObject) {
+      this.attachedGrids.push({
+        ds: dataSourceName,
+        grid: gridObject
+      });
+      return this.datasources[dataSourceName] ? this.datasources[dataSourceName] : [];
+    },
+    getDatasource: function(dataSourceName) {
+      return this.datasources[dataSourceName];
+    },
+    showPage: function(parameters, payload) {
+
+      if (parameters.isStaticHtml) {
+        console.log('Getting ' + parameters.pageUrl);
+        //this.$.staticHtmlPage.innerHTML = '' + parameters.pageUrl + '"></template>';
+        this.staticPageModel = {
+          pageUrl: parameters.pageUrl,
+          payload: payload
+        };
+        //this.staticPageUrl = parameters.pageUrl;
+        //document.getElementById("staticHtmlPage").innerHTML = '<template is="juicy-html" content="' + parameters.pageUrl + '"></template>'
+        //                this.$.staticHtmlLoader.url = parameters.pageUrl;
+        //                this.$.staticHtmlLoader.generateRequest();
+        this.showPage({
+          pageName: "staticHtml"
+        });
+      } else {
+        console.log('showing ' + parameters.pageName);
+        this.selected = this.pageIndeces[parameters.pageName];
+      }
+    },
+    stamped: function() {
+      //alert('loaded');
+      Polymer.dom.flush();
+    },
+    mergeContext: function(newContext) {
+      this.context = Object.assign({}, newContext, this.context);
+    },
+    initAction: function(x, y, payload, context) {
+      var self = this;
+      //Call entryPoint event
+      var body = {
+        id: this.app,
+        x: x,
+        y: y,
+        payload: payload,
+        modelName: this.modelname,
+        uiObject: this.uiobject
+      };
+      this.mergeContext(context);
+      /*
+       this.$.postApplicationEvent.body = JSON.stringify(body);
+       this.$.postApplicationEvent.generateRequest();
+       */
+      project.ajax.ajax('/state-machine-new/action', 'POST', body, function(response, xhr) {
+
+        if (!response) // ?
+        {
+          self.handleError(xhr);
+          return;
+        }
+
+        self.clientActionPreHandler(response);
+
+      });
+
+    },
+    refreshDataSource: function(datasourceName, payload) {
+      var self = this;
+      console.log("DataSource " + datasourceName + " updated!!");
+      this.datasources[datasourceName] = payload;
+
+      this.attachedGrids.forEach(function(attGrid) {
+        if (attGrid.ds === datasourceName) {
+          attGrid.grid.grid.setRows(self.datasources[datasourceName]);
+          attGrid.grid.grid.initGrid(attGrid.grid.gridOptions, attGrid.grid.columns, '');
+        }
+      });
+    },
+    populateFormWithData: function(formName, payload) {
+      var form = Polymer.dom(document.getElementById(this.id + '-' + formName));
+      Object.keys(payload).forEach(function(key) {
+
+        if (typeof payload[key] === 'object') {
+          Polymer.dom(form.node.querySelector('#' + key)).node.json = payload[key];
+        } else {
+
+          var elem = form.node.elements[key];
+          if (elem)
+            if (key === "id") {
+              elem.value = payload[key];
+            } else {
+
+              elem.bindValue = payload[key];
+            }
+
+        }
+      });
+    },
+    populateFormWithDataFromDatasource: function(formName, payload) {
+      var form = Polymer.dom(document.getElementById(this.id + '-' + formName));
+      Object.keys(payload).forEach(function(key) {
+        form.node.elements.forEach(function(element) {
+          if (element.name == key) {
+            var elem = element;
+            if (elem)
+              elem.value = payload[key];
+          }
+        });
+      });
+    },
+    populateDetailsWithData: function(formName, payload) {
+      var self = this;
+      var form = Polymer.dom(document.getElementById(this.id + '-' + formName));
+      Object.keys(payload).forEach(function(key) {
+        var span = document.getElementById(this.id + '-' + formName + "_" + key);
+        if (span) {
+          //                    var el = document.createElement("div");
+          //                    el.textContent = payload[key];
+          //                    Polymer.dom(span).appendChild(el);
+          Polymer.dom(span).innerHTML = payload[key];
+        }
+      });
+    },
+    hideElement: function(name) {
+      var element = Polymer.dom(document.getElementById(this.id + '-' + name));
+      element.node.hidden = true;
+    },
+    showElement: function(name) {
+      var element = Polymer.dom(document.getElementById(this.id + '-' + name));
+      element.node.hidden = false;
+    },
+    populateInput: function(elementName, payload) {
+      var _elementNames = elementName.split(':');
+      var form = Polymer.dom(document.getElementById(_elementNames[0]));
+      Object.keys(payload).forEach(function(key) {
+        var elem = form.node.elements[key];
+        if (elem)
+          elem.bindValue = payload[key];
+      });
+    },
+    assign_CRUD_form: function(dsName, frmId) {
+      var grid = this.$$("#" + this.id + '-' + frmId);
+      var self = this;
+      var form = Polymer.dom(document.getElementById(this.id + '-' + frmId));
+      form.node.setCRUDObject(self.getDatasource(dsName));
+    },
+    assign_CRUD_grid_columns: function(dsName, gridId) {
+      var grid = this.$$("#" + gridId);
+      var self = this;
+      var crudObject = this.getDatasource(dsName);
+      var columns = [];
+      Object.keys(crudObject.properties).forEach(function(key) {
+        if (crudObject.properties[key].gridColumn) {
+          const column = {
+            "headerName": crudObject.properties[key].gridColumn,
+            "field": key,
+            "filterParams": {
+              "apply": true
+            }
+          };
+
+          const fieldToSort = self.sortFields.find(field => field.name === key);
+          if (fieldToSort) {
+            column.sort = fieldToSort.value;
+
+            switch (fieldToSort.comparatorType) {
+              case 'case-insensitive':
+                {
+                  column.comparator = (valueA, valueB) => {
+                    return valueA.toLowerCase().localeCompare(valueB.toLowerCase());
+                  }
+                  break;
+                }
+            }
+          }
+          columns.push(column);
+        }
+      });
+
+      this.attachedGrids.forEach(function(attGrid) {
+        if (attGrid.grid.pageItem.id === gridId) {
+          attGrid.grid.columns = columns;
+          if (self.datasources[attGrid.ds]) {
+            attGrid.grid.grid.setRows(self.datasources[attGrid.ds]);
+            attGrid.grid.grid.initGrid(attGrid.grid.gridOptions, columns, '');
+          }
+        }
+      });
+    },
+    populateDynamicDetailsWithData: function(formName, payload) {
+      var self = this;
+      var form = Polymer.dom(document.getElementById(formName));
+      form.node.setCRUDObject(payload);
+    },
+    openDialog: function(name) {
+      var self = this;
+      var dialog = Polymer.dom(document.getElementById(this.id + '-' + name));
+      dialog.node.open();
+    },
+    closeDialog: function(name) {
+      var self = this;
+      var dialog = Polymer.dom(document.getElementById(this.id + '-' + name));
+      dialog.node.close();
+    },
+    callEvent: function(name) {
+      var self = this;
+      this.events.forEach(function(event) {
+        if (event.name === name) {
+          self.clientActionsHandler(event.actions, null);
+        }
+      });
+    },
+    populateValueForElement: function(name, payload, keys) {
+      var element = document.querySelector(name);
+      keys.forEach(key => {
+        var val = payload[key];
+        if (val)
+          element[key] = val;
+      });
+    },
+    post: function(url, payload) {
+      project.ajax.post(url, payload, function(response) {
+        console.log("Post completed");
+      });
+    },
+    createTx: function createTx(createUrl, postUrl, payload, cb) {
+      var self = this;
+      project.ajax.post(createUrl, payload.body, function(ctx, xhr) {
+        try {
+          if (xhr.status != 200) {
+            return cb(xhr);
+          }
+          if (ctx && ctx.variant === 'ERROR') {
+            return cb({
+              message: response.result
+            });
+          }
+          self.logger.debug("SM: Post createTx completed.");
+          let defaultKey = window.project.KeysService.getDefault();
+          if (!defaultKey)
+            return cb('No default key');
+          var composedTx = window.project.digitalAsset.driver.composeDigitalAssetCreateTx(ctx.txData.tx, '1', ctx.txData.meta, defaultKey.pubkey);
+          var privateKey = window.project.crypto.bs58_encode(window.project.crypto.bs58_decode(defaultKey.prvkey).slice(0, 32));
+          var signedTx = window.project.digitalAsset.driver.signTx(composedTx, privateKey);
+          ctx.signedTx = signedTx;
+          project.ajax.post(postUrl, ctx, function(response, xhr) {
+            if (xhr.status != 200) {
+              return cb(xhr);
+            }
+            if (response && response.variant === 'ERROR') {
+              return cb({
+                message: response.result
+              });
+            }
+            self.logger.debug("SM: Post signed tx completed.");
+            if (self.context.creatTxCallback && typeof self.context.creatTxCallback === 'function') {
+              self.context.creatTxCallback({
+                tx: signedTx
+              }, payload).then(cb).catch(cb);
+            } else
+              cb();
+          });
+        } catch (e) {
+          cb(null, e);
+        }
+      });
+    },
+    clearForm: function(frmId) {
+      var form = Polymer.dom(document.getElementById(this.id + '-' + frmId));
+      Array.from(form.node.elements).forEach(function(element) {
+        if (element.bindValue)
+          element.bindValue = null;
+      });
+    },
+    showError: function(payload) {
+      let message = payload.errorMessage || 'Unknown error';
+      if (message.message)
+        message = message.message;
+      if (typeof message !== 'string')
+        message = 'Unknown error';
+      if (!message)
+        message = 'Unknown error';
+      const toaster = document.getElementById('toaster');
+      toaster.show(message, 'alert');
+    },
+    showToast: function(parameters, payload) {
+        if (!parameters)
+          return;
+        let type = parameters.type;
+        let toastMessage = parameters.message;
+        if (!toastMessage)
+          return;
+        if (payload) {
+          while (toastMessage.indexOf('${') > -1) {
+            let replaceStart = toastMessage.indexOf('${');
+            let replaceFinish = toastMessage.indexOf('}');
+            let replace = toastMessage.substring(replaceStart, replaceFinish + 1);
+            let fieldName = replace.substring(2, replace.length - 1);
+            toastMessage = toastMessage.replace(replace, payload[fieldName]);
+          }
+        }
+        const toaster = document.getElementById('toaster');
+        toaster.show(toastMessage, type);
+      }
+      /*
+      ,sendToSocket: function(eventName, payload) {
+        console.log('sendToSocket', eventName, payload);
+        window.socketio.send(eventName, payload);
+      }
+      */
+  });
+</script>

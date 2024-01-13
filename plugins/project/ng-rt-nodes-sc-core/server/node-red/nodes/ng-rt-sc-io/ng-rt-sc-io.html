@@ -1,0 +1,196 @@
+<!--
+  Copyright JS Foundation and other contributors, http://js.foundation
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<script type="text/x-red" data-template-name="contract in">
+    <div class="form-row">
+        <label for="node-input-method"><i class="fa fa-tasks"></i> <span data-i18n="httpin.label.method"></span></label>
+        <select type="text" id="node-input-method" style="width:70%;">
+        <option value="get">GET</option>
+        <option value="post">POST</option>
+        <option value="put">PUT</option>
+        <option value="delete">DELETE</option>
+        <option value="patch">PATCH</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-url"><i class="fa fa-globe"></i> <span data-i18n="httpin.label.url"></span></label>
+        <input id="node-input-url" type="text" placeholder="/url">
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="common.label.name"></span></label>
+        <input type="text" id="node-input-name" data-i18n="[placeholder]common.label.name">
+    </div>
+    <div class="form-row row-swagger-doc">
+        <label for="node-input-swaggerDoc"><i class="fa fa-file-text-o"></i> <span data-i18n="httpin.label.doc"></span></label>
+        <input type="text" id="node-input-swaggerDoc">
+    </div>
+    <div id="node-input-tip" class="form-tips"><span data-i18n="httpin.tip.in"></span><code><span id="node-input-path"></span></code>.</div>
+
+</script>
+
+<script type="text/x-red" data-help-name="contract in">
+    <p>Smart contract flow begin from this node.</p>
+
+    <h3>Properties</h3>
+      <dl class="message-properties">
+        <dt>Url
+            <span class="property-type">string</span>
+        </dt>
+        <dd> The endpoint of the flow. </dd>
+
+        <dt>Input name
+                <span class="property-type">string</span>
+            </dt>
+            <dd> The name of the node. </dd>
+        
+      </dl>
+
+    <h3>Details</h3>
+
+        <div>There are 3 types of functions: <b>init</b>, <b>common</b> and <b>transfer</b> functions.</div>
+        <p/>
+        <p/>
+        <p/>
+
+        <div> <code><span>init function:</span></code>&emsp;Initial constructor function which calls one time during contract <b>publish</b>.</div>
+        <p/>
+        <div> <code><span>common functions:</span></code>&emsp;Function which read or change memory variables.<b>(call)</b></div>
+        <p/>
+        <div> <code><span>transfer functions:</span></code>&emsp;Send asset/tokens to contract or send asset/tokens from contract.<b>(transfer)</b></div>
+
+</script>
+
+<script type="text/x-red" data-template-name="done">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="common.label.name"></span></label>
+        <input type="text" id="node-input-name" data-i18n="[placeholder]common.label.name">
+    </div>
+    <div class="form-tips"><span data-i18n="[html]httpin.tip.res"></span></div>
+
+    <div class="form-tips">
+        If flow will be finished by this node - all changes will be commited (saved).
+    </div>
+
+</script>
+
+<script type="text/x-red" data-help-name="done">
+    <p>Node represent successful execution of the smart contract flow.</p>
+</script>
+
+
+<script type="text/x-red" data-template-name="rollback">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="common.label.name"></span></label>
+        <input type="text" id="node-input-name" data-i18n="[placeholder]common.label.name">
+    </div>
+    <div class="form-tips"><span data-i18n="[html]httpin.tip.res"></span></div>
+</script>
+
+<script type="text/x-red" data-help-name="rollback">
+    <p>Node terminates the flow without saving memory.</p>
+</script>
+
+
+<script type="text/javascript">
+    RED.nodes.registerType('contract in',{
+        category: 'Project_Smart_Contracts_Core',
+        color:"#94bee2",
+        defaults: {
+            name: {value:""},
+            url: {value:"",required:true},
+            method: {value:"get",required:true},
+            swaggerDoc: {type:"swagger-doc", required:false}
+        },
+        inputs:0,
+        outputs:1,
+        icon: "white-globe.png",
+        label: function() {
+            if (this.name) {
+                return this.name;
+            } else if (this.url) {
+                var root = RED.settings.httpNodeRoot;
+                if (root.slice(-1) != "/") {
+                    root = root+"/";
+                }
+                if (this.url.charAt(0) == "/") {
+                    root += this.url.slice(1);
+                } else {
+                    root += this.url;
+                }
+                return "["+this.method+"] "+root;
+            } else {
+                return "contract in";
+            }
+        },
+        labelStyle: function() {
+            return this.name?"node_label_italic":"";
+        },
+        oneditprepare: function() {
+            var root = RED.settings.httpNodeRoot;
+            if (root.slice(-1) == "/") {
+                root = root.slice(0,-1);
+            }
+            if (root == "") {
+                $("#node-input-tip").hide();
+            } else {
+                $("#node-input-path").html(root);
+                $("#node-input-tip").show();
+            }
+            if(!RED.nodes.getType("swagger-doc")){
+                $('.row-swagger-doc').hide();
+            }
+        }
+
+    });
+
+    RED.nodes.registerType('done',{
+        category: 'Project_Smart_Contracts_Core',
+        color:"#94bee2",
+        defaults: {
+            name: {value:""}
+        },
+        inputs:1,
+        outputs:0,
+        align: "right",
+        icon: "ok.png",
+        label: function() {
+            return this.name||"done";
+        },
+        labelStyle: function() {
+            return this.name?"node_label_italic":"";
+        }
+    });
+
+    RED.nodes.registerType('rollback',{
+        category: 'Project_Smart_Contracts_Core',
+        color:"#94bee2",
+        defaults: {
+            name: {value:""}
+        },
+        inputs:1,
+        outputs:0,
+        align: "right",
+        icon: "cancel.png",
+        label: function() {
+            return this.name||"rollback";
+        },
+        labelStyle: function() {
+            return this.name?"node_label_italic":"";
+        }
+    });
+
+
+</script>

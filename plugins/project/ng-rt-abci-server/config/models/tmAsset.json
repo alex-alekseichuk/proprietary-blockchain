@@ -1,0 +1,53 @@
+[{
+  "name": "tmAsset",
+  "base": "commonDataModel",
+  "options": {
+    "idInjection": true,
+    "validateUpsert": true,
+    "hana": {
+      "schema": "PROJECT",
+      "table": "TMASSET"
+    }
+  },
+  "plural": "tmAssets",
+  "properties": {
+    "txId": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "hash": {
+      "type": "string"
+    },
+    "format": {
+      "type": "Object",
+      "postgresql": {
+        "dataType": "json"
+      },
+      "hana": {
+        "dataType": "clob"
+      }
+    },
+    "data": {
+      "type": "Object",
+      "postgresql": {
+        "dataType": "json"
+      },
+      "hana": {
+        "dataType": "clob"
+      }
+    }
+  },
+  "validations": [],
+  "relations": {
+    "tx": {
+      "type": "belongsTo",
+      "model": "tmTx",
+      "foreignKey": "txId",
+      "primaryKey": "txId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}]

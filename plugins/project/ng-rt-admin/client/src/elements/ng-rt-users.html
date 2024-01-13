@@ -1,0 +1,845 @@
+<link rel="import" href="../../bower_components/ng-rt-components/ng-rt-grid/ng-rt-grid.html">
+<link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
+
+<dom-module id="ng-rt-users">
+  <template>
+    <style include="shared-styles"></style>
+    <style is="custom-style">
+      :host {
+        width: 100%;
+        height: 100%;
+      }
+
+      .pa-search-form {
+        display: none;
+        width: 100%;
+        height: calc(var(--toolbar-height) - 1px);
+        position: absolute;
+        left: 0;
+        top: 0;
+        padding: 0 20px;
+        box-sizing: border-box;
+        background: var(--toolbar-bg);
+        z-index: 2;
+      }
+
+      .pa-search-form[show] {
+        display: flex;
+        align-items: center;
+      }
+
+      .search-input {
+        flex: 1;
+        position: relative;
+      }
+
+      .search-action {
+        flex: 0 0 50px;
+      }
+
+      ng-rt-users {
+        width: 100%;
+      }
+
+      iron-grid>div {
+        overflow: hidden;
+        height: 50px;
+      }
+
+      paper-menu {
+        --paper-menu-selected-item: {
+          color: var(--project-green);
+        }
+      }
+    </style>
+
+    <!-- Main pages -->
+    <iron-pages class="fit" selected={{selectedPage}}>
+      <paper-header-panel class="appPanel">
+        <!--Toolbar-->
+        <paper-toolbar class="appToolbar small-tall">
+          <!--Top-->
+          <paper-icon-button id="paperToggle" icon="menu" paper-drawer-toggle=""></paper-icon-button>
+          <span class="title">Users</span>
+          <span class="flex"></span>
+          <paper-icon-button id="pib-social-group-add" icon="icons:add" on-click="toggleUsercreate">
+          </paper-icon-button>
+          <div class="pa-search-form" show$="{{show}}">
+            <paper-icon-button icon="search" class="search-action" on-mousedown="searchInGoogle"></paper-icon-button>
+            <paper-input id="searchInput" no-label-float class="search-input" value="{{inputValue}}"
+              on-keyup="searchOnEnter" on-blur="hideSearch"></paper-input>
+          </div>
+          <span class="flex bottom"></span>
+
+        </paper-toolbar>
+
+        <!--Content-->
+        <div class="content">
+          <paper-material elevation="0" class="vaadinMaterial">
+            <vaadin-grid id="usersgrid" items="[[filteredUsers]]" active-item="{{selectedUser}}" multi-sort="[[true]]">
+
+              <vaadin-grid-column width="195px" flex-grow="0">
+                <template class="header">
+                  <vaadin-grid-sorter path="username">
+                    <div class="cell" style="padding-left: 20px;">
+                      <span>Username</span>
+                    </div>
+                  </vaadin-grid-sorter>
+                </template>
+                <template class="header"></template>
+                <template>
+                  <div class="cell" style="padding-left: 20px;">
+                    [[item.username]]
+                  </div>
+                </template>
+              </vaadin-grid-column>
+
+              <vaadin-grid-column flex="1">
+                <template class="header">
+                  <vaadin-grid-sorter path="email">
+                    <div class="cell">
+                      <span>Email</span>
+                    </div>
+                  </vaadin-grid-sorter>
+                </template>
+                <template>
+                  <div class="cell">
+                    [[item.email]]
+                  </div>
+                </template>
+              </vaadin-grid-column>
+
+              <vaadin-grid-column flex="1">
+                <template class="header">
+                  <vaadin-grid-sorter path="roles">
+                    <div class="cell">
+                      <span>Role</span>
+                    </div>
+                  </vaadin-grid-sorter>
+                </template>
+                <template>
+                  <div class="cell cell-data">
+                    <template is="dom-repeat" items="{{item.roles}}" as="role">
+                      <template is="dom-if" if="{{isStartIndex(index)}}">,&nbsp;</template>
+                      <span>{{role.name}}</span>
+                    </template>
+                  </div>
+                </template>
+              </vaadin-grid-column>
+
+              <vaadin-grid-column width="155px" flex-grow="0">
+                <template class="header">
+                  <div class="cell">
+                    <span>Actions</span>
+                  </div>
+                </template>
+                <template>
+                  <div class="cell cell-data">
+                    <paper-icon-button data-test-id$='user-role-settings-{{item.username}}' on-click="userSelectClick"
+                      icon="icons:settings"></paper-icon-button>
+                    <paper-icon-button on-click="toggleProfile" icon="icons:assignment-ind"></paper-icon-button>
+                    <paper-icon-button on-click="toggleUserDelete" icon="icons:delete"></paper-icon-button>
+                  </div>
+                </template>
+              </vaadin-grid-column>
+
+            </vaadin-grid>
+          </paper-material>
+
+        </div>
+      </paper-header-panel>
+
+
+      <paper-header-panel class="appPanel">
+        <!--Toolbar-->
+        <paper-toolbar class="appToolbar medium-tall">
+          <!--Top-->
+          <paper-icon-button id="paperToggle" icon="menu" paper-drawer-toggle=""></paper-icon-button>
+          <span class="title">User</span>
+          <span class="flex"></span>
+          <paper-icon-button icon="icons:apps" data-where="0" on-click="setActivePage"></paper-icon-button>
+          <!-- <paper-icon-button icon="social:group-add" onclick="usercreate.toggle()"></paper-icon-button> -->
+
+          <!-- <paper-icon-button icon="search" on-click="showSearch"></paper-icon-button> -->
+          <!-- <div class="pa-search-form" show$="{{show}}">
+            <paper-icon-button icon="search" class="search-action" on-mousedown="searchInGoogle"></paper-icon-button>
+            <paper-input id="searchInput" no-label-float class="search-input" value="{{inputValue}}" on-keyup="searchOnEnter" on-blur="hideSearch"></paper-input>
+          </div> -->
+          <paper-tabs class="plugin-tabs bottom fit" selected="{{selected}}" noink="true">
+            <paper-tab on-tap="tabTap" style="flex: 0 0 150px">Roles</paper-tab>
+            <paper-tab on-tap="tabTap" style="flex: 0 0 150px">Profile</paper-tab>
+          </paper-tabs>
+        </paper-toolbar>
+
+        <!--Content-->
+        <div class="content">
+          <neon-animated-pages class="flex" selected="[[userSelectedTab]]">
+            <neon-animatable entryAnimation="slide-from-left-animation">
+
+
+            </neon-animatable>
+            <neon-animatable entryAnimation="slide-from-left-animation">
+
+            </neon-animatable>
+          </neon-animated-pages>
+
+        </div>
+      </paper-header-panel>
+    </iron-pages>
+
+    <paper-dialog id="userroleselect" role="alertdialog" entry-animation="scale-up-animation"
+      exit-animation="fade-out-animation">
+      <div class="dialog-content">
+        <h2>Set role for {{selectedUser.username}}</h2>
+        <template is="dom-repeat" items="{{roles}}">
+          <iron-grid class="userrole">
+            <div class="m6 s6 xs6">[[item.name]]</div>
+            <div class="m6 s6 xs6 horizontal layout end-justified">
+              <paper-toggle-button data-test-id$='role-toggle-{{item.name}}' checked="{{item.checked}}">
+              </paper-toggle-button>
+            </div>
+          </iron-grid>
+        </template>
+      </div>
+      <div class="buttons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button dialog-confirm autofocus on-click="saveRoles">Set</paper-button>
+      </div>
+    </paper-dialog>
+
+    <paper-dialog id="usercreate" role="alertdialog" entry-animation="scale-up-animation"
+      exit-animation="fade-out-animation">
+      <div class="dialog-content">
+        <h2>Creating user</h2>
+        <p>
+          <paper-input id="ucusername" name="username" type="text" label="User Name" value="{{uc.username}}" auto-validate
+            pattern="[[rules.username]]" error-message="[[errors.username]]" required="true">
+            <iron-icon icon="social:person" prefix></paper-input>
+          <paper-input type="ucemail" id="ucemail" name="email" auto-validate label="Email" value="{{uc.email}}" required="true" pattern="[[rules.email]]" error-message="[[errors.email]]">
+              <iron-icon prefix icon="mail"></iron-icon> 
+          </paper-input>
+          <paper-input type="email" id="ucemail2" name="email2" auto-validate label="Secondary Email" value="{{uc.email2}}"  pattern="[[rules.email]]" error-message="[[errors.email]]">
+              <iron-icon prefix icon="mail"></iron-icon>
+          </paper-input>
+          <gold-password-input-validator pattern="[[rules.password]]"></gold-password-input-validator>
+          <gold-password-input id="ucpassword" label="Password" reveal suffix required={true} validator="gold-password-input-validator"
+            label="Password" value="{{uc.password}}" auto-validate error-message="[[errors.password]]"></gold-password-input>
+        </p>
+      </div>
+      <div class="buttons">
+        <paper-button id="pb-cancel" dialog-dismiss>Cancel</paper-button>
+        <paper-button id="pb-create" dialog-confirm autofocus on-click="createUser">Create</paper-button>
+      </div>
+    </paper-dialog>
+
+
+    <paper-dialog id="userdelete" class="warningdialog" modal role="alertdialog" entry-animation="scale-up-animation"
+      exit-animation="fade-out-animation">
+      <h2>Delete user</h2>
+      <p>Are you sure, you want to remove "{{selectedUser.username}}"?</p>
+      <div class="buttons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button dialog-confirm autofocus on-click="removeUser">Delete</paper-button>
+      </div>
+    </paper-dialog>
+
+    <!-- Tribes set -->
+    <paper-dialog modal id="tribesDialog" role="confirmdialog" entry-animation="scale-up-animation">
+      <div class="dialog-content">
+        <h2>Select user tribes</h2>
+        <p>
+          <paper-menu multi id="tribesbox" selected="0" on-iron-select="clickTribesMenuItem"
+            on-iron-deselect="clickTribesMenuItem">
+            <template is="dom-repeat" items="{{tribes}}">
+              <paper-item id="{{calcTribesMenuItemId(item)}}">{{item.name}}</paper-item>
+            </template>
+          </paper-menu>
+        </p>
+      </div>
+      <div class="buttons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button dialog-confirm autofocus class="flex" on-click="saveTribes">Set</paper-button>
+      </div>
+    </paper-dialog>
+
+    <paper-dialog id="userprofile" role="alertdialog" entry-animation="scale-up-animation"
+      exit-animation="fade-out-animation">
+      <div class="dialog-content">
+        <h2>Edit user profile</h2>
+        <p>
+          <paper-input id="username" type="text" label="User Name" value="{{selectedUser.username}}" auto-validate
+            pattern="[[rules.username]]" error-message="[[errors.username]]" required="true">
+            <iron-icon icon="social:person" prefix></iron-icon>
+          </paper-input>
+
+        <paper-dropdown-menu label="Domain">
+            <paper-listbox id="domainbox" class="dropdown-content" selected="{{selectedUser.domainID}}" on-iron-select="domainSet">
+              <template is="dom-repeat" items="{{selectedUser.domains}}" observe="{{selectedUser.domains.*}}">
+                <paper-item value="{{item.domainId}}">[[item.domainID]]</paper-item>
+              </template>
+            </paper-listbox>
+          </paper-dropdown-menu>
+        <br>  
+        <paper-dropdown-menu label="Language">
+          <paper-listbox id="langbox" class="dropdown-content" selected="0" >
+            <template is="dom-repeat" items="{{languages}}">
+              <paper-item value="{{item.id}}">[[item.title]]</paper-item>
+            </template>
+          </paper-listbox>
+        </paper-dropdown-menu>
+
+        <paper-input id="email" label="Email" value="{{selectedUser.email}}" required="true" auto-validate pattern="[[rules.email]]" error-message="[[errors.email]]">
+            <iron-icon icon="mail" prefix></iron-icon>
+            <template is="dom-if" if="{{selectedUser.emailVerified}}">
+              <div suffix class="verified">Verified</div>
+            </template>
+            <template is="dom-if" if="{{!selectedUser.emailVerified}}">
+              <template is="dom-if" if="{{selectedUser.email}}">
+                <paper-button suffix icon="icons:create" on-click="getVerifyMail" label="Validate">
+                  verify
+                </paper-button>
+              </template>
+            </template>
+          </paper-input>
+          <paper-input country-code="" type="text" id="phone" label="Phone number" value="{{selectedUser.phone}}"
+            pattern="[[rules.phone]]" always-float-label error-message="[[errors.phone]]" auto-validate>
+            <iron-icon icon="hardware:smartphone" prefix></iron-icon>
+            <template is="dom-if" if="{{selectedUser.phoneVerified}}">
+              <div suffix class="verified">Verified</div>
+            </template>
+          </paper-input>
+          <paper-input always-float-label id="tribesinput" Label="Tribes" value="{{normTribes(selectedTribes)}}"
+            on-click="toggleTribes"></paper-input>
+          <vaadin-combo-box id="BaseDropdown" label="Base" items="{{normBases(bases)}}"
+            value="{{getBase(curDetails, bases)}}"></vaadin-combo-box>
+        </p>
+      </div>
+      <div class="buttons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button dialog-confirm autofocus on-click="handleUpdateProfile" style="flex:1">Save</paper-button>
+      </div>
+    </paper-dialog>
+
+
+  </template>
+  <script>
+    Polymer({
+      is: 'ng-rt-users',
+      properties: {
+        rules:
+        {
+          type:Object
+        },
+        errors:
+        {
+          type:Object
+        },
+        uc:
+        {
+          type: JSON,
+          value: {
+            username:"",
+            email:"",
+            email2:"",
+            password:""
+          }
+        },
+        users: {
+          type: Array,
+          notify: true,
+          value: []
+        },
+        selectedUser: {
+          type: Object,
+          notify: true,
+          value: {}
+        },
+        selectedUserRoles: {
+          type: Array,
+          value: []
+        },
+        roles: {
+          type: Array,
+          notify: true,
+          value: []
+        },
+        userId: {
+          type: String
+        },
+        hideDetails: {
+          type: Boolean,
+          value: true
+        },
+        bases: {
+          type: Array,
+          notify: true,
+          value: []
+        },
+        tribes: {
+          type: Array,
+          notify: true,
+          value: []
+        },
+        myDetails: {
+          type: Array,
+          notify: true,
+          value: []
+        },
+        curDetails: {
+          type: Object,
+          notify: true,
+          value: {}
+        }, 
+        highlightedTribes: {
+          type: Array,
+          notify: true,
+          value: []
+        },
+        selectedTribes: {
+          type: Array,
+          notify: true,
+          value: []
+        },
+        show: {
+          type: Boolean,
+          value: false
+        },
+        inputValue: {
+          type: String,
+          value: ''
+        },
+        selectedPage: {
+          type: String,
+          value: '0'
+        },
+        languages: {
+          type: Array,
+          value: [{
+            id: "en",
+            title: "English"
+          }, {
+            id: "de",
+            title: "Deutsch"
+          }, {
+            id: "ru",
+            title: "Русский"
+          }, {
+            id: "nl",
+            title: "Dutch"
+          }
+          ]
+        },
+        selectedLang: {
+          type: String,
+          value: 'en'
+        },
+      },
+      focusSearchInput: function () {
+        document.getElementById('searchInput').$.input.focus();
+      },
+      showSearch: function () {
+        this.show = true;
+        this.focusSearchInput();
+      },
+      hideSearch: function () {
+        this.show = false;
+      },
+      searchOnEnter: function (e) {
+        if (e.keyCode === 13) {
+          this.filterField = e.target.value;
+          this.filterColumns();
+        }
+      },
+      filterColumns: function () {
+        var textFromSearchBox = this.filterField.toLowerCase();
+        if (textFromSearchBox.length === 0) {
+          this.filteredUsers = this.users;
+          return;
+        }
+
+        var fltByUsername = function (users) {
+          var usernameApp = users.username;
+          return (usernameApp && !usernameApp.toLowerCase().indexOf(textFromSearchBox));
+        };
+
+        var fltByEmail = function (users) {
+          var emailApp = users.email;
+          return (emailApp && !emailApp.toLowerCase().indexOf(textFromSearchBox));
+        };
+
+        var fltByRole = function (users) {
+          return users.roles.filter(r => !r.name.toLowerCase().indexOf(textFromSearchBox)).length;
+        };
+
+        this.filteredUsers = (this.users || [])
+          .filter(users => fltByUsername(users) || fltByEmail(users) || fltByRole(users));
+      },
+      attached: function () {
+        let p = [];
+        p.push(this.getAsync('/ng-rt-admin/bases'));
+        p.push(this.getAsync('/ng-rt-admin/tribes'));
+        p.push(this.getAsync('/ng-rt-admin/myDetails'));
+        return Promise.all(p)
+          .then((vals) => {
+            this.bases = vals[0].res;
+            this.tribes = vals[1].res;
+            this.myDetails = vals[2].res;
+          });
+      },
+      ready: function () {
+        var self = this;
+        this.rules=window.project.rules;
+        this.errors=window.project.errors["EN"];  
+        this.getUsers();
+        this.getRoles();
+        
+        // refresh users and roles on menu navigation
+        var app = document.querySelector('#app');
+        app.menuEmitter.on('route', function (ctx) {
+          if (ctx.path === '/admin/users') {
+            self.getUsers();
+            self.getRoles();
+          }
+        });
+
+      },
+      getUsers: function () {
+        var self = this;
+        project.ajax.get('/users', function (response) {
+          response.sort(function (a, b) {
+            if (a.username < b.username) return -1;
+            if (a.username > b.username) return 1;
+            return 0;
+          });
+          self.users = response;
+          self.filteredUsers = response;
+        });
+      },
+      getRoles: function () {
+        var self = this;
+        project.ajax.get('/roles', function (response) {
+          var roles = response;
+          self.roles = [];
+          roles.forEach(function (r) {
+            r.checked = false;
+            self.push('roles', r);
+          });
+        });
+      },
+      handleGetResponse: function (e) {
+        var response = e.detail.xhr.response;
+        this.users = response;
+      },
+      setActivePage: function (e) {
+        this.selectedPage = e.target.dataset.where;
+      },
+      userSelectClick: function (e) {
+        this.selectedUser = e.model.item;
+        this.getUserRoles(this.selectedUser.id);
+        this.$.userroleselect.toggle();
+      },
+      toggleUserDelete: function (e) {
+        this.selectedUser = e.model.item;
+        this.$.userdelete.toggle();
+      },
+      getUserRoles: function (id) {
+        var self = this;
+        project.ajax.get('/userRoles?userId=' + id, function (response) {
+          var userRoles = response;
+          self.roles.forEach(function (role, index) {
+            var contain = userRoles.some(function (r) {
+              return role.id == r;
+            });
+            self.set('roles.' + index + '.checked', contain);
+          });
+          self.selectedUserRoles = userRoles;
+        });
+      },
+      handleGetRolesResponse: function (e) {
+        var component = this;
+        var roles = e.detail.xhr.response;
+        roles.forEach(function (r) {
+          r.checked = false;
+          component.push('roles', r);
+        });
+      },
+      handleGetUserRolesResponse: function (e) {
+        var component = this;
+        var userRoles = e.detail.xhr.response;
+        component.roles.forEach(function (role, index) {
+          var contain = userRoles.some(function (r) {
+            return role.id == r;
+          });
+          component.set('roles.' + index + '.checked', contain);
+        });
+        this.selectedUserRoles = userRoles;
+      },
+      saveRoles: function () {
+        var component = this;
+        this.roles.forEach(function (role) {
+          if (role.checked) {
+            var contain = component.selectedUserRoles.some(function (r) {
+              return role.id == r;
+            });
+            if (!contain) {
+              component.addRoleToUser(component.selectedUser.id, role.id);
+            }
+          } else {
+            var contain = component.selectedUserRoles.some(function (r) {
+              return role.id == r;
+            });
+            if (contain) {
+              component.removeRoleFromUser(component.selectedUser.id, role.id);
+            }
+          }
+        });
+      },
+      addRoleToUser: function (userId, roleId) {
+        var self = this;
+        project.ajax.ajax('/addRoleToUser', 'POST', {
+          userId: userId,
+          roleId: roleId
+        }, function (response) {
+          self.rolesSavedResponse();
+        });
+      },
+      removeRoleFromUser: function (userId, roleId) {
+        var self = this;
+        project.ajax.ajax('/removeRoleFromUser', 'POST', {
+          userId: userId,
+          roleId: roleId
+        }, function (response) {
+          self.rolesSavedResponse();
+        });
+      },
+      rolesSavedResponse: function () {
+        this.getUsers();
+      },
+      isStartIndex: function (index) {
+        return index != 0;
+      },
+      createUser: function () {
+        var self = this;
+        const toaster = document.getElementById('toaster');
+        if (this.uc.username.trim() == "") {
+          toaster.show("Username cannot be blank", 'alert');
+          return;
+        }
+        if (this.uc.password.trim() == "") {
+          toaster.show("Password cannot be blank", 'alert');
+          return;
+        }
+        if (this.uc.email.trim() == "") {
+          toaster.show("Email cannot be blank", 'alert');
+          return;
+        }
+        var valid = this.$.ucusername.validate() & this.$.ucemail.validate()  & this.$.ucpassword.validate() & this.$.ucemail2.validate();
+        if(!valid)
+        {
+          toaster.show("Invalid user attributes",'alert');
+          return;
+        }
+        project.ajax.post('/auth/createuser', {
+            username: this.uc.username,
+            password: this.uc.password,
+            email: this.uc.email.toLowerCase(),
+            email2: this.uc.email2 ? this.uc.email2.toLowerCase() : ''
+          }, 'ng-rt-jwt-auth', function (response, xhr) {
+        if (xhr.status != 200) {
+          toaster.show(xhr.response.message, 'alert');
+          return;
+        }
+        self.getUsers();
+        });
+      },
+      removeUser: function () {
+       
+        if (project.config.user.username === this.selectedUser.username)
+        {
+          const toaster = document.getElementById('toaster');
+          toaster.show('Logged-in user cannot erase itself', 'alert');
+          return
+        }
+        const urlGetUser = '/ng-rt-admin/myDetailsByUserId';
+        this.postAsync(urlGetUser, { userId: this.selectedUser.id })
+          .then(ret => {
+            let myDetails = ret.res;
+            return Promise.all(myDetails.map(md => {
+              this.deleteAsync('/ng-rt-admin/myDetails/', { userId: md.userId });
+            }))
+          })
+          .then(ret => {
+            return this.getAsync('/ng-rt-admin/myDetails');
+          })
+          .then(myDetails => {
+            this.myDetails = myDetails.res;
+            return new Promise((resolve, reject) => {
+              project.ajax.post('/auth/removeuser', {
+                userId: this.selectedUser.id
+              }, 'ng-rt-jwt-auth', (response, xhr) => {
+                if (xhr.status != 200) return reject('user not deleted');
+                resolve(response);
+              });
+            })
+          })
+          .then(response => {
+            this.getUsers();
+          })
+          .catch(err => {
+            const toaster = document.getElementById('toaster');
+            toaster.show(err.message, 'alert');
+          })
+      },
+      qryAsync: function (method, url, data) {
+        return new Promise((resolve, reject) => {
+          project.ajax[method](url, data, (res, xhr) => {
+            if (xhr.status >= 400) return reject({
+              res: res,
+              xhr: xhr,
+              status: xhr.status,
+              statusText: xhr.statusText
+            });
+            resolve({
+              res: res,
+              xhr: xhr,
+              status: xhr.status,
+              statusText: xhr.statusText
+            });
+          })
+        })
+      },
+      getAsync: function (url) {
+        return this.qryAsync('get', url, {});
+      },
+      putAsync: function (url, data) {
+        return this.qryAsync('put', url, data);
+      },
+      postAsync: function (url, data) {
+        return this.qryAsync('post', url, data);
+      },
+      deleteAsync: function (url, data) {
+        return this.qryAsync('delete', url, data);
+      },
+      toggleUsercreate: function (ev) {
+        this.uc.username = '';
+        this.uc.email = '';
+        this.uc.email2 = '';
+        this.uc.password = '';
+        document.querySelector('#ucusername').value = '';
+        document.querySelector('#ucemail').value = '';
+        document.querySelector('#ucemail2').value = '';
+        document.querySelector('#ucpassword').value = '';
+        
+        document.querySelector('#ucusername').invalid = false;
+        document.querySelector('#ucemail').invalid = false;
+        document.querySelector('#ucemail2').invalid = false;
+        document.querySelector('#ucpassword').invalid = false;
+        document.querySelector('#usercreate').toggle()
+      },
+      toggleProfile: function (ev) {
+        var self =this;
+        this.selectedUser = ev.model.item;
+        this.curDetails = this.myDetails.filter(det => det.userId == this.selectedUser.id)[0] || {};
+        this.selectedTribes = (this.tribes || [])
+          .filter(item => (this.curDetails.tribe || []).indexOf(item.id) !== -1)
+          .map(item => item.name);
+
+        if(!this.selectedUser.defaultLocale)
+          self.$.langbox.selected=0;
+        else
+          self.languages.forEach(function (lang, index) {
+              if (lang.id === self.selectedUser.defaultLocale) 
+              {
+                self.$.langbox.selected = index;
+              } 
+            });
+        this.$.userprofile.toggle();
+      },
+      toggleTribes: function (ev) {
+        this.$.tribesDialog.toggle();
+        (this.tribes || [])
+          .filter(item => (this.curDetails.tribe || []).indexOf(item.id) !== -1)
+          .forEach(item => {
+            let itemId = this.calcTribesMenuItemId(item);
+            let elem = document.getElementById(itemId);
+            if (elem) {
+              let selected = this.highlightedTribes.indexOf(item.name) !== -1;
+              let highlighted = this.selectedTribes.indexOf(item.name) !== -1;
+              if (selected !== highlighted) elem.click()
+            } 
+          });
+      },
+      calcTribesMenuItemId: function (item) {
+        return 'tribes-menu-item-' + item.name;
+      },
+      clickTribesMenuItem: function (ev) {
+        this.highlightedTribes = ev.target.selectedItems.map(item => item.innerText.trim());
+      },
+      normTribes: function (selectedTribes) {
+        return selectedTribes.join(', ');
+      },
+      normBases: function (bases) {
+        let nb = bases.map(base => base.name);
+        return nb;
+      },
+      getBase: function (curDetails, bases) {
+        return ((bases || []).filter(base => base.id == (curDetails || {}).base)[0] || {}).name;
+      },
+      saveTribes: function () {
+        this.selectedTribes = this.highlightedTribes;
+        this.saveCurDetails(this.selectedTribes);
+      },
+      saveSettings: function () {
+        this.saveCurDetails();
+      },
+      saveCurDetails: function (selectedTribes) {
+        let url = '/ng-rt-admin/myDetails';
+        this.curDetails.userId = this.curDetails.userId || this.selectedUser.id;
+        this.curDetails.base = (this.bases.filter(base => base.name == this.$.BaseDropdown.value)[0] || {}).id
+        if (selectedTribes) {
+          this.curDetails.tribe = this.tribes
+            .filter(item => selectedTribes.indexOf(item.name) !== -1)
+            .map(item => item.id)
+        } 
+        return this.putAsync(url, this.curDetails)
+          .then(ret => {
+            return this.getAsync('/ng-rt-admin/myDetails')
+              .then(ret => {
+                this.myDetails = ret.res;
+                this.curDetails = this.myDetails.filter(det => det.userId == this.selectedUser.id)[0] || {};
+              })
+              .catch(err => {
+              })
+          })
+          .catch(err => {
+          })
+      },
+
+      handleUpdateProfile: function () 
+      {
+        var self=this;
+        this.selectedUser.defaultLocale=this.$.langbox.selectedItem.value;
+        var valid = this.selectedUser.username.trim() !="" & this.$.username.validate()
+            & this.selectedUser.email.trim()!="" & this.$.email.validate()
+            & this.$.phone.validate();
+            
+             
+        if (!valid) return;
+        var body = this.selectedUser;
+        
+        project.ajax.put('/admin/user-profile', 
+          body, 'ng-rt-jwt-auth', function (response, xhr) 
+          {
+            if (xhr.status != 200) 
+            {
+              toaster.show(xhr.response.message, 'alert');
+              return;
+            }
+
+            self.getUsers();
+            toaster.show('User profile updated successfully.');
+          })
+      }
+    });
+  </script>
+</dom-module>

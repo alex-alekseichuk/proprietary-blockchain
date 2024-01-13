@@ -1,0 +1,130 @@
+[
+    {
+        "id": "c4ba12e4.5e20b",
+        "type": "tab",
+        "label": "SC_HelloWorld_Part1",
+        "disabled": false,
+        "info": "The contract to save data to memory and read it from memory.",
+        "nodes": [
+            {
+                "id": "feb536da.e74c18",
+                "type": "done",
+                "z": "c4ba12e4.5e20b",
+                "name": "done",
+                "x": 990,
+                "y": 420,
+                "wires": []
+            },
+            {
+                "id": "71760035.9f27c",
+                "type": "comment",
+                "z": "c4ba12e4.5e20b",
+                "name": "SC_HelloWorld_Part1",
+                "info": "The contract to save data to memory and read it.",
+                "x": 800,
+                "y": 140,
+                "wires": []
+            },
+            {
+                "id": "23071a54.684916",
+                "type": "contract in",
+                "z": "c4ba12e4.5e20b",
+                "name": "getGreeting",
+                "url": "/getGreeting",
+                "method": "get",
+                "swaggerDoc": "",
+                "x": 470,
+                "y": 420,
+                "wires": [
+                    [
+                        "a70dbdc7.026b"
+                    ]
+                ],
+                "info": "To read the value of greeting variable"
+            },
+            {
+                "id": "a70dbdc7.026b",
+                "type": "get-memory-field",
+                "z": "c4ba12e4.5e20b",
+                "name": "get memory field",
+                "field": "greeting",
+                "destination": "payload",
+                "x": 720,
+                "y": 420,
+                "wires": [
+                    [
+                        "feb536da.e74c18"
+                    ]
+                ]
+            },
+            {
+                "id": "3ac6a2b2.8b808e",
+                "type": "arguments",
+                "z": "c4ba12e4.5e20b",
+                "name": "get argument \"greeting\"",
+                "position": 0,
+                "destination": "greeting",
+                "dataType": "string",
+                "description": "A simple greeting message.",
+                "x": 730,
+                "y": 300,
+                "wires": [
+                    [
+                        "5f16301a.be17c"
+                    ]
+                ]
+            },
+            {
+                "id": "c8e4ce55.d93a7",
+                "type": "project-sc-1.0",
+                "z": "c4ba12e4.5e20b",
+                "name": "SC_HelloWorld_Part1",
+                "version": "1.0",
+                "x": 500,
+                "y": 140,
+                "wires": []
+            },
+            {
+                "id": "5f16301a.be17c",
+                "type": "set-memory-field",
+                "z": "c4ba12e4.5e20b",
+                "name": "set memory field",
+                "field": "greeting",
+                "source": "greeting",
+                "x": 990,
+                "y": 300,
+                "wires": [
+                    [
+                        "c759492b.567b78"
+                    ]
+                ]
+            },
+            {
+                "id": "a3cfa134.a3b47",
+                "type": "contract in",
+                "z": "c4ba12e4.5e20b",
+                "name": "init",
+                "url": "/helloWorld_Part1",
+                "method": "get",
+                "swaggerDoc": "",
+                "x": 450,
+                "y": 300,
+                "wires": [
+                    [
+                        "3ac6a2b2.8b808e"
+                    ]
+                ],
+                "info": "To publish the instance of contract"
+            },
+            {
+                "id": "c759492b.567b78",
+                "type": "done",
+                "z": "c4ba12e4.5e20b",
+                "name": "Published successfully",
+                "x": 1300,
+                "y": 300,
+                "wires": []
+            }
+        ]
+    }
+]

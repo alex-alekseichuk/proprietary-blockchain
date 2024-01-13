@@ -1,0 +1,671 @@
+[
+    {
+        "id": "8ff0f0e7.33bc1",
+        "type": "tab",
+        "label": "permissions_sc_doc_sharing",
+        "nodes": [
+            {
+                "id": "1fd07549.3ae32b",
+                "type": "done",
+                "z": "8ff0f0e7.33bc1",
+                "name": "",
+                "x": 2456.7500762939453,
+                "y": 549.9999674691094,
+                "wires": []
+            },
+            {
+                "id": "3172332f.cfa01c",
+                "type": "done",
+                "z": "8ff0f0e7.33bc1",
+                "name": "",
+                "x": 1204.5,
+                "y": 173,
+                "wires": []
+            },
+            {
+                "id": "6b97942c.adafec",
+                "type": "debug",
+                "z": "8ff0f0e7.33bc1",
+                "name": "",
+                "active": true,
+                "tosidebar": true,
+                "console": false,
+                "tostatus": false,
+                "complete": "false",
+                "x": 2314.750030517578,
+                "y": 629.42848777771,
+                "wires": []
+            },
+            {
+                "id": "a304a533.254c28",
+                "type": "function",
+                "z": "8ff0f0e7.33bc1",
+                "name": "make response",
+                "func": "msg.payload = \"done\";\n\nmsg.headers = {\n    \"Content-Length\": msg.payload.length\n}\n\n\nreturn msg;",
+                "outputs": 1,
+                "noerr": 0,
+                "x": 1620,
+                "y": 400,
+                "wires": [
+                    [
+                        "7360eb55.609224"
+                    ]
+                ]
+            },
+            {
+                "id": "7df3008c.8a14e",
+                "type": "get-memory-field",
+                "z": "8ff0f0e7.33bc1",
+                "name": "get federationNodes",
+                "field": "federationNodes",
+                "destination": "payload",
+                "x": 918,
+                "y": 220,
+                "wires": [
+                    [
+                        "498c6813.220638",
+                        "3172332f.cfa01c"
+                    ]
+                ]
+            },
+            {
+                "id": "c7b486ec.5db6f8",
+                "type": "done",
+                "z": "8ff0f0e7.33bc1",
+                "name": "",
+                "x": 1866.6666666666665,
+                "y": 80,
+                "wires": []
+            },
+            {
+                "id": "aeae3e23.2284c",
+                "type": "comment",
+                "z": "8ff0f0e7.33bc1",
+                "name": "SECONDARY call - request from 1-st node with only a part of a key",
+                "info": "",
+                "x": 1278,
+                "y": 480,
+                "wires": []
+            },
+            {
+                "id": "69abb618.b750e8",
+                "type": "contract in",
+                "z": "8ff0f0e7.33bc1",
+                "name": "give_access",
+                "url": "/give_access",
+                "method": "get",
+                "swaggerDoc": "",
+                "x": 108,
+                "y": 400,
+                "wires": [
+                    [
+                        "f27546e0.9789a8"
+                    ]
+                ]
+            },
+            {
+                "id": "571b80eb.608a",
+                "type": "set-memory-field",
+                "z": "8ff0f0e7.33bc1",
+                "name": "set memory field",
+                "field": "accessLog",
+                "source": "payload",
+                "x": 1708,
+                "y": 20,
+                "wires": [
+                    [
+                        "c7b486ec.5db6f8"
+                    ]
+                ]
+            },
+            {
+                "id": "be81bdf6.5b6ed",
+                "type": "get-memory-field",
+                "z": "8ff0f0e7.33bc1",
+                "name": "documentId",
+                "field": "documentId",
+                "destination": "documentId",
+                "x": 645.9999542236328,
+                "y": 399.4285203086006,
+                "wires": [
+                    [
+                        "de6010b4.31929"
+                    ]
+                ]
+            },
+            {
+                "id": "f32ebd55.f6431",
+                "type": "offchain-storage",
+                "z": "8ff0f0e7.33bc1",
+                "name": "update record in local memory",
+                "x": 1428,
+                "y": 800,
+                "wires": [
+                    [
+                        "b651aecc.7befc"
+                    ]
+                ]
+            },
+            {
+                "id": "8080e772.0dc208",
+                "type": "arguments",
+                "z": "8ff0f0e7.33bc1",
+                "name": "encryptedSecret",
+                "position": "1",
+                "destination": "encryptedSecret",
+                "x": 448.6666208902993,
+                "y": 399.4285203086006,
+                "wires": [
+                    [
+                        "be81bdf6.5b6ed"
+                    ]
+                ]
+            },
+            {
+                "id": "73b856bc.67cd38",
+                "type": "function",
+                "z": "8ff0f0e7.33bc1",
+                "name": "set update record",
+                "func": "msg.ctx = {\n    update_key : msg.documentId + msg.pubKey,\n    update_value : { string : \"revoke\" }\n}\n\nconsole.log(\"//// create JSON record /////\");\nconsole.log(msg.ctx);\n\nreturn msg;",
+                "outputs": 1,
+                "noerr": 0,
+                "x": 1168,
+                "y": 800,
+                "wires": [
+                    [
+                        "f32ebd55.f6431"
+                    ]
+                ]
+            },
+            {
+                "id": "4897f5ca.c3daec",
+                "type": "get-memory-field",
+                "z": "8ff0f0e7.33bc1",
+                "name": "documentId",
+                "field": "documentId",
+                "destination": "documentId",
+                "x": 968,
+                "y": 800,
+                "wires": [
+                    [
+                        "73b856bc.67cd38"
+                    ]
+                ]
+            },
+            {
+                "id": "f27546e0.9789a8",
+                "type": "arguments",
+                "z": "8ff0f0e7.33bc1",
+                "name": "pubKey",
+                "position": 0,
+                "destination": "pubKey",
+                "x": 259.6666208902993,
+                "y": 399.4285203086006,
+                "wires": [
+                    [
+                        "8080e772.0dc208"
+                    ]
+                ]
+            },
+            {
+                "id": "5f63f848.f65c18",
+                "type": "get-memory-field",
+                "z": "8ff0f0e7.33bc1",
+                "name": "documentId",
+                "field": "documentId",
+                "destination": "documentId",
+                "x": 712.3332951863608,
+                "y": 669.4285193549263,
+                "wires": [
+                    [
+                        "b5781578.227bd8"
+                    ]
+                ]
+            },
+            {
+                "id": "f37a4688.e56a08",
+                "type": "contract in",
+                "z": "8ff0f0e7.33bc1",
+                "name": "init",
+                "url": "/init_1234535",
+                "method": "get",
+                "swaggerDoc": "",
+                "x": 488,
+                "y": 80,
+                "wires": [
+                    [
+                        "55dc543b.f69b6c"
+                    ]
+                ]
+            },
+            {
+                "id": "ca04e5bf.817838",
+                "type": "set-memory-field",
+                "z": "8ff0f0e7.33bc1",
+                "name": "set memory field",
+                "field": "federationNodes",
+                "source": "federationNodes",
+                "x": 1108,
+                "y": 40,
+                "wires": [
+                    [
+                        "e844a68b.05a218"
+                    ]
+                ]
+            },
+            {
+                "id": "57ccc91.3dc0038",
+                "type": "comment",
+                "z": "8ff0f0e7.33bc1",
+                "name": "* we need to connect secret-secret in parts from each node in federation ",
+                "info": "",
+                "x": 257.3332875569663,
+                "y": 579.4285203086006,
+                "wires": []
+            },
+            {
+                "id": "55dc543b.f69b6c",
+                "type": "arguments",
+                "z": "8ff0f0e7.33bc1",
+                "name": "documentId",
+                "position": 0,
+                "destination": "documentId",
+                "x": 748,
+                "y": 80,
+                "wires": [
+                    [
+                        "f3dcc98b.a380a8"
+                    ]
+                ]
+            },
+            {
+                "id": "fd1bee68.30ef6",
+                "type": "switch",
+                "z": "8ff0f0e7.33bc1",
+                "name": "Check timedout",
+                "property": "payload.timedout",
+                "propertyType": "msg",
+                "rules": [
+                    {
+                        "t": "true"
+                    },
+                    {
+                        "t": "false"
+                    }
+                ],
+                "checkall": "true",
+                "repair": false,
+                "outputs": 2,
+                "x": 1866.7499771118164,
+                "y": 661.2499761581421,
+                "wires": [
+                    [
+                        "e0a50035.febb6"
+                    ],
+                    [
+                        "3749ee00.4deee2"
+                    ]
+                ]
+            },
+            {
+                "id": "49d8c6c0.fe6f58",
+                "type": "arguments",
+                "z": "8ff0f0e7.33bc1",
+                "name": "pubKey",
+                "position": 0,
+                "destination": "pubKey",
+                "x": 320.99996185302734,
+                "y": 669.4285193549263,
+                "wires": [
+                    [
+                        "43d32d0e.9bf634"
+                    ]
+                ]
+            },
+            {
+                "id": "7360eb55.609224",
+                "type": "done",
+                "z": "8ff0f0e7.33bc1",
+                "name": "",
+                "x": 1788,
+                "y": 400,
+                "wires": []
+            },
+            {
+                "id": "43d32d0e.9bf634",
+                "type": "arguments",
+                "z": "8ff0f0e7.33bc1",
+                "name": "access key hash",
+                "position": "1",
+                "destination": "accessKeyHash",
+                "x": 512.3332951863608,
+                "y": 669.4285193549263,
+                "wires": [
+                    [
+                        "5f63f848.f65c18"
+                    ]
+                ]
+            },
+            {
+                "id": "e0a50035.febb6",
+                "type": "function",
+                "z": "8ff0f0e7.33bc1",
+                "name": "create JSON record",
+                "func": "\nconsole.log(\"//// create JSON record /////\");\n\nmsg.ctx = {\n    \"update_key\" : msg.documentId + msg.pubKey,\n    \"update_value\" : { string : \"revoked\" }\n}\n\nconsole.log(msg.ctx);\nconsole.log(\"//// DELAY /////\");\nconsole.log(msg.delay);\n\nreturn msg;",
+                "outputs": 1,
+                "noerr": 0,
+                "x": 1738,
+                "y": 540,
+                "wires": [
+                    [
+                        "ccf2b906.264db8"
+                    ]
+                ]
+            },
+            {
+                "id": "96c1bc3d.28102",
+                "type": "contract in",
+                "z": "8ff0f0e7.33bc1",
+                "name": "get-federation-nodes",
+                "url": "/get-federation-nodes",
+                "method": "get",
+                "swaggerDoc": "",
+                "x": 538,
+                "y": 220,
+                "wires": [
+                    [
+                        "7df3008c.8a14e"
+                    ]
+                ]
+            },
+            {
+                "id": "e844a68b.05a218",
+                "type": "set-memory-field",
+                "z": "8ff0f0e7.33bc1",
+                "name": "set memory field",
+                "field": "documentId",
+                "source": "documentId",
+                "x": 1328,
+                "y": 40,
+                "wires": [
+                    [
+                        "bb54f68c.58f048"
+                    ]
+                ]
+            },
+            {
+                "id": "b651aecc.7befc",
+                "type": "function",
+                "z": "8ff0f0e7.33bc1",
+                "name": "make response",
+                "func": "msg.payload = \"done\";\n\nmsg.headers = {\n    \"Content-Length\": msg.payload.length\n}\n\n\nreturn msg;",
+                "outputs": 1,
+                "noerr": 0,
+                "x": 1680,
+                "y": 800,
+                "wires": [
+                    [
+                        "5a44a08c.29ecd"
+                    ]
+                ]
+            },
+            {
+                "id": "e28edff0.62481",
+                "type": "debug",
+                "z": "8ff0f0e7.33bc1",
+                "name": "check timestamp",
+                "active": true,
+                "tosidebar": true,
+                "console": false,
+                "tostatus": false,
+                "complete": "payload",
+                "x": 1938,
+                "y": 740,
+                "wires": []
+            },
+            {
+                "id": "71cbb22b.5a030c",
+                "type": "offchain-storage",
+                "z": "8ff0f0e7.33bc1",
+                "name": "store encrypted secret key (or part of it) in local memory",
+                "x": 1285.9999542236328,
+                "y": 399.4285203086006,
+                "wires": [
+                    [
+                        "a304a533.254c28"
+                    ]
+                ]
+            },
+            {
+                "id": "741123c5.c6148c",
+                "type": "arguments",
+                "z": "8ff0f0e7.33bc1",
+                "name": "pubKey",
+                "position": 0,
+                "destination": "pubKey",
+                "x": 801.6666666666665,
+                "y": 800,
+                "wires": [
+                    [
+                        "4897f5ca.c3daec"
+                    ]
+                ]
+            },
+            {
+                "id": "5669237a.14026c",
+                "type": "function",
+                "z": "8ff0f0e7.33bc1",
+                "name": "set correct HTTP headers",
+                "func": "console.log('++++++++++++++++++++++++');\nconsole.log(msg.payload);\nconsole.log('++++++++++++++++++++++++');\nmsg.headers = {\n    \"Content-Length\": msg.payload.length\n}\nreturn msg;\n\n",
+                "outputs": 1,
+                "noerr": 0,
+                "x": 1308,
+                "y": 560,
+                "wires": [
+                    []
+                ]
+            },
+            {
+                "id": "b5781578.227bd8",
+                "type": "function",
+                "z": "8ff0f0e7.33bc1",
+                "name": "prepare GET block",
+                "func": "if (!msg.ctx) msg.ctx = {}\nconsole.log('msg', msg.payload)\nmsg.ctx.key = msg.documentId + msg.pubKey;\n\nreturn msg;",
+                "outputs": 1,
+                "noerr": 0,
+                "x": 912.3332951863608,
+                "y": 669.4285193549263,
+                "wires": [
+                    [
+                        "a529357a.5636b8"
+                    ]
+                ]
+            },
+            {
+                "id": "de6010b4.31929",
+                "type": "function",
+                "z": "8ff0f0e7.33bc1",
+                "name": "create JSON record",
+                "func": "console.log('++++++++++++++++++++++++++++');\nconsole.log('msg', msg);\nconsole.log('++++++++++++++++++++++++++++');\nmsg.ctx = {\n    key : msg.documentId + msg.pubKey,\n    value : { string : msg.encryptedSecret,\n        timestamp: Date.now(),\n        delay: msg.args[2]\n    }\n}\n\nconsole.log(\"//// create JSON record /////\");\nconsole.log(msg.ctx);\n\nreturn msg;",
+                "outputs": 1,
+                "noerr": 0,
+                "x": 915.9999542236328,
+                "y": 399.4285203086006,
+                "wires": [
+                    [
+                        "71cbb22b.5a030c"
+                    ]
+                ]
+            },
+            {
+                "id": "ccf2b906.264db8",
+                "type": "offchain-storage",
+                "z": "8ff0f0e7.33bc1",
+                "name": "store encrypted secret key (or part of it) in local memory",
+                "x": 2128,
+                "y": 520,
+                "wires": [
+                    [
+                        "6b97942c.adafec",
+                        "1fd07549.3ae32b"
+                    ]
+                ]
+            },
+            {
+                "id": "7297b71c.88ed68",
+                "type": "contract in",
+                "z": "8ff0f0e7.33bc1",
+                "name": "get_access",
+                "url": "/get_access",
+                "method": "get",
+                "swaggerDoc": "",
+                "x": 128,
+                "y": 669,
+                "wires": [
+                    [
+                        "49d8c6c0.fe6f58"
+                    ]
+                ]
+            },
+            {
+                "id": "2dca862.0091c7a",
+                "type": "set-memory-field",
+                "z": "8ff0f0e7.33bc1",
+                "name": "set memory field",
+                "field": "",
+                "source": "payload",
+                "x": 640,
+                "y": 320,
+                "wires": [
+                    []
+                ]
+            },
+            {
+                "id": "f3dcc98b.a380a8",
+                "type": "federation-list",
+                "z": "8ff0f0e7.33bc1",
+                "name": "federation IP's",
+                "destination": "federationNodes",
+                "x": 918,
+                "y": 80,
+                "wires": [
+                    [
+                        "ca04e5bf.817838"
+                    ]
+                ]
+            },
+            {
+                "id": "bb54f68c.58f048",
+                "type": "function",
+                "z": "8ff0f0e7.33bc1",
+                "name": "create empty array",
+                "func": "msg.payload = [];\nreturn msg;",
+                "outputs": 1,
+                "noerr": 0,
+                "x": 1528,
+                "y": 80,
+                "wires": [
+                    [
+                        "571b80eb.608a"
+                    ]
+                ]
+            },
+            {
+                "id": "498c6813.220638",
+                "type": "debug",
+                "z": "8ff0f0e7.33bc1",
+                "name": "",
+                "active": true,
+                "console": "true",
+                "complete": "payload",
+                "x": 1158,
+                "y": 260,
+                "wires": []
+            },
+            {
+                "id": "5a44a08c.29ecd",
+                "type": "done",
+                "z": "8ff0f0e7.33bc1",
+                "name": "",
+                "x": 1848,
+                "y": 800,
+                "wires": []
+            },
+            {
+                "id": "919e8b82.147378",
+                "type": "comment",
+                "z": "8ff0f0e7.33bc1",
+                "name": "each call is a result of each-series on bottom branch",
+                "info": "",
+                "x": 1808,
+                "y": 480,
+                "wires": []
+            },
+            {
+                "id": "3749ee00.4deee2",
+                "type": "done",
+                "z": "8ff0f0e7.33bc1",
+                "name": "",
+                "x": 2056.7499771118164,
+                "y": 681.2499761581421,
+                "wires": []
+            },
+            {
+                "id": "a529357a.5636b8",
+                "type": "offchain-storage",
+                "z": "8ff0f0e7.33bc1",
+                "name": "GET secret-secret (or part of secret-secret) from LOCAL memory",
+                "x": 1282.3332951863608,
+                "y": 669.4285193549263,
+                "wires": [
+                    [
+                        "7be4d633.f4db38"
+                    ]
+                ]
+            },
+            {
+                "id": "7be4d633.f4db38",
+                "type": "function",
+                "z": "8ff0f0e7.33bc1",
+                "name": "Check timestamp",
+                "func": "console.log('**********************');\nconsole.log('check timestamp', msg.payload);\nconsole.log('**********************');\nvar lastTime = msg.payload.timestamp;\nvar delay = msg.payload.delay;\nif(Math.floor((new Date() - lastTime)/60000) < delay/60){\n  msg.payload.timedout = false;  \n} else {\n  msg.payload.timedout = true;  \n}\nreturn msg;",
+                "outputs": 1,
+                "noerr": 0,
+                "x": 1676.7499771118164,
+                "y": 721.2499761581421,
+                "wires": [
+                    [
+                        "fd1bee68.30ef6",
+                        "e28edff0.62481"
+                    ]
+                ]
+            },
+            {
+                "id": "6736e6f8.ae9e08",
+                "type": "contract in",
+                "z": "8ff0f0e7.33bc1",
+                "name": "revoke_access",
+                "url": "/revoke_access",
+                "method": "get",
+                "swaggerDoc": "",
+                "x": 458,
+                "y": 800,
+                "wires": [
+                    [
+                        "741123c5.c6148c"
+                    ]
+                ]
+            },
+            {
+                "id": "40b6f8f8.980018",
+                "type": "project-sc-1.0",
+                "z": "8ff0f0e7.33bc1",
+                "name": "documentSharing",
+                "version": "1.0",
+                "x": 270,
+                "y": 40,
+                "wires": []
+            }
+        ]
+    }
+]

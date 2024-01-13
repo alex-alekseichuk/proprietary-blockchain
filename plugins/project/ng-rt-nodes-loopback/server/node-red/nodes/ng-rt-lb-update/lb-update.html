@@ -1,0 +1,73 @@
+<script type="text/javascript">
+    RED.nodes.registerType('lb-update', {
+        category: 'Project_Loopback',
+        color: '#9edcd6',
+        defaults: {
+            name: {
+                value: ""
+            },
+            modelname: {
+                value: ""
+            },
+            where: {
+                value: ""
+            },
+            data: {
+                value: ""
+            }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "Project.png",
+        label: function() {
+            return this.name || "lb-update";
+        }
+    });
+</script>
+<script type="text/x-red" data-template-name="lb-update">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-modelname"><i class="icon-tag"></i> Model Name</label>
+        <input type="text" id="node-input-modelname" placeholder="Model Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-filter"><i class="icon-tag"></i> Where</label>
+        <input type="text" id="node-input-where" placeholder="Where">
+    </div>
+    <div class="form-row">
+        <label for="node-input-filter"><i class="icon-tag"></i> Data</label>
+        <input type="text" id="node-input-data" placeholder="Data">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="lb-update">
+    <p>Node to call updateAll method of loopback models, to update data.</p>
+    <h3>Properties</h3>
+    <dl class="message-properties">
+       <dt>Name
+           <span class="property-type">string</span>
+       </dt>
+       <dd> Node name. </dd>
+       <dt>Model Name
+           <span class="property-type">string</span>
+       </dt>
+       <dd> the model name. </dd>
+       <dt>Where
+           <span class="property-type">object</span>
+       </dt>
+       <dd> specific object with query filter to update. </dd>
+       <dt>Data
+        <span class="property-type">object</span>
+    </dt>
+    <dd> specific object with data to be updated. </dd>
+   </dl>
+   <h3>Details</h3>
+   <p>
+     Update specified in query model instances by specified data.
+     Specify query by set node property where or by set msg.payload.where.
+     Specify data to update by set node property data or by set msg.payload.data.
+   </p>
+</script>

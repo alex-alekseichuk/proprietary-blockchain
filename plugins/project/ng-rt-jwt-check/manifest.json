@@ -1,0 +1,41 @@
+{
+ "name": "ng-rt-jwt-check",
+ "type": "optional",
+ "description": "authentication checking based on JWT",
+ "version": "3.2.",
+ "entryPoints": [
+  {
+   "type": "service",
+   "parameters": {
+    "file": "./api/services/service.js"
+   }
+  }
+ ],
+ "actions": {
+  "before_install": [],
+  "after_install": [
+   {
+    "name": "copy docs",
+    "type": "COPY_FILES",
+    "parameters": {
+     "source": "docs/api/",
+     "target": "config/docs/api/ng-rt-jwt-check"
+    }
+   }
+  ],
+  "after_uninstall": [],
+  "before_activate": [],
+  "after_activate": [],
+  "before_deactivate": [],
+  "after_deactivate": []
+ },
+ "sharedServices": [],
+ "apiServices": [],
+ "settings": [
+  {
+   "name": "json401Reply",
+   "caption": "Response JSON with message on 401",
+   "value": true
+  }
+ ]
+}

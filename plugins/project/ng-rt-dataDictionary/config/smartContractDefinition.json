@@ -1,0 +1,21 @@
+[
+    {
+        "name": "smartContractDefinition",
+        "base": "commonDataModel",
+        "idInjection": true,
+        "options": {
+         "validateUpsert": true
+        },
+        "properties": {
+         "transaction": {
+          "type": "string",
+          "required": true
+         },
+         "smartContracts": {
+          "type": "object"
+         }
+        },
+        "relations": {
+        }
+       }
+]

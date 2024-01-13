@@ -1,0 +1,46 @@
+[
+    {
+        "name": "storedKey",
+        "base": "commonDataModel",
+        "idInjection": true,
+        "options": {
+         "validateUpsert": true
+        },
+        "properties": {
+         "key": {
+          "type": "string",
+          "required": true
+         },
+         "name": {
+          "type": "string",
+          "required": true
+         },
+         "pubKey": {
+          "type": "string",
+          "required": true
+         },
+         "keyId": {
+          "type": "string",
+          "required": true
+         },
+         "createDate": {
+          "type": "date",
+          "required": true
+         },
+         "token": {
+          "type": "string",
+          "required": false
+         }
+        },
+        "validations": [],
+        "relations": {
+         "user": {
+          "type": "belongsTo",
+          "model": "user",
+          "foreignKey": "userId"
+         }
+        },
+        "acls": [],
+        "methods": {}
+       }
+]

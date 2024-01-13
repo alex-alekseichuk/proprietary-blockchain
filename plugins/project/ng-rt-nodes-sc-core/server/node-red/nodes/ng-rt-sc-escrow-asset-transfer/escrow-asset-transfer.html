@@ -1,0 +1,38 @@
+
+
+<script type="text/javascript">
+  RED.nodes.registerType('escrow-asset-transfer', {
+    category: 'Project_Smart_Contracts_Core',
+    color: '#94bee2',
+    defaults: {
+      name: {
+        value: "escrow-asset-transfer"
+      },
+      assetId : {
+        value : ""
+      }
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: "Project.png",
+    label: function() {
+      return this.name || "escrow-asset-transfer";
+    }
+  });
+</script>
+<script type="text/x-red" data-template-name="escrow-asset-transfer">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+
+</script>
+
+<script type="text/x-red" data-help-name="escrow-asset-transfer">
+    <p>Node to exchange asset Id</p>
+
+    <h3>Details</h3>
+        The node filters the transactions locked on a contract and 
+        updates the <code>msg.transferData.id</code> with assetId of respective parties of the escrow flow. 
+
+</script>

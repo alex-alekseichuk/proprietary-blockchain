@@ -1,0 +1,168 @@
+<dom-module id="ng-rt-attach-sc">
+  <style include="shared-styles"></style>
+  <style is="custom-style">
+     :host {
+      width: 100%;
+      height: 100%;
+    }
+    
+    h4 {
+      font-size: 1.3em;
+      font-weight: 400;
+      text-transform: uppercase;
+      margin: 10px 0 20px 0;
+    }
+    
+    .smartblock {
+      background: #ededed;
+      margin-bottom: 10px;
+      color: rgba(0, 0, 0, 0.9);
+      font-size: 1.1em;
+      font-weight: 400;
+      line-height: 80px;
+      max-height: 80px;
+      border: none;
+    }
+    
+    .icon {
+      background: var(--primary-color);
+      border-radius: 50%;
+    }
+  </style>
+
+  <template>
+    <!--<iron-ajax id="addTransactionRequest" url="/transaction/create" method="POST" content-type="application/json"-->
+    <!--on-response="handleResponse" on-error="handleError"></iron-ajax>-->
+    <paper-header-panel class="appPanel">
+
+      <!--Toolbar-->
+      <paper-toolbar class="appToolbar">
+
+        <!--Top-->
+        <paper-icon-button id="paperToggle" icon="menu" paper-drawer-toggle></paper-icon-button>
+        <span class="title">Document Expiration Time</span>
+        <span class="flex"></span>
+      </paper-toolbar>
+
+      <!--Content-->
+      <div class="content fit">
+        <paper-material elevation="1" class="layout vertical illustratedpaper" style="flex: inherit">
+          <div class="verticalhero">
+            <div class="icon vbg">
+              <img src="res/securitycopy.svg" alt="">
+            </div>
+          </div>
+
+          <template is="dom-if" if="{{smartContract}}">
+            <h4>Select an expiration time for viewing and downloading the document</h4>
+
+            <paper-button class='smartblock' on-click="attachNone">None</paper-button>
+
+            <template is="dom-repeat" items="{{smartContract.smartContracts}}">
+              <paper-button class="smartblock" on-click="attachSC">[[item.caption]]</paper-button>
+            </template>
+
+  </template>
+  <template is="dom-if" if="{{!smartContract}}">
+            <template is="dom-if" if="{{find}}">
+              <h4>Searching smart contracts for application ...</h4>
+            </template>
+  <template is="dom-if" if="{{!find}}">
+              <h4>No smart contracts for this applications. Go to next step..</h4>
+            </template>
+  </template>
+  </paper-material>
+  </div>
+  </paper-header-panel>
+  </template>
+
+  <script>
+    Polymer({
+      is: "ng-rt-attach-sc",
+      properties: {
+        payload: {
+          type: Object
+        },
+
+        smartContract: {
+          type: Object,
+          value: null
+        },
+        /**
+         * Pattern used to validate username.
+         * @type {string}
+         */
+        numberValidationPattern: {
+          type: Number
+        },
+
+        numberErrorMessage: {
+          type: String,
+          value: 'numbers only'
+        },
+        find: {
+          type: Boolean,
+          value: true
+        },
+        clicked: {
+          type: Boolean,
+          value: false
+        },
+
+      },
+      attached: function() {
+        var self = this;
+        const params = {
+          transaction: this.payload.transaction
+        };
+        project.ajax.post('/ng-rt-admin/smartContractDefinitions', params,
+          function(response) {
+            let smartContract = response;
+            self.find = false;
+            if (!smartContract || !smartContract.smartContracts || smartContract.smartContracts
+              .length < 1) {
+              var spaEngine = document.querySelector('#' + self.payload.sm);
+              spaEngine.initAction("attachSmartContract", "attached", self.payload);
+            } else {
+              // Get subscription features
+              project.ajax.get(`/ng-rt-billing/subscription/features/?plugin=ng-app-documentsSharing-backend`, (subscription, xhr) => {
+                if (subscription && subscription.enabled) {
+                  // Get billing plan for sc feature
+                  let scFeature = subscription.features.find(item => item.featureId === 'sc');
+
+                  // Check if we need sc list ( basic = 1 || premium = 0 )
+                  if (scFeature && scFeature.featureValue == 0) {
+                    smartContract.smartContracts = [];
+                  }
+                }
+                self.smartContract = smartContract;
+              });
+            }
+          });
+      },
+      attachSC: function(e) {
+
+        if (this.clicked) return false;
+
+        this.clicked = true;
+
+        var self = this;
+        var index = e.model.index;
+        var spaEngine = document.querySelector('#' + this.payload.sm);
+        this.payload.body.contract = this.smartContract.smartContracts[index];
+        spaEngine.initAction("attachSmartContract", "attached", this.payload);
+      },
+      attachNone: function() {
+        if (this.clicked) return false;
+        this.clicked = true;
+        var spaEngine = document.querySelector('#' + this.payload.sm);
+        this.payload.body.contract = null;
+        spaEngine.initAction("attachSmartContract", "attached", this.payload);
+      }
+    });
+  </script>
+
+</dom-module>
+<template is="dom-bind">
+  <ng-rt-attach-sc payload="{{model.payload}}"></ng-rt-attach-sc>
+</template>

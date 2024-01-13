@@ -1,0 +1,22 @@
+[{
+  "name": "tmTxGdpr",
+  "base": "commonDataModel",
+  "options": {
+    "idInjection": true,
+    "validateUpsert": true,
+    "hana": {
+      "schema": "PROJECT",
+      "table": "TMTXGDPR"
+    }
+  },
+  "properties": {
+    "type": "Object",
+    "postgresql": {
+      "dataType": "json"      
+}
+},
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}]

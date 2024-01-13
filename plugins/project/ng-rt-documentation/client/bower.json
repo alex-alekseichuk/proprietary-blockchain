@@ -1,0 +1,21 @@
+{
+  "name": "ng-rt-documentation",
+  "main": "index.js",
+  "version": "0.0.0",
+  "authors": [
+    "PROJECT Software and Consultancy 2016"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "socket.io-client": "^1.7.2",
+    "moment": "^2.18.1",
+    "underscore": "^1.8.3",
+    "bootstrap": "^3.3.7"
+  }
+}

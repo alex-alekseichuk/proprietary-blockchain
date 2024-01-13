@@ -1,0 +1,35 @@
+{
+  "entryPoints": [
+    {
+      "type": "service",
+      "parameters": {
+        "file": "./api/services/service.js"
+      }
+    }
+  ],
+  "actions": {
+    "after_install": [],
+    "after_uninstall": [],
+    "before_install": [],
+    "before_activate": [],
+    "after_activate": [],
+    "before_deactivate": [],
+    "after_deactivate": []
+  },
+  "apiServices": [],
+  "name": "ng-rt-abci-server-rabbitmq-publisher",
+  "type": "optional",
+  "author": "PROJECT",
+  "description": "The Blockchain Enterprise Architecture",
+  "pluginDescription": "application ng-rt-abci-server-rabbitmq-publisher",
+  "copyright": "PROJECT Software 2016 - 2018",
+  "version": "3.2.",
+  "sharedServices": [],
+  "settings": [
+    {
+      "name": "namespace",
+      "caption": "Root name of the URL for the route",
+      "value": "ng-rt-abci-server-rabbitmq-publisher"
+    }
+  ]
+}

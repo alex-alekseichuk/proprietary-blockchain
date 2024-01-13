@@ -1,0 +1,967 @@
+{
+  "name": "ng-rt-dataDictionary",
+  "type": "mandatory",
+  "description": "Create dataDictionary records",
+  "version": "3.2.",
+  "entryPoints": [{
+    "type": "route",
+    "parameters": {
+      "file": "./server/dataSources.js"
+    }
+  }],
+  "actions": {
+    "before_install": [],
+    "after_install": [],
+    "before_activate": [],
+    "after_activate": [{
+        "name": "remove dataDictionary record",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "criteries": [{
+              "name": "Project"
+            },
+            {
+              "name": "uiObserver"
+            },
+            {
+              "name": "yubiKey"
+            },
+            {
+              "name": "fidoCredential"
+            },
+            {
+              "name": "appKey"
+            },
+            {
+              "name": "application"
+            },
+            {
+              "name": "img"
+            },
+            {
+              "name": "toast"
+            },
+            {
+              "name": "skillType"
+            },
+            {
+              "name": "skillLevel"
+            },
+            {
+              "name": "skill"
+            },
+            {
+              "name": "base"
+            },
+            {
+              "name": "tribe"
+            },
+            {
+              "name": "mainDisruptiveTechnology"
+            },
+            {
+              "name": "mainDisruptiveSpecialism"
+            },
+            {
+              "name": "myDetails"
+            },
+            {
+              "name": "contactGroup"
+            },
+            {
+              "name": "publicKey"
+            },
+            {
+              "name": "statemachineApp"
+            },
+            {
+              "name": "uiObjects"
+            },
+            {
+              "name": "customer"
+            },
+            {
+              "name": "storedKey"
+            },
+            {
+              "name": "routeValidation"
+            },
+            {
+              "name": "smartContractDefinition"
+            },
+            {
+              "name": "tedMemory"
+            },
+            {
+              "name": "localIsolatedMemory"
+            }
+          ]
+        }
+      },
+      {
+        "name": "remove dataSourceRouting records",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "criteries": [{
+              "datadictname": "application",
+              "datasourcename": "ng-rt-dataDictionary"
+            },
+            {
+              "datadictname": "routeValidation",
+              "datasourcename": "ng-rt-dataDictionary"
+            },
+            {
+              "datadictname": "statemachineApp",
+              "datasourcename": "ng-rt-dataDictionary"
+            },
+            {
+              "datadictname": "uiObjects",
+              "datasourcename": "ng-rt-dataDictionary"
+            },
+            {
+              "datadictname": "publicKey",
+              "datasourcename": "ng-rt-dataDictionary"
+            },
+            {
+              "datadictname": "storedKey",
+              "datasourcename": "ng-rt-dataDictionary"
+            },
+            {
+              "datadictname": "appKey",
+              "datasourcename": "ng-rt-dataDictionary"
+            },
+            {
+              "datadictname": "yubiKey",
+              "datasourcename": "ng-rt-dataDictionary"
+            },
+            {
+              "datadictname": "fidoCredential",
+              "datasourcename": "ng-rt-dataDictionary"
+            },
+            {
+              "datadictname": "Project",
+              "datasourcename": "ng-rt-app"
+            },
+            {
+              "datadictname": "img",
+              "datasourcename": "ng-rt-dataDictionary"
+            },
+            {
+              "datadictname": "toast",
+              "datasourcename": "ng-rt-dataDictionary"
+            },
+            {
+              "datadictname": "skillType",
+              "datasourcename": "ng-rt-dataDictionary"
+            },
+            {
+              "datadictname": "skillLevel",
+              "datasourcename": "ng-rt-dataDictionary"
+            },
+            {
+              "datadictname": "skill",
+              "datasourcename": "ng-rt-dataDictionary"
+            },
+            {
+              "datadictname": "base",
+              "datasourcename": "ng-rt-dataDictionary"
+            },
+            {
+              "datadictname": "tribe",
+              "datasourcename": "ng-rt-dataDictionary"
+            },
+            {
+              "datadictname": "mainDisruptiveTechnology",
+              "datasourcename": "ng-rt-dataDictionary"
+            },
+            {
+              "datadictname": "mainDisruptiveSpecialism",
+              "datasourcename": "ng-rt-dataDictionary"
+            },
+            {
+              "datadictname": "myDetails",
+              "datasourcename": "ng-rt-dataDictionary"
+            },
+            {
+              "datadictname": "contactGroup",
+              "datasourcename": "ng-rt-dataDictionary"
+            },
+            {
+              "datadictname": "uiObserver",
+              "datasourcename": "ng-rt-dataDictionary"
+            },
+            {
+              "datadictname": "customer",
+              "datasourcename": "ng-rt-app"
+            },
+            {
+              "datadictname": "smartContractDefinition",
+              "datasourcename": "ng-rt-dataDictionary"
+            },
+            {
+              "datadictname": "localIsolatedMemory",
+              "datasourcename": "ng-rt-dataDictionary"
+            }
+          ]
+        }
+      },
+      {
+        "name": "register Project model",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "config/Project.json"
+        }
+      },
+      {
+        "name": "register uiObserver model",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "config/uiObserver.json"
+        }
+      },
+      {
+        "name": "register yubiKey model",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "config/yubiKey.json"
+        }
+      },
+      {
+        "name": "register fidoCredential model",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "config/fidoCredential.json"
+        }
+      },
+      {
+        "name": "register routeValidation model",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "config/routeValidation.json"
+        }
+      },
+      {
+        "name": "register application model",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "config/application.json"
+        }
+      },
+      {
+        "name": "register img model",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "config/img.json"
+        }
+      },
+      {
+        "name": "register toast model",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "config/toast.json"
+        }
+      },
+      {
+        "name": "register skillType model",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "config/skillType.json"
+        }
+      },
+      {
+        "name": "register skillLevel model",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "config/skillLevel.json"
+        }
+      },
+      {
+        "name": "register skill model",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "config/skill.json"
+        }
+      },
+      {
+        "name": "register base model",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "config/base.json"
+        }
+      },
+      {
+        "name": "register tribe model",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "config/tribe.json"
+        }
+      },
+      {
+        "name": "register mainDisruptiveTechnology model",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "config/mainDisruptiveTechnology.json"
+        }
+      },
+      {
+        "name": "register mainDisruptiveSpecialism model",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "config/mainDisruptiveSpecialism.json"
+        }
+      },
+      {
+        "name": "register myDetails model",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "config/myDetails.json"
+        }
+      },
+      {
+        "name": "register contactGroup model",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "config/contactGroup.json"
+        }
+      },
+      {
+        "name": "register publicKey model",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "config/publicKey.json"
+        }
+      },
+      {
+        "name": "register statemachineApp model",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "config/statemachineApp.json"
+        }
+      },
+      {
+        "name": "register uiObjects model",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "config/uiObjects.json"
+        }
+      },
+      {
+        "name": "register customer model",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "config/customer.json"
+        }
+      },
+      {
+        "name": "register appKey model",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "config/appKey.json"
+        }
+      },
+      {
+        "name": "register storedKey model",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "config/storedKey.json"
+        }
+      },
+      {
+        "name": "register smartContractDefinition model",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "config/smartContractDefinition.json"
+        }
+      },
+      {
+        "name": "register localIsolatedMemory model",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "config/localIsolatedMemory.json"
+        }
+      },
+      {
+        "name": "add dataSourceRoutings",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [
+            {
+              "datadictname": "application",
+              "datasourcename": "ng-rt-dataDictionary"
+            }
+          ]
+        }
+      },
+      {
+        "name": "add routeValidation",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [
+            {
+              "datadictname": "routeValidation",
+              "datasourcename": "ng-rt-dataDictionary"
+            }
+          ]
+        }
+      },
+      {
+        "name": "add dataSourceRoutings",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [
+            {
+              "datadictname": "statemachineApp",
+              "datasourcename": "ng-rt-dataDictionary"
+            }
+          ]
+        }
+      },
+      {
+        "name": "add dataSourceRoutings",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [
+            {
+              "datadictname": "uiObjects",
+              "datasourcename": "ng-rt-dataDictionary"
+            }
+          ]
+        }
+      },
+      {
+        "name": "add dataSourceRoutings",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [
+            {
+              "datadictname": "publicKey",
+              "datasourcename": "ng-rt-dataDictionary"
+            }
+          ]
+        }
+      },
+      {
+        "name": "add dataSourceRoutings",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [
+            {
+              "datadictname": "storedKey",
+              "datasourcename": "ng-rt-dataDictionary"
+            }
+          ]
+        }
+      },
+      {
+        "name": "add dataSourceRoutings",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [
+            {
+              "datadictname": "yubiKey",
+              "datasourcename": "ng-rt-dataDictionary"
+            }
+          ]
+        }
+      },
+      {
+        "name": "add dataSourceRoutings",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [
+            {
+              "datadictname": "fidoCredential",
+              "datasourcename": "ng-rt-dataDictionary"
+            }
+          ]
+        }
+      },
+      {
+        "name": "add dataSourceRoutings",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [
+            {
+              "datadictname": "appKey",
+              "datasourcename": "ng-rt-dataDictionary"
+            }
+          ]
+        }
+      },
+      {
+        "name": "add dataSourceRoutings",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [
+            {
+              "datadictname": "Project",
+              "datasourcename": "ng-rt-app"
+            }
+          ]
+        }
+      },
+      {
+        "name": "add dataSourceRoutings",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [
+            {
+              "datadictname": "img",
+              "datasourcename": "ng-rt-dataDictionary"
+            }
+          ]
+        }
+      },
+      {
+        "name": "add dataSourceRoutings",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [
+            {
+              "datadictname": "toast",
+              "datasourcename": "ng-rt-dataDictionary"
+            }
+          ]
+        }
+      },
+      {
+        "name": "add dataSourceRoutings",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [
+            {
+              "datadictname": "skillType",
+              "datasourcename": "ng-rt-dataDictionary"
+            }
+          ]
+        }
+      },
+      {
+        "name": "add dataSourceRoutings",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [
+            {
+              "datadictname": "skillLevel",
+              "datasourcename": "ng-rt-dataDictionary"
+            }
+          ]
+        }
+      },
+      {
+        "name": "add dataSourceRoutings",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [
+            {
+              "datadictname": "skill",
+              "datasourcename": "ng-rt-dataDictionary"
+            }
+          ]
+        }
+      },
+      {
+        "name": "add dataSourceRoutings",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [
+            {
+              "datadictname": "base",
+              "datasourcename": "ng-rt-dataDictionary"
+            }
+          ]
+        }
+      },
+      {
+        "name": "add dataSourceRoutings",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [
+            {
+              "datadictname": "tribe",
+              "datasourcename": "ng-rt-dataDictionary"
+            }
+          ]
+        }
+      },
+      {
+        "name": "add dataSourceRoutings",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [
+            {
+              "datadictname": "mainDisruptiveTechnology",
+              "datasourcename": "ng-rt-dataDictionary"
+            }
+          ]
+        }
+      },
+      {
+        "name": "add dataSourceRoutings",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [
+            {
+              "datadictname": "mainDisruptiveSpecialism",
+              "datasourcename": "ng-rt-dataDictionary"
+            }
+          ]
+        }
+      },
+      {
+        "name": "add dataSourceRoutings",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [
+            {
+              "datadictname": "myDetails",
+              "datasourcename": "ng-rt-dataDictionary"
+            }
+          ]
+        }
+      },
+      {
+        "name": "add dataSourceRoutings",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [
+            {
+              "datadictname": "contactGroup",
+              "datasourcename": "ng-rt-dataDictionary"
+            }
+          ]
+        }
+      },
+      {
+        "name": "add dataSourceRoutings",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [
+            {
+              "datadictname": "uiObserver",
+              "datasourcename": "ng-rt-dataDictionary"
+            }
+          ]
+        }
+      },
+      {
+        "name": "add dataSourceRoutings",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [
+            {
+              "datadictname": "customer",
+              "datasourcename": "ng-rt-app"
+            }
+          ]
+        }
+      },
+      {
+        "name": "add dataSourceRoutings",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [
+            {
+              "datadictname": "smartContractDefinition",
+              "datasourcename": "ng-rt-dataDictionary"
+            }
+          ]
+        }
+      },
+      {
+        "name": "add dataSourceRoutings",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [
+            {
+              "datadictname": "localIsolatedMemory",
+              "datasourcename": "ng-rt-dataDictionary"
+            }
+          ]
+        }
+      },
+      {
+        "name": "remove routeValidation",
+        "type": "REMOVE_DATA",
+        "parameters": {
+         "model_name": "routeValidation",
+         "criteries": [
+          {
+           "route": "route"
+          }
+         ]
+        }
+       },
+      {
+        "name": "add routeValidation",
+        "type": "ADD_DATA",
+        "parameters": {
+         "model_name": "routeValidation",
+         "file": "config/routeValidation.data"
+        }
+       }
+    ],
+    "after_deactivate": [{
+        "name": "remove dataDictionary record",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "criteries": [{
+              "name": "Project"
+            },
+            {
+              "name": "routeValidation"
+            },
+            {
+              "name": "uiObserver"
+            },
+            {
+              "name": "yubiKey"
+            },
+            {
+              "name": "fidoCredential"
+            },
+            {
+              "name": "appKey"
+            },
+            {
+              "name": "application"
+            },
+            {
+              "name": "img"
+            },
+            {
+              "name": "toast"
+            },
+            {
+              "name": "skillType"
+            },
+            {
+              "name": "skillLevel"
+            },
+            {
+              "name": "skill"
+            },
+            {
+              "name": "base"
+            },
+            {
+              "name": "tribe"
+            },
+            {
+              "name": "mainDisruptiveTechnology"
+            },
+            {
+              "name": "mainDisruptiveSpecialism"
+            },
+            {
+              "name": "myDetails"
+            },
+            {
+              "name": "contactGroup"
+            },
+            {
+              "name": "publicKey"
+            },
+            {
+              "name": "statemachineApp"
+            },
+            {
+              "name": "uiObjects"
+            },
+            {
+              "name": "customer"
+            },
+            {
+              "name": "storedKey"
+            },
+            {
+              "name": "smartContractDefinition"
+            },
+            {
+              "name": "localIsolatedMemory"
+            }
+          ]
+        }
+      },
+      {
+        "name": "remove dataDictionary",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "criteries": [{
+              "datadictname": "routeValidation",
+              "datasourcename": "ng-rt-dataDictionary"
+            },
+            {
+              "datadictname": "application",
+              "datasourcename": "ng-rt-dataDictionary"
+            },
+            {
+              "datadictname": "statemachineApp",
+              "datasourcename": "ng-rt-dataDictionary"
+            },
+            {
+              "datadictname": "uiObjects",
+              "datasourcename": "ng-rt-dataDictionary"
+            },
+            {
+              "datadictname": "publicKey",
+              "datasourcename": "ng-rt-dataDictionary"
+            },
+            {
+              "datadictname": "storedKey",
+              "datasourcename": "ng-rt-dataDictionary"
+            },
+            {
+              "datadictname": "yubiKey",
+              "datasourcename": "ng-rt-dataDictionary"
+            },
+            {
+              "datadictname": "fidoCredential",
+              "datasourcename": "ng-rt-dataDictionary"
+            },
+            {
+              "datadictname": "appKey",
+              "datasourcename": "ng-rt-dataDictionary"
+            },
+            {
+              "datadictname": "Project",
+              "datasourcename": "ng-rt-dataDictionary"
+            },
+            {
+              "datadictname": "img",
+              "datasourcename": "ng-rt-dataDictionary"
+            },
+            {
+              "datadictname": "toast",
+              "datasourcename": "ng-rt-dataDictionary"
+            },
+            {
+              "datadictname": "skillType",
+              "datasourcename": "ng-rt-dataDictionary"
+            },
+            {
+              "datadictname": "skillLevel",
+              "datasourcename": "ng-rt-dataDictionary"
+            },
+            {
+              "datadictname": "skill",
+              "datasourcename": "ng-rt-dataDictionary"
+            },
+            {
+              "datadictname": "base",
+              "datasourcename": "ng-rt-dataDictionary"
+            },
+            {
+              "datadictname": "tribe",
+              "datasourcename": "ng-rt-dataDictionary"
+            },
+            {
+              "datadictname": "mainDisruptiveTechnology",
+              "datasourcename": "ng-rt-dataDictionary"
+            },
+            {
+              "datadictname": "mainDisruptiveSpecialism",
+              "datasourcename": "ng-rt-dataDictionary"
+            },
+            {
+              "datadictname": "myDetails",
+              "datasourcename": "ng-rt-dataDictionary"
+            },
+            {
+              "datadictname": "contactGroup",
+              "datasourcename": "ng-rt-dataDictionary"
+            },
+            {
+              "datadictname": "uiObserver",
+              "datasourcename": "ng-rt-dataDictionary"
+            },
+            {
+              "datadictname": "customer",
+              "datasourcename": "ng-rt-dataDictionary"
+            },
+            {
+              "datadictname": "smartContractDefinition",
+              "datasourcename": "ng-rt-dataDictionary"
+            },
+            {
+              "datadictname": "localIsolatedMemory",
+              "datasourcename": "ng-rt-dataDictionary"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "sharedServices": [],
+  "apiServices": [],
+  "settings": [{
+      "name": "namespace",
+      "caption": "Root name of the URL for the route",
+      "value": "ng-rt-dataDictionary"
+    },
+    {
+      "name": "overrideDatasourceEntries",
+      "caption": "Override existing Datasource entries",
+      "value": true
+    },
+    {
+      "name": "isInit",
+      "caption": "Flag indicates that datasource records were added",
+      "value": false
+    }
+  ]
+}

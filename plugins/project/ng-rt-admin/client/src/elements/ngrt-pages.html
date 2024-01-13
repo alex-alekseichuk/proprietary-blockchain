@@ -1,0 +1,96 @@
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/gold-email-input/gold-email-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
+
+<dom-module id="ngrt-pages">
+    <style include="shared-styles"></style>
+    <style is="custom-style">
+         :host {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+
+    <template>
+
+    <iron-pages id="mountPage" attr-for-selected="data-route" selected="{{route}}"
+                class="fullbleed layout vertical fit">
+
+      <!-- Security Keys page-->
+      <template is="dom-if" if="[[isCurrentPage(route, 'securitykeys')]]">
+        <ngrt-fido-credential data-route="securitykeys"></ngrt-fido-credential>
+      </template>
+
+    <!-- SSH Keys page-->
+    <template is="dom-if" if="[[isCurrentPage(route, 'keys')]]">
+        <ng-rt-keys data-route="keys" token="[[params.token]]"></ng-rt-keys>
+      </template>
+
+    <!-- APP Keys page-->
+    <template is="dom-if" if="[[isCurrentPage(route, 'appkeys')]]">
+        <ng-rt-app-keys data-route="appkeys"></ng-rt-app-keys>
+      </template>
+
+    <!-- Password page-->
+    <template is="dom-if" if="[[isCurrentPage(route, 'password')]]">
+        <ngrt-change-password data-route="password"></ngrt-change-password>
+      </template>
+
+    <!-- Profile request page-->
+    <template is="dom-if" if="[[isCurrentPage(route, 'profile')]]">
+        <ngrt-user-profile data-route="profile"></ngrt-user-profile>
+      </template>
+
+    <template is="dom-if" if="[[isCurrentPage(route, 'users')]]">
+        <!-- Users page-->
+        <ng-rt-users data-route="users"></ng-rt-users>
+      </template>
+    <!--Home page-->
+    <ngrt-home data-route="home"></ngrt-home>
+
+    <!-- Treeview page-->
+    <template is="dom-if" if="[[isCurrentPage(route, 'treeview')]]">
+        <ngrt-treeview data-route="treeview"></ngrt-treeview>
+      </template>
+
+    <template is="dom-if" if="[[isCurrentPage(route, 'logviewer')]]">
+      <ng-rt-logviewer data-route="logviewer" id="logviewer"></ng-rt-logviewer>
+    </template>
+
+    <template is="dom-if" if="[[isCurrentPage(route, 'pluginsdisplay')]]">
+        <ng-rt-plugins-display data-route="pluginsdisplay" id="pluginView"
+                               pluginroute="[[pluginroute]]"></ng-rt-plugins-display>
+      </template>
+
+      <template is="dom-if" if="[[isCurrentPage(route, 'iframe')]]">
+        <ng-rt-iframe data-route="iframe" id="iframeView"
+                      url="[[params.url]]"></ng-rt-iframe>
+      </template>
+
+    <template is="dom-if" if="[[isCurrentPage(route, 'editterms')]]">
+      <ng-rt-terms-editor data-route="editterms"></ng-rt-terms-editor>
+    </template>
+
+      <template is="dom-if" if="[[isCurrentPage(route, 'emailTemplates')]]">
+        <ng-rt-emailTemplates data-route="emailTemplates"></ng-rt-emailTemplates>
+      </template>
+
+    </iron-pages>
+
+    </template>
+
+    <script>
+        Polymer({
+            is: 'ngrt-pages',
+            properties: {
+                route: String
+            },
+            ready: function() {},
+            isCurrentPage: function(currentRoute, route) {
+                return currentRoute === route;
+            }
+        });
+    </script>
+</dom-module>

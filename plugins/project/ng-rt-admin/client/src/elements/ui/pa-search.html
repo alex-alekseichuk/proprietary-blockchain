@@ -1,0 +1,108 @@
+<dom-module id="pa-search">
+  <template>
+    <style include="shared-styles"></style>
+    <style>
+      :host>paper-icon-button {
+        /*margin-right: 13px;*/
+        color: var(--primary-color);
+      }
+
+      .pa-search-form {
+        display: none;
+        width: 100%;
+        height: calc(var(--toolbar-height) - 1px);
+        position: absolute;
+        left: 0;
+        top: 0;
+        padding: 0 20px;
+        box-sizing: border-box;
+        background: var(--toolbar-bg);
+        z-index: 2;
+      }
+
+      .pa-search-form[show] {
+        display: flex;
+        align-items: center;
+      }
+
+      .search-input {
+        flex: 1;
+        position: relative;
+      }
+
+      .search-action {
+        flex: 0 0 50px;
+      }
+
+      :host::shadow .paper-input-container-0 .input-content.paper-input-container input {
+        color: var(--toolbar-text);
+      }
+
+      :host::shadow .paper-input-container-0 .unfocused-line.paper-input-container {
+        background: transparent;
+      }
+
+      :host::shadow .paper-input-container-0 .focused-line.paper-input-container {
+        background: var(--toolbar-text);
+      }
+    </style>
+
+    <paper-icon-button icon="search" on-click="showSearch"></paper-icon-button>
+    <div class="pa-search-form" show$="{{show}}">      
+      <paper-input id="searchInput" no-label-float class="search-input" value="{{inputValue}}" on-keyup="searchOnEnter"></paper-input>
+      <template is="dom-if" if="[[searching]]">
+        <paper-icon-button icon="search" class="search-action" on-click="searchOnEnter"></paper-icon-button>
+      </template>
+      <template is="dom-if" if="[[!searching]]">
+        <paper-icon-button icon="search" class="search-action" on-click="search"></paper-icon-button>
+      </template>
+      <template is="dom-if" if="[[!searching]]">
+        <paper-icon-button icon="close" class="search-action" on-click="hideSearch"></paper-icon-button>
+      </template>
+    </div>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'pa-search',
+
+      properties: {
+        searching: {
+          type: Boolean,
+          value: false
+        },
+        visible: {
+          type: Boolean,
+          value: false
+        },
+        inputValue: {
+          type: String,
+          value: ''
+        }
+      },
+
+      focusSearchInput: function () {
+        document.getElementById('searchInput').$.input.focus();
+      },
+      showSearch: function () {
+        this.show = true;
+        this.focusSearchInput();
+      },
+      hideSearch: function () {
+        this.show = false;
+        this.inputValue = "";
+        this.fire("cancel");
+      },
+      searchOnEnter: function (e) {
+        if (e.keyCode === 13) {          
+          this.search()
+        }
+      },
+      search: function () {
+        let value = this.inputValue;
+          this.fire("search", value)
+      }
+    });
+  </script>
+
+</dom-module>

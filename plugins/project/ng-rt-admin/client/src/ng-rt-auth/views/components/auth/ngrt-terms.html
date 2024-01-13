@@ -1,0 +1,164 @@
+<dom-module id="ngrt-terms">
+  <template>
+    <style include="shared-styles"></style>
+    <style is="custom-style">
+      :host {
+        display: flex;
+        flex-direction: row;
+        box-sizing: border-box;
+        max-height: 450px;
+        min-height: 450px;
+      }
+
+      h3 {
+        margin: 0 0 20px 0;
+      }
+
+      .terms-form {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .terms-text {
+        flex: 1;
+        display: block;
+        overflow-y: auto;
+        background: rgba(0, 0, 0, 0.04);
+        margin: 0;
+        opacity: 0.9;
+        font-size: 0.9em;
+      }
+
+      .footer {
+        flex: 0;
+        padding: 20px 0 0 0;
+        display: flex;
+        min-height: 44px;
+        flex-direction: row;
+        justify-content: space-between;
+      }
+
+      #declineTermsButton {
+        margin-right: 10px;
+      }
+
+      #acceptTermsButton {
+        flex: 1
+      }
+    </style>
+
+    <div class="terms-form">
+      <h3>{{getHeader(termsType)}}</h3>
+
+      <div id="termsAndConditions" class="terms-text">
+        <!--{{termsText}}-->
+      </div>
+
+      <iron-ajax url="/admin/res/html/terms.html" auto handle-as="text" on-response="_onResponse"></iron-ajax>
+
+      <span class="footer">
+        <paper-button id="declineTermsButton" on-click="declineClick">
+          <i18n-msg msgid="Decline">Decline</i18n-msg>
+        </paper-button>
+        <paper-button id="acceptTermsButton" on-click="acceptClick">
+          <i18n-msg msgid="Accept">Accept</i18n-msg>
+        </paper-button>
+      </span>
+    </div>
+  </template>
+  <script>
+    Polymer({
+      is: "ngrt-terms",
+      properties: {
+        termsType: {
+          type: String,
+          value: ''
+        },
+        terms: {
+          type: String,
+          value: ''
+        },
+        defaultTerms: {
+          type: String,
+          value: 'default'
+        }
+      },
+      ready: function () {
+        this.logger = window.log4js.getLogger('ng-rt-admin/auth/terms');
+      },
+      attached: function () {
+        if (this.termsType == 'eula') {
+          document.querySelector('#termsAndConditions').innerHTML = this.results[2].eulaText
+        }
+        if (this.termsType == 'tc') {
+          document.querySelector('#termsAndConditions').innerHTML = this.results[2].termsAndConditions
+          this.terms = this.results[2].termsAndConditions;
+        }
+      },
+      _onResponse: function (e) {
+        const resp = e.detail.response;
+        if (this.termsType !== 'eula' && this.termsType == 'tc' && !this.terms) {
+          document.querySelector('#termsAndConditions').innerHTML = resp;
+        }
+      },
+      declineClick: function (ev) {
+        if (this.termsType == 'eula') project.ajax.logoutNoRedirect(() => window.location = "/admin/res/html/declined.html");
+        if (this.termsType == 'tc') project.ajax.logoutNoRedirect(() => window.location = "/admin/res/html/terms_not_accepted.html");
+      },
+      acceptClick: function (ev) {
+        var self = this;
+        let results = this.results;
+
+        project.ajax.post("/auth/confirmRegister/", { email: results[0].user.email }, function (response, xhr) {
+          if (xhr.status != 200) {
+            self.handleError(xhr);
+          }
+        });
+
+        if (this.termsType == 'eula') {
+          project.ajax.setSessionTokenNoRedirect(this.token, () => {
+            setTimeout(() => {
+              pajax.get('/ng-rt-tc/acceptLicense')
+                .then(result => {
+                  project.ajax.logoutNoRedirect(() => {
+                    const termsAccepted = (this.results[0].user || {}).termsAccepted;
+                    const requireTerms = results[3].settings.requireTerms;
+                    if (requireTerms && !termsAccepted) {
+                      const o = { token: this.token, termsType: 'tc', termsText: results[2].termsAndConditions, results };
+                      document.querySelector('#termsAndConditions').innerHTML = results[2].termsAndConditions
+                      project.ajax.emit('terms', o);
+                    } else {
+                      setTimeout(() => project.ajax.setSessionToken(this.token), results[3].settings.setSessionTokenTimeout || 100);
+                    }
+                  });
+                })
+                .catch(error => {
+                  self.logger.debug(translate('acceptLicense, error = ') + error.message);
+                  project.ajax.logout();
+                })
+            }, 100);
+          });
+        }
+        if (this.termsType == 'tc') {
+          project.ajax.setSessionTokenNoRedirect(this.token, () => {
+            setTimeout(() => {
+              pajax.get('/ng-rt-tc/acceptTerms')
+                .then(result => {
+                  project.ajax.setSessionToken(this.token);
+                })
+                .catch(error => {
+                  self.logger.debug(translate('acceptTerms, error = ') + error.message);
+                  project.ajax.logout();
+                })
+            }, results[3].settings.setSessionTokenTimeout || 100);
+          });
+        }
+      },
+      getHeader: function (termsType) {
+        if (termsType == 'eula') return 'EULA';
+        if (termsType == 'tc') return 'Terms and Condition';
+      }
+    });
+  </script>
+</dom-module>

@@ -1,0 +1,76 @@
+{
+    "name": "ng-rt-smartContracts-tutorials",
+    "type": "optional",
+    "author": "Project B.V.",
+    "copyright": "Project B.V (c) 2016 - 2018",
+    "description": "Application ng-rt-smartContracts-tutorials",
+    "version": "3.2.",
+    "htmlHelpFile": "docs/build/index.html",
+    "entryPoints": [],
+    "actions": {
+        "before_install": [],
+        "after_install": [
+            {
+                "name": "add flow",
+                "type": "NODE_RED_ADD_FLOW",
+                "parameters": {
+                    "replace": true,
+                    "file": "./api/nodeRed/SC_HelloWorld_Part1.json"
+                }
+            },
+            {
+                "name": "add flow",
+                "type": "NODE_RED_ADD_FLOW",
+                "parameters": {
+                    "replace": true,
+                    "file": "./api/nodeRed/SC_HelloWorld_Part2.json"
+                }
+            },
+            {
+                "name": "add flow",
+                "type": "NODE_RED_ADD_FLOW",
+                "parameters": {
+                    "replace": true,
+                    "file": "./api/nodeRed/SC_HelloWorld_Part3.json"
+                }
+            },
+            {
+                "name": "add flow",
+                "type": "NODE_RED_ADD_FLOW",
+                "parameters": {
+                    "replace": true,
+                    "file": "./api/nodeRed/SC_vehicleTransfer.json"
+                }
+            },
+            {
+                "name": "add flow",
+                "type": "NODE_RED_ADD_FLOW",
+                "parameters": {
+                    "replace": true,
+                    "file": "./api/nodeRed/SC_Escrow.json"
+                }
+            }
+        ],
+        "after_uninstall": [
+            {
+                "name": "remove flow",
+                "type": "NODE_RED_REMOVE_FLOW",
+                "parameters": {
+                    "flows": [
+                        "c4ba12e4.5e20b",
+                        "c32b9969.c52b08",
+                        "97d8b464.36f1b8",
+                        "be0b6171.b36aa"
+                    ]
+                }
+            }
+        ],
+        "before_activate": [],
+        "after_activate": [],
+        "before_deactivate": [],
+        "after_deactivate": []
+    },
+    "sharedServices": [],
+    "apiServices": [],
+    "settings": []
+}

@@ -1,0 +1,62 @@
+<dom-module id="ng-rt-terms-conditions-editor">
+  <style include="shared-styles"></style>
+  <style is="custom-style">
+    
+  </style>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <template>
+    <paper-header-panel class="appPanel">
+      <paper-toolbar class="appToolbar">
+        <span class="title">Edit Terms and Conditions</span>
+        <span class="flex"></span>
+        <paper-button on-click="saveClick">Save</paper-button>
+        <paper-button on-click="restoreClick">Restore</paper-button>
+      </paper-toolbar>
+      <div class="content fit">
+        <polymer-tinymce id="termsEditor" height="450"
+          tinytoolbar="insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
+          tinyplugins='["advlist autolink lists link image charmap print preview anchor","searchreplace visualblocks code fullscreen","insertdatetime media table contextmenu paste"]'
+          value="{{terms}}">
+        </polymer-tinymce>
+      </div>
+    </paper-header-panel>
+  </template>
+
+  <script>
+    /* global pajax */
+    Polymer({
+      is: "ng-rt-terms-conditions-editor",
+      properties: {
+        terms: {
+          type: String,
+          value: ''
+        },
+      },
+      ready: function () {
+        this.loadTerms()
+      },
+      loadTerms: function () {
+        pajax.get('/ng-rt-tc/termsAndConditions')
+          .then(result => {
+            if (!result.success) return;
+            this.terms = result.termsAndConditions;
+            setTimeout(() => document.querySelector('#termsEditor').setContent(result.termsAndConditions), 100)
+          })
+      },
+      restoreClick: function () {
+        this.loadTerms();
+      },
+      saveClick: function () {
+        const termsAndConditions = document.querySelector('#termsEditor').getContent()
+
+        pajax.post('/ng-rt-tc/termsAndConditions', { termsAndConditions })
+          .then(result => {
+            if (!result.success) return;
+            this.terms = result.termsAndConditions;
+          })
+      }
+    });
+  </script>
+
+</dom-module>

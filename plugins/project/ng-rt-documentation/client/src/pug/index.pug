@@ -1,0 +1,15 @@
+dom-module#ng-rt-documentation
+  style(include='shared-styles')
+  include ../styles/styles
+  template
+    paper-header-panel.appPanel
+      // Toolbar
+      paper-toolbar.appToolbar
+        // Top
+        paper-icon-button#paperToggle(icon='menu', paper-drawer-toggle='')
+        span.title {{title}}
+        span.flex
+      // Content
+      include docs.pug
+
+script(type='text/javascript', src='js/app.js')

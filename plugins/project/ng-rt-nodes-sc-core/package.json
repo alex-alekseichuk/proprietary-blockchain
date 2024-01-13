@@ -1,0 +1,44 @@
+{
+	"author": "PROJECT PROPERTIES B.V.",
+	"devDependencies": {
+		"node-red": "1.0.3",
+		"node-red-node-test-helper": "0.2.3",
+		"should": "^13.2.3"
+	},
+	"scripts": {},
+	"description": "### Install this node module ``` npm install git+ssh://git@gitlab.project.com:plugins/ng-rt-nodes-sc-core.git",
+	"license": "SEE LICENSE IN LICENSE.md",
+	"name": "ng-rt-nodes-sc-core",
+	"node-red": {
+		"nodes": {
+			"call": "server/node-red/nodes/ng-rt-sc-call/call.js",
+			"publish": "server/node-red/nodes/ng-rt-sc-publish/publish.js",
+			"transferCall": "server/node-red/nodes/ng-rt-sc-transferCall/transferCall.js",
+			"get-memory": "server/node-red/nodes/ng-rt-sc-get-memory/get-memory.js",
+			"set-memory-field": "server/node-red/nodes/ng-rt-sc-set-memory/set-memory-field.js",
+			"allow-transfer": "server/node-red/nodes/ng-rt-sc-allow-transfer/allow-transfer.js",
+			"get-transfer-info": "server/node-red/nodes/ng-rt-sc-get-transfer-info/get-transfer-info.js",
+			"caller-pubkey": "server/node-red/nodes/ng-rt-sc-caller-pubkey/caller-pubkey.js",
+			"federation-list": "server/node-red/nodes/ng-rt-sc-federation-list/federation-list.js",
+			"arguments": "server/node-red/nodes/ng-rt-sc-arguments/arguments.js",
+			"contract in": "server/node-red/nodes/ng-rt-sc-io/ng-rt-sc-io.js",
+			"offchain-local-storage": "server/node-red/nodes/ng-rt-sc-offchain-storage/offchain-storage.js",
+			"transfer-history": "server/node-red/nodes/ng-rt-sc-transfer-history/transfer-history.js",
+			"get-memory-field": "server/node-red/nodes/ng-rt-sc-get-memory-field/get-memory-field.js",
+			"escrow-asset-transfer": "server/node-red/nodes/ng-rt-sc-escrow-asset-transfer/escrow-asset-transfer.js",
+			"smartContract-marker": "server/node-red/nodes/ng-rt-sc-smartContract-marker/smartContract-marker.js"
+		}
+	},
+	"dependencies": {
+		"is-utf8": "^0.2.1",
+		"loopback": "^3.19.0",
+		"ng-rt-smartContracts-driver": "git+https://gitlab.project.com/sdk/ng-rt-smartContracts-driver.git#dev/3.2"
+	},
+	"readme": "## Installation\n\n### Install this node module\n```\nnpm install git+ssh://gitlab.project.com:plugins/ng-rt-nodes-sc-core.git\n\nor install it in node-red module directly under nodes\n\nnpm install --prefix ./node_modules/node-red git+ssh://git@gitlab.project.com:plugins/ng-rt-loopback-connector-nodes-for-Node-RED.git\n",
+	"readmeFilename": "README.md",
+	"repository": {
+		"type": "git",
+		"url": "git+ssh://gitlab.project.com:plugins/ng-rt-nodes-sc-core.git"
+	},
+	"version": "3.2.76190"
+}

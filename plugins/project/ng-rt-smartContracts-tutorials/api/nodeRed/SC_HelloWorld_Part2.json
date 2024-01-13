@@ -1,0 +1,188 @@
+[
+    {
+        "id": "c32b9969.c52b08",
+        "type": "tab",
+        "label": "SC_HelloWorld_Part2",
+        "disabled": false,
+        "info": "The contract is the extenstion of part1 where no authorization needed to update the memory.",
+        "nodes": [
+            {
+                "id": "7f2cb033.01e6",
+                "type": "set-memory-field",
+                "z": "c32b9969.c52b08",
+                "name": "set memory field",
+                "field": "greeting",
+                "source": "greeting",
+                "x": 990,
+                "y": 600,
+                "wires": [
+                    [
+                        "64017be5.8ea514"
+                    ]
+                ]
+            },
+            {
+                "id": "453f3b83.63ea64",
+                "type": "comment",
+                "z": "c32b9969.c52b08",
+                "name": "SC_HelloWorld_Part2",
+                "info": "The contract is the extenstion of part1 where no authorization needed to update the memory.",
+                "x": 860,
+                "y": 180,
+                "wires": []
+            },
+            {
+                "id": "c39273bf.103a3",
+                "type": "done",
+                "z": "c32b9969.c52b08",
+                "name": "done",
+                "x": 950,
+                "y": 480,
+                "wires": []
+            },
+            {
+                "id": "4346cce2.9e7904",
+                "type": "arguments",
+                "z": "c32b9969.c52b08",
+                "name": "get argument \"greeting\"",
+                "position": 0,
+                "destination": "greeting",
+                "dataType": "string",
+                "description": "A simple greeting message.",
+                "x": 730,
+                "y": 360,
+                "wires": [
+                    [
+                        "a7513ca1.e6024"
+                    ]
+                ]
+            },
+            {
+                "id": "80c623a2.d60df",
+                "type": "done",
+                "z": "c32b9969.c52b08",
+                "name": "Published successfully",
+                "x": 1240,
+                "y": 360,
+                "wires": []
+            },
+            {
+                "id": "64017be5.8ea514",
+                "type": "done",
+                "z": "c32b9969.c52b08",
+                "name": "done with greeting changes",
+                "x": 1260,
+                "y": 600,
+                "wires": []
+            },
+            {
+                "id": "58d3fb3f.164bb4",
+                "type": "contract in",
+                "z": "c32b9969.c52b08",
+                "name": "init",
+                "url": "/helloWorld_Part2",
+                "method": "get",
+                "swaggerDoc": "",
+                "x": 450,
+                "y": 360,
+                "wires": [
+                    [
+                        "4346cce2.9e7904"
+                    ]
+                ],
+                "info": "To publish the instance of contract"
+            },
+            {
+                "id": "716dc22c.595bec",
+                "type": "contract in",
+                "z": "c32b9969.c52b08",
+                "name": "changeGreeting",
+                "url": "/changeGreeting",
+                "method": "get",
+                "swaggerDoc": "",
+                "x": 480,
+                "y": 600,
+                "wires": [
+                    [
+                        "73a952e.e78e3ac"
+                    ]
+                ],
+                "info": "To update the value of greeting variable"
+            },
+            {
+                "id": "73a952e.e78e3ac",
+                "type": "arguments",
+                "z": "c32b9969.c52b08",
+                "name": "get argument \"greeting\"",
+                "position": 0,
+                "destination": "greeting",
+                "dataType": "string",
+                "description": "A simple greeting message.",
+                "x": 730,
+                "y": 600,
+                "wires": [
+                    [
+                        "7f2cb033.01e6"
+                    ]
+                ]
+            },
+            {
+                "id": "a7513ca1.e6024",
+                "type": "set-memory-field",
+                "z": "c32b9969.c52b08",
+                "name": "set memory field",
+                "field": "greeting",
+                "source": "greeting",
+                "x": 990,
+                "y": 360,
+                "wires": [
+                    [
+                        "80c623a2.d60df"
+                    ]
+                ]
+            },
+            {
+                "id": "e5d596ad.fd6b48",
+                "type": "contract in",
+                "z": "c32b9969.c52b08",
+                "name": "getGreeting",
+                "url": "/getGreeting",
+                "method": "get",
+                "swaggerDoc": "",
+                "x": 470,
+                "y": 480,
+                "wires": [
+                    [
+                        "99897445.b88458"
+                    ]
+                ],
+                "info": "To read the value of greeting variable"
+            },
+            {
+                "id": "99897445.b88458",
+                "type": "get-memory-field",
+                "z": "c32b9969.c52b08",
+                "name": "get memory field",
+                "field": "greeting",
+                "destination": "payload",
+                "x": 720,
+                "y": 480,
+                "wires": [
+                    [
+                        "c39273bf.103a3"
+                    ]
+                ]
+            },
+            {
+                "id": "2709ca83.18c0a6",
+                "type": "project-sc-1.0",
+                "z": "c32b9969.c52b08",
+                "name": "SC_HelloWorld_Part2",
+                "version": "1.0",
+                "x": 500,
+                "y": 180,
+                "wires": []
+            }
+        ]
+    }
+]

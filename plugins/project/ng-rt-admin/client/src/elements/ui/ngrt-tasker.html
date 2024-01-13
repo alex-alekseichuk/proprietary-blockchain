@@ -1,0 +1,291 @@
+<link rel="import" href="../../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../../bower_components/paper-progress/paper-progress.html">
+<link rel="import" href="../../styles/shared-styles.html">
+
+<dom-module id="ngrt-tasker">
+  <template>
+    <style include="shared-styles"></style>
+    <style is="custom-style">
+      #tasksDialog {
+        position: fixed;
+        top: 40px;
+        left: 50%;
+        margin-left: -150px !important;
+        width: 300px;
+        max-width: 300px;
+        min-width: 300px;
+        display: flex;
+        flex-direction: row;
+        border: none;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      .task-content {
+        padding: 0;
+        margin: 0;
+        position: relative;
+        flex: 0;
+        width: 200px;
+        box-sizing: border-box;
+        min-width: 200px;
+      }
+
+      .illustration {
+        position: relative;
+        background: gray;
+        flex: 0;
+        width: 200px;
+        min-width: 100px;
+        height: 100px;
+        box-sizing: border-box;
+      }
+
+      .task-info {}
+
+      .task-header {
+        font-size: 20px;
+        padding: 23px 20px 10px 20px;
+        font-weight: 500;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+
+      .task-label {
+        font-size: 15px;
+        padding: 5px 20px 20px 20px;
+        opacity: 0.8;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+
+      .task-footer {
+        background: rgba(0, 0, 0, 0.05);
+        padding: 20px;
+        display: flex;
+      }
+
+      .iconWrapper {
+        width: 50px;
+        height: 50px;
+        left: 50%;
+        position: absolute;
+        margin-left: -25px;
+        top: 50%;
+        margin-top: -25px;
+
+      }
+
+      #timeIcon {
+        width: 50px;
+        height: 50px;
+        animation: waiting 5s infinite;
+      }
+
+      #mailIcon {
+        width: 50px;
+        height: 50px;
+        animation: mail 5s infinite;
+      }
+
+      #connectIcon {
+        width: 50px;
+        height: 50px;
+        animation: connect 5s infinite;
+      }
+
+      paper-progress {
+        width: 100%;
+        padding: 0;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+      }
+
+      @keyframes waiting {
+        0% {
+          transform: rotateZ(0deg);
+        }
+        50% {
+          transform: rotateZ(180deg);
+        }
+        100% {
+          transform: rotateZ(360deg);
+        }
+      }
+
+      @keyframes mail {
+        0% {
+          transform: translateX(-100px)
+        }
+        50% {
+          transform: translateX(0px)
+        }
+        100% {
+          transform: translateX(100px)
+        }
+      }
+
+      @keyframes connect {
+        0% {
+          transform: translateY(-10px)
+        }
+        50% {
+          transform: translateY(0px)
+        }
+        100% {
+          transform: translateY(20px)
+        }
+      }
+    </style>
+
+    <paper-dialog id="tasksDialog" modal entry-animation="slide-from-top-animation" exit-animation="slide-up-animation">
+      <div class="illustration">
+        <div class="iconWrapper">
+
+          <svg class$="{{iconCheck('waiting', taskIcon)}}" id="timeIcon" x="0px" y="0px" width="50px" height="50px" viewBox="0 0 47.001 47.001">
+            <g>
+              <path d="M22.432,22.429c0,0.591,0.479,1.067,1.068,1.067s1.068-0.479,1.068-1.067c0.001-1.25,0.445-2.465,1.251-3.421
+          c1.793-2.126,3.137-4.431,3.988-6.851c0.115-0.327,0.065-0.689-0.135-0.972c-0.201-0.283-0.525-0.451-0.872-0.451H18.199
+          c-0.347,0-0.672,0.168-0.873,0.451c-0.2,0.283-0.25,0.645-0.135,0.972c0.853,2.42,2.195,4.725,3.988,6.851 C21.986,19.964,22.431,21.18,22.432,22.429z "
+                fill="#FFFFFF " />
+              <path d="M24.568,26.71c0-0.59-0.479-1.067-1.068-1.067s-1.068,0.479-1.068,1.067c-0.001,1.542-0.922,3.067-2.593,4.304
+          c-3.574,2.639-6.249,5.506-7.951,8.52c-0.187,0.332-0.184,0.736,0.009,1.062c0.19,0.329,0.542,0.53,0.922,0.53h21.364
+          c0.379,0,0.73-0.201,0.922-0.53c0.191-0.326,0.194-0.73,0.008-1.062c-1.701-3.014-4.377-5.881-7.95-8.52 C25.49,29.777,24.569,28.252,24.568,26.71z "
+                fill="#FFFFFF " />
+              <path d="M42.192,42.729h-0.639c-0.734-8.313-5.602-14.695-9.386-19.228c3.785-4.532,8.651-10.915,9.388-19.228h0.639
+          c1.18,0,2.136-0.957,2.136-2.137C44.33,0.956,43.374,0,42.194,0H4.807c-1.18,0-2.136,0.957-2.136,2.136 c0,1.18,0.956,2.137,2.136,2.137h0.639c0.735,8.314,5.601,14.697,9.386,19.228c-3.784,4.532-8.651,10.914-9.387,19.228H4.807
+          c-1.18,0-2.136,0.955-2.136,2.135c0,1.181,0.956,2.138,2.136,2.138h2.671h32.044h2.672c1.18,0,2.136-0.957,2.136-2.138
+          C44.33,43.684,43.373,42.729,42.192,42.729z M9.728,42.729c0.803-7.511,5.686-13.295,9.335-17.617l0.195-0.231 c0.672-0.795,0.672-1.959,0-2.755l-0.194-0.23c-3.648-4.323-8.533-10.107-9.336-17.619h27.544
+          c-0.803,7.512-5.688,13.296-9.336,17.619l-0.193,0.23c-0.672,0.795-0.672,1.959,0,2.755l0.195,0.231 c3.648,4.322,8.531,10.106,9.334,17.617H9.728z "
+                fill="#FFFFFF " />
+            </g>
+          </svg>
+
+          <svg class$="{{iconCheck('mail', taskIcon)}}" id="mailIcon" x="0px" y="0px" width="50px" height="50px" viewBox="0 0 370 370">
+            <g>
+              <path d="M362.489,121.053c-2.231,0-3.905,1.168-4.52,1.67l-108.411,95.261c-2.106,1.896-4.741,2.898-7.62,2.898   c-2.887,0-5.62-1.026-7.741-2.932l-105.114-92.071c-0.88-0.834-2.961-2.486-5.605-2.486c-0.663,0-6.477,0.227-6.477,8.069v141.345   c0,9.205,7.426,16.694,16.555,16.694h219.197c9.111,0,16.248-7.333,16.248-16.694V129.274   C369,121.284,363.155,121.053,362.489,121.053z"
+                fill="#FFFFFF" />
+              <path d="M126.985,92.471l105.779,91.261c0.979,0.942,4.235,3.666,9.171,3.666c4.717,0,8.056-2.702,8.68-3.245l107.028-93.376   l0.134-0.121c1.456-1.366,4.485-4.208,3.043-7.855c-0.794-2.005-2.734-3.3-4.945-3.3H130.431c-2.709,0-5.115,1.539-6.132,3.921   c-0.688,1.614-1.277,4.914,2.522,8.878L126.985,92.471z"
+                fill="#FFFFFF" />
+              <path d="M80,134.5H50c-5.514,0-10,4.486-10,10v7c0,5.514,4.486,10,10,10h30c5.514,0,10-4.486,10-10v-7   C90,138.986,85.514,134.5,80,134.5z"
+                fill="#FFFFFF" />
+              <path d="M80,178.5H30c-5.514,0-10,4.486-10,10v7c0,5.514,4.486,10,10,10h50c5.514,0,10-4.486,10-10v-7   C90,182.986,85.514,178.5,80,178.5z"
+                fill="#FFFFFF" />
+              <path d="M80,222.5H10c-5.514,0-10,4.486-10,10v7c0,5.514,4.486,10,10,10h70c5.514,0,10-4.486,10-10v-7   C90,226.986,85.514,222.5,80,222.5z"
+                fill="#FFFFFF" />
+            </g>
+          </svg>
+
+          <svg class$="{{iconCheck('connect', taskIcon)}}" id="connectIcon" x="0px" y="0px" width="50px" height="50px" viewBox="0 0 500 500">
+            <g>
+              <path d="M79.55,229.675c-10.2,10.2-10.2,26.8,0,37.1c10.2,10.2,26.8,10.2,37.1,0c70.6-70.6,185.5-70.6,256.1,0    c5.1,5.1,11.8,7.7,18.5,7.7s13.4-2.6,18.5-7.7c10.2-10.2,10.2-26.8,0-37.1C318.75,138.575,170.55,138.575,79.55,229.675z"
+                fill="#FFFFFF" />
+              <path d="M150.35,300.475c-10.2,10.2-10.2,26.8,0,37.1c10.2,10.2,26.8,10.2,37.1,0c31.5-31.6,82.9-31.6,114.4,0    c5.1,5.1,11.8,7.7,18.5,7.7s13.4-2.6,18.5-7.7c10.2-10.2,10.2-26.8,0-37C286.95,248.475,202.35,248.475,150.35,300.475z"
+                fill="#FFFFFF" />
+              <circle cx="244.65" cy="394.675" r="34.9" fill="#FFFFFF" />
+              <path d="M481.65,157.675c-130.7-130.6-343.3-130.6-474,0c-10.2,10.2-10.2,26.8,0,37.1c10.2,10.2,26.8,10.2,37.1,0    c110.2-110.3,289.6-110.3,399.9,0c5.1,5.1,11.8,7.7,18.5,7.7s13.4-2.6,18.5-7.7C491.85,184.575,491.85,167.975,481.65,157.675z"
+                fill="#FFFFFF" />
+            </g>
+          </svg>
+
+
+        </div>
+      </div>
+      <div class="task-content">
+        <template is="dom-if" if="{{info}}">
+          <div class="task-info">
+            <div class="task-header ">[[headerText]]</div>
+            <div class="task-label ">[[labelText]]</div>
+          </div>
+        </template>
+        <template is="dom-if" if="{{progressPercent}}">
+          <paper-progress value=[[progressPercent]]></paper-progress>
+        </template>
+        <template is="dom-if" if="{{control}}">
+          <div class="task-footer ">
+            <paper-button class="flex ">
+              Cancel
+            </paper-button>
+          </div>
+        </template>
+      </div>
+    </paper-dialog>
+
+
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'ngrt-tasker',
+      properties: {
+        info: {
+          type: Boolean,
+          value: false
+        },
+        control: {
+          type: Boolean,
+          value: false
+        },
+        taskIcon: {
+          type: String,
+          value: "waiting"
+        },
+        progress: {
+          type: Number,
+          value: 0
+        },
+        headerText: {
+          type: String,
+          value: "In progress"
+        },
+        labelText: {
+          type: String,
+          value: "please wait"
+        },
+        profile: {
+          type: Array,
+          value: []
+        },
+      },
+      show: function (hdr, lbl, iconName = 'waiting') {
+        this.headerText = hdr;
+        this.labelText = lbl;
+        this.taskIcon = iconName;
+        this.progressPercent = 0
+        this.$.tasksDialog.open()
+        window.onbeforeunload = function () {
+          return "Data will be lost if you leave the page, are you sure?";
+        };
+      },
+      setHeader: function (text) {
+        this.headerText = text
+      },
+      setIcon: function (text) {
+        this.taskIcon = text
+      },
+      setLabel: function (text) {
+        this.labelText = text
+      },
+      setProgress: function (progress) {
+        this.progressPercent = progress
+      },
+      hide: function () {
+        this.$.tasksDialog.close()
+        this.headerText = "In progress";
+        this.labelText = "please wait";
+        this.progressPercent = 0;
+        window.onbeforeunload = function () {
+          return null;
+        };
+      },
+      iconCheck: function (animationame, taskIcon) {
+
+        return animationame !== taskIcon ? 'hide' : '';
+      },
+    });
+  </script>
+
+</dom-module>

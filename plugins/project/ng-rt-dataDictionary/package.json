@@ -1,0 +1,15 @@
+{
+  "name": "ng-rt-dataDictionary",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.project.com:plugins/ng-rt-dataDictionary.git"
+  },
+  "author": "PROJECT PROPERTIES B.V.",
+  "dependencies": {
+    "npm-dummy-package": "^1.0.1"
+  },
+  "devDependencies": {},
+  "license": "SEE LICENSE IN LICENSE.md",
+  "version": "3.2.75477"
+}

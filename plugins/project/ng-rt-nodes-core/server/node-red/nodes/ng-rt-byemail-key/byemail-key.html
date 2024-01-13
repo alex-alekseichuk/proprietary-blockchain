@@ -1,0 +1,50 @@
+<script type="text/javascript">
+    RED.nodes.registerType('byemail-key', {
+      category: 'Project_Core',
+        color: '#81F7F3',
+        defaults: {
+            key: {
+                value: ""
+            }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "Project.png",
+        label: function() {
+            return this.name || "byemail-key";
+        }
+    });
+</script>
+<script type="text/x-red" data-template-name="byemail-key">
+    <div class="form-row">
+        <label for="node-input-key"><i class="icon-tag"></i> Pub key</label>
+        <input type="text" id="node-input-key" placeholder="key">
+    </div>
+</script>
+<script type="text/x-red" data-help-name="byemail-key">
+    <p>
+      Get user public key by his email.
+    </p>
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>msg.ctx.key
+            <span class="property-type">string</span>
+        </dt>
+        <dd> user email.</dd>
+        <dt>msg.useremailtogetkey
+            <span class="property-type">string</span>
+        </dt>
+        <dd> user email.</dd>
+    </dl>
+    <h3>Outputs</h3>
+    <dl class="message-properties">
+        <dt>msg.ctx.pubkey
+            <span class="property-type">string</span>
+        </dt>
+        <dd> user public key.</dd>
+    </dl>
+    <h3>Details</h3>
+    <p>
+      <code>msg.useremailtogetkey</code> takes precedence over the <code>msg.ctx.key</code>.
+    </p>
+</script>

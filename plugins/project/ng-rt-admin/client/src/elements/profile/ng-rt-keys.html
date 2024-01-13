@@ -1,0 +1,303 @@
+<!-- pub/prv key pairs management -->
+
+<link rel="import" href="../custom-validator.html">
+<link rel="import" href="../ui/ngrt-dropdown-menu/ngrt-dropdown-menu.html">
+
+<dom-module id="ng-rt-keys">
+  <template>
+
+    <style include="shared-styles"></style>
+    <style is="custom-style">
+      :host {
+        height: 100%;
+        width: 100%;
+      }
+
+      paper-dialog {
+        width: 500px;
+      }
+
+      .cell.activated {
+        font-weight: bold;
+      }
+
+      .warningdialog paper-input {
+        --paper-input-container-color: #fff;
+        --paper-input-container-focus-color: #fff;
+        --paper-input-container-input-color: #fff;
+      }
+    </style>
+
+    <paper-header-panel class="appPanel">
+
+      <!--Toolbar-->
+      <paper-toolbar class="appToolbar">
+
+        <!--Top-->
+        <paper-icon-button id="paperToggle" icon="menu" paper-drawer-toggle></paper-icon-button>
+        <span class="title">Cryptography Keypairs</span>
+        <span class="flex"></span>
+        
+        <paper-icon-button suffix icon="refresh" alt="Reload keypairs" title="Reload keypairs" on-click="reloadKeys"></paper-icon-button>
+        <paper-icon-button suffix icon="icons:restore" alt="Reset default keypair" title="Reset default keypair" on-click="toggleResetDLG"></paper-icon-button>
+        
+      </paper-toolbar>
+
+      <!--Content-->
+      <div class="content">
+          <paper-material elevation="0" class="vaadinMaterial">
+                <vaadin-grid id="keysGrid"  items="[[keys]]" active-item="{{default}}" multi-sort="[[true]]"> 
+
+                  <vaadin-grid-column flex-grow="1">
+                    <template class="header">
+                      <vaadin-grid-sorter path="name">
+                        <div class="cell" style="padding-left: 20px;">
+                          <span>Key name</span>
+                        </div>
+                      </vaadin-grid-sorter>
+                    </template>
+                    <template>
+                      <div class$="cell {{conditionalClass(item.default, 'activated')}}" style="padding-left: 20px;" onclick="KeyOpt.toggle()" on-click="showKey">
+                        [[item.name]]
+                      </div>
+                    </template>
+                  </vaadin-grid-column>
+          
+                  <vaadin-grid-column width="140px" flex-grow="1">
+                    <template class="header">
+                      <vaadin-grid-sorter path="application.version">
+                        <div class="cell">
+                          <span>Public key</span>
+                        </div>
+                      </vaadin-grid-sorter>
+                    </template>
+                    <template>
+                      <div class$="cell {{conditionalClass(item.default, 'activated')}}"  onclick="KeyOpt.toggle()" on-click="showKey">
+                        [[item.pubkey]]
+                      </div>
+                    </template>
+                  </vaadin-grid-column>
+                </vaadin-grid>
+            </paper-material>
+      </div>
+
+    </paper-header-panel>
+
+    <!--Key Prop-->
+    <paper-dialog id="KeyOpt" role="alertdialog" entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+      <div class="dialog-content">
+        <h2>Key properties</h2>
+        <paper-input label="Name" readonly value="[[updateItem.name]]" autofocus>
+        </paper-input>
+        <paper-input id="pubKey" label="Public Key" readonly value="[[updateItem.pubkey]]">
+          <paper-icon-button suffix icon="icons:content-copy" alt="Copy to Clipboard" title="Copy to Clipboard" on-click="copyPubKeyToClipboard"></paper-icon-button>
+        </paper-input>
+        <paper-checkbox checked="{{updateItem.default}}" disabled>active</paper-checkbox>
+      </div>
+      <div class="buttons">
+        <template is="dom-if" if="{{!updateItem.default}}">
+          <paper-icon-button icon="icons:delete" on-click="toggleConfirmDelete" alt="Delete key" title="Delete key"></paper-icon-button>  
+        </template> 
+        <paper-icon-button icon="icons:save" on-click="exportKeyClick" alt="Export key" title="Export key"></paper-icon-button>
+        <span class="flex horizontal layout end-justified">
+          <paper-button dialog-dismiss>Close</paper-button>
+        </span>
+      </div>
+    </paper-dialog>
+    <!--Confirm Reset-->
+    <paper-dialog id="dlgConfirmReset" class="warningdialog" modal="" role="confirmdialog" entry-animation="scale-up-animation">
+      <div class="dialog-content">
+        <h2>Warning: Confirm you want to reset your active key?</h2>
+        <p>
+          You will not be able to work with it anymore and might loose some assets. 
+        </p>
+        <paper-dropdown-menu label="Reset Options" >
+          <paper-listbox id="resetOptsBox" class="dropdown-content" selected="0">
+            <template is="dom-repeat" items="{{resetOpts}}">
+              <paper-item value="{{item.id}}">[[item.title]]</paper-item>
+            </template>
+          </paper-listbox>
+        </paper-dropdown-menu>
+        <template is="dom-if" if="{{isPassphraseRequired}}">
+            <h2>Enter passphrase to encrypt private key</h2>
+            <gold-password-input type="password" on-keydown="checkEnterReset" autofocus label="Enter encryption passphrase" id="passEncrypt1"
+              reveal suffix value="{{passphrase}}"></gold-password-input>
+        </template>
+      </div>
+      <div class="buttons">
+        <paper-button dialog-confirm="" on-click="resetButtonClick">Yes</paper-button>
+        <paper-button dialog-dismiss="">Cancel</paper-button>
+      </div>
+    </paper-dialog>
+     <!--Confirm Delete-->
+    <paper-dialog id="dlgConfirmDelete" class="warningdialog" role="confirmdialog" entry-animation="scale-up-animation">
+      <div class="dialog-content">
+        <h2>Warning: Are you sure you want to delete the key?</h2>
+        <p>
+          You will not be able to work with it anymore.
+        </p>
+        <p>
+          {{updateItem.pubkey}}
+        </p>
+        <paper-input id="pubKey" label="Please type first 4 character of the public key to confirm delete" value="{{confirmDelete}}"></paper-input>
+      </div>
+      <div class="buttons">
+        <paper-button dialog-confirm on-click="deleteButtonClick">Yes</paper-button>
+        <paper-button dialog-dismiss>Cancel</paper-button>
+      </div>
+    </paper-dialog>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'ng-rt-keys',
+      properties: {
+        keys: {
+          type: Array,
+          value: []
+        },
+        updateItem: {
+          type: Object
+        },
+        token: {
+          type: String,
+          value: ""
+        },
+        activeItem:
+        {
+          type:Object
+        },
+        isPassphraseRequired:
+        {
+          type: Boolean
+        },
+        passphrase:
+        {
+          type:String,
+          value:""
+        },
+        resetOpts: {
+          type: Array,
+          value: [
+          {
+            id: "disable",
+            title: "suspend/disable"
+          },
+          {
+            id: "destroy",
+            title: "destroy"
+          }]
+        }
+      },
+      ready: function () {
+        let self = this;
+        self.isPassphraseRequired = (project.config.keysStrategy != "saveAuto");
+        project.on('refresh-keys', () => {
+          this.getKeys();
+        });
+        
+        project.KeysService.init(()=>{this.getKeys()},false);
+      },
+      reloadKeys: function (){
+        KeysService.getKeys().forEach(k=> KeysService.remove(k.id));
+        KeysService.status = undefined;
+        project.KeysService.init(()=>{this.getKeys()},true);
+      },
+      getKeys: function (passphrase=undefined) {
+        var component = this;
+        const toaster = document.getElementById('toaster');
+        let keys = project.KeysService.getKeys(false,passphrase);
+        if (keys && keys.length > 0)
+        {
+          component.set("keys", keys);
+          component.default = project.KeysService.getDefault();
+        }
+      },
+      handleError: function (e) {
+        toaster.show(e.message ? e.message : e);
+      },
+      conditionalClass: function (state, classname) {
+        return state ? classname : '';
+      },
+      toggleResetDLG: function (){
+        this.$.dlgConfirmReset.toggle();
+      },
+      resetButtonClick: function () {
+        var self = this;
+        var pass = self.passphrase;
+        self.passphrase = "";
+          
+        if (project.KeysService.ensurePassphrase(pass))
+        {
+          self.$.dlgConfirmReset.close();
+          toaster.hide();
+          tasker.show('reseting active key')
+       
+          project.KeysService.resetKey(pass,this.$.resetOptsBox.selectedItem.value,()=>{tasker.hide()});
+        }
+        else
+          self.handleError('Wrong Passphrase')
+      },
+      copyPubKeyToClipboard: function () {
+        document.getElementById('pubKey').inputElement.select();
+        try {
+          var successful = document.execCommand("Copy");
+          var msg = successful ? 'successful' : 'unsuccessful';
+          document.getElementById('toaster').show('Key copied to clipboard');
+        } catch (err) {
+          document.getElementById('toaster').show('Oops, unable to copy clipboard', 'alert');
+        }
+        window.getSelection().removeAllRanges();
+      },
+      showKey: function (e) {
+        var index = e.model.index;
+        this.updateItem = this.keys[index];
+      },
+      downloadExportFile: function (data) {
+        var content = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data));
+        var a = document.createElement('a');
+        a.href = 'data:' + content;
+        a.download = 'keys.json';
+        a.click();
+      },
+      exportKeys: function (id) {
+        var exportkeys = [];
+        var data = {};
+        if (id) {
+          data[id] = project.KeysService.keyPairs[id];
+        } else {
+          data = project.KeysService.keyPairs;
+        }
+        this.downloadExportFile(data);
+      },
+      exportKeyClick: function (e) {
+        this.exportKeys(this.updateItem.id);
+      },
+      showMessage: function (msg) {
+        document.getElementById('toaster').show(msg);
+      },
+      checkEnterReset: function (e) 
+      {
+        if (e.keyCode === 13) 
+        {
+          this.resetButtonClick();
+        }
+      },
+      deleteButtonClick: function (e) {
+        var self = this;
+        if (this.confirmDelete !== self.updateItem.pubkey.substring(0, 4)) {
+          document.getElementById('toaster').show('Wrong delete confirmation', 'alert');
+          self.confirmDelete = "";
+          return;
+        }
+        self.confirmDelete = "";
+        KeysService.deleteFromDatabase(this.updateItem.id)
+      },
+      toggleConfirmDelete: function()
+      {
+        this.$.KeyOpt.close();
+        this.$.dlgConfirmDelete.toggle()
+      }
+    });
+  </script>
+</dom-module>

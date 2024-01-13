@@ -1,0 +1,47 @@
+{
+  "name": "ng-rt-nodes-sc-core",
+  "type": "optional",
+  "description": "node-red blocks for project smart contracts + temporary execution flow ",
+  "version": "3.2.",
+  "entryPoints": [],
+  "actions": {
+    "before_install": [
+        {
+        "type": "NPM_INSTALL",
+        "parameters": {
+          "package": true,
+          "checkDependencies": "false"
+        }
+      }
+    ],
+    "after_install": [
+      {
+        "name": "install node-red module",
+        "type": "NODE_RED_INSTALL_MODULE",
+        "parameters": {
+          "path": ".",
+          "name": "ng-rt-nodes-sc-core"
+        }
+      }
+    ],
+    "after_uninstall": [
+      {
+        "name": "uninstall node-red module",
+        "type": "NODE_RED_UNINSTALL_MODULE",
+        "parameters": {
+          "name": "ng-rt-nodes-sc-core"
+        }
+      }
+    ],
+    "before_activate": [],
+    "after_activate": [],
+    "after_deactivate": []
+  },
+  "sharedServices": [],
+  "apiServices": [],
+  "smokeTests": [
+    {
+      "file": "test/plugins/checkNodes.js"
+    }
+  ]
+}

@@ -1,0 +1,376 @@
+/* Accent colors */
+:root {
+  --primary-color: #1d9568;
+  --secondary-color: #17a58a;
+  --bg-color: #1e2e2c;
+  --window-bg: #f9f9f9;
+  --window-darked-bg: #f5f5f5;
+  --brd-color: #d8d8d8;
+  --text-color: rgba(230,255,230,0.7);
+  --text-color-light: #c6c8ca;
+  --error-color: #ab1c2a;
+  --my-custom-color: #2166ab;
+  --sidebar-bg: #204641;
+  --sidebar-bg-dark: #1c3734;  
+  --sidebar-text: #c6c8ca;
+}
+
+
+/*Fonts */
+
+/*@font-face {
+  font-family: Walsheim;
+  font-weight: 400;
+  src: url("fonts/GT-Walsheim-Pro-Trial-Regular.otf") format("opentype");
+}
+
+@font-face {
+  font-family: Walsheim;
+  font-weight: 200;
+  src: url("fonts/GT-Walsheim-Pro-Trial-Thin.otf") format("opentype");
+}
+
+@font-face {
+  font-family: Walsheim;
+  font-weight: 500;
+  src: url("fonts/GT-Walsheim-Pro-Trial-Bold.otf") format("opentype");
+}*/
+
+/*body, paper-tab, paper-toolbar, input, label, paper-button, paper-toggle-button, paper-dialog, .title, ng-rt-submenu, paper-item {
+  font-family: 'Roboto', sans-serif !important;
+}*/
+
+@import url('https://fonts.googleapis.com/css?family=Maven+Pro');
+body, paper-tab, paper-toolbar, input, label, paper-button, paper-toggle-button, paper-dialog, .title, ng-rt-submenu, paper-item {
+  font-family: 'Maven Pro', sans-serif !important;
+}
+
+
+/*ngrt-home paper-header-panel {
+  display: none !important;
+}*/
+
+
+/*Custom Home page*/
+
+/*ngrt-home {
+  background-color: white;
+  background-image: url('images/vendor-home-bg.png') !important;
+  background-size: 100% auto !important;
+  background-repeat: no-repeat;
+  background-position: bottom;
+}
+
+ngrt-home::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('images/vendor-home.png') !important;
+  background-size: auto !important;
+  background-repeat: no-repeat;
+  background-position: 20% center;
+}*/
+
+body, .input-content.paper-input-container  input, .input-content.paper-input-container  textarea,  .input-content.paper-input-container  iron-autogrow-textarea,  .input-content.paper-input-container  .paper-input-input,
+.toggle-label.paper-toggle-button {
+  color: var(--text-color) !important;
+}
+
+
+.input-content.paper-input-container  label, .input-content.paper-input-container  .paper-input-label {
+color: #d5e2c6 !important;
+}
+
+
+
+/*Auth Logo */
+
+.login-page .logo {
+  background-image: url('images/vendor-login-logo.png') !important;
+}
+
+@media (max-height: 860px) {
+  .login-page .logo {
+    background-image: url('images/vendor-login-logo.png') !important;
+  }
+}
+
+/* Curtain */
+#curtain {
+  background-color: var(--bg-color) !important;
+}
+#curtain span {
+  background-image: url('images/vendor-login-logo.png') !important;
+  border-radius: 50%;
+  background-color: rgba(255,255,255,0.1);
+}
+
+/*Sidebar logo*/
+.sidelogo {
+  background-image: url('images/vendor-sidebar-logo.png') !important;
+  background-color: var(--primary-color) !important;
+}
+
+.sidelogotext {
+  background-image: url('images/vendor-sidebar-logo-text.png') !important;
+}
+
+
+/*Sidebar background color*/
+ng-rt-menu-item.iron-selected a iron-icon {
+  color: white !important;
+}
+
+ng-rt-menu {
+  background-color: var(--sidebar-bg) !important;
+  transition: 0.5s all;
+}
+
+ng-rt-menu .usermenu, ng-rt-menu #userblock {
+  background-color: var(--sidebar-bg-dark) !important;
+}
+
+ng-rt-menu .user-button {
+  background-color: var(--sidebar-bg-dark) !important;
+}
+
+ng-rt-menu-item.iron-selected a {
+  background-color: var(--primary-color) !important;
+}
+
+ng-rt-menu-item.iron-selected a iron-icon {
+  color: white !important;
+}
+
+
+.menuitem.iron-selected {
+  background: var(--primary-color) !important;
+}
+
+iron-icon {
+  color: var(--primary-color) !important;
+}
+
+paper-dialog paper-toolbar iron-icon, paper-dialog .dialog-header iron-icon {
+  color: white !important;
+}
+
+paper-button {
+  border: 2px solid var(--primary-color) !important;
+}
+
+/* Type of Buttons */
+paper-toolbar paper-button {
+  border: none !important;
+}
+
+paper-input paper-button {
+  border: none !important;
+}
+
+paper-dialog .buttons paper-button {
+  color: var(--text-color) !important;
+  border: none !important;
+}
+
+paper-dialog .buttons paper-button:hover {
+  color: white !important;
+}
+
+/*Dialog */
+paper-dialog {
+  background: var(--bg-color) !important;
+  color: var(--text-color) !important;
+}
+
+/* Content */
+.appPanel, #container {
+  background-color: var(--bg-color) !important;
+}
+
+/* Main toolbar*/
+.appToolbar {
+  background: #253d39 !important;
+}
+
+.paper-toolbar-1 {
+  color: white !important;
+}
+
+paper-toolbar .title {
+  color: var(--text-color);
+
+}
+
+.appToolbar #bottomBar::before, .appToolbar #middleBar::before, .appToolbar #topBar::before {
+  background: rgba(0,0,0,0.1) !important;
+}
+
+
+.appToolbar paper-tabs {
+  color: rgba(255,255,255,0.7) !important;
+}
+
+.appToolbar paper-tabs paper-tab.iron-selected {
+  color: white !important;
+}
+
+/* Pages */
+
+.verticalhero  {
+  background: transparent !important;
+}
+
+paper-material {
+  background: transparent !important;
+  border: 1px solid rgba(255,255,255,0.1) !important;
+}
+
+
+/**/
+
+paper-item::after {
+  background: var(--primary-color) !important;
+}
+
+.listheader, .list-header {
+  border-bottom-color: var(--primary-color) !important;
+}
+
+.selected {
+  background: var(--secondary-color)  !important;
+  color: white !important;
+}
+
+.keysrow::after, .list-row::after {
+  background-color: var(--primary-color) !important;
+}
+
+h2 {
+  color: var(--primary-color) !important;
+}
+
+paper-dialog paper-toolbar {
+  background-color: var(--primary-color) !important;
+}
+
+#drawer iron-icon {
+  color: white !important;
+}
+
+#drawer a.ng-rt-menu-item:hover::after {
+  background-color: var(--primary-color);
+}
+
+#selectionBar {
+  background-color: var(--secondary-color) !important;
+}
+
+paper-button {
+  border-color: var(--primary-color) !important;
+  color: var(--primary-color) !important;
+}
+
+paper-button:hover {
+  background: var(--primary-color) !important;
+  color: white !important;
+}
+
+paper-button:hover iron-icon {
+  color: white !important;
+}
+
+paper-button[active] {
+  background: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+  color: white !important;
+}
+
+paper-toggle-button .toggle-button {
+  border-color: var(--primary-color) !important;
+}
+
+paper-toggle-button[checked]:not([disabled]) .toggle-button {
+  border-color: var(--primary-color) !important;
+  background-color: var(--secondary-color) !important;
+}
+
+.label-is-highlighted label {
+  color: var(--primary-color) !important;
+}
+
+.is-highlighted .paper-input-char-counter {
+  color: var(--primary-color) !important;
+}
+
+paper-dialog {
+  border-color: var(--primary-color) !important;
+}
+
+paper-checkbox #checkbox.checked.paper-checkbox {
+  background-color: var(--secondary-color) !important;
+  border-color: var(--secondary-color) !important;
+}
+
+.focused-line {
+  border-color: var(--primary-color) !important;
+}
+
+.menusearch input:focus {
+  border-color: var(--primary-color) !important;
+}
+
+.vbg {
+  background-color: var(--primary-color) !important;
+}
+
+.vc {
+  color: var(--primary-color) !important;
+}
+
+.vbrd {
+  border-color: var(--primary-color) !important;
+}
+
+.vbgh:hover {
+  background-color: var(--primary-color) !important;
+}
+
+.vch:hover {
+  color: var(--primary-color) !important;
+}
+
+.vbrdh:hover {
+  border-color: var(--primary-color) !important;
+}
+
+.vbgh::after {
+  background-color: var(--primary-color) !important;
+}
+
+.vch::after {
+  color: var(--primary-color) !important;
+}
+
+.vbrdh::after {
+  border-color: var(--primary-color) !important;
+}
+
+.vbgw {
+  background-color: white !important;
+}
+
+.vcw {
+  color: white !important;
+}
+
+.vbrdw {
+  border-color: white !important;
+}
+
+.vchw:hover {
+  color: white !important;
+}

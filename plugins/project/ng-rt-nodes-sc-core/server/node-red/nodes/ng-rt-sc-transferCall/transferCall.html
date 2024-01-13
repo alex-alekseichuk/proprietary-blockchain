@@ -1,0 +1,58 @@
+
+<script type="text/javascript">
+  RED.nodes.registerType('transferCall', {
+    category: 'Project_Smart_Contracts_Core',
+    color: '#94bee2',
+    defaults: {
+      name: {
+        value: "transferCall"
+      },
+      contractId : {
+        value : ""
+      },
+      assetId : {
+        value : ""
+      }
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: "Project.png",
+    label: function() {
+      return this.name || "transferCall";
+    }
+  });
+</script>
+<script type="text/x-red" data-template-name="transferCall">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+      <label for="node-input-contractId"><i class="icon-tag"></i> Contract Id </label>
+      <input type="text" id="node-input-contractId" placeholder="">
+  </div>
+    <div class="form-row">
+        <label for="node-input-assetId"><i class="icon-tag"></i> Asset Id </label>
+        <input type="text" id="node-input-assetId" placeholder="">
+    </div>
+    
+</script>
+
+
+<script type="text/x-red" data-help-name="transferCall">
+    <p>Node to transfer an asset</p>
+
+    <h3>Output</h3>
+      <dl class="message-properties">
+          <dt> <code>msg.payload</code>
+              <span class="property-type">object</span>
+          </dt>
+      </dl>
+
+    <h3>Details</h3>
+    <dl class="message-properties">
+
+      <p> Node to transfer an asset to respective receiver </p>
+      
+    </dl>
+</script>

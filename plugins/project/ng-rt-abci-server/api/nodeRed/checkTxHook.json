@@ -1,0 +1,228 @@
+[
+    {
+        "id": "ef62b7c.4493d48",
+        "type": "tab",
+        "label": "checkTxHook",
+        "disabled": false,
+        "nodes": [
+            {
+                "id": "18b521b5.32eb6e",
+                "type": "switch",
+                "z": "ef62b7c.4493d48",
+                "name": "",
+                "property": "ctx.message.code",
+                "propertyType": "msg",
+                "rules": [
+                    {
+                        "t": "eq",
+                        "v": "0",
+                        "vt": "num"
+                    },
+                    {
+                        "t": "eq",
+                        "v": "-1",
+                        "vt": "num"
+                    }
+                ],
+                "checkall": "true",
+                "repair": false,
+                "outputs": 2,
+                "x": 410,
+                "y": 180,
+                "wires": [
+                    [
+                        "a73decad.f412",
+                        "cd86c28a.639dd"
+                    ],
+                    [
+                        "3851c0f8.a15c2",
+                        "bbe63961.6e8e28"
+                    ]
+                ]
+            },
+            {
+                "id": "73355c2c.439ef4",
+                "type": "ui-listener",
+                "z": "ef62b7c.4493d48",
+                "name": "",
+                "applicationName": "",
+                "event": "checkTxHook",
+                "x": 60,
+                "y": 180,
+                "wires": [
+                    [
+                        "690315fd.72a0cc",
+                        "b50ae1d4.53cb"
+                    ]
+                ]
+            },
+            {
+                "id": "688731c2.eb6f5",
+                "type": "debug",
+                "z": "ef62b7c.4493d48",
+                "name": "",
+                "active": false,
+                "tosidebar": false,
+                "console": true,
+                "tostatus": false,
+                "complete": "true",
+                "x": 360,
+                "y": 120,
+                "wires": []
+            },
+            {
+                "id": "690315fd.72a0cc",
+                "type": "function",
+                "z": "ef62b7c.4493d48",
+                "name": "Customizable function",
+                "func": "return msg\n \n\n",
+                "outputs": 1,
+                "noerr": 0,
+                "x": 240,
+                "y": 180,
+                "wires": [
+                    [
+                        "18b521b5.32eb6e",
+                        "688731c2.eb6f5"
+                    ]
+                ]
+            },
+            {
+                "id": "b50ae1d4.53cb",
+                "type": "debug",
+                "z": "ef62b7c.4493d48",
+                "name": "",
+                "active": true,
+                "tosidebar": false,
+                "console": true,
+                "tostatus": false,
+                "complete": "true",
+                "x": 200,
+                "y": 100,
+                "wires": []
+            },
+            {
+                "id": "3851c0f8.a15c2",
+                "type": "debug",
+                "z": "ef62b7c.4493d48",
+                "name": "",
+                "active": true,
+                "tosidebar": false,
+                "console": true,
+                "tostatus": false,
+                "complete": "true",
+                "x": 490,
+                "y": 580,
+                "wires": []
+            },
+            {
+                "id": "bbe63961.6e8e28",
+                "type": "tendermint-response",
+                "z": "ef62b7c.4493d48",
+                "name": "",
+                "property": "payload",
+                "propertyType": "msg",
+                "rules": [
+                    {
+                        "t": "eq",
+                        "v": ""
+                    }
+                ],
+                "checkall": "false",
+                "outputs": 1,
+                "x": 600,
+                "y": 280,
+                "wires": [
+                    [
+                        "1a54efee.33f03",
+                        "3577cfbb.1c2c"
+                    ]
+                ]
+            },
+            {
+                "id": "a73decad.f412",
+                "type": "debug",
+                "z": "ef62b7c.4493d48",
+                "name": "",
+                "active": true,
+                "tosidebar": false,
+                "console": true,
+                "tostatus": false,
+                "complete": "true",
+                "x": 470,
+                "y": 540,
+                "wires": []
+            },
+            {
+                "id": "1a54efee.33f03",
+                "type": "debug",
+                "z": "ef62b7c.4493d48",
+                "name": "tm repsonse false",
+                "active": true,
+                "tosidebar": false,
+                "console": true,
+                "tostatus": false,
+                "complete": "true",
+                "x": 990,
+                "y": 320,
+                "wires": []
+            },
+            {
+                "id": "cd86c28a.639dd",
+                "type": "tendermint-response",
+                "z": "ef62b7c.4493d48",
+                "name": "",
+                "property": "payload",
+                "propertyType": "msg",
+                "rules": [
+                    {
+                        "t": "eq",
+                        "v": ""
+                    }
+                ],
+                "checkall": "true",
+                "outputs": 1,
+                "x": 580,
+                "y": 140,
+                "wires": [
+                    [
+                        "f898e8e5.6c8c38",
+                        "31a35613.733dda"
+                    ]
+                ]
+            },
+            {
+                "id": "f898e8e5.6c8c38",
+                "type": "debug",
+                "z": "ef62b7c.4493d48",
+                "name": "tm response true",
+                "active": true,
+                "tosidebar": false,
+                "console": true,
+                "tostatus": false,
+                "complete": "true",
+                "x": 930,
+                "y": 120,
+                "wires": []
+            },
+            {
+                "id": "31a35613.733dda",
+                "type": "sync-listener-end",
+                "z": "ef62b7c.4493d48",
+                "name": "",
+                "x": 790,
+                "y": 200,
+                "wires": []
+            },
+            {
+                "id": "3577cfbb.1c2c",
+                "type": "sync-listener-end",
+                "z": "ef62b7c.4493d48",
+                "name": "",
+                "x": 770,
+                "y": 380,
+                "wires": []
+            }
+        ]
+    }
+]

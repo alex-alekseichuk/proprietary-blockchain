@@ -1,0 +1,11 @@
+.content
+  paper-material(elevation='0')
+    .listheader
+      iron-grid
+        .m12.s12.xs12 documentation
+    template#docsList(is='dom-repeat', items='{{docs}}', observe='type updated_at')
+      .keysrow
+        iron-grid
+          a(href="{{item.link}}", target="_blank", class="doc-link")
+            .m12.s12.xs12
+              span.filename {{item.name}}

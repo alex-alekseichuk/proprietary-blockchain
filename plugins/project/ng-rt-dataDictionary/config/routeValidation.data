@@ -1,0 +1,8 @@
+[
+  {
+    "route": "/ng-rt-core/containerStatus",
+    "operation": "POST",
+    "recordStatus": "a",
+    "validation":  {"body" : { "immutable" : "joi.boolean().required()", "state": "joi.string().required()", "pluginManagerUploadUI" : "joi.boolean().required()", "pluginManagerUploadCLI" : "joi.boolean().required()" }}
+  }
+]

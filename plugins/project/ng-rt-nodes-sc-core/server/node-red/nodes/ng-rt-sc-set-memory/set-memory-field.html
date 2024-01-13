@@ -1,0 +1,64 @@
+<script type="text/javascript">
+  RED.nodes.registerType('set-memory-field', {
+    category: 'Project_Smart_Contracts_Core',
+    color: '#94bee2',
+    defaults: {
+      name: {
+        value: "set memory field"
+      },
+      field : {
+        value : ""
+      },
+      source : {
+        value : "payload"
+      }
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: "Project.png",
+    label: function() {
+      return this.name || "set-memory-field";
+    }
+  });
+</script>
+<script type="text/x-red" data-template-name="set-memory-field">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-field"> Memory Field</label>
+        <input type="text" id="node-input-field" placeholder="">
+    </div>
+    <div class="form-row">
+      <label for="node-input-source"> Property msg.</label>
+      <input type="text" id="node-input-source" placeholder="">
+  </div>
+</script>
+
+<script type="text/x-red" data-help-name="set-memory-field">
+  <p>Node to save variable in memory</p>
+
+  <h3>Properties</h3>
+      <dl class="message-properties">
+        <dt>Name
+            <span class="property-type">string</span>
+        </dt>
+        <dd> Node name. </dd>
+        <dt>Memory Field
+            <span class="property-type">string</span>
+        </dt>
+        <dd> The name of the memory field to be written to the memory. </dd>
+        <dt>Property
+            <span class="property-type">object</span>
+        </dt>
+        <dd> Value read from <code>msg.payload</code> and saved in the mentioned memory field.</dd>
+      </dl>
+
+  <h3>Details</h3>
+  <p>Takes the value from <code>msg.payload</code> as a property and stores it in <code>msg.memory</code>.</p>
+  <p>When the contract function finishes the state of the contract will be updated from <code>msg.memory</code>.</p>
+
+</script>
+
+

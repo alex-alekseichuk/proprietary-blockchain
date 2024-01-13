@@ -1,0 +1,65 @@
+
+
+<script type="text/javascript">
+    RED.nodes.registerType('offchain-storage', {
+      category: 'Project_Smart_Contracts_Core',
+        color: '#94bee2',
+        defaults: {
+            name: {
+              value: "local-isolated-memory"
+            }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "Project.png",
+        label: function() {
+            return this.name || "offchain-storage";
+        }
+    });
+</script>
+<script type="text/x-red" data-template-name="offchain-storage">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+
+</script>
+
+<script type="text/x-red" data-help-name="offchain-storage">
+    <p>Node to save data privately.</p>
+
+    <h3>Details</h3>
+
+        <p/>key -> value storage outside of blockchain.<p/>
+
+        Inserts or updates variable in local memory
+
+        <h4>input - insert</h3>
+           <ol class="node-ports">
+               <li>key in msg.ctx.key
+               </li>
+               <li>value in msg.ctx.value
+               </li>
+           </ol>
+
+        <h4>input - update</h3>
+           <ol class="node-ports">
+               <li>key in msg.ctx.update_key
+               </li>
+               <li>new value in msg.ctx.update_value
+               </li>
+           </ol>
+
+        <h4>input - search</h3>
+           <ol class="node-ports">
+               <li>key in msg.ctx.key
+               </li>
+           </ol>
+
+        <h4>output - search</h3>
+           <ol class="node-ports">
+               <li>value in msg.payload
+               </li>
+           </ol>
+   
+</script>

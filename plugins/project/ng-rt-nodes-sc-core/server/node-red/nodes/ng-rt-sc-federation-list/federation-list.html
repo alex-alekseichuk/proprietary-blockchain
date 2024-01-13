@@ -1,0 +1,55 @@
+
+<script type="text/javascript">
+  RED.nodes.registerType('federation-list', {
+    category: 'Project_Smart_Contracts_Core',
+    color: '#94bee2',
+    defaults: {
+      name: {
+        value: "federation IP's"
+      },
+      destination : {
+        value : "payload"
+      }
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: "Project.png",
+    label: function() {
+      return this.name || "federation-list";
+    }
+  });
+</script>
+<script type="text/x-red" data-template-name="federation-list">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-destination"><i class="icon-tag"></i>Property msg. </label>
+        <input type="text" id="node-input-destination" placeholder="">
+    </div>
+
+</script>
+
+
+<script type="text/x-red" data-help-name="federation-list">
+    <p>IP's of each server in federation</p>
+
+      <p/><p/>
+
+      <h3>Output</h3>
+         <ol class="node-ports">
+             <li>msg.federationList
+                 <dl class="message-properties">
+                     <dt>msg.federationList <span class="property-type">&emsp;&emsp;array</span></dt>
+                     <dd>Array with IPs</dd>
+                 </dl>
+             </li>
+         </ol>
+
+      <h3>Details</h3>
+         Sends list of federation servers into flow.
+         Array with IPs, taken from config.json.
+         Using to create "Oracles" from federation nodes.
+
+</script>

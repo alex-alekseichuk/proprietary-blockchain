@@ -1,0 +1,724 @@
+<!-- shared styles for all elements and index.html -->
+<dom-module id="shared-styles">
+  <template>
+    <style is="custom-style">
+      :root {
+
+        /*Project*/
+        --project-blue: gray;
+        --project-green: lightgray;
+        --project-lightgray: rgba(0, 0, 0, 0.05);
+
+        --primary-color: gray;
+        --secondary-color: #4f4f4f;
+
+        --bg-color: #eeeeee;
+        --window-bg: #f9f9f9;
+        --window-darked-bg: #f5f5f5;
+        --brd-color: #d8d8d8;
+
+        --text-color: #212121;
+        --text-color-light: #c6c8ca;
+        --error-color: red;
+
+        --my-custom-color: gray;
+
+        --sidebar-bg: #3f3f3f;
+        --sidebar-text: #c6c8ca;
+
+        /*Toolbar*/
+        --toolbar-text: var(--text-color);
+        --toolbar-bg: #fafafa;
+
+        --paper-tab-ink: var(--primary-color);
+
+
+        --light-theme-background-color: var(--primary-color);
+        --dark-theme-background-color: var(--primary-color);
+        --sidemenu-height: 50px;
+
+        --toolbar-height: 50px;
+
+
+        /*Toolbar*/
+        --paper-toolbar-sm-height: var(--toolbar-height);
+        --paper-toolbar-height: var(--toolbar-height);
+
+
+        --paper-input-container-underline: {
+          opacity: 0.1;
+        }
+      }
+
+      paper-drawer-panel {
+        --paper-drawer-panel-left-drawer-container: {
+          background-color: var(--sidemenu-bg);
+          color: white;
+        };
+        --paper-toolbar-background: var(--sidemenu-bg);
+
+        --paper-drawer-panel-scrim: {
+          opacity: 0;
+        };
+      }
+
+      paper-listbox {
+        background: white;
+      }
+
+      paper-material {
+        padding: 30px 30px 30px 30px;
+        background: var(--window-bg);
+        border-radius: 8px;
+        box-shadow: 0 3px 4px 0px #00000040;
+        margin: 0;
+        min-width: 300px;
+        /* border-radius: 0px; */
+        box-sizing: border-box;
+        /* border: 1px solid var(--brd-color); */
+        float: left;
+        width: 100%;
+        flex: 1;
+        /* box-shadow: none; */
+      }
+
+
+
+      paper-material.list {}
+
+      paper-input {
+        position: relative;
+
+        --paper-input-container-input: {
+          height: 30px;
+        }
+
+        ;
+
+        --paper-input-container-label: {
+          top: 5px;
+        }
+
+        ;
+
+        --paper-input-container-label-focus: {
+          top: 0;
+        }
+
+        ;
+
+        --paper-input-container-label-floating: {
+          top: 0;
+        }
+
+        ;
+      }
+
+      paper-input.small {
+        --paper-input-container: {
+          padding: 0;
+        }
+
+        ;
+
+        --paper-input-container-input: {
+          height: 30px;
+          font-size: 0.9em;
+          color: rgba(0, 0, 0, 0.8);
+        }
+
+        ;
+
+        --paper-input-container-label: {
+          top: 5px;
+        }
+
+        ;
+
+        --paper-input-container-label-focus: {
+          top: 0;
+        }
+
+        ;
+
+        --paper-input-container-label-floating: {
+          top: 0;
+        }
+
+        ;
+      }
+
+      paper-input.big {
+        --paper-input-container-input: {
+          height: 40px;
+          font-size: 1.5em;
+        }
+
+        ;
+
+        --paper-input-container-label: {
+          top: 10px;
+          font-size: 1.2em;
+        }
+
+        ;
+
+        --paper-input-container-label-focus: {
+          top: 0;
+        }
+
+        ;
+
+        --paper-input-container-label-floating: {
+          top: 0;
+        }
+
+        ;
+      }
+
+      paper-input[readonly] {
+        --paper-input-container-underline: {
+          opacity: 0;
+        }
+      }
+
+      paper-input[required] {
+        /* --paper-input-container-underline: {
+          border-color: var(--secondary-color);
+        }; */
+      }
+
+      paper-input[required]::after {
+        content: '*';
+        font-weight: bold;
+        text-align: center;
+        font-size: 18px;
+        vertical-align: middle;
+        opacity: 0.5;
+        position: absolute;
+        top: 8px;
+        right: 5px;
+        width: 20px;
+        height: 20px;
+      }
+
+
+      paper-dropdown-menu {
+        --paper-dropdown-menu-input: {}
+
+        ;
+      }
+
+      paper-button {
+        box-shadow: -1px 2px 5px 0px #909090;
+        background: var(--primary-color);
+        font-weight: bold;
+        /* background: none; */
+        /* padding: 0 20px; */
+        /* line-height: 44px; */
+        /* max-height: 44px; */
+        /* border: 2px solid var(--primary-color); */
+        /* box-sizing: border-box; */
+        /* color: var(--primary-color); */
+        /* transition: 0.3s; */
+        /* margin: 0; */
+        /* font-weight: bold; */
+        /* border-radius: 0; */
+        overflow: hidden;
+        white-space: nowrap;
+      }
+
+      paper-button:hover {
+        /* background: var(--primary-color); */
+        /* color: white; */
+      }
+
+      paper-button[toggles] {
+        /* box-shadow: none; */
+      }
+
+      paper-button[disabled] {
+        /* filter: grayscale(0.8); */
+      }
+
+      paper-button[toggles][active] {
+        /* border-color: var(--secondary-color);
+        background: var(--secondary-color);
+        color: white; */
+      }
+
+      paper-input paper-button {
+        box-shadow: none;
+        background: none;
+        border: none;
+        line-height: 27px;
+        height: 27px;
+        margin-bottom: 3px;
+        font-size: 1em;
+      }
+
+      paper-toolbar paper-button {
+        background: none;
+        line-height: unset;
+        height: unset;
+        border: none;
+        margin-left: 20px;
+        line-height: 34px;
+      }
+
+      .buttons {
+        flex: 0 0 67px;
+        box-sizing: border-box;
+      }
+
+      .buttons paper-button {
+        font-weight: bold;
+        /* background: transparent;
+        border: none;
+        color: black;
+        font-weight: bold;
+        flex: 0 0 auto;
+        margin: 0 10px 0 0;
+        white-space: nowrap; */
+      }
+
+      .buttons paper-button:active {
+        /* background: rgba(0, 0, 0, 0.03); */
+      }
+
+      .buttons paper-button:last-child {
+        /* margin: 0 0 0 0; */
+      }
+
+      .buttons paper-button[autofocus] {
+        /* background: rgba(0, 0, 0, 0.05); */
+      }
+
+      paper-button iron-icon,
+      paper-input iron-icon {
+        color: var(--primary-color);
+        margin-right: 10px;
+      }
+
+      .content paper-icon-button {
+        color: var(--primary-color);
+      }
+
+      :not(.buttons) paper-button:hover iron-icon {
+        color: white;
+      }
+
+
+
+
+      /* paper-toggle-button {
+        --paper-toggle-button-unchecked-bar: {
+          border-radius: 0;
+          background: black;
+          opacity: 0.2;
+        }
+
+        ;
+
+        --paper-toggle-button-unchecked-button: {
+          border-radius: 0;
+
+          border: 2px solid var(--primary-color);
+          background: white;
+          top: 0;
+          height: 14px;
+          box-sizing: border-box;
+        }
+
+        ;
+
+        --paper-toggle-button-unchecked-ink: {}
+
+        ;
+
+        --paper-toggle-button-checked-bar: {
+          background: black;
+          opacity: 0.2;
+        }
+
+        ;
+
+        --paper-toggle-button-checked-button: {
+          background: var(--secondary-color);
+          border: none;
+        }
+
+        ;
+
+        --paper-toggle-button-checked-ink: {}
+
+        ;
+      } */
+
+      paper-toast {
+        width: 100%;
+        min-width: 0;
+        /* border-radius: 0; */
+        /* margin: 0; */
+        text-align: center;
+        font-weight: 500;
+        font-size: 1.1em;
+      }
+
+      paper-input-container {
+        --paper-input-container: {
+          background: none;
+        }
+
+        ;
+      }
+
+      paper-dropdown-menu {
+        background: none;
+      }
+
+      .headbg {
+        height: 200px;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      /* Toolbar */
+
+      .appToolbar {
+        --paper-toolbar-background: var(--toolbar-bg);
+
+        --paper-toolbar: {
+          color: var(--toolbar-text);
+        }
+
+        ;
+      }
+
+      paper-tabs {
+        --paper-tabs: {
+          /* color: rgba(0, 0, 0, 0.7); */
+          height: 100%;
+          /* font-size: 0.9em; */
+          /* font-weight: 500; */
+          align-items: flex-start;
+          /* background: transparent; */
+          text-transform: uppercase;
+          justify-content: flex-start;
+        }
+
+        ;
+
+        --paper-tabs-selection-bar: {
+          /* border: none; */
+          /* border-bottom: 1px solid var(--secondary-color); */
+          /* height: 100%;
+          box-sizing: border-box;
+          background: transparent; */
+        }
+
+        ;
+      }
+
+      .appToolbar paper-icon-button {
+        color: var(--primary-color);
+        --paper-icon-button-ink-color: var(--paper-indigo-500);
+      }
+
+      .appToolbar .bottom:not([style-scope]):not(.style-scope) {
+        margin-left: 0;
+      }
+
+      .appPanel {
+        --paper-header-panel-shadow: {
+          /* box-shadow: inset 0px 1px 0px 0px rgba(0, 0, 0, 0); */
+        }
+
+        ;
+      }
+
+      .toolbarsearch {
+        --paper-input-container-color: var(--toolbar-text);
+        --paper-input-container-focus-color: var(--toolbar-text);
+        --paper-input-container-input-color: var(--toolbar-text);
+        width: 100%;
+      }
+
+      .appToolbar paper-tabs .iron-selected .paper-tab {
+        color: black;
+      }
+
+      .appToolbar paper-tabs .plugin-tabs iron-icon {
+        color: var(--primary-color);
+      }
+
+      .appToolbar .title {
+        font-size: 1.3em;
+        font-weight: 400;
+        line-height: var(--toolbar-height);
+        height: var(--toolbar-height);
+        /*opacity: 0.6;*/
+      }
+
+      /*Paper dialog*/
+
+      paper-dialog {
+        background: white;
+        padding: 0;
+        border-radius: 0;
+        overflow: hidden;
+        margin: 0 !important;
+        min-width: 350px;
+        font-size: 15px;
+        width: 500px;
+        /* border: 2px solid var(--primary-color); */
+        /* box-shadow: none; */
+      }
+
+      paper-dialog h4 {
+        font-size: 22px;
+        margin: 0;
+        font-weight: 200;
+      }
+
+      paper-dialog paper-toolbar iron-icon {
+        color: white;
+      }
+
+      paper-dialog p {
+        margin-bottom: 40px;
+      }
+
+      paper-dialog:not(.warningdialog):not(.paper-date-picker-dialog) .buttons {
+        padding: 12px 10px 10px 10px;
+        margin-top: 0px;
+        color: black;
+        background: var(--project-lightgray);
+      }
+
+      paper-dialog .list {
+        float: left;
+        margin-bottom: 40px;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      paper-dialog .list>div {
+        width: 100%;
+        padding: 0 10px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        overflow: hidden;
+      }
+
+      paper-dialog .list>div div {
+        padding: 0 10px;
+        overflow: hidden;
+      }
+
+      paper-dialog paper-header-panel {
+        flex: 1;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+
+        --paper-header-panel-shadow: {
+          /* box-shadow: inset 0px 1px 0px 0px rgba(0, 0, 0, 0); */
+        }
+      }
+
+      paper-dialog paper-toolbar {
+        --paper-toolbar-sm-height: 50px;
+        --paper-toolbar-height: 50px;
+        padding: 0 10px;
+      }
+
+      paper-dialog paper-header-panel .title {
+        margin-left: 20px;
+        height: 100%;
+        line-height: 50px;
+      }
+
+      paper-dialog paper-tabs {
+        --paper-tabs: {
+          background: transparent;
+          color: rgba(255, 255, 255, 0.8);
+          font-weight: bold;
+          height: 100%;
+          font-size: 0.9em;
+          /*font-weight: 600;*/
+          text-transform: uppercare;
+          align-items: flex-start;
+          justify-content: flex-start;
+          position: relative;
+        }
+
+        ;
+
+        --paper-tabs-selection-bar: {
+          top: 0;
+          height: 100%;
+          box-sizing: border-box;
+          background: rgba(255, 255, 255, 0.1);
+        }
+
+        ;
+      }
+
+      paper-dialog paper-tabs::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: rgba(255, 255, 255, 0);
+      }
+
+      paper-dialog paper-tab.iron-selected {
+        color: rgba(255, 255, 255, 1);
+      }
+
+      paper-dialog neon-animated-pages {
+        height: 100%;
+        width: 100%;
+      }
+
+      paper-dialog neon-animatable {
+        display: flex;
+        flex-direction: column;
+        padding: 0px;
+      }
+
+      paper-dialog paper-toolbar paper-input {
+        flex: 1;
+        margin: 0 10px;
+        --paper-input-container-color: rgba(255, 255, 255, 0.5);
+        --paper-input-container-focus-color: white;
+        --paper-input-container-input-color: white;
+      }
+
+      .warningdialog {
+        width: 500px;
+        background: var(--google-red-700);
+        color: white;
+        border-color: var(--google-red-700);
+      }
+
+      .warningdialog h2 {
+        color: white;
+      }
+
+      .warningdialog paper-button {
+        --paper-button: {
+          color: white !important;
+          font-weight: bold;
+        };
+      }
+
+      paper-date-picker {
+        padding: 0;
+        margin: 0;
+      }
+
+      .uploadblock {
+        --paper-button: {
+          /*background: blue;*/
+          color: #464646;
+          font-weight: bold;
+        }
+        ;
+      }
+
+      paper-menu a>*,
+      paper-menu paper-item>*,
+      paper-menu paper-icon-item>* {
+        pointer-events: none;
+      }
+
+      iron-pages {
+        padding: 0 !important;
+      }
+
+      ngrt-dropdown-menu iron-icon {
+        margin-right: 20px;
+      }
+
+      ngrt-dropdown>div {
+        padding: 5px 10px;
+      }
+
+
+
+      /* VAADIN GRID */
+
+      .vaadinMaterial {
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        overflow: hidden;
+      }
+
+      vaadin-grid-cell-content .cell {
+          /* word-wrap: break-word;
+          overflow-wrap: break-word; */
+          cursor: pointer;
+          text-overflow: ellipsis;
+          white-space: normal;
+          overflow: hidden;
+          padding-right: 15px;
+      }
+
+      vaadin-grid {
+        height: unset;
+        background: transparent;
+        min-height: 0;
+        flex: 1;
+        border: none;
+        
+        /*font-family: Roboto, sans-serif;*/
+        --divider-color: rgba(0, 0, 0, var(--dark-divider-opacity));
+        --vaadin-grid-cell: {
+          padding: 0;
+        };
+
+        --vaadin-grid-header-cell: {
+          height: auto;
+          min-height: 48px;
+          max-height: 200px;
+          color: rgba(0, 0, 0, var(--dark-secondary-opacity));
+          font-size: 12px;
+          background-color: var(--window-bg);
+        };
+        --vaadin-grid-body-cell: {
+          height: auto;
+          min-height: 48px;
+          max-height: 400px;
+          padding: 0 0;
+          color: rgba(0, 0, 0, var(--dark-primary-opacity));
+          font-size: 13px;
+          background-color: rgba(0, 0, 0, 0);
+        };
+        --vaadin-grid-body-row-hover-cell: {
+          background-color: var(--paper-grey-200);
+        };
+        --vaadin-grid-body-row-selected-cell: {
+          background-color: var(--paper-grey-100);
+        };
+        --vaadin-grid-focused-cell: {
+          box-shadow: none;
+          font-weight: bold;
+        };
+        --vaadin-grid-cell-content: {
+          background-color: rgba(0, 0, 0, 0);
+        };
+        
+        
+      }
+
+    </style>
+  </template>
+</dom-module>

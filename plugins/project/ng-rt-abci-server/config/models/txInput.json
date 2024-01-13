@@ -1,0 +1,51 @@
+[{
+  "name": "txInput",
+  "base": "commonDataModel",
+  "options": {
+    "idInjection": true,
+    "validateUpsert": true,
+    "hana": {
+      "schema": "PROJECT",
+      "table": "TXINPUT"
+    }
+  },
+  "plural": "txInputs",
+  "properties": {
+    "txId": {
+      "type": "string"
+    },
+    "inputIndex": {
+      "type": "number"
+    },
+    "operation": {
+      "type": "string"
+    },
+    "fulfillment": {
+      "type": "string"
+    },
+    "fulfills": {
+      "type": "object",
+      "postgresql": {
+        "dataType": "json"
+      },
+      "hana": {
+        "dataType": "nvarchar",
+        "dataLength": 5000
+      }
+    },
+    "owners_before": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "tx": {
+      "type": "belongsTo",
+      "model": "tmTx",
+      "foreignKey": "txId",
+      "primaryKey": "txId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}]

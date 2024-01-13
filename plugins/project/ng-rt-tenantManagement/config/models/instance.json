@@ -1,0 +1,33 @@
+[{
+  "name": "instance",
+  "base": "aclParent",
+  "idInjection": false,
+  "properties": {
+    "instanceId": {
+      "type": "string",
+      "id": true
+    },
+    "instanceName": {
+      "type": "string"
+    },
+    "instanceDescription": {
+      "type": "string"
+    },
+    "instanceIPAddress": {
+      "type": "string"
+    },
+    "instancePort": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "tenants": {
+      "type": "hasMany",
+      "model": "tenant",
+      "foreignKey": "instanceId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}]

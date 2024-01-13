@@ -1,0 +1,2 @@
+__version__ = '01.02.{build_number}'
+__short_version__ = '01.02'

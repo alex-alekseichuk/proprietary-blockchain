@@ -1,0 +1,62 @@
+<script type="text/javascript">
+    RED.nodes.registerType('lb-destroy-all', {
+        category: 'Project_Loopback',
+        color: '#9edcd6',
+        defaults: {
+            name: {
+                value: ""
+            },
+            modelname: {
+                value: ""
+            },
+            where: {
+                value: ""
+            }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "Project.png",
+        label: function () {
+            return this.name || "lb-destroy-all";
+        }
+    });
+
+</script>
+<script type="text/x-red" data-template-name="lb-destroy-all">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-modelname"><i class="icon-tag"></i> Model Name</label>
+        <input type="text" id="node-input-modelname" placeholder="Model Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-filter"><i class="icon-tag"></i> Where</label>
+        <input type="text" id="node-input-where" placeholder="Where">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="lb-destroy-all">
+    <p>Node to call destroyAll method of loopback models, to remove data.</p>
+    <h3>Properties</h3>
+    <dl class="message-properties">
+        <dt>Name
+            <span class="property-type">string</span>
+        </dt>
+        <dd> Node name. </dd>
+        <dt>Model Name
+            <span class="property-type">string</span>
+        </dt>
+        <dd> the model name. </dd>
+        <dt>Where
+            <span class="property-type">object</span>
+        </dt>
+        <dd> specific object with query filter to update. </dd>
+    </dl>
+    <h3>Details</h3>
+    <p>
+        Remove specified in query model instances by specified filter. 
+        Specify query by set node property where or by set msg.payload.where.
+    </p>
+</script>

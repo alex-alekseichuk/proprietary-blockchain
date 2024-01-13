@@ -1,0 +1,360 @@
+<!-- will be replaced with elements/elements.vulcanized.html -->
+<link rel="import" href="./elements.html">
+<link rel="import" href="./ui/ngrt-topbar.html">
+<dom-module id="ng-rt-app">
+  <template>
+    <style include="shared-styles"></style>
+    <style is="custom-style">
+      :root {
+        --toolbar-height: 50px;
+      }
+
+      .topbar-wrapper {
+        height: 50px;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        position: absolute;
+        /* z-index: 20; */
+      }
+
+      .logoblock {
+        width: 100%;
+        flex: 0 0 var(--toolbar-height);
+        height: var(--toolbar-height);
+        line-height: var(--toolbar-height);
+        font-weight: bold;
+        min-width: 255px;
+      }
+
+      .sidelogo {
+        float: left;
+        background-color: var(--primary-color);
+        /*background-image: url("../../res/projectlogo.png");*/
+        background-size: 100% 100%;
+        width: var(--toolbar-height);
+        height: var(--toolbar-height);
+      }
+
+      .sidelogotext {
+        float: left;
+        /*background: url("../../res/projectlogo-text.png") no-repeat;*/
+        background-repeat: no-repeat;
+        background-position: 20px center;
+        width: calc(100% - 70px);
+        height: var(--toolbar-height);
+      }
+
+      #paperDrawerPanel {
+        top: var(--toolbar-height);
+        height: calc(100% - 50px);
+        /* z-index: 10; */
+      }
+
+      .topbar-profile {
+        width: 200px;
+        position: relative;
+      }
+
+      /* Right side */
+
+      .userblock {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 100%;
+        color: white;
+        z-index: 2;
+        transition: all 0.3s ease-out;
+        max-height: var(--toolbar-height);
+        min-height: var(--toolbar-height);
+        perspective: 1000px;
+        background: rgba(0, 0, 0, 0.1) !important;
+      }
+
+      .userblock:hover {
+        cursor: pointer;
+      }
+
+      .userblock:hover {
+        filter: brightness(0.95);
+      }
+
+      .userblock.opened {
+        transition: all 0.3s ease-out;
+        max-height: 300px;
+      }
+
+      .userblock paper-menu {
+        display: flex;
+        flex: 1;
+        height: auto;
+        top: 60px;
+        position: absolute;
+        left: 0;
+        width: 100%;
+        opacity: 0;
+        transition: all 0.6s cubic-bezier(0.68, -0.33, 0.31, 1.39);
+        transform: rotateX(20deg);
+        transform-style: preserve-3d;
+        transform-origin: 0% 100% 0px;
+        background: white;
+        color: black;
+      }
+
+      .userblock.opened paper-menu {
+        display: flex;
+        transform: rotateX(0deg);
+        opacity: 1;
+        top: 50px;
+      }
+
+      .userblock {
+        background: rgba(40, 40, 40, 1);
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: var(--toolbar-height);
+        width: 100%;
+      }
+
+      .userblock iron-icon {
+        position: absolute;
+        right: 0;
+        top: 10px;
+        width: 30px;
+        height: 30px;
+        margin: 0 10px;
+        transition: 0.2s all;
+      }
+
+      .userblock.opened .userblock iron-icon {
+        transform: rotate(180deg);
+      }
+
+      .logged {
+        font-size: 0.8em;
+        position: absolute;
+        color: rgba(255, 255, 255, 0.6);
+        bottom: 12px;
+        left: 70px;
+      }
+
+      .logged iron-icon {
+        height: 15px;
+        width: 15px;
+        margin-right: 5px;
+      }
+
+      .logged b {
+        color: rgba(255, 255, 255, 0.8);
+        margin-left: 5px;
+      }
+
+      .username {
+        font-size: 1em;
+        position: absolute;
+        top: 9px;
+        font-weight: 500;
+        left: 70px;
+      }
+
+      .userpic {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        width: 30px;
+        height: 30px;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.1) url("../../res/user.png") center
+          no-repeat;
+        background-size: 100% 100%;
+      }
+
+      .logout {
+        position: absolute;
+        right: 5px;
+        top: 10px;
+      }
+    </style>
+
+  <paper-dialog id="dlgPassDecrypt" role="alertdialog" entry-animation="scale-up-animation"
+      exit-animation="fade-out-animation">
+      <div class="dialog-content">
+        <h2>Enter passphrase to encrypt/decrypt private key</h2>
+        <gold-password-input on-keydown="checkEnterPassphrase" type="password" label="Passphrase" id="passDecrypt" autofocus
+          reveal suffix></gold-password-input>
+      </div>
+      <div class="buttons">
+        <paper-button id="updateDecrypt" on-click="enterPassphrase">Save</paper-button>
+      </div>
+    </paper-dialog>
+
+    <div id="curtain"><span></span></div>
+    <div class="app-wrapper">
+      <!--Main Container-->
+      <ngrt-topbar application="admin" route="{{routeformenu}}"></ngrt-topbar>
+      <paper-drawer-panel id="paperDrawerPanel" disable-swipe="true">
+        <!-- Side Menu -->
+        <ng-rt-menu
+          class="app-sidebar"
+          drawer
+          application="admin"
+          route="{{routeformenu}}"
+        ></ng-rt-menu>
+
+        <!-- Main Area -->
+        <ngrt-pages
+          class="app-content fit"
+          id="ngrt-pages"
+          main
+          route="{{route}}"
+          params="[[params]]"
+          pluginroute="[[pluginroute]]"
+          close-drawer="{{closeDrawer}}"
+        ></ngrt-pages>
+      </paper-drawer-panel>
+    </div>
+  </template>
+
+  <script>
+    Polymer({
+      is: "ng-rt-app",
+      properties: {
+        DEBUG: {
+          type: Boolean,
+          value: location.search.indexOf("debug") !== -1
+        }
+      },
+      created: function() {
+        this.loadProfile();
+      },
+      ready: function() {
+        var app = this;
+        if (this.mobilecheck() !== true) {
+          app.$.paperDrawerPanel.togglePanel();
+        }
+        window.addEventListener("resize", e => this.onResize(e));      
+        
+        project.on('promptPassphrase', () => {
+          if (project.config.keysStrategy == "saveAuto")
+            app.enterPassphrase();
+          else
+            app.$.dlgPassDecrypt.open();
+        });  
+
+       
+        project.on('wrong-passphrase', () => {
+          this.handleError1("Please enter the correct passphrase");
+          app.$.dlgPassDecrypt.open();
+        });
+
+        KeysService.init(()=>{},true);
+      },
+      onUserBlock: function() {
+        document.getElementById("userblock").classList.toggle("opened");
+      },
+      onResize: function(e) {
+        let width = e.target.outerWidth;
+        let height = e.target.outerHeight;
+        let sidebarstatus = document
+          .getElementById("paperDrawerPanel")
+          .classList.contains("sidebar-off");
+        if (width > 700) {
+          if (sidebarstatus)
+            document
+              .getElementById("paperDrawerPanel")
+              .classList.remove("sidebar-off");
+        }
+        if (width <= 700) {
+          if (!sidebarstatus)
+            document
+              .getElementById("paperDrawerPanel")
+              .classList.add("sidebar-off");
+        }
+      },
+      loadUserTheme: function(theme) {
+        // get the theme name
+        app.loadTheme(theme);
+      },
+      loadProfile: function() {
+        var self = this;
+        project.ajax.get("/user-profile", "ng-rt-jwt-auth", function(
+          response,
+          xhr
+        ) {
+          if (!response) {
+            self.handleError(xhr);
+            return;
+          }
+          var user = response;
+          self.domainSelected = user.domainId;
+          self.theme = user.theme;
+          self.loadUserTheme(self.theme);
+        });
+      },
+      displayInstalledToast: function() {
+        // Check to make sure caching is actually enabled—it won't be in the dev environment.
+        if (
+          !Polymer.dom(document).querySelector("platinum-sw-cache").disabled
+        ) {
+          Polymer.dom(document)
+            .querySelector("#caching-complete")
+            .show();
+        }
+      },
+      mobilecheck: function() {
+        if (
+          /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+            navigator.userAgent
+          )
+        ) {
+          return true;
+        }
+      },
+      closeDrawer: function() {
+        app.$.paperDrawerPanel.closeDrawer();
+      },
+      openDrawer: function() {
+        app.$.paperDrawerPanel.openDrawer();
+      },
+      handleError: function(req, res) {
+        res.logout();
+      },
+      enterPassphrase: function () {
+        var self = this;
+        var pass = self.$.passDecrypt.value;
+        self.$.passDecrypt.value = "";
+        if (project.KeysService.ensurePassphrase(pass))
+        {
+          self.$.dlgPassDecrypt.close();
+          try
+          {
+            toaster.hide();
+            project.KeysService.loadKeyPairsByStrategy(pass)
+          }
+          catch(err)
+          {
+            self.handleError1(err.message)
+            self.$.dlgPassDecrypt.open();
+          }
+        }
+        else
+        {
+          self.handleError1("Wrong Passphrase")
+          self.$.dlgPassDecrypt.open();
+        }
+      },
+      handleError1: function (e) {
+        const toaster = document.getElementById('toaster');
+        toaster.show(e, 'alert');
+      },
+      checkEnterPassphrase: function (e) {
+        // check if 'enter' was pressed
+        if (e.keyCode === 13) {
+          this.enterPassphrase();
+        }
+      }
+    });
+  </script>
+</dom-module>

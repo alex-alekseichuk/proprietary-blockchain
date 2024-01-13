@@ -1,0 +1,56 @@
+{
+  "days": {
+    "description": "...",
+    "message": "days"
+  },
+  "hours": {
+    "description": "...",
+    "message": "hours"
+  },
+  "minutes": {
+    "description": "...",
+    "message": "minutes"
+  },
+  "Plugins": {
+    "message": "Plugins"
+  },
+  "Status": {
+    "message": "Status"
+  },
+  "Name": {
+    "message": "Name"
+  },
+  "Version": {
+    "message": "Version"
+  },
+  "Added": {
+    "message": "Added"
+  },
+  "License validation disabled": {
+    "message": "License validation disable"
+  },
+	"License verified successfully": {
+    "message": "License verified successfully"
+  },
+	"No license file": {
+    "message": "No license file"
+  },
+	"License expired": {
+    "message": "License expired"
+  },
+	"License file not valid": {
+    "message": "License file not valid"
+  },
+	"Custom error": {
+    "message": "Custom error"
+  },
+  "License state": {
+    "message": "License state"
+  },
+  "Activated at": {
+    "message": "Activated at"
+  },
+  "This user have all skills!": {
+    "message": "This user have all skills!"
+  }
+}

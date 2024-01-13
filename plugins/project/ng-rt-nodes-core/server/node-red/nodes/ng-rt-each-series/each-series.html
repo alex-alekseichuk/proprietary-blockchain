@@ -1,0 +1,53 @@
+
+
+<script type="text/javascript">
+    RED.nodes.registerType('each-series', {
+      category: 'Project_Core',
+        color: '#81F7F3',
+        defaults: {
+            key: {
+                value: ""
+            }
+        },
+        inputs: 1,
+        outputs: 2,
+        icon: "Project.png",
+        label: function() {
+            return this.name || "each-series";
+        }
+    });
+</script>
+<script type="text/x-red" data-template-name="each-series">
+    <div class="form-row">
+        <label for="node-input-key"><i class="icon-tag"></i> Array</label>
+        <input type="text" id="node-input-key" placeholder="key">
+    </div>
+
+
+</script>
+<script type="text/x-red" data-help-name="each-series">
+    <p>
+      Iterate over array elements.
+    </p>
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>msg.ctx.array
+            <span class="property-type">array</span>
+        </dt>
+        <dd> array of elements for iteration.</dd>
+    </dl>
+    <h3>Outputs</h3>
+    <dl class="message-properties">
+        <dt>msg.eachItem</dt>
+        <dd> the element of the array for processing.</dd>
+    </dl>
+    <h3>Details</h3>
+    <p>
+      First output of the node is for loop body creation.
+      It's a sub-flow between <b>each-series</b> and <b>each-item-end</b> nodes.
+      This sub-flow is running once per each element of array.
+    </p>
+    <p>
+      Second output of the node continues the flow after finish of the loop.
+    </p>
+</script>

@@ -1,0 +1,112 @@
+{
+  "name": "ng-rt-admin-backend",
+  "type": "optional",
+  "author": "PROJECT",
+  "description": "Administration Backend Functions",
+  "copyright": "PROJECT BV (c) 2016 - 2019",
+  "version": "3.2.",
+  "useAsApp": true,
+  "htmlHelpFile": "docs/build/index.html",
+  "entryPoints": [
+    {
+      "type": "route",
+      "parameters": {
+        "file": "./api/entry.js"
+      }
+    },
+    {
+      "type": "route",
+      "parameters": {
+        "file": "./api/routes/menu.js"
+      }
+    }
+  ],
+  "actions": {
+    "before_install": [],
+    "after_install": [],
+    "after_uninstall": [],
+    "before_activate": [
+      {
+        "name": "remove menu items",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "route",
+          "criteries": [
+            {
+              "type": "href",
+              "caption": "Node Red",
+              "module": "admin"
+            }
+          ]
+        }
+      }
+    ],
+    "after_activate": [],
+    "before_deactivate": [
+      {
+        "name": "remove menu items",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "route",
+          "criteries": [
+            {
+              "type": "href",
+              "caption": "Node Red",
+              "module": "admin"
+            }
+          ]
+        }
+      }
+    ],
+    "after_deactivate": []
+  },
+  "sharedServices": [],
+  "apiServices": [],
+  "settings": [
+    {
+      "name": "namespace",
+      "caption": "Root name of the URL for the route",
+      "value": "ng-rt-admin"
+    },
+    {
+      "name": "redirectFromHomeRules",
+      "caption": [
+        {
+          "oneTimeRedirect": true,
+          "roleRedirect": "applicant",
+          "redirectDataRoute": "scuk-applications"
+        }
+      ],
+      "value": null
+    },
+    {
+      "name": "requireFullname",
+      "caption": "Require full name",
+      "value": false
+    },
+    {
+      "name": "profileEditors",
+      "caption": "Roles which can edit profile",
+      "value": [
+        "admin",
+        "user"
+      ]
+    },
+    {
+      "name": "redurl",
+      "caption": "Node Red url",
+      "value": "${internalDNSName}/red"
+    },
+  
+    {
+      "name": "keysStrategy",
+      "caption": "Keys Strategy",
+      "value": "saveAuto",
+      "choose": [
+        "saveEncrypted",
+        "saveAuto",
+        ""
+      ]
+    }
+  ]
+}

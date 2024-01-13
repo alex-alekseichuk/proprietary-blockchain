@@ -1,0 +1,206 @@
+{
+  "name": "ng-rt-tc",
+  "type": "optional",
+  "author": "Project BV",
+  "copyright": "Project BV (c) 2016 - 2019",
+  "description": "application ng-rt-tc",
+  "version": "3.2.",
+  "htmlHelpFile": "docs/build/index.html",
+  "entryPoints": [
+    {
+      "type": "route",
+      "parameters": {
+        "file": "./api/routes/routes.js"
+      }
+    }
+  ],
+  "actions": {
+    "before_install": [],
+    "after_install": [],
+    "after_uninstall": [],
+    "after_activate": [],
+    "before_activate": [
+      {
+        "name": "remove dataDictionary record",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "criteries": [
+            {
+              "name": "termsAndConditions"
+            },
+            {
+              "name": "eula"
+            }
+          ]
+        }
+      },
+      {
+        "name": "remove dataSourceRouting records",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "criteries": [
+            {
+              "datadictname": "termsAndConditions",
+              "datasourcename": "ng-rt-dataDictionary"
+            },
+            {
+              "datadictname": "eula",
+              "datasourcename": "ng-rt-dataDictionary"
+            }
+          ]
+        }
+      },
+      {
+        "name": "add eula model to dataDictionary",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "api/config/eula.json"
+        }
+      },
+      {
+        "name": "add termsAndConditions model to dataDictionary",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "api/config/termsAndConditions.json"
+        }
+      },
+      {
+        "name": "add tmTx to dataSourceRouting",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [
+            {
+              "datadictname": "eula",
+              "datasourcename": "ng-rt-dataDictionary"
+            }
+          ]
+        }
+      },
+      {
+        "name": "add tmTx to dataSourceRouting",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [
+            {
+              "datadictname": "termsAndConditions",
+              "datasourcename": "ng-rt-dataDictionary"
+            }
+          ]
+        }
+      },
+      {
+        "name": "remove menu item",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "route",
+          "criteries": [
+            {
+              "type": "href",
+              "route": "terms-conditions",
+              "module": "admin"
+            },
+            {
+              "type": "href",
+              "route": "terms-conditions-editor",
+              "module": "admin"
+            }
+          ]
+        }
+      },
+      {
+        "name": "add menu item",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "route",
+          "data": [
+            {
+              "type": "href",
+              "route": "terms-conditions-editor",
+              "href": "pluginsdisplay/!ng-rt-tc!tc_editor.html/ng-rt-terms-conditions-editor/{}/terms-conditions-editor/Edit T&C",
+              "icon": "icons:settings-applications",
+              "caption": "Edit T&C",
+              "trustLevel": 1,
+              "roles": [
+                "sysadmin"
+              ],
+              "module": "admin",
+              "order": 1000
+            },
+            {
+              "type": "href",
+              "route": "terms-conditions",
+              "href": "pluginsdisplay/!ng-rt-tc!tc.html/ng-rt-terms-conditions/{}/terms-conditions/Terms & Conditions",
+              "icon": "icons:settings-applications",
+              "caption": "Terms & Conditions",
+              "trustLevel": 1,
+              "roles": [
+                "user",
+                "scuk_admin",
+                "applicant",
+                "queue_manager",
+                "onboarder",
+                "recruiter",
+                "admin",
+                "sysadmin"
+              ],
+              "module": "admin",
+              "order": 1000
+            }
+          ]
+        }
+      }
+    ],
+    "before_deactivate": [],
+    "after_deactivate": [
+      {
+        "name": "remove menu item",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "route",
+          "criteries": [
+            {
+              "type": "href",
+              "route": "terms-conditions",
+              "module": "admin"
+            },
+            {
+              "type": "href",
+              "route": "terms-conditions-editor",
+              "module": "admin"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "sharedServices": [],
+  "apiServices": [],
+  "settings": [
+    {
+      "name": "requireTerms",
+      "caption": "Ask to agree terms and conditions",
+      "value": true
+    },
+    {
+      "name": "setSessionTokenTimeout",
+      "caption": "setSessionToken timeout",
+      "value": 100
+    },
+    {
+      "name": "namespace",
+      "caption": "Root name of the URL for the route of the plugin",
+      "value": "ng-rt-tc"
+    },
+    {
+      "name": "activeGlobal",
+      "caption": "active global",
+      "value": false
+    }
+  ]
+}

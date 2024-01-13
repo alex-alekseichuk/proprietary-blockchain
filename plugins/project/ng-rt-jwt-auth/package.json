@@ -1,0 +1,22 @@
+{
+  "name": "ng-rt-jwt-auth",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git@1gitlab.project.com:plugins/ng-rt-jwt_auth.git"
+  },
+  "author": "PROJECT PROPERTIES B.V.",
+  "dependencies": {
+    "hot-shots": "^6.1.1",
+    "jsonwebtoken": "^7.1.9",
+    "ng-common": "git+https://gitlab.project.com/packages/ng-common.git#dev/4.0",
+    "passcode": "^1.0.2",
+    "passport": "^0.3.2",
+    "passport-ldapauth": "^1.0.0"
+  },
+  "devDependencies": {
+    "del": "^2.2.2"
+  },
+  "license": "SEE LICENSE IN LICENSE.md",
+  "version": "3.2.75434"
+}

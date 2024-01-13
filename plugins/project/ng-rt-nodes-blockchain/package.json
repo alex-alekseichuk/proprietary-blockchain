@@ -1,0 +1,25 @@
+{
+  "author": "PROJECT PROPERTIES B.V.",
+  "description": "### Install this node module ``` npm install git+ssh://git@gitlab.project.com:plugins/ng-rt-nodes-blockchain.git",
+  "name": "ng-rt-nodes-blockchain",
+  "version": "3.2.75656",
+  "node-red": {
+    "nodes": {
+      "decrypt-by-privatekey": "server/node-red/nodes/ng-rt-decrypt-by-privatekey/decrypt-bykey.js",
+      "encrypt-by-publickey": "server/node-red/nodes/ng-rt-encrypt-by-publickey/encrypt-bykey.js",
+      "tendermint-response": "server/node-red/nodes/ng-rt-tendermint-response/tendermint-response.js"
+    }
+  },
+  "dependencies": {
+    "ng-rt-digitalAsset-sdk": "git+https://gitlab.project.com/sdk/ng-rt-digitalAsset-sdk.git#dev/3.2"
+  },
+  "license": "SEE LICENSE IN LICENSE.md",
+  "devDependencies": {
+    "node-red": "1.1.1",
+    "node-red-node-test-helper": "0.2.3",
+    "should": "^13.2.3"
+  },
+  "scripts": {},
+  "readme": "## Installation\n\n### Install this node module\n```\nnpm install git+ssh://git@gitlab.project.com:plugins/ng-rt-nodes-blockchain.git\n\nor install it in node-red module directly under nodes\n\nnpm install --prefix ./node_modules/node-red git+ssh://git@gitlab.project.com:plugins/ng-rt-nodes-blockchain.git\n",
+  "readmeFilename": "README.md"
+}

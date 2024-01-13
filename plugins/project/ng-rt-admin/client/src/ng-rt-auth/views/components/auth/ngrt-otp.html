@@ -1,0 +1,146 @@
+<dom-module id="ngrt-otp">
+  <style include="shared-styles"></style>
+  <style is="custom-style">
+     :host {
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+    }
+
+    #otpReader {
+      text-align: center;
+      padding: 20;
+      display: flex;
+      flex-direction: column;
+      padding: 0 20px 20px 20px;
+    }
+
+    .headbg {
+      height: 160px;
+    }
+
+    .yubiauth {
+      width: 100%;
+      height: 100%;
+      background: url("../../../../res/yubikey.png") no-repeat;
+      background-position: 5% 50%;
+      animation: authkey 3s ease-in 0s infinite;
+    }
+
+    @keyframes authkey {
+      0% {
+        background-position: 50% -140%;
+        opacity: 0;
+      }
+      25% {
+        background-position: 50% 50%;
+        opacity: 1;
+      }
+      50% {
+        background-position: 50% 50%;
+        opacity: 1;
+      }
+      100% {
+        background-position: 140% 50%;
+        opacity: 0;
+      }
+    }
+
+    p {
+      text-align: center;
+      font-size: 1.1em;
+      margin: 20px 0 20px;
+      flex: 1;
+      opacity: 0.9;
+    }
+
+    * {
+      outline: none;
+    }
+  </style>
+
+  <template>
+    <div id="otpReader" tabindex="0">
+      <div class="headbg">
+        <div class="yubiauth">
+        </div>
+      </div>
+
+      <h3>YUBI KEY AUTHORIZATION</h3>
+      <p>
+        Tap your key device please.
+      </p>
+      <paper-button on-click="readOtp" autofocus>
+        <iron-icon icon="icons:settings-remote"></iron-icon>
+        &nbsp;&nbsp;Rescan
+      </paper-button>
+    </div>
+  </template>
+</dom-module>
+
+<script>
+  var OTP_LEN = 44;
+  Polymer({
+    is: "ngrt-otp",
+    properties: {},
+    ready: function () {},
+    attached: function () {
+      this.readOtp();
+    },
+
+    // reading yubikey otp
+    readOtp: function () {
+      var self = this;
+      if (self.onKeyPress) {
+        self.$.otpReader.removeEventListener("keypress", self.onKeyPress);
+      }
+      var counter = 0;
+      var otp = '';
+      self.onKeyPress = function (e) {
+        e.preventDefault();
+        e = e || window.event;
+        var nChr = e.charCode;
+        // stop reading input keys on 44+1 char
+        if ((++counter) > OTP_LEN) {
+          self.$.otpReader.removeEventListener("keypress", self.onKeyPress);
+          delete self.onKeyPress;
+
+          // last char should be Enter
+          if (nChr == 13) {
+            self.sendOtp(otp);
+          }
+          return false;
+        }
+        if (e.code.substring(0, 3) === 'Key')
+          otp += e.code.substring(3).toLowerCase();
+        return false;
+      };
+      self.$.otpReader.addEventListener("keypress", self.onKeyPress);
+      self.$.otpReader.focus();
+    },
+    sendOtp: function (otp) {
+      var self = this;
+
+      var token = project.ajax.getPreSessionToken();
+      if (!token) {
+        project.ajax.emit('401');
+        return;
+      }
+
+      project.ajax.post('/auth/otp', {
+        otp: otp,
+        token: token
+      }, 'ng-rt-jwt-auth', function (response, xhr) {
+        if (xhr.status == 200) {
+          project.ajax.setSessionToken(response.token);
+          //                    ajax.emit(200);
+        } else if (xhr.status == 401) {
+          project.ajax.emit('401');
+        } else {
+          const toaster = document.getElementById('toaster');
+          toaster.show(xhr.response.message, 'alert');
+        }
+      });
+    }
+  });
+</script>

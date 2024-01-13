@@ -1,0 +1,40 @@
+
+<script type="text/javascript">
+    RED.nodes.registerType('get-asset-history', {
+      category: 'Project_DigitalAsset',
+        color: '#b9b1eb',
+        defaults: {
+            key: {
+                value: ""
+            }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "Project.png",
+        label: function() {
+            return this.name || "get-asset-history";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-help-name="get-asset-history">
+    <p>Gets the asset history </p>
+
+    <h3>Inputs</h3>
+        <dl class="message-properties">
+            <dt>msg.payload.txContext <span class="property-type">object</span></dt>
+            <dd>Transaction context</dd>
+            <dt>msg.payload.assetId <span class="property-type">string</span></dt>
+            <dd>The assetId of the asset</dd>
+        </dl>
+
+     <h3>Outputs</h3>
+         <ol class="node-ports">
+             <li>Standard output
+                 <dl class="message-properties">
+                     <dt>msg.payload <span class="property-type">object</span></dt>
+                     <dd>List of asset owners</dd>
+                 </dl>
+             </li>
+         </ol>
+</script>

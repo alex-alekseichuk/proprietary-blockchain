@@ -1,0 +1,38 @@
+
+<script type="text/javascript">
+    RED.nodes.registerType('get-assetDefinition', {
+      category: 'Project_DigitalAsset',
+        color: '#b9b1eb',
+        defaults: {
+            key: {
+                value: ""
+            }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "Project.png",
+        label: function() {
+            return this.name || "get-assetDefinition";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-help-name="get-assetDefinition">
+    <p>Read digital asset definition</p>
+
+    <h3>Inputs</h3>
+        <dl class="message-properties">
+            <dt>msg.payload.txContext <span class="property-type">object</span></dt>
+            <dd>Transaction context</dd>
+        </dl>
+
+     <h3>Outputs</h3>
+         <ol class="node-ports">
+             <li>Standard output
+                 <dl class="message-properties">
+                     <dt>msg.payload <span class="property-type">object</span></dt>
+                     <dd>Read digital asset definition.</dd>
+                 </dl>
+             </li>
+         </ol>
+</script>

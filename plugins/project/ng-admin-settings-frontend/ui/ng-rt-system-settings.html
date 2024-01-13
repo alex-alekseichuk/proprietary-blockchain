@@ -1,0 +1,889 @@
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/gold-password-input/gold-password-input.html">
+<link rel="import" href="../../bower_components/gold-password-input/gold-password-input-validator.html">
+
+
+<dom-module id="ng-rt-system-settings-index">
+  <template>
+    <style include="shared-styles"></style>
+    <style is="custom-style">
+      :host {
+        width: 100%;
+        height: 100%;
+      }
+
+      .message {
+        float: left;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 20px;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        background: #f5f5ea;
+        margin: 0 0 20px 0;
+        animation: appear 1s 1;
+      }
+
+      @keyframes appear {
+        0% {
+          opacity: 0;
+          transform: rotateX(180deg);
+        }
+
+        90% {
+          opacity: 1;
+          transform: rotateX(-20deg);
+        }
+
+        95% {
+          opacity: 1;
+          transform: rotateX(10deg);
+        }
+
+        100% {
+          opacity: 1;
+          transform: rotateX(0deg);
+        }
+      }
+
+      paper-material {
+        margin-bottom: 20px;
+      }
+
+      paper-menu {
+        position: fixed;
+        width: 200px;
+        padding: 0;
+        --paper-menu-background-color: transparent !important;
+
+        /*--paper-listbox-color: var(--project-blue);*/
+        --paper-menu: {}
+
+        ;
+
+        --paper-menu-selected-item: {
+          background-color: var(--primary-color);
+          color: white;
+          font-weight: 300;
+        }
+
+        ;
+
+        --paper-menu-focused-item: {
+          /*background-color: var(--project-blue);*/
+          color: white;
+          font-weight: 300;
+        }
+
+        ;
+      }
+
+      paper-item {
+        --paper-item-selected-weight: 300;
+
+        --paper-item: {
+          font-weight: 300;
+          height: 30px;
+          line-height: 30px;
+          font-size: 13px;
+        }
+
+        ;
+      }
+
+      paper-item:focus:after {
+        opacity: 0;
+      }
+
+      paper-menu .menuitem {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 40px;
+        min-height: 40px;
+        padding: 0 15px;
+        width: 100%;
+        white-space: nowrap;
+        box-sizing: border-box;
+        position: relative;
+        color: var(--text-color);
+        justify-content: space-between;
+      }
+
+      paper-menu .menuitem span {
+        flex: 1;
+        color: var(--text-color);
+      }
+
+      paper-menu .menuitem:focus:after {
+        opacity: 1 !important;
+        background: transparent !important;
+      }
+
+      paper-menu .menuitem iron-icon {
+        flex: 0 0 24px;
+        color: var(--primary-color);
+      }
+
+      paper-menu .menuitem:hover {
+        background: rgba(0, 0, 0, 0.08);
+      }
+
+      paper-menu .menuitem::before {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        content: "";
+        height: 1px;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.05);
+      }
+
+      paper-menu .menuitem::after {
+        position: absolute;
+        top: 0;
+        left: 0;
+        content: "";
+        height: 100%;
+        width: 0px;
+        background: var(--primary-color);
+        transition: all 0.1s;
+        opacity: 0;
+      }
+
+      paper-menu .menuitem:hover::after {
+        width: 4px;
+        opacity: 1;
+      }
+
+      paper-menu .menuitem.iron-selected {
+        background-color: var(--primary-color);
+        color: #ffffff;
+        font-weight: 600;
+      }
+
+      paper-menu .menuitem.iron-selected iron-icon {
+        color: white;
+      }
+
+      fieldset {
+        border: none;
+        padding: 0;
+        margin: 0 0 20px 0;
+      }
+
+      fieldset:first-of-type {
+        margin-top: 0;
+      }
+
+      fieldset legend {
+        font-size: 26px;
+        font-weight: 200;
+      }
+
+      neon-animatable {
+        bottom: inherit;
+      }
+
+      .userrole vaadin-combo-box {
+        width: 100%;
+
+        --paper-input-container: {
+          line-height: initial;
+        }
+      }
+    </style>
+    <paper-header-panel class="appPanel" id="systemsettings">
+      <paper-toolbar class="appToolbar medium-tall">
+        <!--Top-->
+        <paper-icon-button id="paperToggle" icon="menu" paper-drawer-toggle></paper-icon-button>
+        <span class="title">System Settings</span>
+        <span class="flex"></span>
+        <paper-toggle-button checked="{{publishToFeed}}"><i18n-msg msgid="Publish to cluster config feed">Publish to cluster config feed</i18n-msg></paper-toggle-button>
+        <paper-button on-click="save">Save</paper-button>
+        <paper-tabs class="plugin-tabs bottom fit" selected="{{selected}}" noink="true">
+          <paper-tab on-tap="tabTap">System</paper-tab>
+          <paper-tab on-tap="tabTap">Server Landscape</paper-tab>
+          <paper-tab on-tap="tabTap">Security settings</paper-tab>
+          <paper-tab on-tap="tabTap">eMail settings</paper-tab>
+        </paper-tabs>
+      </paper-toolbar>
+      <div class="content">
+        <neon-animated-pages class="flex" selected="[[selected]]" entry-animation="[[entryAnimation]]"
+          exit-animation="[[exitAnimation]]">
+
+          <neon-animatable>
+
+            <paper-material>
+              <template is="dom-if" if="[[maintenanceEnabled]]">
+                <div class="maintenanceText">
+                  <paper-input label="Maintenance message" always-float-label autofocus value="{{maintenanceText}}"
+                    type="text"></paper-input>
+                </div>
+              </template>
+              <iron-grid class="userrole">
+                <div class="m6 s6 xs6">
+                  Maintenance mode
+                </div>
+                <div class="m6 s6 xs6 horizontal layout end-justified">
+                  <paper-toggle-button checked="{{maintenanceEnabled}}"></paper-toggle-button>
+                </div>
+              </iron-grid>
+              <iron-grid class="userrole">
+                <div class="m6 s6 xs6">
+                  Trust levels
+                </div>
+                <div class="m6 s6 xs6 horizontal layout end-justified">
+                  <paper-toggle-button checked="{{activeTrustLevelEnabled}}"></paper-toggle-button>
+                </div>
+              </iron-grid>
+              <iron-grid class="userrole">
+                <div class="m6 s6 xs6">
+                  Disable self registration
+                </div>
+                <div class="m6 s6 xs6 horizontal layout end-justified">
+                  <paper-toggle-button checked="{{selfRegistrationEnabled}}"></paper-toggle-button>
+                </div>
+              </iron-grid>
+              <iron-grid class="userrole">
+                <div class="m6 s6 xs6">
+                  Auto update
+                </div>
+                <div class="m6 s6 xs6 horizontal layout end-justified">
+                  <paper-toggle-button checked="{{autoUpdateEnabled}}"></paper-toggle-button>
+                </div>
+              </iron-grid>
+              <iron-grid class="userrole">
+                <div class="m6 s6 xs6">
+                  Self Healing Install of Plugins
+                </div>
+                <div class="m6 s6 xs6 horizontal layout end-justified">
+                  <paper-toggle-button checked="{{immutableEnabled}}"></paper-toggle-button>
+                </div>
+              </iron-grid>
+              <iron-grid class="userrole">
+                <div class="m6 s6 xs6">
+                  Show routes
+                </div>
+                <div class="m6 s6 xs6 horizontal layout end-justified">
+                  <paper-toggle-button checked="{{showRoutesEnabled}}"></paper-toggle-button>
+                </div>
+              </iron-grid>
+              <iron-grid class="userrole">
+                <div class="m6 s6 xs6">
+                  Show services
+                </div>
+                <div class="m6 s6 xs6 horizontal layout end-justified">
+                  <paper-toggle-button checked="{{showServicesEnabled}}"></paper-toggle-button>
+                </div>
+              </iron-grid>
+              <iron-grid class="userrole">
+                <div class="m6 s6 xs6">
+                  Show Config Differences
+                </div>
+                <div class="m6 s6 xs6 horizontal layout end-justified">
+                  <paper-toggle-button checked="{{showConfigDiffEnabled}}"></paper-toggle-button>
+                </div>
+              </iron-grid>
+              <iron-grid class="userrole">
+                <div class="m6 s6 xs6">
+                  Activate HTTP debugger
+                </div>
+                <div class="m6 s6 xs6 horizontal layout end-justified">
+                  <paper-toggle-button checked="{{debugAppUseConnectLoggerEnabled}}"></paper-toggle-button>
+                </div>
+              </iron-grid>
+              <iron-grid class="userrole">
+                <div class="m6 s6 xs6">
+                  Show online Users
+                </div>
+                <div class="m6 s6 xs6 horizontal layout end-justified">
+                  <paper-toggle-button checked="{{showUsersOnlineEnabled}}"></paper-toggle-button>
+                </div>
+              </iron-grid>
+              <iron-grid class="userrole">
+                <div class="m6 s6 xs6">
+                  Skip Hotfix
+                </div>
+                <div class="m6 s6 xs6 horizontal layout end-justified">
+                  <paper-toggle-button checked="{{skipHotfixEnabled}}"></paper-toggle-button>
+                </div>
+              </iron-grid>
+              <iron-grid class="userrole">
+                <div class="m6 s6 xs6">
+                  Synchronisation of Plugins
+                </div>
+                <div class="m6 s6 xs6 horizontal layout end-justified">
+                  <paper-toggle-button checked="{{syncPluginEnabled}}"></paper-toggle-button>
+                </div>
+              </iron-grid>
+              <iron-grid class="userrole">
+                <div class="m6 s6 xs6">
+                  Synchronisation of Configuration values
+                </div>
+                <div class="m6 s6 xs6 horizontal layout end-justified">
+                  <paper-toggle-button checked="{{syncConfigEnabled}}"></paper-toggle-button>
+                </div>
+              </iron-grid>
+              <iron-grid class="userrole">
+                <div class="m12 s12 xs12 horizontal layout end-justified">
+                  <vaadin-combo-box label='Log level' items="[[logLevels]]" value='{{logLevel}}' required>
+                  </vaadin-combo-box>
+                </div>
+              </iron-grid>
+
+              <iron-grid class="userrole">
+                <div class="m6 s6 xs6">
+                  State unlocked
+                </div>
+                <div class="m6 s6 xs6 horizontal layout end-justified">
+                  <paper-toggle-button checked="{{stateUnlocked}}"></paper-toggle-button>
+                </div>
+              </iron-grid>
+
+              <iron-grid class="userrole">
+                <div class="m6 s6 xs6">
+                  Plugin manager upload CLI
+                </div>
+                <div class="m6 s6 xs6 horizontal layout end-justified">
+                  <paper-toggle-button checked="{{pluginManagerUploadCLI}}"></paper-toggle-button>
+                </div>
+              </iron-grid>
+
+              <iron-grid class="userrole">
+                <div class="m6 s6 xs6">
+                  Plugin manager upload UI
+                </div>
+                <div class="m6 s6 xs6 horizontal layout end-justified">
+                  <paper-toggle-button checked="{{pluginManagerUploadUI}}"></paper-toggle-button>
+                </div>
+              </iron-grid>
+
+            </paper-material>
+
+          </neon-animatable>
+
+          <neon-animatable>
+            <paper-material class="illustratedpaper layout vertical">
+              <div class="verticalhero">
+                <paper-menu selected="0">
+                  <div class="menuitem" onclick="scrollToItemId('mongoDBHost')">Mongo</div>
+                  <div class="menuitem" onclick="scrollToItemId('messagingHost')">Messaging</div>
+                  <div class="menuitem" onclick="scrollToItemId('log4jsMongoHost')">Logging</div>
+                  <div class="menuitem" onclick="scrollToItemId('ngrtStatsdHost')">Monitoring</div>
+                  <div class="menuitem" onclick="scrollToItemId('smartContractsHost')">Smart Contracts</div>
+                  <div class="menuitem" onclick="scrollToItemId('ngrtPort')">TBSP</div>
+                  <div class="menuitem" onclick="scrollToItemId('nodeRedPort')">NODE Red</div>
+                  <div class="menuitem" onclick="scrollToItemId('instanceId')">Instance & Tenant</div>
+                  <div class="menuitem" onclick="scrollToItemId('jwtAuthInstanceId')">JWT</div>
+                  <div class="menuitem" onclick="scrollToItemId('publicDNSName')">DNS</div>
+                  <div class="menuitem" onclick="scrollToItemId('namespace')">Misc</div>
+                </paper-menu>
+              </div>
+
+              <fieldset name="mongosection">
+                <legend>Mongo</legend>
+                <paper-input id="mongoDBHost" type="text" label="MongoDB IP Address" value="{{mongoDBHost}}"
+                  auto-validate pattern="[/.*\S.*/]*" error-message="[[notEmptyError]]" required="true"></paper-input>
+                <paper-input id="mongoDBPort" type="text" label="MongoDB Port" value="{{mongoDBPort}}" auto-validate
+                  pattern="[/.*\S.*/]*" error-message="[[notEmptyError]]" required="true"></paper-input>
+              </fieldset>
+              <fieldset>
+                <legend>Messaging</legend>
+                <paper-input id="messagingHost" type="text" label="Rabbit MQ Server IP Address"
+                  value="{{messagingHost}}" auto-validate pattern="[/.*\S.*/]*" error-message="[[notEmptyError]]"
+                  required="true"></paper-input>
+                <paper-input id="messagingPort" type="text" label="Rabbit MQ Server Port" value="{{messagingPort}}"
+                  auto-validate pattern="[/.*\S.*/]*" error-message="[[notEmptyError]]" required="true"></paper-input>
+                <paper-input id="messagingAdmin" type="text" label="Rabbit MQ Server Admin Port"
+                  value="{{messagingAdmin}}" auto-validate pattern="[/.*\S.*/]*" error-message="[[notEmptyError]]"
+                  required="true"></paper-input>
+              </fieldset>
+              <fieldset>
+                <legend>Logging</legend>
+                <paper-input id="log4jsMongoHost" type="text" label="Log4js MongoDB IP Address"
+                  value="{{log4jsMongoHost}}" auto-validate pattern="[/.*\S.*/]*" error-message="[[notEmptyError]]"
+                  required="true"></paper-input>
+                <paper-input id="log4jsMongoPort" type="text" label="Log4js MongoDB IP Port" value="{{log4jsMongoPort}}"
+                  auto-validate pattern="[/.*\S.*/]*" error-message="[[notEmptyError]]" required="true"></paper-input>
+                <paper-input id="log4jsMongoDatabase" type="text" label="Log4s Database name"
+                  value="{{log4jsMongoDatabase}}" auto-validate pattern="[/.*\S.*/]*" error-message="[[notEmptyError]]"
+                  required="true"></paper-input>
+              </fieldset>
+              <fieldset>
+                <legend>Metrics StatsD</legend>
+                <paper-input id="ngrtStatsdHost" type="text" label="Monitoring IP Address" value="{{ngrtStatsdHost}}"
+                  auto-validate pattern="[/.*\S.*/]*" error-message="[[notEmptyError]]" required="true"></paper-input>
+                <paper-input id="ngrtStatsdPort" type="text" label="Monitoring Port" value="{{ngrtStatsdPort}}"
+                  auto-validate pattern="[/.*\S.*/]*" error-message="[[notEmptyError]]" required="true"></paper-input>
+                <paper-input id="ngrtStatsdAdminPort" type="text" label="Admin Monitoring Port"
+                  value="{{ngrtStatsdAdminPort}}" auto-validate pattern="[/.*\S.*/]*" error-message="[[notEmptyError]]"
+                  required="true"></paper-input>
+
+              </fieldset>
+              <fieldset>
+                <legend>Smart Contracts</legend>
+                <paper-input id="smartContractsHost" type="text" label="Smart Contracts IP Address"
+                  value="{{smartContractsHost}}" auto-validate pattern="[/.*\S.*/]*" error-message="[[notEmptyError]]"
+                  required="true"></paper-input>
+                <paper-input id="smartContractsPort" type="text" label="Smart Contracts IP Port"
+                  value="{{smartContractsPort}}" auto-validate pattern="[/.*\S.*/]*" error-message="[[notEmptyError]]"
+                  required="true"></paper-input>
+              </fieldset>
+              <fieldset>
+                <legend>TBSP</legend>
+                <paper-input id="ngrtPort" type="text" label="TBSP Port" value="{{ngrtPort}}" auto-validate
+                  pattern="[/.*\S.*/]*" error-message="[[notEmptyError]]" required="true"></paper-input>
+              </fieldset>
+              <fieldset>
+                <legend>NODE Red</legend>
+                <paper-input id="nodeRedPort" type="text" label="Visual Modeller Port" value="{{nodeRedPort}}"
+                  auto-validate pattern="[/.*\S.*/]*" error-message="[[notEmptyError]]" required="true"></paper-input>
+              </fieldset>
+              <fieldset>
+                <legend>Instance & Tenant information</legend>
+                <paper-input id="serverEnvironment" type="text" label="serverEnvironment" value="{{serverEnvironment}}"
+                  auto-validate pattern="[/.*\S.*/]*" error-message="[[notEmptyError]]" required="true"></paper-input>
+                <paper-input id="clusterId" type="text" label="clusterId ID" value="{{clusterId}}" auto-validate
+                  pattern="[/.*\S.*/]*" error-message="[[notEmptyError]]" required="true"></paper-input>
+                <paper-input id="instanceId" type="text" label="Instance ID" value="{{instanceId}}" auto-validate
+                  pattern="[/.*\S.*/]*" error-message="[[notEmptyError]]" required="true"></paper-input>
+                <paper-input id="tenantId" type="text" label="Tenant ID" value="{{tenantId}}" auto-validate
+                  pattern="[/.*\S.*/]*" error-message="[[notEmptyError]]" required="true"></paper-input>
+                <paper-input id="defaultDomainId" type="text" label="Default Domain ID" value="{{defaultDomainId}}"
+                  auto-validate pattern="[/.*\S.*/]*" error-message="[[notEmptyError]]" required="true"></paper-input>
+              </fieldset>
+              <fieldset>
+                <legend>JWT</legend>
+                <paper-input id="jwtAuthInstanceId" type="text" label="Identity Provider Instance ID"
+                  value="{{jwtAuthInstanceId}}" auto-validate pattern="[/.*\S.*/]*" error-message="[[notEmptyError]]"
+                  required="true"></paper-input>
+                <paper-input id="jwtAuthTenantId" type="text" label="Identity Provider Tenant ID"
+                  value="{{jwtAuthTenantId}}" auto-validate pattern="[/.*\S.*/]*" error-message="[[notEmptyError]]"
+                  required="true"></paper-input>
+              </fieldset>
+              <fieldset>
+                <legend>DNS</legend>
+                <paper-input id="publicDNSName" type="text" label="Public DNS Name" value="{{publicDNSName}}"
+                  auto-validate pattern="[/.*\S.*/]*" error-message="[[notEmptyError]]" required="true"></paper-input>
+                <paper-input id="internalDNSName" type="text" label="Public DNS Name" value="{{internalDNSName}}"
+                  auto-validate pattern="[/.*\S.*/]*" error-message="[[notEmptyError]]" required="true"></paper-input>
+
+              </fieldset>
+              <fieldset>
+                <legend>Misc</legend>
+                <paper-input id="namespace" type="text" label="Namespace" value="{{namespace}}" auto-validate
+                  pattern="[/.*\S.*/]*" error-message="[[notEmptyError]]" required="true"></paper-input>
+                <paper-input id="databaseType" type="text" label="Database Type" value="{{databaseType}}" auto-validate
+                  pattern="[/.*\S.*/]*" error-message="[[notEmptyError]]" required="true"></paper-input>
+              </fieldset>
+            </paper-material>
+          </neon-animatable>
+
+          <neon-animatable>
+            <paper-material>
+              <fieldset>
+                <legend>AWS</legend>
+                <gold-password-input id="awsId" label="awsId" reveal suffix pattern="[/.*\S.*/]*" label="aws ID"
+                  value="{{awsId}}" auto-validate error-message="[[notEmptyError]]" required="true">
+                </gold-password-input>
+                <gold-password-input id="awsKey" label="awsKey" reveal suffix pattern="[/.*\S.*/]*" label="awsKey"
+                  value="{{awsKey}}" auto-validate error-message="[[notEmptyError]]"></gold-password-input>
+                <paper-input id="awsRegion" type="text" label="aws Region" value="{{awsRegion}}" auto-validate
+                  pattern="[/.*\S.*/]*" error-message="[[notEmptyError]]" required="true"></paper-input>
+              </fieldset>
+              <fieldset>
+                <legend>JWT</legend>
+                <paper-input id="jwtSessionTime" type="text" label="jwt Session Time" value="{{jwtSessionTime}}"
+                  auto-validate pattern="[/.*\S.*/]*" error-message="[[notEmptyError]]" required="true"></paper-input>
+                <paper-input id="jwtRememberMeTime" type="text" label="jwt Remember Me Time"
+                  value="{{jwtRememberMeTime}}" auto-validate pattern="[/.*\S.*/]*" error-message="[[notEmptyError]]"
+                  required="true"></paper-input>
+                <paper-input id="jwtAccessTime" type="text" label="jwt Access Time" value="{{jwtAccessTime}}"
+                  auto-validate pattern="[/.*\S.*/]*" error-message="[[notEmptyError]]" required="true"></paper-input>
+                <paper-input id="jwtSecret" type="text" label="jwt Secret" value="{{jwtSecret}}" auto-validate
+                  pattern="[/.*\S.*/]*" error-message="[[notEmptyError]]" required="true"></paper-input>
+              </fieldset>
+            </paper-material>
+          </neon-animatable>
+
+          <neon-animatable>
+            <paper-material>
+              <paper-input id="emailHost" type="text" label="SMTP IP Address" value="{{emailHost}}" auto-validate
+                pattern="[/.*\S.*/]*" error-message="[[notEmptyError]]" required="true"></paper-input>
+              <paper-input id="emailPort" type="text" label="SMTP Port" value="{{emailPort}}" auto-validate
+                pattern="[/.*\S.*/]*" error-message="[[notEmptyError]]" required="true"></paper-input>
+              <paper-input id="emailAuthUser" type="text" label="User" value="{{emailAuthUser}}" auto-validate
+                pattern="[/.*\S.*/]*" error-message="[[notEmptyError]]" required="true"></paper-input>
+              <gold-password-input id="emailAuthPass" label="Password" value="{{emailAuthPass}}" reveal suffix
+                pattern="[/.*\S.*/]*" auto-validate error-message="[[notEmptyError]]" required="true">
+              </gold-password-input>
+              <paper-input id="emailTLSRejectUnauthorized" type="TLS Reject unauthorized access" label="Key"
+                value="{{emailTLSRejectUnauthorized}}" auto-validate pattern="[/.*\S.*/]*"
+                error-message="[[notEmptyError]]" required="true"></paper-input>
+              <paper-input id="emailDefaultFrom" type="text" label="Default Sender" value="{{emailDefaultFrom}}"
+                auto-validate pattern="[/.*\S.*/]*" error-message="[[notEmptyError]]" required="true"></paper-input>
+            </paper-material>
+          </neon-animatable>
+
+          <neon-animated-pages>
+      </div>
+    </paper-header-panel>
+
+    <script>
+      function scrollToItemId(scrollToId) {
+        var scrollContainer = document.querySelector("#systemsettings #mainContainer");
+        var item = scrollContainer.querySelector("#" + scrollToId);
+
+        scrollContainer.querySelector("#" + scrollToId).$.input.focus();
+
+        var from = scrollContainer.scrollTop;
+        var by = item.offsetTop - scrollContainer.scrollTop;
+        if (from < item.offsetTop) {
+          if (item.offsetTop > scrollContainer.scrollHeight - scrollContainer.clientHeight) {
+            by = (scrollContainer.scrollHeight - scrollContainer.clientHeight) - scrollContainer.scrollTop;
+          }
+        }
+
+        var currentIteration = 0;
+
+        var animIterations = Math.round(60 * 0.5);
+
+        (function scroll() {
+          var value = easeOutCubic(currentIteration, from, by, animIterations);
+          scrollContainer.scrollTop = value;
+          currentIteration++;
+          if (currentIteration < animIterations) {
+            requestAnimationFrame(scroll);
+          }
+        })();
+
+      }
+
+      function linearEase(currentIteration, startValue, changeInValue, totalIterations) {
+        return changeInValue * currentIteration / totalIterations + startValue;
+      }
+
+      function easeOutCubic(currentIteration, startValue, changeInValue, totalIterations) {
+        return changeInValue * (Math.pow(currentIteration / totalIterations - 1, 3) + 1) + startValue;
+      }
+    </script>
+
+
+  </template>
+  <script>
+    Polymer({
+
+      is: 'ng-rt-system-settings-index',
+      properties: {
+        notEmptyPattern: {
+          type: String,
+          value: '[/.*\S.*/]*'
+        },
+        notEmptyError: {
+          type: String,
+          value: 'Field cant be empty or contain whitespaces'
+        },
+        maintenance: {
+          type: Boolean,
+          value: false
+        },
+        maintenanceText: {
+          type: String,
+          value: "System in maintenance mode"
+        },
+        selected: {
+          type: String,
+          value: "0"
+        },
+        preselected: {
+          type: String,
+          value: "0"
+        },
+        active_trust_levels: {
+          type: Boolean,
+          value: false
+        },
+        input1patter: {
+          type: String,
+          value: '^.{6,}$'
+        },
+        input1errormessage: {
+          type: String,
+          value: 'minimum 6 characters'
+        },
+        input2patter: {
+          type: String,
+          value: '^.{6,}$'
+        },
+        input2errormessage: {
+          type: String,
+          value: 'minimum 6 characters'
+        },
+        entryAnimation: {
+          type: String,
+          value: "slide-from-right-animation"
+        },
+        exitAnimation: {
+          type: String,
+          value: "fade-out-animation"
+        },
+        logLevels: {
+          type: Array,
+          value: [
+            'trace',
+            'debug',
+            'info',
+            'warn',
+            'error',
+            'fatal'
+          ]
+        },
+        logLevel: {
+          type: String,
+          value: 'debug'
+        },
+        publishToFeed: {
+          type: Boolean,
+          value: true
+        }
+      },
+
+      ready: function () {
+        this.get();
+      },
+      getSystemSettingsLandscapeHandler: function (response) {
+        if (response) {
+          let body = {};
+          body.mongoDBHost = response.mongoDBHost;
+          body.mongoDBPort = response.mongoDBPort;
+          body.messagingHost = response.messagingHost;
+          body.messagingPort = response.messagingPort;
+          body.messagingAdmin = response.messagingAdmin;
+          body.log4jsMongoHost = response.log4jsMongoHost;
+          body.log4jsMongoPort = response.log4jsMongoPort;
+          body.ngrtStatsdHost = response.ngrtStatsdHost;
+          body.ngrtStatsdPort = response.ngrtStatsdPort;
+          body.ngrtStatsdAdminPort = response.ngrtStatsdAdminPort;
+          body.smartContractsHost = response.smartContractsHost;
+          body.smartContractsPort = response.smartContractsPort;
+          body.ngrtPort = response.ngrtPort;
+          body.nodeRedPort = response.nodeRedPort;
+          body.clusterId = response.clusterId;
+          body.serverEnvironment = response.serverEnvironment;
+          body.instanceId = response.instanceId;
+          body.tenantId = response.tenantId;
+          body.defaultDomainId = response.defaultDomainId;
+          body.jwtAuthInstanceId = response.jwtAuthInstanceId;
+          body.jwtAuthTenantId = response.jwtAuthTenantId;
+          body.log4jsMongoDatabase = response.log4jsMongoDatabase;
+          body.publicDNSName = response.publicDNSName;
+          body.internalDNSName = response.internalDNSName;
+          body.namespace = response.namespace;
+          body.databaseType = response.databaseType;
+          for (var key in body) {
+            if (body.hasOwnProperty(key)) {
+              this.set(key, body[key]);
+            }
+          }
+          this.systemSettingsLandscape = body;
+        }
+      },
+      getSystemSettingsSystemHandler: function (response) {
+        if (response) {
+          let body = {};
+          body.activeTrustLevelEnabled = response.activeTrustLevelEnabled ? true : false;
+          body.maintenanceEnabled = response.maintenance.enabled;
+          if (response.maintenance.maintenanceText.length > 0) {
+            body.maintenanceText = response.maintenance.maintenanceText;
+          };
+          body.selfRegistrationEnabled = response.selfRegistrationEnabled ? true : false;
+          body.debugAppUseConnectLoggerEnabled = response.debugAppUseConnectLoggerEnabled ? true : false;
+          body.autoUpdateEnabled = response.autoUpdateEnabled ? true : false;
+          body.immutableEnabled = response.immutableEnabled ? true : false;
+          body.showRoutesEnabled = response.showRoutesEnabled ? true : false;
+          body.skipHotfixEnabled = response.skipHotfixEnabled ? true : false;
+          body.showUsersOnlineEnabled = response.showUsersOnlineEnabled ? true : false;
+          body.showServicesEnabled = response.showServicesEnabled ? true : false;
+          body.showConfigDiffEnabled = response.showConfigDiffEnabled ? true : false;
+          body.syncConfigEnabled = response.syncConfigEnabled ? true : false;
+          body.syncPluginEnabled = response.syncPluginEnabled ? true : false;
+          body.logLevel = response.logLevel;
+          body.stateUnlocked = response.stateUnlocked === "unlocked";
+          body.pluginManagerUploadCLI = response.pluginManagerUploadCLI ? true : false;
+          body.pluginManagerUploadUI = response.pluginManagerUploadUI ? true : false;
+          for (var key in body)
+            if (body.hasOwnProperty(key)) {
+              this.set(key, body[key]);
+            }
+          body.stateUnlocked = response.stateUnlocked;
+          this.systemSettingsSystem = body;
+        }
+      },
+      getSystemSettingsSecurityHandler: function (response) {
+        if (response) {
+          let body = {};
+          body.awsId = response.aws.id;
+          body.awsKey = response.aws.key;
+          body.awsRegion = response.aws.region;
+          body.jwtSessionTime = response.jwt.sessionTime;
+          body.jwtRememberMeTime = response.jwt.rememberMeTime;
+          body.jwtAccessTime = response.jwt.accessTime;
+          body.jwtSecret = response.jwt.secret;
+          for (var key in body)
+            if (body.hasOwnProperty(key))
+              this.set(key, body[key]);
+          this.systemSettingsSecurity = {
+            ...response
+          };
+        }
+      },
+      getSystemSettingsEmailHandler: function (response) {
+        if (response) {
+          let body = {};
+          body.emailHost = response.email.options.host
+          body.emailPort = response.email.options.port;
+          body.emailAuthUser = response.email.options.auth.user;
+          body.emailAuthPass = response.email.options.auth.pass;
+          body.emailTLSRejectUnauthorized = response.email.options.tls.rejectUnauthorized;
+          body.emailDefaultFrom = response.email.defaults.from;
+          for (var key in body)
+            this.set(key, body[key]);
+          this.systemSettingsEmail = {...response};
+        }
+      },
+      get: function () {
+        var namespace = 'ng-admin-settings';
+        project.ajax.get(`/${namespace}/system_settings_landscape`, (response) => this.getSystemSettingsLandscapeHandler(response));
+        project.ajax.get(`/${namespace}/system_settings_system`, response => this.getSystemSettingsSystemHandler(response));
+        project.ajax.get(`/${namespace}/system_settings_security`, response => this.getSystemSettingsSecurityHandler(response));
+        project.ajax.get(`/${namespace}/system_settings_email`, response => this.getSystemSettingsEmailHandler(response));
+      },
+      tabTap: function (e) {
+        var el = e.target;
+        while (el != document.body && el.tagName.toLowerCase() != "paper-tab") {
+          el = el.parentNode;
+        }
+        this.preselected = [].indexOf.call(el.parentNode.children, el);
+        this.preselected--;
+
+        if (parseInt(this.selected, 10) <= parseInt(this.preselected, 10)) {
+          this.entryAnimation = "slide-from-right-animation";
+        } else {
+          this.entryAnimation = "slide-from-left-animation";
+        }
+      },
+      checkChanges: function (payload, container) {
+        console.log('payload', payload, 'container', container);
+        let self = this;
+        let changed = {};
+        Object.keys(payload).forEach(key => {
+          if (typeof payload[key] === 'object') {
+            let nestedChanged = self.checkChanges(payload[key], container[key]);
+            if (nestedChanged)
+              changed[key] = payload[key];
+          } else if (payload[key] !== container[key]) {
+            console.log('checkChanges', key, payload[key], container[key]);
+            changed[key] = payload[key];
+          }
+        });
+        if (Object.keys(changed).length > 0)
+          return changed;
+        return;
+      },
+      save: async function () {
+        var self = this;
+        var namespace = 'ng-admin-settings';
+        let systemSettingsSystemPayload = this.checkChanges({
+          activeTrustLevelEnabled: this.activeTrustLevelEnabled,
+          maintenanceEnabled: this.maintenanceEnabled,
+          maintenanceText: this.maintenanceText,
+          selfRegistrationEnabled: this.selfRegistrationEnabled,
+          debugAppUseConnectLoggerEnabled: this.debugAppUseConnectLoggerEnabled,
+          autoUpdateEnabled: this.autoUpdateEnabled,
+          immutableEnabled: this.immutableEnabled,
+          showRoutesEnabled: this.showRoutesEnabled,
+          skipHotfixEnabled: this.skipHotfixEnabled,
+          showUsersOnlineEnabled: this.showUsersOnlineEnabled,
+          showServicesEnabled: this.showServicesEnabled,
+          showConfigDiffEnabled: this.showConfigDiffEnabled,
+          syncConfigEnabled: this.syncConfigEnabled,
+          syncPluginEnabled: this.syncPluginEnabled,
+          logLevel: this.logLevel,
+          stateUnlocked: this.stateUnlocked ? "unlocked" : "locked",
+          pluginManagerUploadCLI: this.pluginManagerUploadCLI,
+          pluginManagerUploadUI: this.pluginManagerUploadUI,
+        }, this.systemSettingsSystem);
+        if (systemSettingsSystemPayload)
+          await project.ajax.post(`/${namespace}/system_settings_system`, {...systemSettingsSystemPayload, publishToFeed: this.publishToFeed});
+        let systemSettingsLandscapePayload = this.checkChanges({
+          mongoDBHost: this.mongoDBHost,
+          mongoDBPort: this.mongoDBPort,
+          messagingHost: this.messagingHost,
+          messagingPort: this.messagingPort,
+          messagingAdmin: this.messagingAdmin,
+          log4jsMongoHost: this.log4jsMongoHost,
+          log4jsMongoPort: this.log4jsMongoPort,
+          ngrtStatsdHost: this.ngrtStatsdHost,
+          ngrtStatsdPort: this.ngrtStatsdPort,
+          ngrtStatsdAdminPort: this.ngrtStatsdAdminPort,
+          smartContractsHost: this.smartContractsHost,
+          smartContractsPort: this.smartContractsPort,
+          ngrtPort: this.ngrtPort,
+          nodeRedPort: this.nodeRedPort,
+          clusterId: this.clusterId,
+          serverEnvironment: this.serverEnvironment,
+          instanceId: this.instanceId,
+          tenantId: this.tenantId,
+          defaultDomainId: this.defaultDomainId,
+          jwtAuthInstanceId: this.jwtAuthInstanceId,
+          jwtAuthTenantId: this.jwtAuthTenantId,
+          log4jsMongoDatabase: this.log4jsMongoDatabase,
+          publicDNSName: this.publicDNSName,
+          internalDNSName: this.internalDNSName,
+          namespace: this.namespace,
+          databaseType: this.databaseType
+        }, this.systemSettingsLandscape);
+        if (systemSettingsLandscapePayload)
+          await project.ajax.post(`/${namespace}/system_settings_landscape`, {...systemSettingsLandscapePayload, publishToFeed: this.publishToFeed})
+        let systemSettingsSecurityPayload = this.checkChanges({
+          aws: {
+            id: this.awsId,
+            key: this.awsKey,
+            region: this.awsRegion
+          },
+          jwt: {
+            sessionTime: this.jwtSessionTime,
+            rememberMeTime: this.jwtRememberMeTime,
+            accessTime: this.jwtSessionTime,
+            secret: this.jwtSecret
+          }
+        }, this.systemSettingsSecurity);
+        if (systemSettingsSecurityPayload)
+          await project.ajax.post(`/${namespace}/system_settings_security`, {...systemSettingsSecurityPayload, publishToFeed: this.publishToFeed});
+        let systemSettingsEmailPayload = this.checkChanges({
+          email: {
+            options: {
+              host: this.emailHost,
+              port: this.emailPort,
+              auth: {
+                user: this.emailAuthUser,
+                pass: this.emailAuthPass
+              },
+              tls: {
+                rejectUnauthorized: this.emailTLSRejectUnauthorized
+              }
+            },
+            defaults: {
+              from: this.emailDefaultFrom
+            }
+          }
+        }, this.systemSettingsEmail);
+        if (systemSettingsEmailPayload)
+          await project.ajax.post(`/${namespace}/system_settings_email`, {...systemSettingsEmailPayload, publishToFeed: this.publishToFeed});
+        return self.get();
+      }
+    });
+  </script>
+</dom-module>

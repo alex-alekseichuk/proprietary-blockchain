@@ -1,0 +1,32 @@
+<dom-module id="ng-rt-page">
+    <style include="shared-styles"></style>
+    <style is="custom-style">
+         :host {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    
+    <template>
+        <template id="pageItems" is="dom-repeat" items="{{page.items}}" as="pageItem">
+            <ng-rt-page-item page-item="{{pageItem}}" app-id="{{appId}}"></ng-rt-page-item>
+        </template>
+    </template>
+
+</dom-module>
+
+<script>
+    Polymer({
+        is: "ng-rt-page",
+        properties: {
+            page: {
+                type: "object",
+                value: {}
+            },
+            appId: {
+                type: "string",
+                value: ""
+            }
+        }
+    });
+</script>

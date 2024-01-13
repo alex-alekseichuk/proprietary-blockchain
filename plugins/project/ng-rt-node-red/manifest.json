@@ -1,0 +1,226 @@
+{
+  "name": "ng-rt-node-red",
+  "type": "optional",
+  "description": "Node-RED",
+  "version": "3.2.",
+  "entryPoints": [
+    {
+      "type": "route",
+      "parameters": {
+        "file": "./api/routes/route.js"
+      }
+    }
+  ],
+  "actions": {
+    "before_install": [
+      {
+        "type": "NPM_INSTALL",
+        "parameters": {
+          "package": true
+        }
+      }
+    ],
+    "after_install": [
+      {
+        "name": "remove dataDictionary record",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "criteries": [
+            {
+              "name": "nodeRedFlow"
+            },
+            {
+              "name": "nodeRedProject"
+            },
+            {
+              "name": "nodeRedCredentials"
+            },
+            {
+              "name": "nodeRedSettings"
+            },
+            {
+              "name": "nodeRedSessions"
+            }
+          ]
+        }
+      },
+      {
+        "name": "remove dataSourceRoutingRecord",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "criteries": [
+            {
+              "datadictname": "nodeRedFlow"
+            },
+            {
+              "datadictname": "nodeRedProject"
+            },
+            {
+              "datadictname": "nodeRedCredentials"
+            },
+            {
+              "datadictname": "nodeRedSettings"
+            },
+            {
+              "datadictname": "nodeRedSessions"
+            }
+          ]
+        }
+      },
+      {
+        "name": "create ng-rt-node-red datasource",
+        "type": "CREATE_DATASOURCE",
+        "parameters": {
+          "file": "./config/datasources/ng-rt-node-red.json"
+        }
+      },
+      {
+        "name": "register nodeRedFlow model",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "./config/nodeRedFlow.json"
+        }
+      },
+      {
+        "name": "register nodeRedProject model",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "./config/nodeRedProject.json"
+        }
+      },
+      {
+        "name": "register nodeRedCredentials model",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "./config/nodeRedCredentials.json"
+        }
+      },
+      {
+        "name": "register nodeRedSettings model",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "./config/nodeRedSettings.json"
+        }
+      },
+      {
+        "name": "register nodeRedSessions model",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "./config/nodeRedSessions.json"
+        }
+      },
+      {
+        "name": "add digitalAssetDefinition model to dataSourceRouting",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [
+            {
+              "datadictname": "nodeRedFlow",
+              "datasourcename": "ng_rt_node_red"
+            },
+            {
+              "datadictname": "nodeRedProject",
+              "datasourcename": "ng_rt_node_red"
+            },
+            {
+              "datadictname": "nodeRedCredentials",
+              "datasourcename": "ng_rt_node_red"
+            },
+            {
+              "datadictname": "nodeRedSettings",
+              "datasourcename": "ng_rt_node_red"
+            },
+            {
+              "datadictname": "nodeRedSessions",
+              "datasourcename": "ng_rt_node_red"
+            }
+          ]
+        }
+      }
+    ],
+    "after_uninstall": [],
+    "before_activate": [],
+    "after_activate": [],
+    "before_deactivate": [],
+    "after_deactivate": []
+  },
+  "sharedServices": [],
+  "apiServices": [],
+  "settings": [
+    {
+      "name": "node-red.disableEditor",
+      "caption": "Disable Node-Red Editor",
+      "value": false
+    },
+    {
+      "name": "node-red.logging",
+      "caption": "Logging level",
+      "value": "info"
+    },
+    {
+      "name": "node-red.username",
+      "caption": "Node Red Admin user name",
+      "value": "admin"
+    },
+    {
+      "name": "node-red.password",
+      "caption": "Node Red Admin user password",
+      "value": "$2a$08$4m8fnsFHw0TLMfy1EyYLPu2CFEyEFmwo9iT5VM67sOb0Q2i6Y6wCW"
+    },
+    {
+      "name": "node-red.pass",
+      "caption": "Node Red Admin user password for internal use",
+      "value": "project@2020"
+    },
+    {
+      "name": "node-red.permissions",
+      "caption": "Permission",
+      "value": "*"
+    },
+    {
+      "name": "node-red.sessionExpiryTime",
+      "caption": "Session expiration time in seconds",
+      "value": "3600"
+    },
+    {
+      "name": "node-red.secret",
+      "caption": "Secret phrase for credentials",
+      "value": "NODE_RED_SECRET"
+    },
+    {
+      "name": "node-red.coreAuthentication",
+      "caption": "Node Red Admin use core authentication",
+      "value": true
+    },
+    {
+      "name": "node-red.roles",
+      "caption": "Node Red Admin user password",
+      "value": [
+        "admin"
+      ]
+    },
+    {
+      "name": "node-red.audit",
+      "caption": "Node Red logging audit",
+      "value": false
+    },
+    {
+      "name": "node-red.metrics",
+      "caption": "Node Red logging metrics",
+      "value": false
+    }
+  ],
+  "database": {
+    "mongodb": {
+      "version": "3.9"
+    }
+  }
+}

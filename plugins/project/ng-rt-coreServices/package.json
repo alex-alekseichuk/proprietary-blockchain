@@ -1,0 +1,17 @@
+{
+  "name": "ng-rt-coreServices",
+  "description": "ng-rt Core services",
+  "scripts": {},
+  "dependencies": {
+    "lodash": "^4.17.4",
+    "ng-common": "git+https://gitlab.project.com/packages/ng-common.git#dev/4.0"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.project.com:plugins/ng-rt-coreServices.git"
+  },
+  "author": "PROJECT PROPERTIES B.V.",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "version": "3.2.75169"
+}

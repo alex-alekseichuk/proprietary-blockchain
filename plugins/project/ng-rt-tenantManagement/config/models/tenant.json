@@ -1,0 +1,52 @@
+[{
+  "name": "tenant",
+  "base": "aclParent",
+  "idInjection": false,
+  "properties": {
+    "tenantId": {
+      "type": "string",
+      "id": true
+    },
+    "tenantName": {
+      "type": "string"
+    },
+    "tenantDescription": {
+      "type": "string"
+    },
+    "tenantType": {
+      "type": "string"
+    },
+    "tenantRegisterNewUsersAllowed": {
+      "type": "boolean"
+    },
+    "tenantAllowTwitterSignin": {
+      "type": "boolean"
+    },
+    "tenantAllowGoogleSignin": {
+      "type": "boolean"
+    },
+    "instanceId": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "instances": {
+      "type": "belongsTo",
+      "model": "instance",
+      "foreignKey": "instanceId"
+    },
+    "domains": {
+      "type": "hasMany",
+      "model": "domain",
+      "foreignKey": "tenantId"
+    },
+    "dataSourceRoutings": {
+      "type": "hasMany",
+      "model": "dataSourceRouting",
+      "foreignKey": "tenantId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}]

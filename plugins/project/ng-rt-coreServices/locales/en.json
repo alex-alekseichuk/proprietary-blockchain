@@ -1,0 +1,5 @@
+{
+	"Running gulp task %s": "Running gulp task %s",
+	"Gulp task %s finished successfully!": "Gulp task %s finished successfully!",
+	"Gulp task lint finished successfully!": "Gulp task lint finished successfully!"
+}

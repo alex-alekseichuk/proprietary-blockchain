@@ -1,0 +1,258 @@
+{
+  "name": "ng-rt-tenantManagement",
+  "description": "Plugin for the Multitenant Support",
+  "version": "3.2.",
+  "entryPoints": [],
+  "actions": {
+    "before_install": [],
+    "after_install": [{
+      "name": "copy docs",
+      "type": "COPY_FILES",
+      "parameters": {
+        "source": "docs/api/",
+        "target": "config/docs/api/ng-rt-tenantManagement"
+      }
+    }],
+    "before_activate": [],
+    "after_activate": [{
+        "name": "remove dataDictionary record",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "criteries": [{
+            "name": "instance"
+          }]
+        }
+      },
+      {
+        "name": "remove dataSourceRoutingRecord",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "criteries": [{
+            "datadictname": "instance"
+          }]
+        }
+      },
+      {
+        "name": "remove dataDictionary record",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "criteries": [{
+            "name": "tenant"
+          }]
+        }
+      },
+      {
+        "name": "remove dataSourceRoutingRecord",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "criteries": [{
+            "datadictname": "tenant"
+          }]
+        }
+      },
+      {
+        "name": "remove dataDictionary record",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "criteries": [{
+            "name": "domain"
+          }]
+        }
+      },
+      {
+        "name": "remove dataSourceRoutingRecord",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "criteries": [{
+            "datadictname": "domain"
+          }]
+        }
+      },
+      {
+        "name": "remove dataDictionary record",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "criteries": [{
+            "name": "subDomain"
+          }]
+        }
+      },
+      {
+        "name": "remove dataSourceRoutingRecord",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "criteries": [{
+            "datadictname": "subDomain"
+          }]
+        }
+      },
+      {
+        "name": "add domain model to dataDictionary",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "config/models/domain.json"
+        }
+      },
+      {
+        "name": "add subDomain model to dataDictionary",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "config/models/subDomain.json"
+        }
+      },
+      {
+        "name": "add tenant model to dataDictionary",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "config/models/tenant.json"
+        }
+      },
+      {
+        "name": "add instance model to dataDictionary",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "file": "config/models/instance.json"
+        }
+      },
+      {
+        "name": "add instance model to dataDictionary",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [{
+            "datadictname": "instance",
+            "datasourcename": "ng-rt-dataDictionary"
+          }]
+        }
+      }, 
+      {
+        "name": "add tenant model to dataDictionary",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [{
+            "datadictname": "tenant",
+            "datasourcename": "ng-rt-dataDictionary"
+          }]
+        }
+      }, 
+      {
+        "name": "add domain model to dataDictionary",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [{
+            "datadictname": "domain",
+            "datasourcename": "ng-rt-dataDictionary"
+          }]
+        }
+      }, 
+      {
+        "name": "add subDomain model to dataDictionary",
+        "type": "ADD_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "data": [{
+            "datadictname": "subDomain",
+            "datasourcename": "ng-rt-dataDictionary"
+          }]
+        }
+      }
+    ],
+    "after_deactivate": [{
+        "name": "remove dataSource registered for this plugin",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataSource",
+          "criteries": [{
+            "name": "instance"
+          }]
+        }
+      },
+      {
+        "name": "remove dataDictionary record",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "criteries": [{
+            "name": "instance"
+          }]
+        }
+      },
+      {
+        "name": "remove dataSource registered for this plugin",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataSource",
+          "criteries": [{
+            "name": "tenant"
+          }]
+        }
+      },
+      {
+        "name": "remove dataDictionary record",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "criteries": [{
+            "name": "tenant"
+          }]
+        }
+      },
+      {
+        "name": "remove dataSource registered for this plugin",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataSource",
+          "criteries": [{
+            "name": "domain"
+          }]
+        }
+      },
+      {
+        "name": "remove dataDictionary record",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "criteries": [{
+            "name": "domain"
+          }]
+        }
+      },
+      {
+        "name": "remove dataDictionary record",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataDictionary",
+          "criteries": [{
+            "name": "subDomain"
+          }]
+        }
+      },
+      {
+        "name": "remove dataSourceRoutingRecord",
+        "type": "REMOVE_DATA",
+        "parameters": {
+          "model_name": "dataSourceRouting",
+          "criteries": [{
+            "datadictname": "subDomain"
+          }]
+        }
+      }
+    ]
+  },
+  "sharedServices": [],
+  "apiServices": []
+}

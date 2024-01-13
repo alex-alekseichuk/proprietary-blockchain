@@ -1,0 +1,48 @@
+
+<script type="text/x-red" data-template-name="tendermint-response">
+      
+    <div class="form-row">
+        <select id="node-input-checkall" style="width:100%; margin-right:5px;">
+            <option value="true" data-i18n="uiEvent.checkall">true</option>
+            <option value="false" data-i18n="uiEvent.stopfirst">false</option>
+        </select>
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="tendermint-response">
+    <p>A node to route tendermint-responses based on field values.</p>
+    <p>When a transaction is validated to true or false, the selected property is of the node decides the flow
+   . The message is then sent to the output decided flow <i>all</i>
+   </p>
+   <h3>Outputs</h3>
+   <ol class="node-ports">
+       <li>Standard output
+           <dl class="message-properties">
+               <dt>msg <span class="property-type">object</span></dt>
+               <dd>tm response as Json object in msg</dd>
+           </dl>
+       </li>
+   </ol>
+   
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('tendermint-response', {
+      category: 'Project_Blockchain',
+      color: '#b9b1eb',
+        defaults: {
+            name: {value:""},
+            property: {value:"payload", required:true},
+            propertyType: { value:"msg" },
+            rules: {value:[{t:"eq", v:""}]},
+            checkall: {value:"true", required:true},
+            outputs: {value:1}
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "Project.png",
+        label: function() {
+            return this.name||"tendermint-response";
+        }
+    });
+</script>

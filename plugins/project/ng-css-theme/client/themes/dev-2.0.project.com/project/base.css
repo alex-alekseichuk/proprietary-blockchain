@@ -1,0 +1,42 @@
+/* --- TOPBAR */
+.topbar-wrapper {
+  background: var(--primary-color) !important;
+}
+.topbar-wrapper .search-bar iron-icon {
+  color: white !important;
+}
+
+.topbar-wrapper .user-details iron-icon {
+  color: white !important;
+}
+
+.topbar-wrapper paper-menu {
+  background-color: var(--sidebar-bg) !important;
+}
+
+.topbar-wrapper .user-details {
+  background-color: var(--sidebar-bg-dark) !important;
+}
+.topbar-wrapper .user-popup paper-menu iron-icon {
+  color: var(--primary-color) !important;
+}
+
+.topbar-wrapper .menu-angle {
+  border-bottom: 8px solid var(--sidebar-bg-dark) !important;
+}
+
+a.ng-rt-menu-item:hover::after {
+  background: var(--primary-color) !important;
+}
+
+/* ngrt-tasker */
+ngrt-tasker .illustration {
+  background: var(--primary-color) !important;
+}
+ngrt-tasker #primaryProgress {
+  background-color: var(--secondary-color) !important;
+}
+
+ngrt-dropdown {
+  background-color: var(--window-bg) !important;
+}

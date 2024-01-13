@@ -1,0 +1,26 @@
+{
+  "name": "ng-rt-fileServer",
+  "description": "Repository for a simple Fileserver",
+  "dependencies": {
+    "express": "^4.14.0",
+    "fs": "0.0.1-security",
+    "http": "0.0.0",
+    "multer": "^1.2.1",
+    "path": "^0.12.7",
+    "promise": "^7.1.1",
+    "q": "^1.4.1",
+    "request": "^2.79.0",
+    "restler": "^3.4.0",
+    "rethinkdb-regrid": "^0.6.0",
+    "uuid": "^3.0.1",
+    "ng-configservice": "git+https://gitlab.project.com/packages/ng-configservice.git#dev/3.0"
+  },
+  "devDependencies": {},
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.project.com:plugins/ng-rt-fileServer.git"
+  },
+  "author": "PROJECT PROPERTIES B.V.",
+  "version": "3.2.72522"
+}

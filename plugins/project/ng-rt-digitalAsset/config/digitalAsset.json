@@ -1,0 +1,44 @@
+{
+    "name": "digitalAsset",
+    "base": "commonDataModel",
+    "idInjection": false,
+    "options": {
+        "validateUpsert": true
+    },
+    "properties": {
+        "signature": {
+            "type": "string"
+        },
+        "transaction": {
+            "type": "string"
+        },
+        "current_owner": {
+            "type": "string"
+        },
+        "data": {
+            "type": "string"
+        },
+        "hash": {
+            "type": "string"
+        },
+        "payload": {
+            "type": "string"
+        },
+        "input": {
+            "type": "string"
+        },
+        "new_owner": {
+            "type": "string"
+        },
+        "operation": {
+            "type": "string"
+        },
+        "timestamp": {
+            "type": "string"
+        }
+    },
+    "validations": [],
+    "relations": {},
+    "acls": [],
+    "methods": {}
+}

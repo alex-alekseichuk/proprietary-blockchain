@@ -1,0 +1,44 @@
+[
+    {
+        "name": "customer",
+        "tenant": true,
+        "base": "commonDataModel",
+        "idInjection": false,
+        "options": {
+         "validateUpsert": true
+        },
+        "properties": {
+         "domainID": {
+          "type": "string"
+         },
+         "subDomainID": {
+          "type": "string"
+         },
+         "customerID": {
+          "type": "string"
+         },
+         "customerFirstName": {
+          "type": "string"
+         },
+         "customerMiddleName": {
+          "type": "string"
+         },
+         "customerLastName": {
+          "type": "string"
+         },
+         "customerBirthday": {
+          "type": "date"
+         },
+         "customerEmail": {
+          "type": "string"
+         }
+        },
+        "validations": [],
+        "relations": {},
+        "acls": [],
+        "methods": {},
+        "mixins": {
+         "RecordObserver": true
+        }
+       }
+]

@@ -1,0 +1,151 @@
+<link rel="import" href="ng-rt-menu-item.html">
+
+<dom-module id="ng-rt-submenu">
+  <template>
+
+    <style include="shared-styles"></style>
+    <style is="custom-style">
+      :host {
+        border-top: 1px solid gray;
+      }
+
+      iron-icon {
+        margin-right: 20px;
+        /* opacity: 0.54; */
+      }
+
+      paper-menu {
+        --paper-menu {
+          color: var(--sidemenu-text);
+        }
+        ;
+        --paper-menu-background-color: var(--drawer-bg);
+        --paper-menu-color: var(--sidemenu-text);
+        --paper-menu-selected-item: {
+          background-color: var(--primary-text);
+          color: var(--sidemenu-text);
+        }
+        ;
+        --paper-menu-focused-item: {
+          background-color: var(--primary-text);
+          color: var(--sidemenu-text);
+        }
+        ;
+      }
+
+      paper-item {
+        -webkit-user-select: none;
+        user-select: none;
+        cursor: pointer;
+        font-size: 14px;
+        min-height: 40px;
+        color: var(--sidemenu-text);
+        --paper-item {
+          color: var(--sidemenu-text);
+        }
+        ;
+      }
+
+
+
+      paper-item.iron-selected {
+        background-color: rgba(0, 0, 0, .05);
+      }
+
+      paper-item.iron-selected iron-icon {
+        opacity: 1;
+      }
+
+      paper-item paper-icon-button.expandicon-more {
+        opacity: 1;
+        position: absolute;
+        right: 0;
+        transition: .2s all;
+      }
+
+      paper-item.iron-selected paper-icon-button.expandicon-more {
+        transform: rotate(180deg);
+      }
+
+      paper-menu {
+        background-color: rgba(0, 0, 0, .15);
+      }
+
+      paper-item-body {
+        flex: 1;
+        font-size: 14px;
+      }
+    </style>
+
+
+    <paper-submenu id="subm">
+      <paper-item class="menu-trigger" prefix icon="mail" on-click="selectSubmenu">
+        <iron-icon icon$="[[menuItem.icon]]" item-icon>
+        </iron-icon>
+        <paper-item-body>
+          <div>[[menuItem.caption]]</div>
+        </paper-item-body>
+        <paper-icon-button class="expandicon-more" icon="icons:expand-more"></paper-icon-button>
+
+      </paper-item>
+      <paper-menu class="menu-content" attr-for-selected="data-route" selected="[[route]]">
+        <template is="dom-repeat" items="[[menuItem.items]]" as="subitem">
+          <ng-rt-menu-item menu-item="[[subitem]]" route="{{route}}" data-route$="[[subitem.route]]" route="{{route}}"></ng-rt-menu-item>
+        </template>
+      </paper-menu>
+    </paper-submenu>
+
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'ng-rt-submenu',
+      properties: {
+        menuItem: {
+          type: Object
+        },
+        route: {
+          type: String,
+          observer: "_routechanged"
+        }
+
+      },
+      isMenuItemType: function (item, type) {
+        return item.type == type;
+      },
+      _changed: function () {
+        var component = this;
+        if ((component.menuItem && component.menuItem.caption === component.submenu))
+          this.$.subm.open();
+        else
+          this.$.subm.close();
+      },
+      attached: function () {
+        var component = this;
+        this.parentElement.parentElement.parentElement.parentNode.addEventListener('_submenuchanged', function () {
+          component._changed();
+        });
+      },
+      "selectSubmenu": function () {
+        if (this.parentElement.parentElement.parentElement.parentElement)
+          this.parentElement.parentElement.parentElement.parentElement.set("submenu", this.menuItem.caption);
+      },
+      "_routechanged": function (newValue) {
+        var component = this;
+        var child = false;
+        if (component.menuItem && component.menuItem.items) {
+          component.menuItem.items.forEach(function (item) {
+            if (item.route === newValue)
+              child = true;
+          });
+        }
+        if (child)
+          this.$.subm.open();
+        else
+          this.$.subm.close();
+      }
+    });
+  </script>
+
+</dom-module>

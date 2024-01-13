@@ -1,0 +1,52 @@
+[
+    {
+        "name": "myDetails",
+        "base": "commonDataModel",
+        "idInjection": true,
+        "properties": {
+         "name": {
+          "type": "string"
+         },
+         "oneLineSummary": {
+          "type": "string"
+         },
+         "companyName": {
+          "type": "string"
+         },
+         "backgroundDetails": {
+          "type": "string"
+         },
+         "roleDescription": {
+          "type": "string"
+         },
+         "base": {
+          "type": "string"
+         },
+         "tribe": {
+          "type": [
+           "string"
+          ]
+         }
+        },
+        "validations": [],
+        "relations": {
+         "user": {
+          "model": "user",
+          "foreignKey": "userId",
+          "type": "belongsTo"
+         },
+         "mainDisruptiveTechnology": {
+          "model": "mainDisruptiveTechnology",
+          "foreignKey": "mainDisruptiveTechnologyId",
+          "type": "belongsTo"
+         },
+         "mainDisruptiveSpecialism": {
+          "model": "mainDisruptiveSpecialism",
+          "foreignKey": "mainDisruptiveSpecialismId",
+          "type": "belongsTo"
+         }
+        },
+        "acls": [],
+        "methods": []
+       }
+]

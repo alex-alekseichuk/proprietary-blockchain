@@ -1,0 +1,112 @@
+
+
+<script type="text/javascript">
+  RED.nodes.registerType('arguments', {
+    category: 'Project_Smart_Contracts_Core',
+    color: '#94bee2',
+    defaults: {
+      name: {
+        value: "get arguments"
+      },
+      position : {
+        value : 0
+      },
+      destination : {
+        value : "payload"
+      },
+      dataType:{
+        value: "string"
+      },
+      description:{
+        value: ""
+      }
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: "Project.png",
+    label: function() {
+      return this.name || "arguments";
+    }
+  });
+</script>
+<script type="text/x-red" data-template-name="arguments">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-position"></i>Position</label>
+        <input type="text" id="node-input-position" placeholder="field">
+    </div>
+    <div class="form-row">
+        <label for="node-input-destination">Property msg.</label>
+        <input type="text" id="node-input-destination" placeholder="">
+    </div>
+
+    <div class="form-row">
+      <label for="node-input-dataType"></i> Data Type </label>
+      <select id="node-input-dataType">
+              <option value="string">string</option>
+              <option value="number">number</option>
+              <option value="boolean">boolean</option>
+              <option value="date">date</option>
+              <option value="time">time</option>
+              <option value="asset">asset</option>
+              <option value="address">address</option>
+              <option value="user">user</option>
+          </select>
+    </div>
+
+    <div class="form-row">
+      <label for="node-input-description">Description </label>
+      <input type="text" id="node-input-description" placeholder="">
+    </div>
+
+    <p/>
+
+</script>
+
+<script type="text/x-red" data-help-name="arguments">
+    <p>Node to retrieve arguments</p>
+    
+    <h3>Properties</h3>
+      <dl class="message-properties">
+        <dt>Name
+            <span class="property-type">string</span>
+        </dt>
+        <dd> Node name. </dd>
+        <dt>Position
+            <span class="property-type">integer</span>
+        </dt>
+        <dd> The position of argument passed. </dd>
+        <dt>Destination
+            <span class="property-type">object</span>
+        </dt>
+        <dd> Argument saved in <code>msg.payload</code> </dd>
+        <dt>Data Type
+          <span class="property-type">string</span>
+        </dt>
+        <dd> Data type of the required argument </dd>
+        <dt>Description
+          <span class="property-type">string</span>
+        </dt>
+        <dd> The description of arguments. </dd>
+        
+      </dl>
+
+    <h3>Details</h3>
+    <dl class="message-properties">
+      <dd> When you execute <b>publish / call </b> function - you pass some number of arguments e.g:<p/>
+        <code>
+          <span> node . call \ <p/>
+                          --contractId=9ad0f86a7fbd63ca3431398fedf5043cfb27386d787f7471ac6743000f86befe \ <p/>
+                          --functionName=changeGreeting <b> "first string" 3 "second string" </b>
+          </span>
+        </code>
+                        
+        <p/>
+      
+        You can see above 3 arguments to function call. 
+      <dd>
+    </dl>
+</script>

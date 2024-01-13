@@ -1,0 +1,79 @@
+<script type="text/javascript">
+
+  RED.nodes.registerType('email-sender', {
+    category: 'Project_Core',
+    color: '#81F7F3',
+    defaults: {
+      recepient: {
+        value: ""
+      },
+      message: {
+        value: ""
+      },
+      subject: {
+        value: ""
+      }
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: "Project.png",
+    label: function() {
+      return this.name || "email-sender";
+    }
+  });
+</script>
+<script type="text/x-red" data-template-name="email-sender">
+  <div class="form-row">
+    <label for="node-input-recepient"><i class="icon-tag"></i> TO</label>
+    <input type="text" id="node-input-recepient" placeholder="recepient">
+  </div>
+  <div class="form-row">
+    <label for="node-input-subject"><i class="icon-tag"></i> Subject</label>
+    <input type="text" id="node-input-subject" placeholder="subject">
+  </div>
+  <div class="form-row">
+    <label for="node-input-message"><i class="icon-tag"></i> Message</label>
+    <input type="text" id="node-input-message" placeholder="message">
+  </div>
+
+</script>
+
+<script type="text/x-red" data-help-name="email-sender">
+  <p>
+    Send email.
+  </p>
+  <h3>Properties</h3>
+  <dl class="message-properties">
+    <dt>To
+            <span class="property-type">string</span>
+        </dt>
+    <dd> recipient email address .</dd>
+    <dt>Subject
+            <span class="property-type">string</span>
+        </dt>
+    <dd> email subject.</dd>
+    <dt>Message
+            <span class="property-type">string</span>
+        </dt>
+    <dd> email body.</dd>
+  </dl>
+  <h3>Inputs</h3>
+  <dl class="message-properties">
+    <dt>msg.recepient
+            <span class="property-type">string</span>
+        </dt>
+    <dd> recipient email address (To:).</dd>
+    <dt>msg.subject
+            <span class="property-type">string</span>
+        </dt>
+    <dd> email subject.</dd>
+    <dt>msg.mailmessage
+            <span class="property-type">string</span>
+        </dt>
+    <dd> body of the message.</dd>
+  </dl>
+  <h3>Details</h3>
+  <p>
+    Properties of the node are treated as default values. Input parameters take precedence over the properties.
+  </p>
+</script>

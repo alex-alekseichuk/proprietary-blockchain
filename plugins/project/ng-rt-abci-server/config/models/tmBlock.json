@@ -1,0 +1,45 @@
+[{
+  "name": "tmBlock",
+  "base": "commonDataModel",
+  "options": {
+    "idInjection": true,
+    "validateUpsert": true,
+    "hana": {
+      "schema": "PROJECT",
+      "table": "TMBLOCK"
+    }
+  },
+  "properties": {
+    "hash": {
+      "type": "string"
+    },
+    "block": {
+      "type": "Object",
+      "postgresql": {
+        "dataType": "json"
+      },
+      "hana": {
+        "dataType": "clob"
+      }
+    },
+    "transactions": {
+      "type": "Object",
+      "postgresql": {
+        "dataType": "json"
+      },
+      "hana": {
+        "dataType": "clob"
+      }
+    },
+    "blockHeight": {
+      "type": "number"
+    },
+    "blockTime": {
+      "type": "number"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": []
+}]

@@ -1,0 +1,227 @@
+<link rel="import" href="../../../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../styles/shared-styles.html">
+
+
+<dom-module id="ngrt-toast">
+  <template>
+    <style include="shared-styles"></style>
+    <style is="custom-style">
+
+      #alerttoast {
+        background: var(--error-color);
+        padding: 20px 20px;
+      }
+
+      #toast {
+      }
+
+      #staytoast {
+      }
+
+      #toastDialog {
+        width: calc(100% - 10px);
+        outline: none;
+        position: fixed;
+        top: 5px;
+        left: 5px;
+        box-sizing: border-box;
+        min-height: 400px;
+        max-height: 50%;
+        height: 50%;
+        z-index: 104;
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+        background: white;
+      }
+
+      #toastDialog paper-toolbar {
+        padding-right: 10px;
+        padding-left: 20px;
+      }
+
+      paper-badge {
+        margin: 10px 0px 0px -13px;
+      }
+
+      .list {
+        overflow-y: auto;
+        overflow-x: hidden;
+        flex: 1;
+        padding: 0;
+        margin-top: 45px !important;
+      }
+
+      .listheader {
+        position: absolute;
+        top: 50px;
+        line-height: 40px;
+        height: 40px;
+        background: rgba(0, 0, 0, 0.05);
+        border: none;
+      }
+
+      .list-row {
+        display: flex;
+      }
+
+      .list-row .icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 5px;
+        background-color: rgba(1, 1, 1, 0.05);
+        margin-right: 20px;
+      }
+
+      .general-icon {
+        background-image: url("../../res/notification.png") !important;
+        background-size: 100%;
+        background-position: center;
+      }
+
+      .list-row .date, .listheader .date {
+        flex: 0;
+        min-width: 150px;
+        max-width: 150px;
+      }
+
+      .list-row .source, .listheader .source {
+        flex: 0.3;
+        min-width: 150px;
+      }
+
+      /* Scroll */
+      ::-webkit-scrollbar-track {
+        border-radius: 2px;
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+
+      ::-webkit-scrollbar {
+        width: 5px;
+        background-color: transparent;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        border-radius: 2px;
+        background-color: rgba(0, 0, 0, 0.2);
+        -webkit-transform: translate3d(0, 0, 0);
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background-color: rgba(0, 0, 0, 0.3);
+      }
+    </style>
+
+    <paper-toast id="toastnormal" class="fit-bottom" text="" onclick="hide()"></paper-toast>
+    <paper-toast duration="0" id="toastpersistent" class="fit-bottom" text="" onclick="hide()"></paper-toast>
+    <paper-toast duration="0" id="toastdanger" class="fit-bottom toast-danger" text="" onclick="hide()"></paper-toast>
+
+    <paper-dialog id="toastDialog" with-backdrop role="confirmdialog" entry-animation="slide-from-top-animation"
+                  exit-animation="slide-up-animation">
+      <paper-toolbar class="medium" wide>
+
+        <!--Top-->
+        <span class="title"><i18n-msg msgid="Recent events">Recent events</i18n-msg></span>
+        <span class="flex"></span>
+        <paper-icon-button icon="icons:close" dialog-dismiss></paper-icon-button>
+      </paper-toolbar>
+
+      <div class="list">
+
+        <div class="listheader">
+          <div style="flex: 1">Description</div>
+          <div class="source">Source</div>
+          <div class="date">Time</div>
+        </div>
+
+        <template is="dom-repeat" items="{{toastEvents}}">
+          <div class="list-row" onclick="" on-click="selectStoreKey">
+
+            <div style="flex: 1">
+              <span class="icon general-icon"></span>
+              [[item.msg]]
+            </div>
+            <div class="source">[[item.type]]</div>
+            <div class="date">[[formatDatetime(item.date,'YYYY.MM.DD H:mm:ss')]]</div>
+
+          </div>
+        </template>
+      </div>
+    </paper-dialog>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'ngrt-toast',
+      properties: {
+        variable1: {
+          type: String,
+          value: ''
+        },
+        toastEvents: {
+          type: Array,
+          value: []
+        }
+      },
+      attached: function () {
+        this.set('toastEvents', this._loadToastEvents());
+      },
+      show: function (msg, type) {
+        this.hide();
+        let toast;
+        switch (type) {
+          case 'alert':
+            toast = this.$.toastdanger;
+            break;
+          case 'info':
+            toast = this.$.toastnormal;
+            break;
+          case 'persistent':
+            toast = this.$.toastpersistent;
+            break;
+          default:
+            toast = this.$.toastnormal;
+            break;
+        }
+        toast ? toast.show(msg) : null;
+        if (!this.logger) {
+          this.logger = project.log4js.getLogger('ng-rt-admin/client/src/ui/ngrt-toast');
+        }
+        this.logger.debug(`msg: ${msg}; typeToast: ${type}`);
+        this.unshift('toastEvents', {
+          msg, type, date: new Date()
+        });
+        this.splice('toastEvents', 25);
+        this._saveToastEvent(this.toastEvents);
+      },
+      hide: function() {
+        let self = this;
+        if (self.$.toastdanger) {
+          self.$.toastdanger.hide();
+        }
+        if (self.$.toastnormal) {
+          self.$.toastnormal.hide();
+        }
+        if (self.$.toastpersistent) {
+          self.$.toastpersistent.hide();
+        }
+      },
+      formatDatetime: function (datetime, format) {
+        return project.moment(datetime).format(format);
+      },
+      _loadToastEvents: function() {
+        if(Storage)
+          return JSON.parse(localStorage.getItem('toastEvents')) || [];
+        return [];
+      },
+      _saveToastEvent: function(events) {
+        if(!Storage)
+          return;
+        return localStorage.setItem('toastEvents', JSON.stringify(events));
+      }
+    });
+  </script>
+</dom-module>

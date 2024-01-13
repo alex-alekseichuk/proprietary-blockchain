@@ -1,0 +1,64 @@
+<dom-module id="ng-rt-plugin-view">
+    <style include="shared-styles"></style>
+    <style is="custom-style">
+         :host {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+
+    <template>
+    <div id="container" class="fit" style="overflow: auto">
+      <!--This is where my dynamically loaded element should be placed-->
+    </div>
+  </template>
+
+
+    <script>
+        Polymer({
+            is: "ng-rt-plugin-view",
+            properties: {
+                pluginroute: {
+                    type: Object,
+                    observer: '_routeChanged'
+                }
+            },
+            _routeChanged: function(newValue, oldValue) {
+                var component = this;
+
+                if (newValue) {
+                    var uri = newValue.url.replace(/!/g, '/');
+                    var props = {};
+                    if (newValue.props && typeof newValue.props === 'string') {
+                        try {
+                            props = JSON.parse(decodeURIComponent(newValue.props));
+                        } catch (exc) {
+                            console.error(exc);
+                        }
+                    }
+                    this.importHref(uri, function(e) {
+                        // e.target.import is the import document.
+                        var element = document.createElement(newValue.view);
+                        if (props) {
+                            Object.keys(props).forEach(function(key) {
+                                element[key] = props[key];
+                                element.setAttribute(key, props[key]);
+                            });
+                        }
+                        var containerComponent = Polymer.dom(component.$.container);
+                        while (containerComponent.firstChild) {
+                            containerComponent.removeChild(containerComponent.firstChild);
+                        }
+                        containerComponent.appendChild(element);
+
+                    }, function(e) {
+                        // loading error
+                        console.error("err import", e);
+                    });
+                }
+            }
+        });
+    </script>
+
+
+</dom-module>
