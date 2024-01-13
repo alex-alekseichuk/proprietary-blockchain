@@ -1,0 +1,35 @@
+[i18n]
+localesPath = "locales"
+
+[core]
+dirConfig = 'config'
+dirPlugins = 'plugins'
+dirLog = 'log'
+dirConfigLicenses = 'config/licenses'
+dirConfigData = 'config/data'
+dirConfigDocs = 'config/docs'
+dirConfigServer = 'config/server'
+dirConfigPlugins = 'config/plugins'
+
+[license]
+fileName = 'ng-rt-core.lic'
+filePath = 'config/licenses'
+
+[argv]
+fileName = 'argv.toml'
+filePath = 'config/server'
+
+[config]
+fileName = 'config.json'
+filePath = 'config/server'
+
+[logger]
+fileName = 'log4js.json'
+filePath = 'config/server'
+
+[s3-buckets]
+development = 'ng-rt-development'
+consolidation = 'ng-rt-consolidation'
+production = 'ng-rt-production'
+public-production = 'ng-rt-public-production'
+wip = 'ng-rt-wip'

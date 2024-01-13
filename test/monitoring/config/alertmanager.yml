@@ -1,0 +1,24 @@
+route:
+  group_by: ['instance', 'severity']
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 3h
+  routes:
+  - match:
+      alertname: InstanceDown
+  receiver: pushover
+
+receivers:
+- name: slack
+  slack_configs:
+  - api_url: 'https://hooks.slack.com/services/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'
+    channel: "#project"
+    text: "summary: {{ .CommonAnnotations.summary }}\ndescription: {{ .CommonAnnotations.description }}"
+- name: pushover
+  pushover_configs:
+  - user_key: <TOKEN>
+    token: <TOKEN>
+    message: "summary: {{ .CommonAnnotations.summary }}\ndescription: {{ .CommonAnnotations.description }}"
+
+
+

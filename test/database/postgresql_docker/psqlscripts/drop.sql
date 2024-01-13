@@ -1,0 +1,1 @@
+drop database core; drop database auth; drop database app; drop database red; drop database ng_rt_logs

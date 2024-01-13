@@ -1,0 +1,59 @@
+{
+  "appenders": {
+    "app": {
+      "type": "dateFile",
+      "filename": "log/app.log",
+      "pattern": ".yyyy-MM-dd-hh",
+      "daysToKeep" : 10,
+      "compress": true
+    },
+    "console": {
+      "type": "console"
+    },
+    "errorFile": {
+      "type": "file",
+      "filename": "log/error.log",
+      "maxLogSize": 10485760,
+      "numBackups": 5,
+      "compress": true
+    },
+    "errors": {
+      "type": "logLevelFilter",
+      "level": "ERROR",
+      "appender": "errorFile"
+    },
+    "warnFile": {
+      "type": "file",
+      "filename": "log/warn.log",
+      "maxLogSize": 10485760,
+      "numBackups": 5,
+      "compress": true
+    },
+    "warnings": {
+      "type": "logLevelFilter",
+      "level": "WARN",
+      "appender": "warnFile"
+    },
+    "loopbackAppender": {
+      "type": "server/backend/appenders/loopbackAppender"
+    }
+  },
+  "categories": {
+    "default": { "appenders": [ "app", "console" , "errors",  "warnings", "loopbackAppender"], "level": "debug"}
+  },
+  "client": {
+    "prefix": "C/",
+    "level": "all",
+    "appenders": [
+      {
+        "type": "browser-console"
+      },
+      {
+        "type": "ajax",
+        "url": "/ng-rt-core/log",
+        "threshold": 5,
+        "timeout": 2000
+      }
+    ]
+  }
+}

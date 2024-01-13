@@ -1,0 +1,78 @@
+{
+  "name": "emailSend",
+  "base": "aclParent",
+  "options": {
+    "idInjection": true
+  },
+  "properties": {
+    "emails": {
+      "type": "string",
+      "required": true
+    },
+    "subject": {
+      "type": "string"
+    },
+    "body": {
+      "type": "string"
+    },
+    "payload": {
+      "type": "Object",
+      "hana": {
+        "columnName": "payload",
+        "dataType": "clob"
+      }
+    },
+    "template": {
+      "type": "string"
+    },
+    "sended": {
+      "type": "boolean"
+    },
+    "date": {
+      "type": "date"
+    },
+    "error": {
+      "type": "Object",
+      "hana": {
+        "columnName": "error",
+        "dataType": "nvarchar",
+        "dataLength": 5000,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "YES"
+      }
+    },
+    "failed": {
+      "type": "boolean"
+    },
+    "seen": {
+      "type": "Object",
+      "hana": {
+        "columnName": "seen",
+        "dataType": "nvarchar",
+        "dataLength": 5000,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "YES"
+      }
+    },
+    "result": {
+      "type": "Object",
+      "hana": {
+        "columnName": "result",
+        "dataType": "nvarchar",
+        "dataLength": 5000,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "YES"
+      }
+    },
+    "resendEmailId": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

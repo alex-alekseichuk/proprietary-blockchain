@@ -1,0 +1,30 @@
+{
+  "appenders": {
+    "console": {
+      "type": "console"
+    }
+  },
+  "categories": {
+    "default": {
+      "appenders": [
+        "console"
+      ],
+      "level": "debug"
+    }
+  },
+  "client": {
+    "prefix": "C/",
+    "level": "all",
+    "appenders": [
+      {
+        "type": "browser-console"
+      },
+      {
+        "type": "ajax",
+        "url": "/ng-rt-core/log",
+        "threshold": 5,
+        "timeout": 2000
+      }
+    ]
+  }
+}

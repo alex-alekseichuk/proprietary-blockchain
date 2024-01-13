@@ -1,0 +1,104 @@
+{
+  "_meta": {
+    "sources": [
+      "../common/models",
+      "../common/models/designtime",
+      "../common/models/runtime"
+    ],
+    "mixins": [
+      "../server/mixins",
+      "../node_modules/loopback-changes-history-mixin"
+    ]
+  },
+  "Email": {
+    "dataSource": "Email"
+  },
+  "User": {
+    "dataSource": "ng_rt",
+    "public": true
+  },
+  "AccessToken": {
+    "dataSource": "ng_rt",
+    "public": true
+  },
+  "user": {
+    "dataSource": "ng_rt",
+    "public": true
+  },
+  "accessToken": {
+    "dataSource": "ng_rt",
+    "public": true
+  },
+  "ACL": {
+    "dataSource": "ng_rt",
+    "public": true
+  },
+  "RoleMapping": {
+    "dataSource": "ng_rt",
+    "public": true
+  },
+  "Role": {
+    "dataSource": "ng_rt",
+    "public": true
+  },
+  "Access": {
+    "dataSource": "ng_rt",
+    "public": true
+  },
+  "dataSource": {
+    "dataSource": "ng_rt",
+    "public": true
+  },
+  "dataSourceRouting": {
+    "dataSource": "ng_rt",
+    "public": true
+  },
+  "dataDictionary": {
+    "dataSource": "ng_rt",
+    "public": true
+  },
+  "timestampDataModel": {
+    "dataSource": "ng_rt",
+    "public": false
+  },
+  "commonDataModel": {
+    "dataSource": "ng_rt",
+    "public": false
+  },
+  "domainDataModel": {
+    "dataSource": "ng_rt",
+    "public": false
+  },
+  "route": {
+    "dataSource": "ng_rt",
+    "public": true
+  },
+  "plugin": {
+    "dataSource": "ng_rt",
+    "public": true
+  },
+  "emailSend": {
+    "dataSource": "ng_rt",
+    "public": false
+  },
+  "emailTemplate": {
+    "dataSource": "ng_rt",
+    "public": false
+  },
+  "keypair": {
+    "dataSource": "ng_rt",
+    "public": false
+  },
+  "userSSH": {
+    "dataSource": "ng_rt",
+    "public": true
+  },
+  "log": {
+    "dataSource": "ng_rt",
+    "public": true
+  },
+  "config": {
+    "dataSource": "ng_rt",
+    "public": false
+  }
+}

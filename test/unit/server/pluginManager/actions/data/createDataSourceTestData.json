@@ -1,0 +1,11 @@
+{
+  "name": "TEST_DATASOURCE_NAME",
+  "host": "TEST_MONGODB_HOST",
+  "port": "TEST_MONGODB_PORT",
+  "url": "mongodb://TEST_MONGODB_HOST:TEST_MONGODB_PORT/TEST_SERVER_ENVIRONMENT-TEST_BLOCKCHAIN_CLUSTER_ID-TEST_CLUSTER_ID-TEST_INSTANSE_ID-TEST_TENANT_ID-test",
+  "database": "TEST_DATABASE",
+  "username": "TEST_USERNAME",
+  "password": "TEST_PASSWORD",
+  "connector": "TEST_CONNECTOR",
+  "debug": false
+}

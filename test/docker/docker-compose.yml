@@ -1,0 +1,85 @@
+version: '3.3'
+
+services:
+  mongodb:
+    image: mongo:3.6
+    ports:
+      - "27017:27017"
+    command: mongod
+  mongodb_tbsp:
+    image: mongo:4.0
+  # Persistence
+  #  volumes:
+  #    - ./mongodb/db:/data/db
+  #    - ./mongodb/configdb:/data/configdb 
+    ports:
+      - "37017:27017"
+    command: mongod
+  rabbitmq:
+    image: rabbitmq:3.6.10-management
+    ports:
+      - "5172:5172"
+      - "15672:15672"
+  tendermint:
+    image: tendermint/tendermint:0.22.8
+  # Persistence
+  #  volumes:
+  #    - ./tmdata:/tendermint
+    entrypoint: ''
+    ports:
+      - "26656:26656"
+      - "26657:26657"
+    command: sh -c "tendermint init && tendermint node --consensus.create_empty_blocks=false --proxy_app=tcp://bigchaindb:26658"
+  bigchaindb:
+  #  image: bigchaindb/bigchaindb:2.0.0-beta7
+    image: registry.project.com/docker/ng-docker-bigchaindb:V2.0_development
+    environment:
+      BIGCHAINDB_DATABASE_BACKEND: localmongodb
+      BIGCHAINDB_DATABASE_HOST: mongodb
+      BIGCHAINDB_DATABASE_PORT: 27017
+      BIGCHAINDB_SERVER_BIND: 0.0.0.0:9984
+      BIGCHAINDB_WSSERVER_HOST: 0.0.0.0
+      BIGCHAINDB_WSSERVER_ADVERTISED_HOST: bigchaindb
+      BIGCHAINDB_TENDERMINT_HOST: tendermint
+      BIGCHAINDB_TENDERMINT_PORT: 26657
+  # PROJECT parameter
+      CONSENSUS_PLUGIN: projectconsensus
+      CONSENSUS_HOST: 172.17.0.1 
+      CONSENSUS_PORT: 8443
+  # Rabbit MQ connection from Bigchaindb to TBSP
+      RABBITMQ_HOST: 172.17.0.1
+      RABBITMQ_PORT: 5172
+      RABBITMQ_QUEUE_1: bigchaindb
+    ports:
+      - "9984:9984"
+      - "9985:9985"
+      - "26658"
+    healthcheck:
+      test: ["CMD", "bash", "-c", "curl http://bigchaindb:9984 && curl http://tendermint:26657/abci_query"]
+      interval: 3s
+      timeout: 5s
+      retries: 3
+  project:
+    depends_on:
+      - mongodb
+      - mongodb_tbsp
+      - tendermint
+      - rabbitmq
+  # Persistence
+    volumes:
+    #- ./ng-rt/plugins:/tmp/ng-rt/plugins 
+      - ./ng-rt/config:/tmp/ng-rt/config
+    image: registry.project.com/project/ng-rt-core:V2.0_develop
+    ports:
+      - "8443:8443"
+      - "8444:8444"
+      - "26658:26658"
+    #Healthcheck:
+    #  test: ["CMD", "bash", "-c", "curl http://tendermint:26657/abci_query"]
+    #  interval: 3s
+    #  timeout: 5s
+    #  retries: 3
+    environment:
+      BUILD_ID: 'D'
+    command: 'node cli.js run --loglevel=TRACE --skipAllConnectivityTests'
+

@@ -1,0 +1,6 @@
+{
+ "version": "3.2",
+ "buildDateTime": "{buildDateTime}",
+ "build_number": "{build_number}",
+ "pluginS3UrlTemplate": "${CORE_VERSION}/latest/${FILE_NAME}"
+}

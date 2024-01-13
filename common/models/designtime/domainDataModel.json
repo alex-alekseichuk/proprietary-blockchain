@@ -1,0 +1,24 @@
+{
+  "name": "domainDataModel",
+  "base": "commonDataModel",
+  "strict": "validate",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "domainId": {
+      "type": "string"
+    },
+    "subDomainId": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {},
+  "mixins": {
+    "Domain": true
+  }
+}

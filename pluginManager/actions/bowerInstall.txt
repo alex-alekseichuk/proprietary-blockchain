@@ -1,0 +1,47 @@
+'use strict';
+var logger = require('log4js').getLogger('action.bower_install');
+var path = require('path');
+
+const actionName = "BOWER_INSTALL";
+module.exports = function(actions, configService) {
+  /**
+   * run action install bower modules
+   * @param {object} pluginInstance instance of plugin
+   * @param {object} parameters parameters for action
+   * @param {object} server instance of applciation
+   * @param {EventEmitter} eventEmitter plugin manager events emitter
+   * @return {Promise} resolve on action completed
+   */
+  const action = (pluginInstance, parameters, server, eventEmitter) => {
+    return new Promise((resolve, reject) => {
+      logger.debug('install bower', pluginInstance.name, parameters);
+      var bower = require("bower");
+      if (!parameters.packets) {
+        logger.debug('reject by parameters');
+        reject('no packets_name');
+        return;
+      }
+
+      var bowerPath = path.resolve(pluginInstance.path.absolute, 'ui', 'bower_components');
+      logger.debug('run bower install', parameters.packets, bowerPath);
+      bower.config.cwd = bowerPath;
+      bower.config.directory = bowerPath;
+      bower.commands
+      .install(parameters.packets, {}, {cwd: bowerPath, directory: bowerPath})
+      .on('end', function(data) {
+        logger.trace(data);
+        resolve(data);
+      }).on('error ', function(err) {
+        logger.error(err);
+        reject(err);
+      }).on('log', log => {
+        // logger.debug(log);
+        if (eventEmitter) eventEmitter.emit("status", log.message);
+      });
+    });
+  };
+  actions[actionName] = {
+    callback: action,
+    mutateContainer: true
+  };
+};

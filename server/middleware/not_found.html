@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Project - 404</title>
+</head>
+
+<body>
+
+    <style>
+        body {
+            padding: 0px;
+            margin: 0;
+            text-rendering: geometricPrecision;
+            background: #efefef;
+            font-weight: 400;
+            font-family: Roboto, sans-serif;
+            color: #3c4244;
+        }
+        
+        .topside {
+            width: 100%;
+            float: left;
+            background: white;
+            padding: 150px 0px 50px 0px;
+            position: relative;
+        }
+        
+        .botside {
+            width: 100%;
+            height: 100%;
+            float: left;
+            padding: 50px 0px;
+        }
+        
+        h1 {
+            font-size: 80px;
+            margin: 0;
+        }
+        
+        h2 {
+            font-size: 30px;
+            font-weight: 300;
+            margin: 10px 0 50px 0;
+        }
+        
+        span {
+            font-size: 24px;
+            color: #8f8f8f;
+        }
+        
+        .button {
+            background: #2166ab;
+            border-radius: 3px;
+            float: left;
+            padding: 20px 30px;
+            color: white;
+            font-size: 20px;
+            text-decoration: none;
+        }
+        
+        .leftside {
+            width: 400px;
+            float: left;
+        }
+        
+        .rightside {
+            float: right;
+            width: 200px;
+            height: 200px;
+            background: url("/img/404.png") no-repeat right top;
+            background-size: auto 100%;
+        }
+        
+        @media only screen and (max-width: 700px) {
+            .topside {
+                padding-top: 50px;
+                height: 200px;
+            }
+            .rightside {
+                width: 100px;
+                height: 100px;
+            }
+            .leftside {
+                width: 300px;
+            }
+            h1 {
+                font-size: 50px;
+                margin: 0;
+            }
+            h2 {
+                font-size: 20px;
+                font-weight: 300;
+                margin: 10px 0 50px 0;
+            }
+        }
+        
+        .content {
+            display: block;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 0 50px;
+            min-width: 400px;
+        }
+    </style>
+
+    <div class="topside">
+        <div class="content">
+            <div class="leftside">
+                <h1>Ouch!</h1>
+                <h2>We can't find the page you're looking for.</h2>
+
+                <span>Error code: 404</span>
+            </div>
+            <div class="rightside">
+
+
+            </div>
+        </div>
+    </div>
+    <div class="botside">
+        <div class="content">
+            <a href="/" class="button">BACK TO HOME PAGE</a>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

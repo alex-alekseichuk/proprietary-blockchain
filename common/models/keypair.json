@@ -1,0 +1,23 @@
+{
+  "name": "keypair",
+  "base": "aclParent",
+  "idInjection": true,
+  "properties": {
+    "pubkey": {
+      "type": "string"
+    },
+    "prvkey": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "user": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "userId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

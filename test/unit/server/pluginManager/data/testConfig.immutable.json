@@ -1,0 +1,24 @@
+{
+    "datasources": {
+      "mongoDB": {
+        "host": "TEST_MONGODB_HOST",
+        "port": "TEST_MONGODB_PORT"
+      }
+    },
+    "serverEnvironment": "TEST_SERVER_ENVIRONMENT",
+    "blockchainClusterId": "TEST_BLOCKCHAIN_CLUSTER_ID",
+    "clusterId": "TEST_CLUSTER_ID",
+    "instanceId": "TEST_INSTANSE_ID",
+    "tenantId": "TEST_TENANT_ID",
+    "containerStatus": {
+      "immutable": true,
+      "status": "locked",
+      "pluginManagerUploadCLI": false,
+      "pluginManagerUploadUI": false
+    },
+    "bootstrappingPlugins": [],
+    "plugins": [{
+      "name": "TEST_PLUGIN_NAME"
+    }],
+    "namespace": "ng-rt-core"
+  }

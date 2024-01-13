@@ -1,0 +1,34 @@
+{
+  "name": "log",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "level": {
+      "type": "number"
+    },
+    "levelStr": {
+      "type": "string"
+    },
+    "categoryName": {
+      "type": "string"
+    },
+    "data": [{
+      "type": "string"
+    }],
+    "startTime": {
+      "type": "date"
+    },
+    "clientId": {
+      "type": "string"
+    },
+    "sessionId": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

@@ -1,0 +1,4 @@
+include:
+  - project: 'shared/configuration-packages'
+    file: 'template-core-v3.2.yml'
+

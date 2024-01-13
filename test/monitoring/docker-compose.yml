@@ -1,0 +1,44 @@
+version: "3"
+services:
+
+  prom:
+    image: quay.io/prometheus/prometheus:v2.0.0
+    volumes:
+    # - ./config:/prometheus
+    # - ./data/prometheus:/data
+     - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+     - ./config/alert.rules:/etc/prometheus/alert.rules
+     - ./config/system.rules:/etc/prometheus/system.rules
+    command: 
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    ports:
+     - 9090:9090
+    depends_on:
+     - exporter
+
+  alertmanager:
+    image: prom/alertmanager:v0.17.0
+    volumes:
+      - ./config/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+    restart: always
+    command:
+      - '--config.file=/etc/alertmanager/alertmanager.yml'
+      - '--storage.path=/alertmanager'
+    ports:
+      - 9093:9093
+
+  exporter:
+    image: prom/node-exporter:latest
+    ports:
+     - "9100:9100"
+#    network_mode: host
+
+  grafana:
+    image: grafana/grafana:6.2.5
+    ports:
+     - "3000:3000"
+    volumes:
+     - ./grafana/provisioning/:/etc/grafana/provisioning/
+    depends_on:
+      - prom

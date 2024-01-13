@@ -1,0 +1,52 @@
+{
+  "name": "dataSource",
+  "base": "aclParent",
+  "strict": false,
+  "options": {
+    "idInjection": true,
+    "validateUpsert": true
+  },
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "useDefaultConnection": {
+      "type": "boolean"
+    },
+    "useConnectorValues": {
+      "type": "boolean"
+    },
+    "connector": {
+      "type": "string"
+    },
+    "host": {
+      "type": "string"
+    },
+    "port": {
+      "type": "number"
+    },
+    "url": {
+      "type": "string"
+    },
+    "database": {
+      "type": "string"
+    },
+    "username": {
+      "type": "string"
+    },
+    "password": {
+      "type": "string"
+    },
+    "debug": {
+      "type": "boolean"
+    },
+    "createDatabase": {
+      "type": "boolean"
+    }
+  },
+  "validations": [],
+  "relations": {
+  },
+  "acls": [],
+  "methods": {}
+}

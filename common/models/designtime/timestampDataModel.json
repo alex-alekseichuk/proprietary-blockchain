@@ -1,0 +1,24 @@
+{
+  "name": "timestampDataModel",
+  "base": "aclParent",
+  "strict": "validate",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "createdOn": {
+      "type": "Date"
+    },
+    "modifiedOn": {
+      "type": "Date"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {},
+  "mixins": {
+    "Timestamp": true
+  }
+}

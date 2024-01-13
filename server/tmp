@@ -1,0 +1,365 @@
+/**
+ * HTTP service implemented as a loopback application
+ */
+'use strict';
+const log4js = require('log4js');
+const logger = log4js.getLogger('httpService');
+const path = require('path');
+const { promisify } = require('util');
+const loopback = require('loopback');
+const boot = promisify(require('loopback-boot'));
+const joi = require('joi');
+const boom = require('boom');
+const extend = require('extend');
+
+const factory = async (utils, configService, i18n) => {
+  // Application flow
+  const app = loopback();
+
+  // log connect actions
+  if (configService.get('debug:app-use-connectLogger')) {
+    app.use(log4js.connectLogger(logger, {
+      level: 'auto'
+    }));
+  }
+
+  if (!i18n) {
+    i18n = require('i18n');
+    // initialze multilingual support for server side string translation
+    var localFolder = path.resolve(__dirname, "../../locales");
+
+    i18n.configure({
+      locales: ['en', 'de', 'ru'],
+      directory: localFolder,
+      defaultLocale: 'en',
+      register: global
+    });
+  }
+
+  logger.info(i18n.__('0006 : Starting Next generation Server %s %s'), utils.getVersion(), process.env.BUILD_NUMBER);
+  logger.info(i18n.__('0006 : Starting Next generation Server %s'), utils.getCopyright());
+
+  // parse cookies of http requests
+  const cookieParser = require('cookie-parser');
+  app.use(cookieParser("secret", { path: "/" }));
+
+  // body-parser is a piece of express middleware that
+  // reads a form's input and stores it as a javascript
+  // object accessible through `req.body`....
+  const bodyParser = require('body-parser');
+  app.set('json spaces', 2); // format json responses for easier viewing
+
+  app.validate = function(schema, options) {
+
+    var postContainerStatusSchema = {
+      body: {
+        immutable: joi.boolean().required(),
+        state: joi.string().required(),
+        pluginManagerUploadUI: joi.boolean().required(),
+        pluginManagerUploadCLI: joi.boolean().required()
+      }
+    };
+    return function validateRequest(req, res, next) {
+      logger.debug(req.url);
+      logger.debug(req.method);
+
+      var toValidate = {};
+
+      // temp
+      schema = postContainerStatusSchema;
+
+      /* istanbul ignore if */
+      if (!schema) {
+        return next();
+      }
+
+      ['params', 'body', 'query'].forEach(function (key) {
+        if (schema[key]) {
+          toValidate[key] = req[key];
+        }
+      });
+
+      return joi.validate(toValidate, schema, options, onValidationComplete);
+
+      function onValidationComplete(err, validated) {
+        if (err) {
+          return next(boom.badRequest(err.message, err.details));
+        }
+
+        // copy the validated data to the req object
+        extend(req, validated);
+
+        return next();
+      }
+    }
+  };
+
+  app.ensureLoggedIn = function () {
+    return function (req, res, next) {
+      var services = app.plugin_manager.services;
+      var authService = services.get('auth-check.service');
+      if (authService)
+        return authService.ensureAccessToken(req, res, next);
+      next();
+    };
+  };
+
+  app.checkUserLogin = function () {
+    var ensureLoggedIn = app.ensureLoggedIn();
+    return function (req, res, next) {
+      ensureLoggedIn.call(this, req, res, function () {
+        // if there is no user id in request
+        if (!req.user || !req.user.id) {
+          req.user = {};
+        }
+        next();
+      });
+    };
+  };
+
+  // Middleware does all things of ensureLoggedIn + loads current user to req.user
+  app.ensureLoggedUser = function () {
+    var ensureLoggedIn = app.ensureLoggedIn();
+    return function (req, res, next) {
+      ensureLoggedIn.call(this, req, res, function () {
+        // if there is no user id in request
+        if (!req.user || !req.user.id) {
+          return res.status(404).json({
+            message: 'User record not found.'
+          });
+        }
+
+        app.models.user.findById(req.user.id).then(user => {
+          // if there is no user with such id
+          if (!user)
+            return res.status(404).json({
+              message: 'User record not found.'
+            });
+
+          // user found
+          req.userInfo = req.user;
+          req.user = user;
+          next();
+        });
+      });
+    };
+  };
+
+  app.ensureUserRoles = function (roles) {
+    var ensureLoggedUser = app.ensureLoggedIn();
+    return (req, res, next) => {
+      ensureLoggedUser.call(this, req, res, () => {
+        var access = false;
+        if (req.user.roles && req.user.roles.length > 0) {
+          roles.forEach(role => {
+            if (req.user.roles.some(r => {
+              return r == role;
+            })) {
+              access = true;
+            }
+          });
+        }
+        if (!access)
+          return res.status(401).json({
+            message: 'Access denied by role permissions'
+          });
+        next();
+      });
+    };
+  };
+
+  const _ensureHasAccess401 = (res, accessName) => {
+    res.status(401).json({
+      message: `Access denied by role permissions, don't have '${accessName}' access`
+    });
+  };
+  app.ensureHasAccess = accessName => {
+    const { Access, RoleMapping, Role } = app.models;
+    var ensureLoggedUser = app.ensureLoggedIn();
+    return (req, res, next) => {
+      ensureLoggedUser.call(this, req, res, () => {
+        const userRoles = req.user.roles;
+        if (!userRoles || userRoles.length == 0)
+          return _ensureHasAccess401(res, accessName);
+        Access.findOne({ where: { name: accessName } })
+          .then(access => RoleMapping.find({ where: { principalId: access.id, principalType: 'ACCESS' } }))
+          .then(mappings => Role.find({ where: { id: { inq: mappings.map(m => m.roleId) } } }))
+          .then(roles => {
+            if (roles.find(role => userRoles.indexOf(role.name) !== -1)) {
+              next();
+            } else {
+              _ensureHasAccess401(res, accessName);
+            }
+          })
+          .catch(() => _ensureHasAccess401(res, accessName));
+      });
+    };
+  };
+
+  app.ensureApplication = function (application) {
+    return (req, res, next) => {
+      let services = app.plugin_manager.services;
+      let authService = services.get('auth-check.service');
+      return authService.ensureApplicationToken(application, req, res, next);
+    };
+  };
+
+  app.ensureApplicationByRoles = function (application, roles) {
+    let ensureApplication = app.ensureApplication(application);
+    return (req, res, next) => {
+      ensureApplication.call(this, req, res, () => {
+        var access = false;
+        if (req.user.roles && req.user.roles.length > 0) {
+          roles.forEach(role => {
+            if (req.user.roles.some(r => {
+              return r == role;
+            })) {
+              access = true;
+            }
+          });
+        }
+        if (!access)
+          return res.status(401).json({
+            message: 'Access denied by role permissions'
+          });
+        next();
+      });
+    };
+  };
+
+  await boot(app, __dirname);
+
+  // to support JSON-encoded bodies
+  app.middleware('parse', bodyParser.json({ limit: '1000mb' }));
+  // to support URL-encoded bodies
+  app.middleware('parse', bodyParser.raw({ limit: '1000mb' }));
+  app.middleware('parse', bodyParser.urlencoded({
+    limit: '1000mb',
+    extended: false
+  }));
+  app.middleware('parse', bodyParser.raw({ limit: '4096mb' }));
+
+  app.get('/explorer', app.ensureLoggedIn(), function (req, res, next) {
+    res.sendFile('index.html', {
+      root: path.join(__dirname, '../client/')
+    });
+  });
+
+  app.post('/users/password/new', app.ensureLoggedIn(), function (req, res, next) {
+    res.sendFile('index.html', {
+      root: path.join(__dirname, '../client/')
+    });
+    app.models.user.resetPassword({
+      email: req.body.email.toLowerCase()
+    }, function () {
+      logger.trace(i18n.__('0017 : ready to change password'));
+    });
+  });
+
+  // -- Mount static files here--
+  // All static middleware should be registered at the end, as all requests
+  // passing the static middleware are hitting the file system
+
+  app.use('/utils', loopback.static(path.resolve(__dirname, '../utils')));
+  app.use('/img', loopback.static(path.resolve(__dirname, '../server/middleware/img')));
+
+  async function _listenHttp() {
+    return new Promise(resolve => {
+      const httpServer = app.listen(() => {
+        resolve(httpServer);
+      });
+    });
+  }
+
+  async function _listenHttps() {
+    var sslConfig = require('./ssl-config');
+
+    const httpServer = require('https').createServer({
+      key: sslConfig.privateKey,
+      cert: sslConfig.certificate
+    }, app);
+
+    httpServer.on('listening', function () {
+      app.set('port', this.address().port);
+
+      let listeningOnAll = false;
+      let host = app.get('host');
+      if (!host) {
+        listeningOnAll = true;
+        host = this.address().address;
+        app.set('host', host);
+      } else if (host === '0.0.0.0' || host === '::') {
+        listeningOnAll = true;
+      }
+
+      if (!app.get('url')) {
+        if (process.platform === 'win32' && listeningOnAll) {
+          // Windows browsers don't support `0.0.0.0` host in the URL
+          // We are replacing it with localhost to build a URL
+          // that can be copied and pasted into the browser.
+          host = 'localhost';
+        }
+        var url = (configService.get('https') ? 'https' : 'http') + '://' + host + ':' + app.get('port') + '/';
+        app.set('url', url);
+      }
+    });
+
+    return new Promise(resolve => {
+      httpServer.listen(app.get('port'), app.get('host'), () => {
+        resolve(httpServer);
+      });
+    });
+  }
+
+  app.serve = async () => {
+    // const isHttps = configService.get('https');
+
+    const httpServer = configService.get('https')
+      ? _listenHttps()
+      : await _listenHttp();
+
+    httpServer.on('error', err => {
+      logger.trace(err);
+      if (err.code === 'EADDRINUSE') {
+        logger.error('Port %s already in use', app.get('port'));
+        process.exit(2);
+      }
+    });
+
+    return httpServer;
+  };
+
+  // return httpServices.listen();
+  // return httpServices;
+  return {
+    loopbackApp: app
+  };
+};
+
+module.exports = factory;
+factory.__dependencies = ['utils', 'configService', 'i18n'];
+factory.__components = [
+  /**
+   * API/Service/loopbackApp
+   * api for this service provided with third parity software
+   * for the api documentation please look to `http://loopback.io/`
+   * @module API/Service/loopbackApp
+   * @type {object}
+   */
+  {
+    name: 'loopbackApp',
+    direct: true
+  }
+
+  /**
+   * API/Service/httpServer
+   * api for this service provided with third parity software
+   * for the api documentation please look to `https://nodejs.org/api/http.html#http_class_http_server`
+   * @module API/Service/httpServer
+   * @type {object}
+   */
+  // {
+  //   name: 'httpServer',
+  //   direct: true
+  // }
+];

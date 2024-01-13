@@ -1,0 +1,34 @@
+{
+  "name": "commonDataModel",
+  "base": "timestampDataModel",
+  "strict": "validate",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "uuid": {
+      "type": "string",
+      "uuid": true
+    },
+     "recordType": {
+      "type": "string"
+    },
+    "recordStatus": {
+      "type": "string"
+    },
+    "createdBy": {
+      "type": "string"
+    },
+    "modifiedBy": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {},
+  "mixins": {
+    "RecordObserver": true
+  }
+}

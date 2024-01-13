@@ -1,0 +1,13 @@
+apps:
+  - name : ng-rt-core
+    script : cli.js
+    instances: 1
+    no-daemon: true
+    watch  : false
+    autorestart : true
+    args   : run
+    node_args : --expose-gc --inspect=0.0.0.0:9929
+    env    :
+      NODE_ENV: development
+    env_production:
+      NODE_ENV: production

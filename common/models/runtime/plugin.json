@@ -1,0 +1,120 @@
+{
+  "name": "plugin",
+  "base": "aclParent",
+  "options": {
+    "idInjection": true,
+    "validateUpsert": true
+  },
+  "properties": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "version": {
+      "type": "string",
+      "required": true
+    },
+    "installed": {
+      "type": "date",
+      "required": true
+    },
+    "active": {
+      "type": "boolean",
+      "default": false
+    },
+    "type": {
+      "type": "string",
+      "default": "optional",
+      "required": true
+    },
+    "htmlHelpFile": {
+      "type": "string",
+      "default": "*none",
+      "required": true
+    },
+    "source": {
+      "type": "string",
+      "default": false
+    },
+    "licenseState": {
+      "type": "string",
+      "default": 0
+    },
+    "installMessages": {
+      "type": [
+        "String"
+      ],
+      "hana": {
+        "columnName": "installMessages",
+        "dataType": "nvarchar",
+        "dataLength": 2048
+      }
+    },
+    "uninstallMessages": {
+      "type": [
+        "String"
+      ],
+      "hana": {
+        "columnName": "uninstallMessages",
+        "dataType": "nvarchar",
+        "dataLength": 2048
+      }
+    },
+    "activateMessages": {
+      "type": [
+        "String"
+      ],
+      "hana": {
+        "columnName": "activateMessages",
+        "dataType": "nvarchar",
+        "dataLength": 2048
+      }
+    },
+    "deactivateMessages": {
+      "type": [
+        "String"
+      ],
+      "hana": {
+        "columnName": "deactivateMessages",
+        "dataType": "nvarchar",
+        "dataLength": 2048
+      }
+    },
+    "smokeTestMessages": {
+      "type": [
+        "String"
+      ],
+      "hana": {
+        "columnName": "smokeTestMessages",
+        "dataType": "nvarchar",
+        "dataLength": 2048
+      }
+    },
+    "activated": {
+      "type": "boolean",
+      "default": false
+    },
+    "activatedDate": {
+      "type": "date"
+    },
+    "storage": {
+      "type": "string",
+      "default": "main"
+    },
+    "asApp": {
+      "type": "boolean",
+      "default": false
+    },
+    "asSubscription": {
+      "type": "boolean",
+      "default": false
+    },
+    "order": {
+      "type": "number"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

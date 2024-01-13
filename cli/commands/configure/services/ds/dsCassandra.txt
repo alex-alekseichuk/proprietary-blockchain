@@ -1,0 +1,139 @@
+'use strict';
+
+const fs = require('fs');
+const path = require('path');
+const logger = require('log4js').getLogger('commands.services.dsCassandra');
+const server = "../../../../../server";
+
+module.exports = configService => {
+  logger.debug('executing configService');
+
+  const getDatabaseName = (name, isJWT) => {
+    return configService.get('serverEnvironment') +
+      '_' + configService.get('blockchainClusterId') +
+      '_' + configService.get(isJWT ? 'jwtAuthClusterId' : 'clusterId') +
+      '_' + configService.get(isJWT ? 'jwtAuthInstanceId' : 'instanceId') +
+      '_' + configService.get(isJWT ? 'jwtAuthTenantId' : 'tenantId') +
+      '_' + name;
+  };
+
+  const createUrl = (name, isJWT) => {
+    return 'postgres://' + configService.get('datasources:default:host') + ':' + configService.get('datasources:default:port') +
+      '/' + getDatabaseName(name, isJWT);
+  };
+
+  const createDS_ng_app = () => {
+    var ds = {
+      url: createUrl('ng_app'),
+      database: getDatabaseName('ng_app'),
+      password: 'admin',
+      name: 'ng_app',
+      connector: configService.get('datasources:default:connector'),
+      user: 'admin',
+      connectionTimeout: 50000
+    };
+    return ds;
+  };
+
+  const createDS_ng_rt = () => {
+    var ds = {
+      url: createUrl('ng_rt'),
+      database: getDatabaseName('ng_rt'),
+      password: 'admin',
+      name: 'ng_rt',
+      connector: configService.get('datasources:default:connector'),
+      user: 'admin',
+      connectionTimeout: 50000
+    };
+    return ds;
+  };
+
+  const createDS_ng_rt_node_red = () => {
+    var ds = {
+      url: createUrl('ng_rt_node_red'),
+      database: getDatabaseName('ng_rt_node_red'),
+      password: 'admin',
+      name: 'ng_rt_node_red',
+      connector: configService.get('datasources:default:connector'),
+      user: 'admin',
+      connectionTimeout: 50000
+    };
+    return ds;
+  };
+
+  const createDS_db = () => {
+    var ds = {
+      name: "db",
+      connector: "memory"
+    };
+    return ds;
+  };
+
+  const createDS_mail = () => {
+    var ds = {
+      name: "Email",
+      connector: "mail",
+      transports: [{
+        type: "SMTP",
+        host: configService.get('datasources:email:SMTP:host'),
+        secure: false,
+        port: configService.get('datasources:email:SMTP:port'),
+        auth: {
+          user: configService.get('datasources:email:SMTP:user'),
+          pass: configService.get('datasources:email:SMTP:pass')
+        },
+        tls: {
+          ciphers: "SSLv3"
+        }
+      }]
+    };
+    return ds;
+  };
+  const createDS_ng_rt_jwt_auth = () => {
+    var ds = {
+      url: createUrl('ng_rt_auth', true),
+      database: getDatabaseName('ng_rt_auth', true),
+      password: 'admin',
+      name: 'ng_rt_jwt_auth',
+      connector: configService.get('datasources:default:connector'),
+      user: 'admin',
+      connectionTimeout: 50000
+    };
+    return ds;
+  };
+
+  const createDS_ng_rt_jwt_auth_jwt = () => {
+    var ds = {
+      url: createUrl('ng_rt_auth'),
+      database: getDatabaseName('ng_rt_auth'),
+      password: 'admin',
+      name: 'ng_rt_jwt_auth',
+      connector: configService.get('datasources:default:connector'),
+      user: 'admin',
+      connectionTimeout: 50000
+    }
+    return ds;
+  };
+
+  return new Promise((resolve, reject) => {
+    var datasources = {
+      db: createDS_db(),
+      Email: createDS_mail(),
+      ng_app: createDS_ng_app(),
+      ng_rt: createDS_ng_rt(),
+      ng_rt_node_red: createDS_ng_rt_node_red()
+    };
+
+    // configure special ng_rt_jwt_auth datasource to touch user from another db
+    if (configService.get('serverDeployment') === 'Distributed' && configService.get('serverType') === 'App') {
+      datasources.ng_rt_jwt_auth = createDS_ng_rt_jwt_auth()
+    } else {
+      datasources.ng_rt_jwt_auth = createDS_ng_rt_jwt_auth_jwt()
+    };
+
+    fs.writeFileSync(path.join(__dirname, server, "datasources.json"), JSON.stringify(datasources, null, 2));
+    return resolve(true);
+  });
+
+
+};

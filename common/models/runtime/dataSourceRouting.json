@@ -1,0 +1,24 @@
+{
+  "name": "dataSourceRouting",
+  "base": "aclParent",
+  "strict": false,
+  "options": {
+    "idInjection": true,
+    "validateUpsert": true
+  },
+  "properties": {
+    "datadictname": {
+      "type": "string"
+    },
+    "datasourcename": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {},
+  "mixins": {
+    "DataRouting": true
+  }
+}

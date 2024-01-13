@@ -1,0 +1,120 @@
+{
+  "name": "dataDictionary",
+  "base": "aclParent",
+  "strict": false,
+  "options": {
+    "idInjection": true,
+    "validateUpsert": true
+  },
+  "properties": {
+    "name": {
+      "type": "string",
+      "unique": true
+    },
+    "description": {
+      "type": "string"
+    },
+    "plural": {
+      "type": "string",
+      "unique": true
+    },
+    "base": "string",
+    "strict": {
+      "type": "boolean",
+      "default": false
+    },
+    "public": {
+      "type": "boolean",
+      "default": true
+    },
+    "options": {
+      "type": "Object",
+      "hana": {
+        "columnName": "options",
+        "dataType": "nvarchar",
+        "dataLength": 5000,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "YES"
+      }
+    },
+    "properties": {
+      "type": "Object",
+      "hana": {
+        "columnName": "properties",
+        "dataType": "nvarchar",
+        "dataLength": 5000,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "YES"
+      }
+    },
+    "readonly": {
+      "type": "boolean",
+      "default": false
+    },
+    "idInjection": {
+      "type": "boolean",
+      "default": false
+    },
+    "validateUpsert": {
+      "type": "boolean",
+      "default": false
+    },
+    "validations": {
+      "type": "Object",
+      "hana": {
+        "columnName": "validations",
+        "dataType": "nvarchar",
+        "dataLength": 5000,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "YES"
+      }
+    },
+    "relations": {
+      "type": "Object",
+      "hana": {
+        "columnName": "relations",
+        "dataType": "nvarchar",
+        "dataLength": 5000,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "YES"
+      }
+    },
+    "acls": {
+      "type": "Object",
+      "hana": {
+        "columnName": "acls",
+        "dataType": "nvarchar",
+        "dataLength": 5000,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "YES"
+      }
+    },
+    "methods": {
+      "type": "Object",
+      "hana": {
+        "columnName": "methods",
+        "dataType": "nvarchar",
+        "dataLength": 5000,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "YES"
+      }
+    },
+    "tenant": {
+      "type": "boolean",
+      "default": false
+    },
+    "namespace": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

@@ -1,0 +1,33 @@
+{
+  "name": "emailTemplate",
+  "base": "aclParent",
+  "options": {
+    "idInjection": true
+  },
+  "properties": {
+    "subject": {
+      "type": "string"
+    },
+    "body": {
+      "type": "string",
+      "hana": {
+        "columnName": "body",
+        "dataType": "clob"
+      }
+    },
+    "name": {
+      "type": "string"
+    },
+    "attachments": {
+      "type": "Object",
+      "hana": {
+        "columnName": "attachments",
+        "dataType": "clob"
+      }
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

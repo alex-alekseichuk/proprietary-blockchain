@@ -1,0 +1,31 @@
+## argv variable to be concidered 
+[run]
+skipAllConnectivityTests = true
+skipAllConnectivityTestMongoDB = false
+skipAllConnectivityTestRethinkDB = false
+skipAllConnectivityTestBigchainDB = false
+skipAllConnectivityTestRabbitMQ = false
+loglevel = 'trace' ##process.env.serverLogLevel info, debug, error, trace
+npm = false
+# DEBUG=loopback:connector:hana
+
+[init]
+all = false
+silent = false
+logs = false
+datasources = false
+nodeModules = false
+flows = false
+plugins = false
+customPlugins = false
+database = false
+configFile = false
+
+[test-connectivity]
+skipAllConnectivityTestMongoDB = false
+skipAllConnectivityTestRethinkDB = false
+skipAllConnectivityTestBigchainDB = false
+skipAllConnectivityTestRabbitMQ = false
+
+[configure]
+silent = false

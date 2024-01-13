@@ -1,0 +1,72 @@
+{
+  "initial:before": {
+    "loopback#favicon": {}
+  },
+  "initial": {
+    "compression": {},
+    "./middleware/tracker": {},
+    "./middleware/route_statsd": {},
+    "./middleware/route_prometheus": {},
+    "cors": {
+      "params": {
+        "origin": true,
+        "credentials": true,
+        "maxAge": 86400
+      }
+    },
+    "loopback-context#per-request": {
+      "params": {
+        "enableHttpContext": true
+      }
+    }
+  },
+  "session": {},
+  "auth": {},
+  "parse": {},
+  "routes:before": {
+    "./middleware/wait_mandatory_plugins": {},
+    "loopback-context#per-request": {
+      "paths": [
+        "/api",
+        "/state-machine",
+        "/state-machine-new",
+        "/state-machine-new/action"
+      ],
+      "enabled": true
+    },
+    "./middleware/call_context_setting": {
+      "paths": [
+        "/api",
+        "/state-machine",
+        "/state-machine-new",
+        "/state-machine-new/action"
+      ],
+      "enabled": true
+    } 
+  },
+  "routes": {
+    "loopback#rest": {
+      "paths": [
+        "${restApiRoot}"
+      ]
+    }
+  },
+  "files": {
+    "loopback#static": [
+      {
+        "name": "locales",
+        "paths": [
+          "*/locales"
+        ],
+        "params": "$!../locales/front_end"
+      }
+    ]
+  },
+  "final": {
+    "./middleware/handle_not_found": {}
+  },
+  "final:after": {
+    "./middleware/wait_plugins": {},
+    "./middleware/handle_error": {}
+  }
+}

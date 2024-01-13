@@ -1,0 +1,74 @@
+{
+  "name": "route",
+  "base": "aclParent",
+  "options": {
+    "idInjection": true,
+    "validateUpsert": true
+  },
+  "properties": {
+    "type": {
+      "type": "string",
+      "required": true,
+      "default": "href"
+    },
+    "route": {
+      "type": "string"
+    },
+    "href": {
+      "type": "string"
+    },
+    "icon": {
+      "type": "string"
+    },
+    "caption": {
+      "type": "string"
+    },
+    "roles": {
+      "type": [
+        "string"
+      ]
+    },
+    "parent": {
+      "type": "string"
+    },
+    "module": {
+      "type": "string",
+      "required": true
+    },
+    "profile": {
+      "type": "boolean",
+      "default": false
+    },
+    "order": {
+      "type": "number"
+    },
+    "items": {
+      "type": "array"
+    },
+    "target": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [{
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY"
+    },
+    {
+      "accessType": "READ",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW"
+    }
+  ],
+  "methods": {}
+}

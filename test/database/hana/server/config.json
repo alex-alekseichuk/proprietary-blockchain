@@ -1,0 +1,311 @@
+{
+  "primaryBlockchainProvider": "T",
+  "primaryBlockchainProviderVersion": "2.0",
+  "rethinkHost": "127.0.0.1",
+  "rethinkPort": 28015,
+  "bigchainDbHost": "127.0.0.1",
+  "bigchainDbPort": 59984,
+  "bigchainMongoDBHost": "127.0.0.1",
+  "bigchainMongoDBPort": "37017",
+  "tendermintHost": "127.0.0.1",
+  "tendermintPort": 26657,
+  "messagingHost": "127.0.0.1",
+  "messagingPort": 5172,
+  "messagingAdmin": 8188,
+  "bigchainDbWsPort": 59985,
+  "log4jsMongoHost": "127.0.0.1",
+  "log4jsMongoPort": 37017,
+  "ngrtStatsdHost": "127.0.0.1",
+  "ngrtStatsdPort": 8125,
+  "ngrtStatsdAdminPort": 3000,
+  "smartContractsHost": "127.0.0.1",
+  "smartContractsPort": 8443,
+  "consensusTxHost": "0.0.0.0",
+  "consensusTxPort": 7070,
+  "consensusBlockHost": "0.0.0.0",
+  "consensusBlockPort": 7071,
+  "ngrtPort": 8443,
+  "nodeRedPort": 8444,
+  "dockerAdminPort": 9000,
+  "databaseType": "hana",
+  "serverEnvironment": "D",
+  "blockchainClusterId": "bc1",
+  "clusterId": "local",
+  "instanceId": "i01",
+  "tenantId": "t01",
+  "envId": "rt",
+  "jwtAuthInstanceId": "i01",
+  "jwtAuthTenantId": "t01",
+  "log4jsMongoDatabase": "ng_rt_logs",
+  "publicDNSName": "http://localhost:8443",
+  "internalDNSName": "http://localhost",
+  "rabbitmq_ws_queue": "bigchaindb",
+  "datasources": {
+    "connectors": [
+      "mongodb",
+      "hana",
+      "postgresql"
+    ],
+    "mongoDB": {
+      "host": "127.0.0.1",
+      "port": 37017
+    },
+    "default": {
+      "connector": "project-hana",
+      "host": "10.10.3.121",
+      "port": 39015,
+      "user": "SYSTEM",
+      "username": "SYSTEM",
+      "password": "Project12",
+      "database": "HXE",
+      "schema": "PROJECT_CORE",
+      "endpoint": "10.10.12.167:39015",
+      "convertTableNameToUpperCase": true,
+      "createSchemaIfNotExist": true
+    },
+    "dsBigchainMongo": {
+      "factory": "mongoDb",
+      "url": "mongodb://undefined:undefined"
+    }
+  },
+  "fido2Settings": {
+    "rpName" : "Project Holding",
+    "userVerification" : "discouraged",
+    "transports" : ["usb", "nfc", "ble"],
+    "attestation" : "direct"
+  },
+  "i18n": {
+    "locales": [
+      "en",
+      "de",
+      "ru"
+    ],
+    "directory": "locales",
+    "defaultLocale": "en",
+    "register": "global"
+  },
+  "autoUpdate": {
+    "active": true,
+    "policy": "global",
+    "excludePlugins": [
+      {
+        "name": ""
+      }
+    ],
+    "protectModifiedConfig": true
+  },
+  "modelHTTPAuth": {
+    "enabled": true
+  },
+  "license": {
+    "core": {
+      "new": {
+        "linesCount": 28
+      }
+    },
+    "plugin": {
+      "new": {
+        "linesCount": 28
+      }
+    }
+  },
+  "sync": [
+    {
+      "config": {
+        "enabled": true,
+        "policy": "exclude",
+        "excludeConfigValues": [
+          {
+            "name": ""
+          }
+        ],
+        "includeConfigValues": [
+          {
+            "name": ""
+          }
+        ],
+        "excludePluginConfigValues": [
+          {
+            "name": ""
+          }
+        ],
+        "includePluginConfigValues": [
+          {
+            "name": ""
+          }
+        ]
+      },
+      "plugins": {
+        "enabled": false,
+        "policy": "include",
+        "excludePlugins": [
+          {
+            "name": ""
+          }
+        ],
+        "includePlugins": [
+          {
+            "name": ""
+          }
+        ]
+      }
+    }
+  ],
+  "protectModifiedData": false,
+  "keypair": {
+    "public": "82d4ATGYgA5LbncSWJYJb9auPYAcbSuhMn9QxLejuaQ3",
+    "private": "5vzJJAX37FRZNsCFxwhcZGsPR4KCRwk5GMJMvSkoRieabCR16dxsqZ4cHU9VL9sjzm7gSDVRnP2eywRTFoqedNaX"
+  },
+  "debug": {
+    "app-use-connectLogger": false
+  },
+  "componentConfig": {
+    "loopback-component-explorer": {
+      "mountPath": "/explorer",
+      "uiDirs": "server/explorer"
+    }
+  },
+  "createDefaultUsers": true,
+  "plugins-path": "plugins/project",
+  "bootstrappingPlugins": [
+    {
+      "name": "ng-rt-node-red"
+    }
+  ],
+  "plugins": [
+  
+  ],
+  "additionalPluginsStorages": {
+    "customPlugins": {
+      "title": "Customer Plugins",
+      "plugins": [],
+      "type": "FilePluginsStorage",
+      "parameters": {
+        "folder": "plugins/customPlugins"
+      }
+    }
+  },
+  "aws": {
+    "id": "AKIAIJX7BSOONFFTXJFQ",
+    "key": "sAcTy6RUJepYxLqLpldpvJtB7np0pOxSaRE376BG",
+    "region": "eu-central-1"
+  },
+  "email": {
+    "options": {
+      "host": "127.0.0.1",
+      "port": 25,
+      "auth": {
+        "user": "user1@example.com",
+        "pass": "mypassword"
+      },
+      "tls": {
+        "rejectUnauthorized": false
+      }
+    },
+    "defaults": {
+      "from": "user1@example.com"
+    }
+  },
+  "sms": {
+    "options": {
+      "url": "https://api.mblox.com/xms/v1/USERNAME/batches",
+      "token": "YOURTOKEN> here"
+    },
+    "defaults": {
+      "from": "12345"
+    }
+  },
+  "storages": [
+    {
+      "name": "bigchaindb",
+      "max": 2048
+    },
+    {
+      "name": "rethinkdb",
+      "max": 1677721
+    },
+    {
+      "name": "regrid",
+      "max": 4294967296
+    }
+  ],
+  "jwt": {
+    "sessionTime": 43200,
+    "rememberMeTime": 2160000,
+    "accessTime": 300,
+    "secret": "JWT_PROJECT_SECRET",
+    "externalSecret": "TRR36*HRPDB*9XBHC*PPYQK*GBPKQ"
+  },
+  "statsd": {
+    "route": {
+      "enabled": true,
+      "name": [
+        "*"
+      ]
+    },
+    "tracking": {
+      "enabled": true,
+      "name": [
+        "*"
+      ]
+    },
+    "person": {
+      "enabled": true,
+      "name": [
+        "*"
+      ]
+    }
+  },
+  "disableSelfRegistration": false,
+  "ng-rt-documentation": {
+    "url": "http://ng-rt.readthedocs.io/en/latest/"
+  },
+  "securityRules": {
+    "phone": 2,
+    "email": 1
+  },
+  "maintenance": {
+    "enabled": false,
+    "maintenanceText": "No Maintenance"
+  },
+  "servers": {},
+  "namespace": "ng-rt-core",
+  "showRoutes": false,
+  "showUsersOnline": false,
+  "showServices": false,
+  "showConfigDiff": false,
+  "federation_nodes": [],
+  "defaultDomainId": "d01",
+  "maxFileSize": 500,
+  "keysStrategy": "default",
+  "keyValueStorage": {
+    "type": "loopback"
+  },
+  "pluginsFeed": {
+    "enabled": true
+  },
+  "configFeed": {
+    "enabled": false
+  },
+  "licenseActivation": {
+    "licServer": "http://license.project.com/license-manager/activate",
+    "enabled": false,
+    "publicKey": "DmPhzH1317wmecY8oqizXY1UDhWZcjb55o4AtUPGr6e7",
+    "isWarningSet": false,
+    "activatedOn": 1551471528193
+  },
+  "licenseRenewal": "http://license.project.com/license-manager/renew",
+  "serverDeployment": "Single",
+  "serverType": {},
+  "jwtAuthClusterId": "local",
+  "https": false,
+  "containerStatus": {
+    "immutable": false,
+    "state": "unlocked",
+    "stateChanges": 0,
+    "timeStampOflastStateUpdate": "2019-04-21T05:36:05.331Z",
+    "pluginManagerUploadCLI": false,
+    "pluginManagerUploadUI": false
+  },
+  "skipHotfix": true
+}

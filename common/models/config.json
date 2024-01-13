@@ -1,0 +1,46 @@
+{
+  "name": "config",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "type": {
+      "type": "string",
+      "required": "true"
+    },
+    "valueString": {
+      "type": "string"
+    },
+    "valueObject": {
+      "type": "object",
+      "postgresql": {
+        "dataType": "JSON"
+      }
+    },
+    "valueArray": {
+      "type": ["object"]
+    },
+    "valueDate": {
+      "type": "date"
+    },
+    "valueNumber": {
+      "type": "number"
+    },
+    "valueBoolean": {
+      "type": "boolean"
+    },
+    "plugin": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}
